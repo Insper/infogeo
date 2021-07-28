@@ -1,0 +1,83 @@
+site_name: Informações Georreferenciadas
+theme:
+  language: 'pt'
+  name: 'material'
+  palette:
+      primary: 'white'
+      accent: 'pink'
+      icon: 'code'
+  font:
+    text: Roboto
+    code: Roboto Mono
+    # custom_dir: 'custom_theme'
+
+docs_dir: material
+site_dir: docs
+
+
+repo_name: 'geoinfo'
+repo_url: 'https://github.com/insper/geoinfo'
+site_url: https://github.com/insper/geoinfo
+
+
+nav:
+- Home: index.md
+- 'Aulas':
+    - 'Aula 01': 'aulas/aula 01/10_Introducao.ipynb'
+# - Sobre-Ferramental.md
+# - 'Mutirão':
+#     - 'about-mutirao.md'
+#     - 'Lab1.md'
+#     - 'Lab2.md'
+#     - 'Lab3.md'
+#     - 'Lab4.md'
+#     - 'Lab5.md'
+#     - 'Lab6.md'
+
+# - 'Labs':
+#     - labs-extras/lab7.md
+#     - labs-extras/lab8.md
+
+
+# Extensions
+extra_javascript:
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML
+    - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js
+
+
+extra_css:
+  - css/printing.css
+
+markdown_extensions:
+  - markdown.extensions.attr_list
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+plugins:
+    - search
+    - mknotebooks
