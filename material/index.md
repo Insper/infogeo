@@ -1,4 +1,4 @@
-# Informações Georreferenciadas
+# Informação Georreferenciada
 
 - **Professor:**
     - André Filipe de Moraes Batista - andrefmb (at) insper.edu.br
