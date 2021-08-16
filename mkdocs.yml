@@ -23,7 +23,7 @@ site_url: https://github.com/insper/geoinfo
 nav:
 - Home: index.md
 - 'Aulas':
-    - 'Aula 01': 'aulas/aula 01/10_Introducao.ipynb'
+    - 'Aula 01': 'aulas/01/index.md'
 # - Sobre-Ferramental.md
 # - 'Mutirão':
 #     - 'about-mutirao.md'
@@ -43,7 +43,7 @@ nav:
 extra_javascript:
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML
     - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js
-
+    - js/slides.js
 
 extra_css:
   - css/printing.css
