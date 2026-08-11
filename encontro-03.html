@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 3 · Quem vive sem esgoto na minha cidade? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-03.html" class="here">Aula 3</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="done">02 · Hectares</a>
+  <a href="encontro-03.html" class="now">03 · Esgoto</a>
+  <a href="encontro-04.html" class="ahead">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="ahead">05 · Habitação</a>
+  <a href="encontro-06.html" class="ahead">06 · Vizinho</a>
+  <a href="encontro-07.html" class="ahead">07 · Endereços</a>
+  <a href="encontro-08.html" class="ahead">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 3 · Unidade teórica 03 · ODS 6 e 11</div>
+  <h1>Quem vive sem esgoto na minha cidade, e em <em>qual quarteirão</em>?</h1>
+  <p class="sub">A geografia está num arquivo e o número de domicílios está em outro. Juntar os dois leva trinta segundos no QGIS, e a junção pode falhar sem emitir uma única mensagem, devolvendo um resultado que parece completo e não é.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>São Paulo, SP</b><span>área de estudo</span></div>
+    <div><b>27.301 setores</b><span>Censo 2022 · IBGE</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#primitivas">Três primitivas</a></li>
+    <li><a href="#topologia">Topologia e validade</a></li>
+    <li><a href="#tabela">A tabela é uma relação</a></li>
+    <li><a href="#cardinalidade">Chave e cardinalidade</a></li>
+    <li><a href="#join">O join que falha calado</a></li>
+    <li><a href="#atributo">Consulta por atributo</a></li>
+    <li><a href="#localizacao">Consulta por localização</a></li>
+    <li><a href="#setor">O setor é uma escolha</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p1">1. Carregar a malha</a></li>
+    <li><a href="#p2">2. Importar o CSV</a></li>
+    <li><a href="#p3">3. A junção silenciosa</a></li>
+    <li><a href="#p4">4. Medir a taxa de casamento</a></li>
+    <li><a href="#p5">5. Refazer com o arquivo certo</a></li>
+    <li><a href="#p6">6. Construir o indicador</a></li>
+    <li><a href="#p7">7. Selecionar e exportar</a></li>
+    <li><a href="#p8">8. Within não é intersect</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>A leitura de preparação era o dicionário de variáveis dos agregados por setor censitário do Censo 2022. Se você não leu, abra agora e procure só uma coisa: quantas variáveis diferentes descrevem esgotamento sanitário, e por que elas não são uma só.</p>
+
+<p>Crie a pasta <code>InfoGeo/tema03_atributos</code> com as subpastas <code>dados_brutos</code> e <code>dados_tratados</code>, do mesmo jeito dos dois temas anteriores. Salve o projeto vazio como <code>projeto.qgz</code> antes de carregar qualquer coisa.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana03</span></div>
+  <div class="fonte">Dado oficial já baixado em <b>02/08/2026</b>, recorte de <b>São Paulo capital</b>: <b>IBGE · Setores censitários 2022 com atributos e agregados por setor</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/26565-malhas-de-setores-censitarios-divisoes-intramunicipais.html">portal</a> · <code>python3 dados/baixar_dados_reais.py --semana 3</code></div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana03/setores_sp_capital_2022.gpkg" download>setores_sp_capital_2022.gpkg</a>
+        <span class="fd">27.301 setores censitários do município de São Paulo, polígono, EPSG:4674. Malha oficial do Censo 2022 com 37 campos: código de 15 dígitos, situação urbana ou rural, tipo de setor, distrito, área em km² e as variáveis v0001 a v0007.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana03/agregados_esgoto_sp_capital_2022.csv" download>agregados_esgoto_sp_capital_2022.csv</a>
+        <span class="fd">26.889 linhas e treze colunas, recortadas do arquivo oficial de características do domicílio: chave, distrito, total de domicílios, moradores e as oito variáveis V00309 a V00316 de destinação do esgoto. UTF-8, ponto e vírgula, decimal em vírgula, com os <code>X</code> de sigilo preservados.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana03/agregados_esgoto_sp_ed_anterior.csv" download>agregados_esgoto_sp_ed_anterior.csv</a>
+        <span class="fd">Mesmas 26.889 linhas e os mesmos valores, mas 1.200 códigos de setor vêm de uma edição anterior da malha. ISO-8859-1. É a armadilha do passo 3, e você vai usá-la antes do arquivo bom.</span></div></li>
+    <li><div><a class="fn" href="dados/semana03/agregados_domicilio2_sp_capital_2022.csv" download>agregados_domicilio2_sp_capital_2022.csv</a>
+        <span class="fd">O arquivo oficial inteiro de onde saiu o extrato: 26.889 linhas e 318 colunas, variáveis V00090 em diante, com esgotamento sanitário, abastecimento de água, banheiro e espécie do domicílio. 45 MB. Revisão de 17/04/2025.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana03/agregados_domicilio1_sp_capital_2022.csv" download>agregados_domicilio1_sp_capital_2022.csv</a>
+        <span class="fd">26.889 linhas, variáveis V00001 a V00089: espécie e condição de ocupação do domicílio, moradores por faixa. É de onde vêm o total de domicílios e o de moradores usados no extrato.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana03/agregados_basico_sp_capital_2022.csv" download>agregados_basico_sp_capital_2022.csv</a>
+        <span class="fd">27.301 linhas do agregado básico por setor. Tem uma linha por setor da malha, inclusive os sem domicílio, e serve para conferir a contagem do passo 4. Revisão de 20/05/2026.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana03/_recalcula_oficial.py" download>_recalcula_oficial.py</a>
+        <span class="fd">Script que produz o extrato, o arquivo da edição anterior e todos os números citados nesta página. Semente fixa em 2022: rodar de novo reproduz os mesmos 1.200 códigos trocados.</span></div></li>
+    <li><div><a class="fn" href="dados/semana03/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Origem de cada arquivo, dicionário das oito variáveis de esgoto e a lista dos números que o roteiro precisa reproduzir.</span></div></li>
+  </ul>
+  <div class="ft">Pacote oficial, coleta de 02/08/2026, recorte de São Paulo capital. A malha e o arquivo de domicílio 2 são da mesma revisão, a de 17 de abril de 2025, que é justamente o cuidado que o passo 3 ensina. O extrato <code>agregados_esgoto_sp_capital_2022.csv</code> não é dado novo: são treze colunas copiadas do arquivo oficial de 45 MB, sem alterar um valor, para que a importação no QGIS caiba nos 45 minutos de roteiro. O <code>agregados_esgoto_sp_ed_anterior.csv</code> é o único arquivo construído para a aula, e existe para trazer 1.200 códigos de uma edição anterior da malha. A pasta ainda guarda dois arquivos de Belém, <code>setores_belem_treino.gpkg</code> e <code>ubs_belem_treino.gpkg</code>, de uma versão anterior do roteiro; nenhum passo desta página os usa. O dado oficial está no portal de <a href="https://www.ibge.gov.br/estatisticas/sociais/populacao/22827-censo-demografico-2022.html">agregados por setores censitários</a> do IBGE e a malha correspondente em <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">malhas territoriais</a>.</div>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">A prefeitura anuncia que 3,3% dos domicílios de São Paulo não têm esgotamento sanitário adequado. O número saiu de um cruzamento entre a malha de setores e a planilha do Censo, feito por um estagiário competente, sem nenhum erro de fórmula. O número certo é quase 40% maior. Onde está o erro?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Modelo vetorial, topologia e banco de dados geográfico</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="primitivas">
+<p class="lede">No tema anterior você mediu um polígono. Neste tema o polígono ganha uma tabela ao lado, e quase tudo o que um SIG faz de útil acontece na fronteira entre os dois: a geometria guarda a posição, a tabela guarda os valores. O que liga as duas é uma chave de texto, e é nessa chave que a análise territorial costuma quebrar primeiro.</p>
+
+<h2>Ponto, linha e polígono</h2>
+
+<p>O modelo vetorial tem exatamente três primitivas geométricas: ponto, linha e polígono. Um ponto é um par de coordenadas. Uma linha é uma sequência ordenada de pontos. Um polígono é uma linha que fecha sobre si mesma e delimita uma área.</p>
+
+<p>A escolha da primitiva define, antes de qualquer análise, o que vai ser possível calcular, porque cada uma guarda um tipo diferente de informação geométrica.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d03-primitivas.svg" alt="Três painéis mostrando a mesma quadra representada por um ponto, por uma linha e por um polígono, com a lista do que cada representação permite e do que ela impede de responder.">
+  <figcaption><b>Figura 1</b> A escola representada por um ponto tem coordenada e não tem área. A rede coletora representada por linha tem comprimento e não tem cobertura. O setor representado por polígono tem área e densidade, mas não sabe dizer em que canto dele está o problema. Essa informação foi descartada quando a primitiva foi escolhida, antes de qualquer análise.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Feição</h4>
+  <p>Uma feição é o par formado por uma geometria e uma linha de tabela. Toda camada vetorial é uma lista de feições com a mesma primitiva e os mesmos campos. Quando você seleciona algo no mapa, seleciona a linha da tabela junto; quando seleciona a linha, o mapa acende. Não existe um sem o outro.</p>
+</div>
+</section>
+
+<section class="part" id="topologia">
+<h2>Topologia, e a geometria que dá número errado</h2>
+
+<p>Topologia é o conjunto das relações espaciais que sobrevivem a deformar o mapa sem rasgar: o que está dentro do quê, o que faz fronteira com o quê, o que está conectado a quê. Diferente de distância e de área, essas relações não dependem da projeção. Um lote dentro de um quarteirão continua dentro em qualquer sistema de coordenadas.</p>
+
+<p>Uma geometria é válida quando obedece a um punhado de regras: o anel externo fecha, não cruza a si mesmo, e cada anel interno está inteiramente contido no externo. Uma geometria inválida não impede o arquivo de abrir nem de ser desenhado; o efeito aparece nas contas, porque as fórmulas de área e de interseção pressupõem anéis bem formados.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d03-topologia.svg" alt="Três polígonos: um válido com 41,20 hectares, um com autointerseção que devolve 2,57 hectares, e um com anel interno digitado no mesmo sentido do externo, que soma o vazio à área.">
+  <figcaption><b>Figura 2</b> O painel do meio é o mesmo quadrilátero da esquerda com dois vértices trocados de ordem. A área despenca de 41,20 para 2,57 hectares porque os dois laços têm sinal oposto e se cancelam. Nada na tela avisa: o polígono continua sendo desenhado.</figcaption>
+</figure>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se a autointerseção derruba a área para menos de um décimo do valor correto, por que esse erro sobrevive tanto tempo em bases reais?</p>
+  <p>Porque ninguém olha a área de um polígono isolado. Olha-se o total de uma camada com milhares de feições, e um valor que deveria ser 41 e vale 2 desaparece no somatório. O erro só aparece quando alguém compara o total com uma fonte independente, e aí já foi para dentro de um relatório.</p>
+</div>
+
+<p>No QGIS, <span class="caminho">Vector <i>▸</i> Geometry Tools <i>▸</i> Check Validity</span> percorre a camada e separa as feições em válidas e inválidas. Rode isso em toda base que chegar de terceiros, antes de qualquer conta. Leva segundos e é a checagem com melhor relação entre esforço e prejuízo evitado deste curso.</p>
+</section>
+
+<section class="part" id="tabela">
+<h2>A tabela de atributos é uma relação, não uma planilha</h2>
+
+<p>A tabela de atributos parece o Excel e não se comporta como o Excel. Cada linha corresponde a uma feição e a nada mais. Não existe célula mesclada nem linha de total no rodapé, e cada camada tem uma tabela só. A ordem das linhas não significa nada, e cada coluna tem um tipo declarado que o programa cobra.</p>
+
+<p>Essa disciplina toda serve para uma coisa: permitir que a tabela seja cruzada com outra tabela por uma chave.</p>
+
+<table>
+  <thead><tr><th style="width:22%">Tipo de campo</th><th style="width:26%">O que aceita</th><th>Erro típico com dado brasileiro</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Text (string)</strong></td><td>Qualquer caractere, com comprimento máximo</td><td>Código de município ou de setor salvo como número perde a natureza de identificador e ganha aritmética que não faz sentido</td></tr>
+    <tr><td><strong>Integer</strong></td><td>Inteiro com sinal</td><td>O código de setor tem 15 dígitos e estoura o inteiro de 32 bits do Shapefile</td></tr>
+    <tr><td><strong>Decimal (real)</strong></td><td>Número com casas decimais</td><td>Arquivo brasileiro usa vírgula decimal; importado sem avisar, o campo vira texto</td></tr>
+    <tr><td><strong>Date</strong></td><td>Data com formato declarado</td><td>Dia e mês invertidos ao importar de fonte em inglês</td></tr>
+    <tr><td><strong>Boolean</strong></td><td>Verdadeiro, falso ou nulo</td><td>Confundir falso com nulo em consulta, e perder as linhas sem informação</td></tr>
+  </tbody>
+  <caption>Nulo não é zero. Um setor com zero domicílios sem esgoto e um setor sobre o qual não há informação são coisas diferentes, e a consulta precisa distinguir as duas.</caption>
+</table>
+</section>
+
+<section class="part" id="cardinalidade">
+<h2>Chave primária e cardinalidade</h2>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Chave primária</h4>
+  <p>Um campo, ou combinação de campos, cujo valor identifica uma única linha e nunca se repete. No Censo, a chave do setor censitário é o <code>CD_SETOR</code>, com quinze dígitos: sete de município, dois de distrito, dois de subdistrito e quatro de setor. Ele identifica um e só um setor no país inteiro.</p>
+</div>
+
+<p>Ao cruzar duas tabelas, a pergunta que decide tudo é quantas linhas de um lado correspondem a quantas do outro.</p>
+
+<table>
+  <thead><tr><th style="width:14%">Cardinalidade</th><th style="width:32%">Exemplo</th><th>O que acontece na junção</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1:1</strong></td><td>Um setor, uma linha de agregados</td><td>A camada de saída tem o mesmo número de feições da entrada. É o caso desta aula.</td></tr>
+    <tr><td><strong>1:n</strong></td><td>Um setor, várias escolas dentro dele</td><td>Ou o QGIS duplica a geometria do setor uma vez por escola, ou descarta todas menos uma. Você escolhe na caixa <em>Join type</em>, e escolher errado muda o total.</td></tr>
+    <tr><td><strong>n:1</strong></td><td>Vários setores, um mesmo município</td><td>Seguro. O atributo do município se repete em cada setor.</td></tr>
+    <tr><td><strong>n:n</strong></td><td>Setores e áreas de risco que se cruzam parcialmente</td><td>Não se resolve por junção de atributo. Exige interseção geométrica, que é a tema 5.</td></tr>
+  </tbody>
+  <caption>Em <code>native:joinattributestable</code>, a opção <em>Join type</em> decide entre <em>Take attributes of the first matching feature only</em> e <em>Take attributes of all matching features</em>. A primeira preserva a contagem de feições; a segunda multiplica.</caption>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Contar feições depois de uma junção 1:n e reportar o resultado como número de setores. Se 900 setores de São Paulo tiverem duas escolas cada, a camada passa de 27.301 para 28.201 feições, e somar a população dessa camada conta 900 setores duas vezes. O total infla e nada na tela indica isso.</p>
+</div>
+</section>
+
+<section class="part" id="join">
+<h2>Junções que falham sem erro</h2>
+
+<p>Aqui está o assunto central da aula. Quando duas tabelas são cruzadas por uma chave e um valor de chave não existe do outro lado, o SIG não reclama. Ele preenche as colunas trazidas com nulo e segue em frente. A camada de saída tem o número correto de feições e desenha normalmente na tela; o defeito só existe dentro das colunas, nas linhas em que a chave não casou.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d03-join-silencioso.svg" alt="Duas tabelas lado a lado com códigos de setor de São Paulo; duas linhas do Grajaú não casam porque o décimo segundo dígito difere. Abaixo, a taxa de casamento de 94,10 por cento e a comparação entre o indicador correto de 4,56 por cento e o enviesado de 3,27 por cento.">
+  <figcaption><b>Figura 3</b> É o caso que você vai reproduzir no passo 3. Não há mensagem de erro em lugar nenhum. O prejuízo não é o dado que falta: os 1.200 setores que não casam têm 38,60% de domicílios sem esgotamento adequado, oito vezes a média da cidade, e o indicador calculado sobre o que sobrou cai de 4,56% para 3,27%.</figcaption>
+</figure>
+
+<p>Se as linhas que somem fossem aleatórias, a perda seria só de precisão. Elas quase nunca são. Códigos mudam quando um setor é subdividido, e setores são subdivididos onde a população cresceu rápido, que costuma ser a periferia em adensamento. As linhas perdidas se concentram, portanto, exatamente nas áreas onde o indicador tende a ser pior.</p>
+
+<div class="cuidado">
+  <div class="lbl">O caso real que motiva esta aula</div>
+  <p>A malha de setores censitários do Censo 2022 foi republicada pelo IBGE em <strong>17 de abril de 2025</strong>. Planilhas de agregados montadas antes dessa data podem trazer códigos que não existem mais na malha atual. Antes de cruzar, confira a data de publicação dos dois lados. Está no metadado, e vale mais do que qualquer verificação posterior.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Que checagem de trinta segundos teria pegado esse erro?</p>
+  <p>Contar quantas linhas ficaram com nulo depois da junção. No QGIS é uma expressão de seleção: <code>"V00001" IS NULL</code>. Se o resultado não for zero, e você esperava 1:1, pare tudo. Essa contagem é a taxa de casamento, e ela reaparece no tema 7 com o nome de taxa de <em>match</em>, quando o assunto for geocodificação. Cuidado com a leitura fácil: nulo pode ter causa inocente. No passo 5 você vai encontrar 412 nulos legítimos, de setores sem nenhum domicílio, e eles não mexem no indicador.</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Regra de bancada</div>
+  <p>Toda junção termina com três números anotados: quantas feições entraram, quantas casaram e quantas ficaram nulas. Sem esses três números, não há como defender o resultado quando alguém o questionar.</p>
+</div>
+</section>
+
+<section class="part" id="atributo">
+<h2>Consulta por atributo</h2>
+
+<p>Selecionar por atributo é fazer uma pergunta em linguagem de expressão e receber de volta um subconjunto de feições. A linguagem do QGIS é própria, parecida com SQL sem ser SQL. Nome de campo entre aspas duplas, texto entre aspas simples.</p>
+
+<pre class="expr">"PCT_SEM" &gt; 70                                <span class="cm">-- setores críticos</span>
+"NM_DIST" = 'Marsilac'                        <span class="cm">-- aspas simples para texto</span>
+"NM_DIST" IN ('Parelheiros', 'Marsilac')      <span class="cm">-- lista</span>
+"NM_DIST" LIKE 'Jardim%'                      <span class="cm">-- prefixo</span>
+"V00001" IS NULL                              <span class="cm">-- o que a junção não trouxe</span>
+"PCT_SEM" &gt; 70 AND "V00005" &gt; 1000            <span class="cm">-- crítico e populoso</span>
+left("CD_SETOR", 9) = '355030855'             <span class="cm">-- setores de um distrito</span></pre>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Escrever <code>"V00001" != NULL</code>. Em lógica de banco de dados, qualquer comparação com nulo devolve nulo, que não é verdadeiro. A forma correta é <code>"V00001" IS NOT NULL</code>. Esse detalhe faz sumir silenciosamente as linhas que você queria contar.</p>
+</div>
+</section>
+
+<section class="part" id="localizacao">
+<h2>Consulta por localização e os predicados topológicos</h2>
+
+<p>A outra família de consulta não usa a tabela. Usa a geometria. Você pergunta quais feições de uma camada guardam determinada relação espacial com as feições de outra, e a relação é escolhida entre um conjunto pequeno de predicados definidos formalmente.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d03-predicados.svg" alt="Tabela verdade dos predicados intersects, contains, within, touches e disjoint aplicados a quatro configurações de duas geometrias.">
+  <figcaption><b>Figura 4</b> Repare na terceira coluna. Duas quadras que apenas dividem uma calçada devolvem verdadeiro em <code>intersects</code>, porque compartilham pontos de fronteira. É por isso que uma extração por localização com <code>intersects</code> traz vizinhos que você não pediu, e por que <code>within</code> costuma ser o predicado certo quando a pergunta é "está dentro".</figcaption>
+</figure>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Você quer contar quantos setores críticos estão no distrito de Parelheiros. Usa <code>intersects</code> ou <code>within</code>?</p>
+  <p>Para pontos estritamente no interior dos polígonos os dois devolvem o mesmo conjunto. A diferença explode quando a camada de origem também é de polígonos, que é o caso do passo 8: perguntar quais setores críticos estão em Parelheiros devolve 167 com <code>within</code> e 190 com <code>intersects</code>, porque 23 setores de Marsilac e do Grajaú encostam na divisa do distrito. Escolher o predicado é declarar o que você quer dizer por "estar em".</p>
+</div>
+</section>
+
+<section class="part" id="setor">
+<h2>O setor censitário é uma escolha administrativa</h2>
+
+<p>O setor censitário não corresponde a bairro, quarteirão ou comunidade: é a área que um recenseador consegue percorrer no prazo do Censo. O IBGE dimensiona o setor urbano por número de domicílios, e o desenho segue o que facilita o trabalho de campo: uma rua, um córrego, um muro. Em São Paulo a mediana ficou em 154 domicílios por setor, com nove em cada dez entre 40 e 290.</p>
+
+<p>A consequência é que a unidade de análise foi desenhada por conveniência operacional, e não pela geografia do fenômeno que você quer estudar. O traçado da rede de esgoto não guarda nenhuma relação com a divisa do setor 355030883000364.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d03-maup-setor.svg" alt="Três linhas mostrando a dispersão do percentual de domicílios sem esgotamento adequado quando os mesmos dados são agregados por setor, por distrito e pelo município inteiro.">
+  <figcaption><b>Figura 5</b> Os mesmos 4.292.967 domicílios. Por setor, o percentual vai de 0% a 100%. Por distrito, de 0% em Consolação e Jardim Paulista a 86,94% em Marsilac. Pelo município, um número só: 4,56%. Cada linha para cima é informação que a agregação apagou, e nenhuma das três está errada.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição · primeira aparição</div>
+  <h4>Problema da unidade de área modificável</h4>
+  <p>Resultados estatísticos calculados sobre unidades territoriais dependem de como essas unidades foram desenhadas. Mudar o tamanho das unidades muda o resultado, e mudar o traçado sem mudar o tamanho também muda. Em inglês, <em>modifiable areal unit problem</em>, ou MAUP. Você vai ver a formalização dos dois efeitos na aula 4 e usá-la de novo na aula 6.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se o resultado depende do desenho das unidades, e o desenho é arbitrário, o número serve para alguma coisa?</p>
+  <p>Serve, com a unidade declarada junto. "4,56% dos domicílios de São Paulo", "912 setores acima de 70%" e "86,94% em Marsilac" são três afirmações verdadeiras sobre a mesma cidade. O que não se pode fazer é comparar um número calculado por setor com outro calculado por distrito e chamar a diferença de mudança na realidade.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 03</div>
+  <p class="q">Dado um par de tabelas e uma junção já executada, a prova pode pedir que você diagnostique por que o cruzamento falhou e estime a direção do viés que isso introduz. Pode também pedir a escolha do predicado topológico adequado a um enunciado, ou a identificação do efeito do MAUP em uma conclusão apresentada como se fosse do fenômeno.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Do CSV ao quarteirão, no QGIS</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="p1">
+<p class="lede">Os números abaixo são exatos e saem do pacote que você baixou. Se o seu QGIS mostrar outra coisa, pare no ponto de conferência mais próximo e descubra qual passo saiu diferente antes de seguir.</p>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Carregar a malha e olhar a tabela antes de tudo</h3>
+    <ol>
+      <li>Abra o QGIS e crie um projeto novo. Salve como <code>InfoGeo/tema03_atributos/projeto.qgz</code>.</li>
+      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e, em <em>Measurements</em>, defina o elipsoide como <em>GRS 1980</em> e a unidade de área como <em>Hectares</em>. Você aprendeu isso no tema 2 e vai precisar no exercício.</li>
+      <li>Arraste <code>setores_sp_capital_2022.gpkg</code> para dentro da janela. São 27 MB e a primeira abertura demora alguns segundos.</li>
+      <li>Clique com o botão direito na camada, escolha <em>Zoom to Layer</em>, e adicione a conexão <em>OpenStreetMap</em> que você cadastrou no tema 1, pelo painel <em>Browser</em>, em <em>XYZ Tiles</em>. Se ela não aparecer, refaça o <a href="encontro-01.html#osm">passo 5 do Encontro 1</a>.</li>
+      <li>Abra a tabela de atributos com <code>F6</code> e leia os nomes das colunas. Ordene por <code>AREA_KM2</code> clicando no cabeçalho.</li>
+    </ol>
+
+    <figure class="ph">captura de tela · janela do QGIS com os 27.301 setores de São Paulo sobre o OpenStreetMap, tabela de atributos aberta ao lado mostrando as colunas CD_SETOR, NM_DIST, CD_TIPO e AREA_KM2</figure>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>A camada tem <strong>27.301 feições</strong> e 37 campos. O rodapé da tabela mostra <em>27301 total</em>. Nenhuma coluna diz quantos domicílios têm esgoto: a malha traz geometria, identificação e sete variáveis de contagem de pessoas e domicílios, <code>v0001</code> a <code>v0007</code>. Os nomes de distrito aparecem com acento correto, porque o GeoPackage é UTF-8 por construção. Ordenado por área, o maior setor tem 41,87 km² e fica em Marsilac, no extremo sul; o menor tem 246 m², na Sé. Os dois valem uma linha de tabela cada.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Leia o campo CD_TIPO antes de confiar na contagem</div>
+      <p>O IBGE marca em <code>CD_TIPO</code> o que o setor é. O valor 0 é setor comum, 1 é favela e comunidade urbana, 4 é setor de baixo patamar domiciliar, 6 é unidade prisional, 7 é convento, hospital ou instituição de longa permanência. Os 412 setores que não vão casar no passo 5 são quase todos do tipo 4, e isso muda completamente a leitura do nulo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Importar o CSV, resolvendo encoding, separador e decimal</h3>
+    <p>Arquivo de texto de origem pública brasileira quase nunca vem no padrão que o software espera. A planilha que você vai abrir agora usa ponto e vírgula entre campos e vírgula como separador decimal, do mesmo jeito que o IBGE distribui os agregados, e está gravada em Latin-1, a codificação em que boa parte dos órgãos públicos ainda publica.</p>
+    <ol>
+      <li>Vá em <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer</span>.</li>
+      <li>Em <em>File name</em>, aponte para <code>agregados_esgoto_sp_ed_anterior.csv</code>. Sim, o da edição anterior. É de propósito.</li>
+      <li>Deixe primeiro o <em>Encoding</em> em <code>UTF-8</code> e olhe o quadro de amostra na parte de baixo da janela.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">O que você deve estar vendo</div>
+      <p><code>Jardim &Acirc;ngela</code> aparece como <code>Jardim ?ngela</code> ou <code>Jardim &#65533;ngela</code>, e <code>Brasil&acirc;ndia</code>, <code>Cap&atilde;o Redondo</code> e <code>S&eacute;</code> quebram do mesmo jeito. O arquivo não está corrompido: você pediu ao QGIS que lesse bytes Latin-1 como se fossem UTF-8. Troque <em>Encoding</em> para <code>ISO-8859-1</code> e os acentos voltam na hora.</p>
+    </div>
+
+    <ol start="4">
+      <li>Preencha o resto da janela conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Data Source Manager · Delimited Text</div>
+      <dl>
+        <dt>Layer name</dt><dd>agregados_ed_anterior</dd>
+        <dt>Encoding</dt><dd>ISO-8859-1</dd>
+        <dt>File format</dt><dd>Custom delimiters · Semicolon</dd>
+        <dt>Number of header lines to discard</dt><dd>0</dd>
+        <dt>First record has field names</dt><dd>marcado</dd>
+        <dt>Detect field types</dt><dd>marcado</dd>
+        <dt>Decimal separator is comma</dt><dd>marcado</dd>
+        <dt>Geometry definition</dt><dd>No geometry (attribute only table)</dd>
+      </dl>
+    </div>
+
+    <ol start="5">
+      <li>Clique <em>Add</em> e depois <em>Close</em>. A tabela entra no painel de camadas com um ícone diferente, sem geometria.</li>
+      <li>Abra a tabela e confirme os tipos: passe o mouse sobre o cabeçalho de <code>MEDIA_MORADORES</code> e depois sobre o de <code>V00311</code>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>A tabela tem <strong>26.889 linhas</strong> e treze colunas. <code>MEDIA_MORADORES</code> é decimal, com valores em torno de 3,0; se tiver virado texto, você esqueceu de marcar <em>Decimal separator is comma</em>, então remova a camada e importe de novo. Já as oito colunas <code>V00309</code> a <code>V00316</code> chegam como <strong>texto</strong>, e desta vez está certo: elas contêm 13.323 células com a letra <code>X</code>.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que significa o X</div>
+      <p>O <code>X</code> é o marcador de sigilo estatístico do IBGE. Aparece onde a contagem é tão pequena que publicá-la permitiria identificar o informante, e nesta tabela ele sempre esconde um valor entre 1 e 8. Somadas, as células suprimidas escondem 14.342 domicílios dos 4.307.309 da cidade, 0,33% do total. Aqui vamos tratar <code>X</code> como zero e declarar isso no relatório. Quem tratar como nulo perde a linha inteira na soma, o que é bem pior.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Por que o tipo importa mais do que parece</div>
+      <p>Campo numérico importado como texto não dá erro. Ele ordena "1000" antes de "9", faz o Field Calculator recusar a operação, e em alguns caminhos concatena em vez de somar. Todo problema desta família nasce no diálogo de importação e só é percebido três passos depois. É por isso que o passo 6 embrulha cada variável em <code>to_int</code>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>A junção que parece ter dado certo</h3>
+    <ol>
+      <li>Abra a caixa de ferramentas de processamento com <code>Ctrl+Alt+T</code>.</li>
+      <li>Procure por <code>Join attributes by field value</code>, cujo identificador é <code>native:joinattributestable</code>.</li>
+      <li>Preencha assim.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Join attributes by field value</div>
+      <dl>
+        <dt>Input layer</dt><dd>setores_sp_capital_2022</dd>
+        <dt>Table field</dt><dd>CD_SETOR</dd>
+        <dt>Input layer 2</dt><dd>agregados_ed_anterior</dd>
+        <dt>Table field 2</dt><dd>CD_SETOR</dd>
+        <dt>Layer 2 fields to copy</dt><dd>V00001, V00005, V00309 a V00316</dd>
+        <dt>Join type</dt><dd>Take attributes of the first matching feature only (one-to-one)</dd>
+        <dt>Discard records which could not be joined</dt><dd>desmarcado</dd>
+        <dt>Joined layer</dt><dd>dados_tratados/setores_join_ruim.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="4">
+      <li>Clique <em>Run</em>. Com 27.301 feições isso leva perto de meio minuto. Leia a janela de log até o fim e depois feche.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Leia o log com atenção</div>
+      <p>O log informa quantas feições foram unidas e quantas não foram, sem nenhum destaque, entre outras linhas de execução. A camada nova entra no projeto com 27.301 feições, desenha igual à original e não tem nenhuma marca visual de problema. Se você fechar o log sem ler, e a maioria fecha, segue tudo em frente.</p>
+    </div>
+
+    <p>Deixe <em>Discard records which could not be joined</em> desmarcado sempre. Marcado, ele apaga as feições que não casaram e a camada de saída passa a ter menos feições, o que remove a única pista visível de que algo deu errado.</p>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Medir a taxa de casamento e achar o culpado</h3>
+    <p>Agora a checagem de trinta segundos que muda o resultado da aula.</p>
+    <ol>
+      <li>Selecione <code>setores_join_ruim</code> e abra a tabela de atributos.</li>
+      <li>Clique no ícone de seleção por expressão, ou use <span class="caminho">Edit <i>▸</i> Select <i>▸</i> Select Features by Expression</span>.</li>
+      <li>Escreva a expressão e clique <em>Select Features</em>.</li>
+    </ol>
+
+<pre class="expr">"V00001" IS NULL</pre>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O rodapé da tabela mostra <strong>1.612 feições selecionadas</strong> de 27.301. A taxa de casamento é <strong>25.689 de 27.301, ou 94,10%</strong>. Nenhuma mensagem de erro apareceu em momento algum.</p>
+    </div>
+
+    <ol start="4">
+      <li>Com as 1.612 selecionadas, clique no botão que mostra apenas as feições selecionadas e olhe as colunas <code>NM_DIST</code> e <code>v0001</code>, esta última minúscula, que é a população do setor segundo a própria malha.</li>
+      <li>Volte ao mapa. As 1.612 estão realçadas em amarelo.</li>
+    </ol>
+
+    <figure class="ph">captura de tela · mapa de São Paulo com os 1.612 setores sem correspondência realçados, concentrados no extremo sul e nas bordas norte e leste</figure>
+
+    <div class="cuidado">
+      <div class="lbl">Onde os buracos caem</div>
+      <p>Os nulos não estão espalhados. Grajaú responde por 138, Parelheiros por 117, Marsilac por 40, Brasilândia por 38, Cidade Tiradentes e Jardim Ângela por 36 cada. Nenhum setor da Consolação, de Pinheiros ou do Jardim Paulista. É a periferia inteira e nada do centro expandido. O motivo é o mesmo que gera a falha: setores subdivididos entre uma edição e outra da malha, e a subdivisão acontece onde a população cresceu rápido.</p>
+    </div>
+
+    <ol start="6">
+      <li>Para ver a chave de perto, compare um código dos dois lados. Abra <code>agregados_ed_anterior</code> e procure por <code>355030843005915</code>. Depois procure <code>355030843000915</code> na malha. São o mesmo setor do Jardim Ângela em duas edições, e diferem no décimo segundo dígito, o primeiro dos quatro que numeram o setor dentro do subdistrito.</li>
+      <li>Antes de seguir, limpe a seleção e remova <code>setores_join_ruim</code> do projeto.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">Guarde este número</div>
+      <p>Dos 1.612 nulos, 412 vão continuar nulos no passo 5, com o arquivo certo. Os outros 1.200 são a falha de chave. O passo 5 mostra como separar os dois casos, e é essa separação que a prova pode cobrar.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>Refazer com o arquivo da edição certa</h3>
+    <ol>
+      <li>Importe <code>agregados_esgoto_sp_capital_2022.csv</code> com os mesmos parâmetros do passo 2, mudando só o <em>Encoding</em> para <code>UTF-8</code>, que é como o IBGE publica hoje. Nomeie a camada <code>agregados_2022</code>.</li>
+      <li>Rode <code>native:joinattributestable</code> de novo, trocando <em>Input layer 2</em> para <code>agregados_2022</code> e gravando em <code>dados_tratados/setores_esgoto.gpkg</code>.</li>
+      <li>Repita a seleção por expressão <code>"V00001" IS NULL</code> na camada nova.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p><strong>412 feições selecionadas</strong>, e não zero. A taxa de casamento é 26.889 de 27.301, ou <strong>98,49%</strong>. Antes de comemorar ou de se desesperar, olhe a coluna <code>v0001</code> da malha nesses 412: soma <strong>zero moradores</strong>. Some agora as colunas trazidas pelo painel de estatísticas, em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>: <code>V00001</code> soma <strong>4.307.309</strong> domicílios e <code>V00005</code> soma <strong>11.394.071</strong> moradores.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Dois nulos com causas opostas</div>
+      <p>Os 412 que sobraram são setores sem domicílio particular permanente ocupado: 367 deles têm <code>CD_TIPO</code> igual a 4, o código de baixo patamar domiciliar, e o resto é parque, área industrial, presídio ou instituição. O IBGE não publica agregado de domicílio para eles porque não há domicílio a agregar. Esses 412 não mexem em nada no indicador, porque entram com zero no numerador e no denominador. Os 1.200 do passo 4 mexiam, e muito. A contagem de nulos, sozinha, não distingue um caso do outro: é preciso olhar o <code>CD_TIPO</code> e a população dos setores que não casaram.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que acabou de acontecer com o resultado</div>
+      <p>Com o arquivo errado, o indicador da cidade sairia em 3,27%. Com o certo, sai em 4,56%. A diferença de 1,29 ponto parece pequena e não é: em termos relativos, o cruzamento errado apagou 28% do problema. Os 1.200 setores perdidos tinham 38,60% de domicílios sem esgotamento adequado, oito vezes a média da cidade, então a falha empurrava o número sempre na mesma direção. Em domicílios, são 60.335 casas sem esgotamento adequado que sumiriam da conta.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Construir o indicador com o Field Calculator</h3>
+    <p>O Censo não publica um campo "sem esgoto". Publica oito destinos possíveis para o esgoto do banheiro, e a definição de adequado é uma escolha metodológica que você precisa fazer de forma explícita.</p>
+
+    <table>
+      <thead><tr><th style="width:14%">Campo</th><th style="width:52%">Destinação do esgoto do banheiro ou sanitário</th><th>Classificação</th></tr></thead>
+      <tbody>
+        <tr><td><code>V00309</code></td><td>Rede geral ou rede pluvial</td><td>adequado</td></tr>
+        <tr><td><code>V00310</code></td><td>Fossa séptica ou fossa filtro ligada à rede</td><td>adequado</td></tr>
+        <tr><td><code>V00311</code></td><td>Fossa séptica ou fossa filtro não ligada à rede</td><td>inadequado</td></tr>
+        <tr><td><code>V00312</code></td><td>Fossa rudimentar ou buraco</td><td>inadequado</td></tr>
+        <tr><td><code>V00313</code></td><td>Vala</td><td>inadequado</td></tr>
+        <tr><td><code>V00314</code></td><td>Rio, lago, córrego ou mar</td><td>inadequado</td></tr>
+        <tr><td><code>V00315</code></td><td>Outra forma</td><td>inadequado</td></tr>
+        <tr><td><code>V00316</code></td><td>Não tinham banheiro nem sanitário</td><td>inadequado</td></tr>
+      </tbody>
+      <caption>É a mesma separação que o Plansab e o IBGE usam. Um consultor que quisesse melhorar o número classificaria a fossa séptica não ligada à rede como adequada, e o percentual de São Paulo cairia de 4,56% para 3,76%, porque 34.331 domicílios mudariam de lado. Nenhuma das duas classificações é indefensável; a diferença é que a do Plansab está documentada em norma, e a alternativa precisaria ser declarada com o mesmo cuidado.</caption>
+    </table>
+
+    <ol>
+      <li>Selecione <code>setores_esgoto</code>, entre em modo de edição com <code>Ctrl+E</code> e abra o Field Calculator com <code>Ctrl+I</code>.</li>
+      <li>Marque <em>Create a new field</em>, nome <code>DOM_TOT</code>, tipo <em>Whole number (integer)</em>. As colunas vieram como texto por causa dos <code>X</code>, então cada uma precisa passar por <code>to_int</code>, e o <code>coalesce</code> transforma em zero o que não é número.</li>
+    </ol>
+
+<pre class="expr">coalesce(to_int("V00309"),0) + coalesce(to_int("V00310"),0) +
+coalesce(to_int("V00311"),0) + coalesce(to_int("V00312"),0) +
+coalesce(to_int("V00313"),0) + coalesce(to_int("V00314"),0) +
+coalesce(to_int("V00315"),0) + coalesce(to_int("V00316"),0)</pre>
+
+    <ol start="3">
+      <li>Crie <code>DOM_INAD</code>, também inteiro, com as seis últimas parcelas da expressão acima, de <code>V00311</code> a <code>V00316</code>.</li>
+      <li>Crie <code>PCT_SEM</code>, <em>Decimal number (real)</em>, comprimento 10, precisão 2. O <code>if</code> evita a divisão por zero nos setores sem domicílio.</li>
+    </ol>
+
+<pre class="expr">if("DOM_TOT" &gt; 0, "DOM_INAD" / "DOM_TOT" * 100.0, NULL)</pre>
+
+    <ol start="5">
+      <li>Crie também <code>PCT_ADEQ</code>, com <code>if("DOM_TOT" &gt; 0, 100.0 - "DOM_INAD" / "DOM_TOT" * 100.0, NULL)</code>.</li>
+      <li>Salve as edições e desligue o modo de edição.</li>
+      <li>Aplique uma simbologia graduada rápida: botão direito na camada, <em>Properties</em>, aba <em>Symbology</em>, <em>Graduated</em>, campo <code>PCT_SEM</code>, cinco classes, <em>Classify</em>.</li>
+    </ol>
+
+    <figure class="ph">captura de tela · mapa coroplético de PCT_SEM em cinco classes, com quase toda a cidade na classe mais clara e uma mancha escura contínua no extremo sul, entre Grajaú, Parelheiros e Marsilac</figure>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>No painel de estatísticas com o campo <code>PCT_SEM</code>: o mínimo é <strong>0,00%</strong>, o máximo é <strong>100,00%</strong> e há <strong>625 nulos</strong>, que são os 412 sem agregado mais 213 setores cujas oito variáveis somam zero. Trezentos e oito setores estão em 100%, e o maior deles é o <code>355030811000446</code>, na Brasilândia, com 206 domicílios e 672 moradores. O indicador da cidade não é a média dos setores: é <code>DOM_INAD</code> somado dividido por <code>DOM_TOT</code> somado, que dá <strong>4,56%</strong>, ou 195.714 domicílios em 4.292.967.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Reportar a média aritmética de <code>PCT_SEM</code> como percentual da cidade. Isso dá 5,82% aqui, quase um ponto e meio acima do valor correto, porque a média de percentuais trata um setor de 42 domicílios em Anhanguera como igual a um de 474 na Vila Andrade. O percentual da cidade é uma razão de somas, não uma média de razões. Repare que desta vez o erro inflaria o número: o viés da média simples não tem direção fixa, depende de onde estão os setores pequenos.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>Selecionar os setores críticos e exportar</h3>
+    <ol>
+      <li>Com <code>setores_esgoto</code> ativa, abra <span class="caminho">Edit <i>▸</i> Select <i>▸</i> Select Features by Expression</span>.</li>
+      <li>Use a expressão e clique <em>Select Features</em>.</li>
+    </ol>
+
+<pre class="expr">"PCT_SEM" &gt; 70</pre>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p><strong>912 feições selecionadas</strong> de 27.301. Com a seleção ativa, o painel de estatísticas em modo <em>Selected features only</em> mostra <code>V00005</code> somando <strong>282.993</strong> pessoas, que é <strong>2,48%</strong> dos 11,4 milhões da cidade, e <code>DOM_TOT</code> somando <strong>93.735</strong> domicílios, dos quais <strong>81.515</strong> sem esgotamento adequado. A soma de <code>AREA_KM2</code> dá <strong>332,8 km²</strong>, ou <strong>21,9%</strong> do território municipal.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Dois números que só fazem sentido juntos</div>
+      <p>2,48% da população em 21,9% da área. Os setores críticos de São Paulo são grandes e vazios porque estão no cinturão de mananciais do extremo sul e nas bordas de mata do norte, onde a densidade é baixa. Um mapa que pintasse só esses polígonos daria a impressão de um problema enorme; um número que citasse só a população daria a impressão de um problema desprezível. Os dois estão certos, e um relatório honesto apresenta os dois lado a lado.</p>
+    </div>
+
+    <ol start="3">
+      <li>Botão direito na camada, <span class="caminho">Export <i>▸</i> Save Selected Features As</span>.</li>
+      <li>Preencha a janela conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Save Vector Layer as</div>
+      <dl>
+        <dt>Format</dt><dd>GeoPackage</dd>
+        <dt>File name</dt><dd>dados_tratados/setores_criticos.gpkg</dd>
+        <dt>Layer name</dt><dd>setores_criticos</dd>
+        <dt>CRS</dt><dd>EPSG:4674 — SIRGAS 2000</dd>
+        <dt>Encoding</dt><dd>UTF-8</dd>
+        <dt>Save only selected features</dt><dd>marcado</dd>
+        <dt>Add saved file to map</dt><dd>marcado</dd>
+      </dl>
+    </div>
+
+    <p>O corte em 70% é seu, não dos dados. Baixando para 50% a seleção sobe para 1.314 setores e 446.796 pessoas; subindo para 90% cai para 477 setores e 119.358 pessoas. Um secretário municipal com orçamento para trinta obras escolheria outro limiar, e um promotor de justiça montando ação civil pública escolheria um terceiro. Anote qual você usou e por quê, do mesmo jeito que anota o CRS.</p>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Quantos setores críticos estão em Parelheiros, e o que "estar em" quer dizer</h3>
+    <p>Agora a consulta por localização, que não olha a tabela. A pergunta parece trivial e não é: a resposta muda conforme o predicado que você escolhe.</p>
+    <ol>
+      <li>Selecione <code>setores_esgoto</code> e faça uma seleção por expressão com <code>"NM_DIST" = 'Parelheiros'</code>. São 455 setores.</li>
+      <li>Exporte a seleção com <span class="caminho">Export <i>▸</i> Save Selected Features As</span> para <code>dados_tratados/parelheiros.gpkg</code>.</li>
+      <li>Na caixa de ferramentas, rode <code>Dissolve</code>, de identificador <code>native:dissolve</code>, sobre <code>parelheiros</code> sem campo nenhum em <em>Dissolve field(s)</em>, gravando em <code>dados_tratados/parelheiros_limite.gpkg</code>. Sai um polígono só, o contorno do distrito.</li>
+      <li>Procure <code>Extract by location</code>, de identificador <code>native:extractbylocation</code>, e preencha conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Extract by location</div>
+      <dl>
+        <dt>Extract features from</dt><dd>setores_criticos</dd>
+        <dt>Where the features are</dt><dd>are within</dd>
+        <dt>By comparing to the features from</dt><dd>parelheiros_limite</dd>
+        <dt>Extracted</dt><dd>dados_tratados/criticos_parelheiros.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="5">
+      <li>Rode e leia a contagem de feições da camada de saída.</li>
+      <li>Rode de novo, trocando apenas <em>Where the features are</em> para <em>intersect</em>, e compare.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p><em>Are within</em> devolve <strong>167 setores</strong>. <em>Intersect</em> devolve <strong>190</strong>. Os 23 de diferença não estão em Parelheiros: são 13 setores de Marsilac e 10 do Grajaú que encostam na divisa do distrito e, por compartilharem pontos de fronteira, satisfazem <code>intersects</code>. Se o seu relatório disser "190 setores críticos em Parelheiros", ele está errado em 14%, e ninguém vai notar olhando o mapa.</p>
+    </div>
+
+    <figure class="ph">captura de tela · contorno de Parelheiros em preto, os 167 setores internos em vermelho e os 23 vizinhos de Marsilac e Grajaú em âmbar sobre a divisa</figure>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Usar <em>intersect</em> por ser o predicado que aparece primeiro na lista. Ele é o mais permissivo dos cinco e quase sempre devolve mais do que você pediu. Quando a pergunta é "está dentro de", o predicado é <em>are within</em>. Quando é "encosta em", é <em>touch</em>. Escolher errado não produz mensagem de erro: produz um número diferente, que segue adiante sem nenhuma marca de problema.</p>
+    </div>
+
+    <div class="conceito">
+      <div class="lbl">A conclusão do roteiro</div>
+      <h4>282.993 pessoas em 912 setores, espalhadas por 55 dos 96 distritos</h4>
+      <p>Os 912 setores críticos concentram 2,48% da população da cidade em 21,9% do território, e os 167 que estão dentro de Parelheiros respondem sozinhos por 14.236 domicílios e 43.818 moradores. A pergunta do tema pedia "em qual quarteirão", e o roteiro devolveu 912 polígonos com código de quinze dígitos, distrito e contagem de domicílios. É esse nível de detalhe que transforma uma estatística em ordem de serviço.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>Saneamento ruim pesa diferente conforme a densidade: num setor esvaziado é um problema de cobertura, num setor adensado vira risco sanitário imediato, porque o esgoto a céu aberto convive com muita gente. Os 912 setores críticos do passo 7 são quase todos do primeiro tipo. Vamos procurar o segundo.</p>
+    <ol>
+      <li>Na camada <code>setores_esgoto</code>, crie o campo <code>DENS_DOM</code>, decimal com precisão 4, usando <code>"DOM_TOT" / ("AREA_KM2" * 100)</code>. Sai em domicílios por hectare. Se quiser conferir, compare o denominador com <code>$area</code>, que agora devolve hectares porque você definiu o elipsoide no passo 1.</li>
+      <li>Abra o painel de estatísticas e anote a mediana de <code>DENS_DOM</code> e a mediana de <code>PCT_SEM</code>.</li>
+      <li>Olhe para a segunda mediana antes de continuar. Ela vai atrapalhar o plano óbvio, e o que você faz a partir daí é metade do exercício.</li>
+      <li>Selecione por expressão os setores que estão acima da mediana de densidade e que tenham pelo menos um domicílio sem esgotamento adequado.</li>
+      <li>Com a seleção ativa, leia no painel de estatísticas quantos setores são, quantos moradores vivem neles e que fração isso representa da população da cidade.</li>
+    </ol>
+    <p>Depois responda, em quatro linhas:</p>
+    <ol type="a">
+      <li>Por que a mediana de <code>PCT_SEM</code> não serve como corte, e que outro critério você usaria no lugar?</li>
+      <li>Que distritos aparecem mais nessa seleção, e por que a combinação densidade alta com saneamento ruim é pior do que cada uma das duas isoladamente?</li>
+      <li>Compare a lista de distritos desta seleção com a lista dos 912 setores críticos do passo 7. São as mesmas regiões? O que isso diz sobre priorizar obra por percentual?</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma captura de tela do painel de estatísticas com a seleção ativa, mais as quatro linhas. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+
+<div class="confira">
+  <div class="lbl">Gabarito numérico</div>
+  <p>A mediana de <code>DENS_DOM</code> é <strong>69,2868</strong> domicílios por hectare. A mediana de <code>PCT_SEM</code> é <strong>0,00</strong>, e o terceiro quartil também: 21.682 setores, ou 81,3% dos que têm domicílio, não têm nenhuma casa sem esgotamento adequado. Um corte pela mediana degenera em "qualquer valor maior que zero". A expressão <code>"DENS_DOM" &gt; 69.2868 AND "PCT_SEM" &gt; 0</code> seleciona <strong>2.443 setores</strong>, com <strong>453.029</strong> domicílios, <strong>105.403</strong> deles sem esgotamento adequado, e <strong>1.307.270</strong> moradores em 38,2 km², ou <strong>11,47%</strong> da população da cidade. Grajaú aparece 180 vezes, Jardim Ângela 127, Cidade Ademar 115, Jardim São Luís 105, Brasilândia 101 e Capão Redondo 96. Trocando a mediana pelo terceiro quartil de densidade, 132,9735 domicílios por hectare, sobram 935 setores e 544.525 moradores, e a lista muda de cara: Cidade Ademar 59, Campo Limpo 57, Vila Andrade 52, Jardim São Luís 50. Use ponto como separador decimal dentro da expressão, mesmo que a tabela mostre vírgula.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">4,56% dos domicílios, e não 3,3%. A diferença veio de 1.200 setores que a junção descartou sem avisar, e eram justamente os piores.</p>
+  <p>O estagiário não errou nenhuma fórmula. Ele cruzou uma malha publicada em abril de 2025 com uma planilha montada antes disso, e 94,10% das linhas casaram. Os 5,9% que faltaram tinham 38,60% de domicílios sem esgotamento adequado, oito vezes a média da cidade: 60.335 casas apagadas da conta. Nenhuma ferramenta reclamou, porque, do ponto de vista do programa, nada de anormal aconteceu.</p>
+  <p>E a pergunta pedia o quarteirão: são 912 setores, com 282.993 pessoas, espalhados por 55 distritos e concentrados em Parelheiros, Grajaú, Marsilac, Cidade Tiradentes, Jaraguá e Jardim Ângela. Em Marsilac o problema não é de setor, é de distrito inteiro: 86,94% dos domicílios de lá não têm esgotamento sanitário adequado.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Uma taxa de casamento de 94% é aceitável?</p>
+  <p>Depende inteiramente de quem sumiu. Se os 5,9% faltantes fossem sorteados entre 27 mil setores, o efeito sobre a média seria desprezível. Aqui eles não foram sorteados: são os piores. Repare que a taxa de 98,49% do arquivo certo, que parece pior do que 100%, não introduz viés nenhum, porque os 412 nulos de lá têm zero domicílio. A taxa sozinha não responde; o que decide é se o que faltou se parece com o que ficou.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Classificar fossa séptica não ligada à rede como inadequada é uma escolha técnica ou política?</p>
+  <p>As duas coisas, e vale reconhecer isso em voz alta. Existe argumento sanitário dos dois lados, e o percentual de São Paulo cai de 4,56% para 3,76% conforme a definição, o que muda 34.331 domicílios de lado. Quem publica o número tem obrigação de declarar a definição junto; quem lê tem obrigação de perguntar por ela.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se o setor censitário foi desenhado para caber na rotina do recenseador, faz sentido usá-lo como unidade de política pública de saneamento?</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>Você contou domicílios sem esgotamento adequado, e não pessoas doentes. A relação entre as duas coisas existe e não é de um para um; medi-la exige dado de saúde que não está aqui.</li>
+    <li>O setor censitário informa quantos domicílios estão em situação inadequada, e não quais. Dentro do setor 355030883000364, na Vila Andrade, com 474 domicílios e 355 sem esgotamento adequado, você não sabe qual rua tem rede e qual não tem. O Censo não desce abaixo do setor, por sigilo estatístico.</li>
+    <li>Os 13.323 <code>X</code> foram tratados como zero, e por baixo deles há até 14.342 domicílios. É pouco na cidade inteira, 0,33%, e pode ser muito num setor específico onde quatro das oito colunas estão suprimidas. Nenhum passo mediu esse efeito setor a setor.</li>
+    <li>Todo indicador aqui usa o domicílio como unidade. Um setor com 474 domicílios e outro com 42 pesam igual quando você olha o mapa, porque a cor não é ponderada por tamanho. Isso é assunto da aula 4.</li>
+    <li>A geometria foi tratada como correta. Nenhum passo rodou <em>Check Validity</em> sobre a malha, e em base oficial vale rodar antes de qualquer coisa.</li>
+    <li>Os 912 setores críticos são grandes e pouco povoados. Nada aqui diz quanto custa levar rede até eles, e a resposta depende de topografia, distância à rede existente e restrição de área de manancial. Isso não é geoprocessamento de atributo; é projeto de engenharia.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">Mark Monmonier, <em>How to Lie with Maps</em>, capítulo sobre mapas de dados e classificação.
+      <span class="src">Leitura dirigida de 15 minutos · antes do tema 4</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">IBGE, nota metodológica dos agregados por setores censitários do Censo 2022, com a definição de esgotamento sanitário adequado.
+      <span class="src">ibge.gov.br · Censo 2022 · agregados por setores</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">IBGE, documentação da malha de setores censitários e o registro da republicação de 17 de abril de 2025.
+      <span class="src">ibge.gov.br · geociências · malhas territoriais</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Gilberto Câmara e outros, <em>Introdução à Ciência da Geoinformação</em>, capítulo sobre representação vetorial e bancos de dados geográficos.
+      <span class="src">INPE · disponível em PDF · leitura de apoio</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">Instituto Trata Brasil, ranking do saneamento nas cem maiores cidades, para comparar a definição de adequado usada lá com a que você usou aqui.
+      <span class="src">tratabrasil.org.br · leia a metodologia, não só o ranking</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-02.html"><span class="k">Tema anterior</span><span class="t">Quantos hectares queimaram de verdade?</span></a>
+  <a class="r" href="encontro-04.html"><span class="k">Próximo tema</span><span class="t">Este mapa está me convencendo ou me enganando?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

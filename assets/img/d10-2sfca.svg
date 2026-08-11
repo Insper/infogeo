@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="828.29825pt" height="312.486922pt" viewBox="0 0 828.29825 312.486922" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-08-02T21:10:58.013808</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.9, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 312.486922 
+L 828.29825 312.486922 
+L 828.29825 -0 
+L -0 -0 
+L -0 312.486922 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 131.5909 260.902359 
+L 375.9427 260.902359 
+L 375.9427 33.598359 
+L 131.5909 33.598359 
+L 131.5909 260.902359 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="patch_3">
+    <path d="M 222.5125 192.711159 
+C 238.336453 192.711159 253.514428 186.424236 264.703652 175.235012 
+C 275.892877 164.045787 282.1798 148.867812 282.1798 133.043859 
+C 282.1798 117.219906 275.892877 102.041931 264.703652 90.852707 
+C 253.514428 79.663483 238.336453 73.376559 222.5125 73.376559 
+C 206.688547 73.376559 191.510572 79.663483 180.321348 90.852707 
+C 169.132123 102.041931 162.8452 117.219906 162.8452 133.043859 
+C 162.8452 148.867812 169.132123 164.045787 180.321348 175.235012 
+C 191.510572 186.424236 206.688547 192.711159 222.5125 192.711159 
+z
+" clip-path="url(#p9bd070acb3)" style="fill: #fdecec; opacity: 0.75; stroke: #e50505; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 273.6559 178.504659 
+C 287.97281 178.504659 301.705263 172.816491 311.828847 162.692907 
+C 321.952431 152.569323 327.6406 138.836869 327.6406 124.519959 
+C 327.6406 110.20305 321.952431 96.470596 311.828847 86.347012 
+C 301.705263 76.223428 287.97281 70.535259 273.6559 70.535259 
+C 259.33899 70.535259 245.606537 76.223428 235.482953 86.347012 
+C 225.359369 96.470596 219.6712 110.20305 219.6712 124.519959 
+C 219.6712 138.836869 225.359369 152.569323 235.482953 162.692907 
+C 245.606537 172.816491 259.33899 178.504659 273.6559 178.504659 
+z
+" clip-path="url(#p9bd070acb3)" style="fill: #fdf4e3; opacity: 0.75; stroke: #b26b00; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 131.5909 260.902359 
+L 131.5909 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 375.9427 260.902359 
+L 375.9427 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 131.5909 260.902359 
+L 375.9427 260.902359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 131.5909 33.598359 
+L 375.9427 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6b6b73" x="131.5909" y="28.462659" transform="rotate(-0 131.5909 28.462659)">portas de urgência por 100 mil habitantes alcançados em 30 min</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="131.5909" y="15.598359" transform="rotate(-0 131.5909 15.598359)">Etapa 1 · a razão de oferta de cada serviço</text>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="me947974361" d="M 0 2.54951 
+C 0.676138 2.54951 1.324674 2.280877 1.802776 1.802776 
+C 2.280877 1.324674 2.54951 0.676138 2.54951 0 
+C 2.54951 -0.676138 2.280877 -1.324674 1.802776 -1.802776 
+C 1.324674 -2.280877 0.676138 -2.54951 0 -2.54951 
+C -0.676138 -2.54951 -1.324674 -2.280877 -1.802776 -1.802776 
+C -2.280877 -1.324674 -2.54951 -0.676138 -2.54951 0 
+C -2.54951 0.676138 -2.280877 1.324674 -1.802776 1.802776 
+C -1.324674 2.280877 -0.676138 2.54951 0 2.54951 
+z
+" style="stroke: #14141a"/>
+    </defs>
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#me947974361" x="248.0842" y="107.472159" style="fill: #14141a; stroke: #14141a"/>
+    </g>
+   </g>
+   <g id="PathCollection_2">
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#me947974361" x="216.8299" y="187.028559" style="fill: #14141a; stroke: #14141a"/>
+    </g>
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#me947974361" x="316.2754" y="147.250359" style="fill: #14141a; stroke: #14141a"/>
+    </g>
+   </g>
+   <g id="PathCollection_4">
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#me947974361" x="179.893" y="70.535259" style="fill: #14141a; stroke: #14141a"/>
+    </g>
+   </g>
+   <g id="PathCollection_5">
+    <defs>
+     <path id="m542298abfb" d="M -2.041241 6.123724 
+L 2.041241 6.123724 
+L 2.041241 2.041241 
+L 6.123724 2.041241 
+L 6.123724 -2.041241 
+L 2.041241 -2.041241 
+L 2.041241 -6.123724 
+L -2.041241 -6.123724 
+L -2.041241 -2.041241 
+L -6.123724 -2.041241 
+L -6.123724 2.041241 
+L -2.041241 2.041241 
+z
+" style="stroke: #ffffff; stroke-width: 1.2"/>
+    </defs>
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#m542298abfb" x="222.5125" y="133.043859" style="fill: #e50505; stroke: #ffffff; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="PathCollection_6">
+    <defs>
+     <path id="m0ef8589e02" d="M -2.041241 6.123724 
+L 2.041241 6.123724 
+L 2.041241 2.041241 
+L 6.123724 2.041241 
+L 6.123724 -2.041241 
+L 2.041241 -2.041241 
+L 2.041241 -6.123724 
+L -2.041241 -6.123724 
+L -2.041241 -2.041241 
+L -6.123724 -2.041241 
+L -6.123724 2.041241 
+L -2.041241 2.041241 
+z
+" style="stroke: #ffffff; stroke-width: 1.2"/>
+    </defs>
+    <g clip-path="url(#p9bd070acb3)">
+     <use xlink:href="#m0ef8589e02" x="273.6559" y="124.519959" style="fill: #b26b00; stroke: #ffffff; stroke-width: 1.2"/>
+    </g>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3a42" x="248.0842" y="99.540266" transform="rotate(-0 248.0842 99.540266)">Juquiá</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3a42" x="216.8299" y="179.096666" transform="rotate(-0 216.8299 179.096666)">Cajati</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3a42" x="316.2754" y="139.318466" transform="rotate(-0 316.2754 139.318466)">Itariri</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3a42" x="179.893" y="62.603366" transform="rotate(-0 179.893 62.603366)">Cananéia</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #e50505" x="222.5125" y="120.533266" transform="rotate(-0 222.5125 120.533266)">Registro</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #e50505" transform="translate(128.965213 124.609462)">1 porta</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #e50505" transform="translate(85.011088 135.140984)">145 mil habitantes</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #e50505" transform="translate(77.07265 145.672506)">R = 0,69 por 100 mil</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b26b00" x="273.6559" y="112.076553" transform="rotate(-0 273.6559 112.076553)">Miracatu</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #b26b00" transform="translate(334.033525 116.085562)">1 porta</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #b26b00" transform="translate(334.033525 126.617084)">80 mil habitantes</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; fill: #b26b00" transform="translate(334.033525 137.148606)">R = 1,24 por 100 mil</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_9">
+    <path d="M 473.2109 260.902359 
+L 717.5627 260.902359 
+L 717.5627 33.598359 
+L 473.2109 33.598359 
+L 473.2109 260.902359 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4"/>
+   <g id="patch_10">
+    <path d="M 473.2109 260.902359 
+L 473.2109 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 717.5627 260.902359 
+L 717.5627 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 473.2109 260.902359 
+L 717.5627 260.902359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 473.2109 33.598359 
+L 717.5627 33.598359 
+" style="fill: none; stroke: #e2e0dc; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 8.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6b6b73" x="473.2109" y="28.462659" transform="rotate(-0 473.2109 28.462659)">soma das razões de todos os serviços que o alcançam em 30 min</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="473.2109" y="15.598359" transform="rotate(-0 473.2109 15.598359)">Etapa 2 · o índice de cada lugar</text>
+   </g>
+   <g id="patch_14">
+    <path d="M 564.1325 149.307461 
+C 568.445657 149.307461 572.58274 147.593825 575.632603 144.543962 
+C 578.682466 141.494099 580.396101 137.357017 580.396101 133.043859 
+C 580.396101 128.730702 578.682466 124.59362 575.632603 121.543757 
+C 572.58274 118.493894 568.445657 116.780258 564.1325 116.780258 
+C 559.819343 116.780258 555.68226 118.493894 552.632397 121.543757 
+C 549.582534 124.59362 547.868899 128.730702 547.868899 133.043859 
+C 547.868899 137.357017 549.582534 141.494099 552.632397 144.543962 
+C 555.68226 147.593825 559.819343 149.307461 564.1325 149.307461 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #1f6b4a; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 615.2759 140.783561 
+C 619.589057 140.783561 623.72614 139.069925 626.776003 136.020062 
+C 629.825866 132.970199 631.539501 128.833117 631.539501 124.519959 
+C 631.539501 120.206802 629.825866 116.06972 626.776003 113.019857 
+C 623.72614 109.969994 619.589057 108.256358 615.2759 108.256358 
+C 610.962743 108.256358 606.82566 109.969994 603.775797 113.019857 
+C 600.725934 116.06972 599.012299 120.206802 599.012299 124.519959 
+C 599.012299 128.833117 600.725934 132.970199 603.775797 136.020062 
+C 606.82566 139.069925 610.962743 140.783561 615.2759 140.783561 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #1f6b4a; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 589.7042 123.735761 
+C 594.017357 123.735761 598.15444 122.022125 601.204303 118.972262 
+C 604.254166 115.922399 605.967801 111.785317 605.967801 107.472159 
+C 605.967801 103.159002 604.254166 99.02192 601.204303 95.972057 
+C 598.15444 92.922194 594.017357 91.208558 589.7042 91.208558 
+C 585.391043 91.208558 581.25396 92.922194 578.204097 95.972057 
+C 575.154234 99.02192 573.440599 103.159002 573.440599 107.472159 
+C 573.440599 111.785317 575.154234 115.922399 578.204097 118.972262 
+C 581.25396 122.022125 585.391043 123.735761 589.7042 123.735761 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #1f6b4a; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 558.4499 196.950379 
+C 561.081197 196.950379 563.605078 195.904953 565.465686 194.044345 
+C 567.326294 192.183737 568.37172 189.659857 568.37172 187.028559 
+C 568.37172 184.397262 567.326294 181.873382 565.465686 180.012773 
+C 563.605078 178.152165 561.081197 177.10674 558.4499 177.10674 
+C 555.818603 177.10674 553.294722 178.152165 551.434114 180.012773 
+C 549.573506 181.873382 548.52808 184.397262 548.52808 187.028559 
+C 548.52808 189.659857 549.573506 192.183737 551.434114 194.044345 
+C 553.294722 195.904953 555.818603 196.950379 558.4499 196.950379 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #b26b00; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 657.8954 159.985066 
+C 661.272684 159.985066 664.512097 158.643257 666.900197 156.255157 
+C 669.288298 153.867057 670.630107 150.627643 670.630107 147.250359 
+C 670.630107 143.873076 669.288298 140.633662 666.900197 138.245562 
+C 664.512097 135.857462 661.272684 134.515653 657.8954 134.515653 
+C 654.518116 134.515653 651.278703 135.857462 648.890603 138.245562 
+C 646.502502 140.633662 645.160693 143.873076 645.160693 147.250359 
+C 645.160693 150.627643 646.502502 153.867057 648.890603 156.255157 
+C 651.278703 158.643257 654.518116 159.985066 657.8954 159.985066 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #b26b00; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 521.513 76.928184 
+C 523.208424 76.928184 524.834635 76.254585 526.033481 75.05574 
+C 527.232326 73.856895 527.905925 72.230683 527.905925 70.535259 
+C 527.905925 68.839836 527.232326 67.213624 526.033481 66.014779 
+C 524.834635 64.815933 523.208424 64.142334 521.513 64.142334 
+C 519.817576 64.142334 518.191365 64.815933 516.992519 66.014779 
+C 515.793674 67.213624 515.120075 68.839836 515.120075 70.535259 
+C 515.120075 72.230683 515.793674 73.856895 516.992519 75.05574 
+C 518.191365 76.254585 519.817576 76.928184 521.513 76.928184 
+z
+" clip-path="url(#pd4833ec75b)" style="fill: #e50505; opacity: 0.9; stroke: #ffffff; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(548.176625 158.075542)">Registro</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(555.448906 168.58787)">1,93</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(598.299322 149.551642)">Miracatu</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(606.592306 160.06397)">1,93</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(577.661122 132.815842)">Juquiá</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(581.020606 143.32817)">1,93</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(547.250806 205.71846)">Cajati</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(549.766306 216.230788)">0,69</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(647.452541 168.753147)">Itariri</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #3a3a42" transform="translate(649.211806 179.265475)">1,24</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #e50505" transform="translate(501.220203 85.696266)">Cananéia</text>
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans'; fill: #e50505" transform="translate(511.890969 96.208594)">0,00</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a80404" x="595.3868" y="44.963559" transform="rotate(-0 595.3868 44.963559)">Cananéia fica com zero: nenhum serviço a alcança em 30 minutos</text>
+   </g>
+  </g>
+  <g id="text_20">
+   <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #9a9aa2" x="7.2" y="303.706359" transform="rotate(-0 7.2 303.706359)">Capacidade contada em portas, porque o extrato do CNES não traz leitos. Um lugar dentro de dois raios acumula as duas razões; um lugar fora de todos fica com zero, e zero é um resultado, não um dado faltante.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9bd070acb3">
+   <rect x="131.5909" y="33.598359" width="244.3518" height="227.304"/>
+  </clipPath>
+  <clipPath id="pd4833ec75b">
+   <rect x="473.2109" y="33.598359" width="244.3518" height="227.304"/>
+  </clipPath>
+ </defs>
+</svg>

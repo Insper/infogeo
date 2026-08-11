@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informação Georreferenciada · Insper · 2026</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="#disciplina" class="here">A disciplina</a></li>
+    <li><a href="#arco">As 10 perguntas</a></li>
+    <li><a href="#como">Como funciona</a></li>
+    <li><a href="#avaliacao">Avaliação</a></li>
+    <li><a href="#dados">Dados</a></li>
+    <li><a href="#teoria">Programa</a></li>
+  </ul>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <h1>Informação Georreferenciada</h1>
+  <dl class="ident">
+    <dt>Instituição</dt><dd>Insper</dd>
+    <dt>Nível</dt><dd>Graduação</dd>
+    <dt>Professor</dt><dd>André Filipe de Moraes Batista</dd>
+    <dt>Software</dt><dd>QGIS 4.2, interface em inglês</dd>
+  </dl>
+</div></header>
+
+<section class="block" id="disciplina"><div class="wrap">
+  <div class="abertura">
+    <h2>Perguntas cuja resposta muda quando se pergunta <em>onde</em></h2>
+    <p class="credito">Informação Georreferenciada &nbsp;·&nbsp; apresentação da disciplina</p>
+  </div>
+
+  <div class="editorial">
+    <p class="cap">Informação georreferenciada é informação que carrega uma âncora de localização: um par de coordenadas, um código de município, um endereço, o identificador de um setor censitário. Com essa âncora, cada linha de uma tabela passa a ocupar um lugar no território, e tornam-se mensuráveis grandezas que não estavam na tabela — a distância até o equipamento público mais próximo, a área efetivamente atingida por um evento, quantos vizinhos compartilham a mesma condição. Quase todo dado público brasileiro relevante já chega com a âncora pronta. A disciplina trata do que se faz com ela.</p>
+
+    <p>Saber que o produto de área queimada do <span class="sc">inpe</span> somou 7,2 milhões de hectares no Pantanal em 2020 resolve a manchete. Quem instrui uma ação civil pública precisa saber em quais municípios, em quais meses, e que essa soma conta duas vezes a área que queimou em agosto e voltou a queimar em setembro. O mesmo vale para safra, esgoto, sinistro de trânsito e acesso a hospital: o agregado nacional esconde como o fenômeno se organiza no espaço, e é sobre essa organização que uma política pública ou um contrato de crédito incide.</p>
+
+    <div class="destaque col2">
+      <span class="lbl">Onde isso é usado</span>
+      <p>Crédito rural condicionado ao <span class="sc">car</span> do imóvel, perícia de área queimada, definição de perímetro de <span class="sc">zeis</span>, escolha de ponto de venda, priorização de obra em cruzamento com vítima: são decisões tomadas com medida feita sobre mapa, e cobradas de quem as assina.</p>
+    </div>
+
+    <figure class="aplic">
+      <img src="assets/img/d00-aplicacao.svg" alt="Diagrama em duas faixas. Acima, quatro etapas ligadas por setas: dado público, âncora de local, medida no território e decisão, com as duas do meio marcadas como o escopo do curso. Abaixo, quatro colunas com uma pergunta típica de Economia, Administração, Direito e Engenharias, cada uma remetendo ao tema em que é tratada.">
+      <figcaption><b>Aplicação</b> A cadeia de trabalho é a mesma nas quatro áreas, e o curso ocupa as duas etapas do meio: transformar a âncora de localização em medida defensável. O que muda de uma coluna para outra é a decisão que aguarda o número do outro lado, e é ela que define qual medida serve.</figcaption>
+    </figure>
+
+
+    <p class="col2">Um indicador cartografado por quatro métodos legítimos de classificação produz quatro mapas honestos que sustentam manchetes opostas. Boa parte do semestre consiste em identificar essas decisões, medir o efeito de cada uma e declarar qual foi adotada.</p>
+
+    <h3 class="col2">Recorte e ferramentas</h3>
+    <p class="col2">Dado público brasileiro e software livre. As bases são as malhas territoriais, o Censo 2022 e o <span class="sc">sidra</span> do <span class="sc">ibge</span>, os produtos de queimada do <span class="sc">inpe</span>, o uso e cobertura da terra do MapBiomas, o GeoSampa, o <span class="sc">cnes</span> do <span class="sc">datasus</span> e o Infosiga <span class="sc">sp</span> — todas gratuitas e ainda acessíveis depois do semestre, no estágio e no trabalho de conclusão. O software é o <span class="sc">qgis</span> 4.2, com a interface em inglês, porque é nessa língua que estão a documentação, os nomes dos algoritmos e as respostas de fórum a consultar quando algo travar. Não há pré-requisito de <span class="sc">sig</span> nem de programação.</p>
+
+    <h3 class="col2">O que se espera ao final</h3>
+    <p class="col2">Obter um dado público e convertê-lo para GeoPackage com sistema de coordenadas declarado. Medir área e distância sem erro sistemático. Cruzar geometria com tabela e construir um indicador próprio. Produzir um mapa temático cujas escolhas de classificação, paleta e denominador sejam justificáveis. Testar dependência espacial antes de tratar municípios como observações independentes. Reduzir milhares de ocorrências pontuais a uma lista de prioridades. Quantificar mudança de uso da terra sobre imagem classificada. Medir acessibilidade pela rede viária em vez de por círculo. E escrever, ao lado de cada resultado, o que o dado não permite afirmar. A prova final cobra a leitura crítica desses procedimentos, não o caminho dos menus.</p>
+  </div>
+</div></section>
+
+<section class="block" id="arco"><div class="wrap">
+  <div class="kicker">O programa</div>
+  <h2>Programa dos encontros</h2>
+  <p style="max-width:70ch;font-size:18px;color:var(--ink-soft)">A ordem dos temas obedece a pré-requisitos. Medir acessibilidade pela rede viária, no tema 10, exige entender antes por que a distância em linha reta é insuficiente; auditar a classificação de um mapa temático, no tema 4, exige já ter produzido um.</p>
+
+  <table class="programa">
+    <thead><tr><th style="width:52px">Tema</th><th style="width:30%">Pergunta que orienta o encontro</th><th>Conteúdo</th><th style="width:64px">Unid.</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><a href="encontro-01.html">Por que dizer onde muda a resposta?</a></td><td>Apresentação da disciplina, instalação do QGIS, tour da interface e o pacote de dados do tema seguinte.</td><td class="tmono">UT 01</td></tr>
+      <tr><td class="num">2</td><td><a href="encontro-02.html">Quantos hectares queimaram de verdade?</a></td><td>Datum, projeção e o erro de 2.394 hectares que nasce de escolher o fuso UTM vizinho.</td><td class="tmono">UT 02</td></tr>
+      <tr><td class="num">3</td><td><a href="encontro-03.html">Quem vive sem esgoto na minha cidade, e em qual quarteirão?</a></td><td>Atributos, junções e consultas sobre setores censitários, e o cruzamento que falha sem emitir aviso.</td><td class="tmono">UT 03</td></tr>
+      <tr><td class="num">4</td><td><a href="encontro-04.html">Este mapa está me convencendo ou me enganando?</a></td><td>Semiologia gráfica e classificação: quatro mapas honestos do mesmo dado, quatro manchetes diferentes.</td><td class="tmono">UT 04</td></tr>
+      <tr><td class="num">5</td><td><a href="encontro-05.html">Onde ainda cabe habitação social perto do metrô?</a></td><td>Sobreposição e proximidade: o raio de 600 metros que decide política habitacional e não vem dos dados.</td><td class="tmono">UT 05</td></tr>
+      <tr><td class="num">6</td><td><a href="encontro-06.html">O que acontece num município depende do vizinho?</a></td><td>Matriz de vizinhança, índice de Moran e LISA aplicados à expansão da soja no MATOPIBA.</td><td class="tmono">UT 06</td></tr>
+      <tr><td class="num">7</td><td><a href="encontro-07.html">Tenho uma lista de endereços. Como ela vira padrão no mapa?</a></td><td>Geocodificação com taxa de erro declarada, e centrografia sobre os focos de fogo do oeste baiano.</td><td class="tmono">UT 07</td></tr>
+      <tr><td class="num">8</td><td><a href="encontro-08.html">Tenho orçamento para intervir em cinco pontos. Quais?</a></td><td>Kernel, DBSCAN e K-means sobre sinistros de trânsito, até virar lista de prioridades.</td><td class="tmono">UT 08</td></tr>
+      <tr><td class="num">9</td><td><a href="encontro-09.html">Quanto do meu município virou pasto desde 1985?</a></td><td>Raster, álgebra de mapas e a matriz de confusão que diz até onde o número é confiável.</td><td class="tmono">UT 09</td></tr>
+      <tr><td class="num">10</td><td><a href="encontro-10.html">Quanta gente chega ao hospital em trinta minutos?</a></td><td>Redes e isócronas, e por que a distância em linha reta é a mentira mais cara do geoprocessamento.</td><td class="tmono">UT 10</td></tr>
+      <tr><td class="num">11</td><td>Revisão integradora e prova final</td><td>Uma hora percorrendo as dez unidades teóricas com casos-síntese. Uma hora de prova.</td><td class="tmono">—</td></tr>
+      <tr><td class="num">12</td><td>Banca de projetos e clínica cartográfica</td><td>Dez minutos por grupo, com arguição sobre a análise e sobre o mapa.</td><td class="tmono">—</td></tr>
+    </tbody>
+    <caption>Os encontros 11 e 12 são de prova e de banca de projetos.</caption>
+  </table>
+</div></section>
+
+<section class="block warm" id="como"><div class="wrap">
+  <div class="kicker">Método</div>
+  <h2>Estrutura de um encontro</h2>
+  <p style="max-width:70ch;font-size:18px;color:var(--ink-soft)">Cada encontro de 120 minutos se divide em quatro partes. O bloco teórico ocupa a primeira delas e tem duração fixa; quando o tempo aperta, a redução recai sobre o roteiro prático, não sobre a teoria.</p>
+
+  <table style="max-width:none">
+    <thead><tr><th style="width:96px">Tempo</th><th style="width:24%">Momento</th><th>O que acontece</th></tr></thead>
+    <tbody>
+      <tr><td class="num"><strong>40 min</strong></td><td><strong>Teoria</strong></td><td>A pergunta é enunciada, a resposta ingênua é desmontada e o aparato conceitual é construído. Termina declarando o que a prova pode cobrar daquela unidade.</td></tr>
+      <tr><td class="num"><strong>45 min</strong></td><td><strong>Roteiro</strong></td><td>Professor e turma em paralelo no QGIS, com pontos de conferência. Ao fim, a pergunta está respondida com número na tela.</td></tr>
+      <tr><td class="num"><strong>15 min</strong></td><td><strong>Exercício</strong></td><td>Mesma base, um parâmetro alterado. Você descobre que a resposta muda e escreve em três linhas o quanto isso ameaça a conclusão.</td></tr>
+      <tr><td class="num"><strong>20 min</strong></td><td><strong>Fechamento</strong></td><td>O que se pode e o que não se pode afirmar, discussão aberta, e o anúncio da pergunta seguinte com a leitura de preparação.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Trabalho fora de sala</h3>
+  <p style="max-width:70ch">Uma leitura curta antes de cada encontro, de dez a quinze minutos: um capítulo do livro do INPE, um artigo seminal de seis páginas ou uma nota técnica. Ela é anunciada no fim da aula anterior e está ligada à pergunta seguinte, então você lê para conseguir responder algo. Fora isso, o trabalho fora de sala são as três APS e o projeto.</p>
+</div></section>
+
+<section class="block" id="avaliacao"><div class="wrap">
+  <div class="kicker">Avaliação</div>
+  <h2>Composição da nota</h2>
+  <table style="max-width:none">
+    <thead><tr><th style="width:64px">Peso</th><th style="width:22%">Instrumento</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td class="num">30%</td><td><strong>Três APS</strong></td><td>Lançadas ao fim dos temas 4, 8 e 10, cada uma com base de dados e pergunta que não apareceram em aula. Feitas fora de sala, entregues pelo Blackboard.</td></tr>
+      <tr><td class="num">30%</td><td><strong>Prova final</strong></td><td>Conceitual. Apresenta um mapa, uma análise ou uma recomendação e pede o diagnóstico do erro metodológico. Cada questão corresponde a uma das dez unidades do programa. O caminho dos menus não é objeto de avaliação.</td></tr>
+      <tr><td class="num">40%</td><td><strong>Projeto em grupo</strong></td><td>O grupo formula a própria pergunta territorial e entrega diagnóstico, mapas, webmap e recomendação de uma página. Metade da nota está na formulação da pergunta e na declaração dos limites do que foi medido.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Entrega dos mapas</h3>
+  <p style="max-width:70ch">As três APS e o projeto são entregues com mapa. Para que a correção avalie a análise, e não a diagramação, todas as entregas seguem a mesma especificação de página, elementos obrigatórios e formato de arquivo. A especificação, com a lista de checagem a usar antes de enviar, está em <a href="extra-print-layout.html">preparar o mapa para entrega</a>, junto com o passo a passo de montagem no QGIS.</p>
+</div></section>
+
+<section class="block warm" id="dados"><div class="wrap">
+  <div class="kicker">Infraestrutura</div>
+  <h2>Bases utilizadas</h2>
+  <p style="max-width:70ch;font-size:18px;color:var(--ink-soft)">As bases abaixo são públicas e de acesso livre, o que permite continuar usando-as depois do semestre. Cada tema tem um pacote no Blackboard, já convertido para GeoPackage e UTF-8, e o roteiro correspondente registra a origem e a data de coleta, de modo que o download pode ser refeito de forma independente.</p>
+
+  <table style="max-width:none">
+    <thead><tr><th style="width:24%">Base</th><th style="width:12%">Temas</th><th>O que se usa</th></tr></thead>
+    <tbody>
+      <tr><td><strong>IBGE · malhas territoriais</strong></td><td class="num">1, 2, 4, 6, 9, 10</td><td>Municípios, unidades federativas e biomas em GeoPackage, SIRGAS 2000</td></tr>
+      <tr><td><strong>IBGE · Censo 2022</strong></td><td class="num">3, 5, 10</td><td>Malha de 468 mil setores censitários e agregados por setor</td></tr>
+      <tr><td><strong>SIDRA · API do IBGE</strong></td><td class="num">4, 6</td><td>Produção agrícola municipal, população do Censo e PIB municipal</td></tr>
+      <tr><td><strong>INPE · Programa Queimadas</strong></td><td class="num">2, 7</td><td>Focos de calor e cicatrizes de área queimada do produto AQ1km</td></tr>
+      <tr><td><strong>MapBiomas</strong></td><td class="num">9</td><td>Uso e cobertura da terra em 30 metros, série desde 1985</td></tr>
+      <tr><td><strong>GeoSampa</strong></td><td class="num">5, 8</td><td>Zoneamento, ZEIS, eixos de estruturação e malha viária de São Paulo</td></tr>
+      <tr><td><strong>CNES · DATASUS</strong></td><td class="num">7, 10</td><td>Estabelecimentos de saúde com coordenadas</td></tr>
+      <tr><td><strong>Infosiga SP</strong></td><td class="num">8</td><td>Sinistros de trânsito com vítimas, georreferenciados</td></tr>
+      <tr><td><strong>OpenStreetMap</strong></td><td class="num">10</td><td>Malha viária do Vale do Ribeira para roteamento, além do mapa base usado em todos os temas</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section class="block" id="teoria"><div class="wrap">
+  <div class="kicker">Conteúdo programático</div>
+  <h2>As dez unidades teóricas do programa</h2>
+  <p style="max-width:70ch;font-size:18px;color:var(--ink-soft)">O programa da disciplina está organizado em dez unidades teóricas, uma por tema, na ordem em que são trabalhadas em sala. Cada unidade reúne os conceitos que tornam a pergunta do tema respondível e independe do software usado para responder. A tabela abaixo também delimita o escopo da prova final: toda questão nasce de uma destas dez unidades, e o escopo de cada uma é declarado ao fim da parte teórica do encontro correspondente.</p>
+
+  <table style="max-width:none">
+    <thead><tr><th style="width:64px">UT</th><th style="width:30%">Unidade</th><th>Conceitos</th></tr></thead>
+    <tbody>
+      <tr><td class="num">01</td><td><strong>Ciência da geoinformação</strong></td><td>Dado espacial e georreferenciado, objetos e campos, vetor e raster, escala e generalização, primeira lei de Tobler</td></tr>
+      <tr><td class="num">02</td><td><strong>Geodésia e cartografia matemática</strong></td><td>Geoide, elipsoide, datum, SIRGAS 2000, conformidade e equivalência, UTM, Albers, EPSG</td></tr>
+      <tr><td class="num">03</td><td><strong>Modelo vetorial e banco geográfico</strong></td><td>Topologia, chave e cardinalidade, junção, predicados topológicos, unidade de análise, MAUP</td></tr>
+      <tr><td class="num">04</td><td><strong>Cartografia temática</strong></td><td>Variáveis visuais de Bertin, taxa e denominador, métodos de classificação, paleta, cartograma</td></tr>
+      <tr><td class="num">05</td><td><strong>Sobreposição e proximidade</strong></td><td>Overlay, buffer, interseção, junção espacial, propagação de erro, parâmetro normativo</td></tr>
+      <tr><td class="num">06</td><td><strong>Dependência espacial</strong></td><td>Matriz de vizinhança, média móvel espacial, Moran global, diagrama de espalhamento, LISA</td></tr>
+      <tr><td class="num">07</td><td><strong>Processo pontual e centrografia</strong></td><td>Aleatoriedade espacial completa, geocodificação, taxa de match, centro médio, elipse de desvio padrão</td></tr>
+      <tr><td class="num">08</td><td><strong>Densidade e agrupamento</strong></td><td>Quadrats, vizinho mais próximo, kernel e largura de banda, DBSCAN, K-means, Gi*</td></tr>
+      <tr><td class="num">09</td><td><strong>Modelo matricial</strong></td><td>Célula e resolução, assinatura espectral, matriz de confusão, álgebra de mapas, estatística zonal</td></tr>
+      <tr><td class="num">10</td><td><strong>Redes e comunicação</strong></td><td>Grafo e impedância, caminho mínimo, isócrona, acessibilidade, hierarquia visual, reprodutibilidade</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b>
+  Roteiros escritos para o QGIS 4.2.0.</div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+</body>
+</html>
