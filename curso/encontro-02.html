@@ -109,6 +109,13 @@
   <div class="ft">GeoPackage, UTF-8, EPSG:4674. O contorno do bioma e a malha municipal vêm do IBGE; as cicatrizes de fogo, do produto AQ1km do INPE, tudo com coleta em 02/08/2026. Os valores conferidos, arquivo por arquivo, estão em <code>dados/semana02/_numeros_oficiais.json</code>. O <code>cicatriz_teste_pantanal.gpkg</code> é didático de propósito: existe para ter área geodésica conhecida, de 303.514,4555 ha.</div>
 </div>
 
+<p>Baixe os cinco arquivos e salve dentro de <code>InfoGeo/tema02_projecoes/dados_brutos/</code>, na estrutura de pastas que você criou no encontro 1. Eles também estão no Blackboard, em um único zip. Antes de seguir, abra cada um dos quatro GeoPackage no QGIS e confirme que todos carregam: o objetivo é garantir que os arquivos chegaram inteiros.</p>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Se você baixar o zip do Blackboard, descompacte de verdade. No Windows, dar duplo clique abre uma janela que <em>parece</em> uma pasta mas ainda é o arquivo compactado, e o QGIS não consegue ler de dentro dela. Clique com o botão direito e escolha <em>Extrair tudo</em>.</p>
+</div>
+
 <div class="contexto">
   <div class="lbl">Como este pacote foi montado</div>
   <p>Os polígonos de área queimada vêm do produto Área Queimada AQ1km v6 do <a href="https://data.inpe.br/queimadas/dados-abertos/">Programa Queimadas</a>, do INPE, nos meses de julho a novembro de 2020 e junho a novembro de 2024, recortados pelo contorno oficial do bioma Pantanal. Cada feição é um agrupamento contíguo de pixels de 1 km queimados naquele mês, de modo que a soma mês a mês conta duas vezes a área que voltou a queimar. As malhas de município e de bioma vêm do portal de geociências do IBGE, convertidas de Shapefile para GeoPackage e para UTF-8. O arquivo <code>cicatriz_teste_pantanal.gpkg</code> é um polígono único, construído para esta aula, com área conhecida: os números do roteiro se referem a ele, e você deve reproduzi-los exatamente.</p>
@@ -297,7 +304,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
       <li>Se sobraram camadas da aula anterior, remova todas: clique com o botão direito em cada uma e escolha <em>Remove Layer</em>.</li>
       <li>Arraste <code>cicatriz_teste_pantanal.gpkg</code> da sua pasta <code>dados_brutos</code> direto para dentro da janela do QGIS. Arrastar funciona e é mais rápido que o menu.</li>
       <li>Arraste também <code>municipios_pantanal_2022.gpkg</code> e <code>bioma_pantanal_2019.gpkg</code>.</li>
-      <li>No painel <em>Browser</em>, em <em>XYZ Tiles</em>, dê duplo clique na conexão <em>OpenStreetMap</em> que você cadastrou no tema 1 e arraste a camada para o fundo da pilha. Se a conexão não aparecer, refaça o <a href="encontro-01.html#osm">passo 5 do Encontro 1</a>.</li>
+      <li>No painel <em>Browser</em>, em <em>XYZ Tiles</em>, dê duplo clique na conexão <em>OpenStreetMap</em> que você cadastrou no tema 1 e arraste a camada para o fundo da pilha. Se a conexão não aparecer, refaça o <a href="encontro-01.html#osm">passo 4 do Encontro 1</a>.</li>
       <li>Clique com o botão direito em <code>cicatriz_teste</code> e escolha <em>Zoom to Layer</em>.</li>
     </ol>
 

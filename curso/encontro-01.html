@@ -35,7 +35,7 @@
 <header class="cover"><div class="wrap">
   <div class="tag">Tema 1 · Abertura · Unidade teórica 01</div>
   <h1>Por que dizer <em>onde</em> muda a resposta?</h1>
-  <p class="sub">Apresentação da disciplina, a primeira distinção conceitual do curso, instalação do QGIS e o pacote de dados que você vai usar no próximo tema.</p>
+  <p class="sub">Apresentação da disciplina, a primeira distinção conceitual do curso, instalação do QGIS, os primeiros testes e o projeto salvo em .qgz.</p>
   <div class="facts">
     <div><b>120 min</b><span>duração</span></div>
     <div><b>45 / 60 / 15</b><span>teoria / tutorial / checklist</span></div>
@@ -61,13 +61,12 @@
     <div class="grp">Parte 2 · tutorial</div>
     <li><a href="#instalar">1. Instalar o QGIS</a></li>
     <li><a href="#idioma">2. Fixar o idioma</a></li>
-    <li><a href="#pastas">3. Pastas e projeto</a></li>
     <li><a href="#interface">A janela do QGIS</a></li>
-    <li><a href="#malha">4. Primeira camada</a></li>
-    <li><a href="#osm">5. Mapa base</a></li>
-    <li><a href="#atributos">6. Tabela de atributos</a></li>
-    <li><a href="#crs">7. Um olhar no CRS</a></li>
-    <li><a href="#pacote">8. Pacote do tema 2</a></li>
+    <li><a href="#malha">3. Primeira camada</a></li>
+    <li><a href="#osm">4. Mapa base</a></li>
+    <li><a href="#atributos">5. Tabela de atributos</a></li>
+    <li><a href="#crs">6. Um olhar no CRS</a></li>
+    <li><a href="#pastas">7. Pastas e o .qgz</a></li>
     <div class="grp">Parte 3</div>
     <li><a href="#checklist">Checklist de saída</a></li>
     <li><a href="#leituras">Leituras</a></li>
@@ -257,12 +256,18 @@
 </div>
 
 <section class="part" id="instalar">
-<p class="lede">Este encontro existe para que nenhum minuto das nove aulas seguintes seja gasto com instalação ou download. Ao final dos oito passos abaixo você terá o QGIS funcionando, um projeto salvo, duas camadas carregadas e o pacote de dados do tema 2 no seu computador.</p>
+<p class="lede">Este encontro existe para que nenhum minuto das nove aulas seguintes seja gasto com instalação. Ao final dos sete passos abaixo você terá o QGIS funcionando, saberá de onde ele vem, terá duas camadas carregadas e um projeto salvo em um arquivo .qgz.</p>
 
 <div class="contexto">
   <div class="lbl">Versão fixada para o semestre</div>
   <p>Use o <strong>QGIS 4.2 Belém do Pará</strong>. Todos os passos, nomes de menu e resultados deste material foram executados e conferidos nessa versão. A partir da 3.40 os passos também funcionam, com duas diferenças anotadas nos pontos onde aparecem: na série 3.x o OpenStreetMap já vem cadastrado em XYZ Tiles, e o cálculo de rede do tema 10 dependia do CRS do projeto.</p>
 </div>
+
+<h3>De onde vem o QGIS</h3>
+
+<p>O QGIS nasceu em 2002 como projeto pessoal de Gary Sherman, um geólogo que queria visualizar dados espaciais no seu próprio computador sem pagar por uma licença de GIS comercial. O projeto cresceu como software livre, escrito por uma comunidade internacional de desenvolvedores e financiado por doações e patrocínios, e desde 2008 é um projeto oficial da OSGeo, a fundação que abriga os principais programas de geoprocessamento de código aberto. Não existe uma empresa dona do QGIS: o código é público e qualquer pessoa pode auditar como cada cálculo é feito. É por isso que ele aparece tanto em prefeituras e órgãos ambientais quanto em consultorias e universidades, e é por isso que ele é o programa deste curso.</p>
+
+<p>Cada versão leva o nome de uma cidade que sediou um encontro de desenvolvedores do projeto, e a deste semestre se chama <strong>4.2 Belém do Pará</strong>. Saber a versão que você usa tem utilidade prática: menus mudam de lugar e algoritmos são corrigidos de uma versão para outra, então a versão entra em qualquer trabalho que você publicar, do mesmo jeito que se declara a edição de um livro citado.</p>
 
 <div class="passo">
   <div class="n">1</div>
@@ -315,32 +320,6 @@
   </div>
 </div>
 
-<div class="passo" id="pastas">
-  <div class="n">3</div>
-  <div class="c">
-    <h3>Criar a estrutura de pastas e salvar o projeto</h3>
-    <p>Boa parte dos problemas que você vai ter neste semestre não é de QGIS, é de organização de arquivo. O projeto <code>.qgz</code> guarda apenas o caminho até cada camada, então basta mover uma pasta para o mapa abrir vazio no tema seguinte. Monte a estrutura abaixo uma vez e repita o mesmo padrão em todos os temas.</p>
-
-    <p>Crie no seu computador, em um lugar que você encontre com facilidade e que <strong>não esteja dentro de uma pasta sincronizada por Google Drive ou OneDrive</strong>, a seguinte árvore:</p>
-
-<pre class="expr">InfoGeo/
-├── tema02_projecoes/
-│   ├── dados_brutos/      <span class="cm"># exatamente como baixou, nunca edite aqui</span>
-│   ├── dados_tratados/    <span class="cm"># o que você produzir</span>
-│   ├── mapas/             <span class="cm"># PNG e PDF exportados</span>
-│   └── projeto.qgz
-├── tema03_censo/
-└── ...</pre>
-
-    <p>Agora, no QGIS, vá em <span class="caminho">Project <i>▸</i> Save As</span>, navegue até <code>InfoGeo/tema02_projecoes/</code> e salve como <code>projeto.qgz</code>.</p>
-
-    <div class="contexto">
-      <div class="lbl">Por que .qgz e por que fora do Drive</div>
-      <p>O formato <code>.qgz</code> é um pacote compactado que guarda as referências às camadas, os estilos, os layouts e as configurações do projeto. Ele não guarda os dados, apenas os caminhos até eles. Por isso mover a pasta depois quebra o projeto, e por isso o Drive é problema: quando o sincronizador decide baixar um arquivo sob demanda, o QGIS encontra um arquivo de zero byte e a camada aparece vazia.</p>
-    </div>
-  </div>
-</div>
-
 <section class="part" id="interface">
 <h2>A janela do QGIS: menu, barras, painéis, canvas e barra de status</h2>
 
@@ -351,52 +330,23 @@
   <figcaption><b>Figura 5</b> As seis regiões da janela, na disposição de fábrica do QGIS 4.2. Os painéis são móveis: podem ser arrastados para outra borda, empilhados como abas ou soltos como janelas próprias, e a disposição fica gravada no projeto.</figcaption>
 </figure>
 
-<figure class="ph">captura de tela · janela real do QGIS 4.2 recém-instalado, em inglês, com um projeto vazio: barra de menu, as barras de ferramentas padrão, os painéis Browser e Layers visíveis à esquerda, o canvas em branco e a barra de status com o botão de CRS legível no canto inferior direito</figure>
+<figure class="print">
+  <img src="assets/img/s01-janela-qgis.png" alt="Janela real do QGIS recém-instalado, em inglês, com projeto vazio: barra de menu, barras de ferramentas, painéis Browser e Layers à esquerda, canvas em branco e barra de status com o botão de CRS no canto inferior direito.">
+  <figcaption><b>Figura 6</b> A janela real, recém-instalada, correspondendo ao esquema da Figura 5: painéis <em>Browser</em> e <em>Layers</em> à esquerda, canvas vazio e o botão do CRS no canto direito da barra de status.</figcaption>
+</figure>
 
 <table>
   <thead><tr><th style="width:34px">N</th><th style="width:22%">Região</th><th>O que é e o que você faz nela</th></tr></thead>
   <tbody>
     <tr><td class="num">1</td><td><strong>Menu bar</strong></td><td>Todo comando do QGIS está aqui, inclusive os que também têm botão. Quando este material escreve <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Vector Layer</span>, é este caminho.</td></tr>
     <tr><td class="num">2</td><td><strong>Toolbars</strong></td><td>Atalhos dos comandos mais usados, agrupados por assunto. Some uma barra sem querer e você a traz de volta em <span class="caminho">View <i>▸</i> Toolbars</span>. Nenhum passo do curso depende de um botão específico estar visível.</td></tr>
-    <tr><td class="num">3</td><td><strong>Browser panel</strong></td><td>Navegador de fontes de dados: pastas do computador, GeoPackage, bancos PostGIS, serviços WMS e a entrada <em>XYZ Tiles</em>, onde você vai cadastrar o OpenStreetMap no passo 5. Duplo clique em um arquivo carrega a camada.</td></tr>
+    <tr><td class="num">3</td><td><strong>Browser panel</strong></td><td>Navegador de fontes de dados: pastas do computador, GeoPackage, bancos PostGIS, serviços WMS e a entrada <em>XYZ Tiles</em>, onde você vai cadastrar o OpenStreetMap no passo 4. Duplo clique em um arquivo carrega a camada.</td></tr>
     <tr><td class="num">4</td><td><strong>Layers panel</strong></td><td>As camadas do projeto. A caixa liga e desliga a exibição, e a ordem da pilha é a ordem de desenho: o que está em cima tapa o que está embaixo. Duplo clique abre as propriedades da camada.</td></tr>
     <tr><td class="num">5</td><td><strong>Map view</strong></td><td>Também chamado de canvas. É o desenho das camadas ligadas, no CRS do projeto. Vale insistir: é exibição, não é o dado. Mudar a cor ou a ordem aqui não altera nenhum valor no arquivo.</td></tr>
-    <tr><td class="num">6</td><td><strong>Status bar</strong></td><td>Coordenada do cursor, escala, ampliação, rotação e o botão do CRS do projeto, no canto direito. Esse botão é o item que você vai conferir com mais frequência no semestre, e o passo 7 volta a ele.</td></tr>
+    <tr><td class="num">6</td><td><strong>Status bar</strong></td><td>Coordenada do cursor, escala, ampliação, rotação e o botão do CRS do projeto, no canto direito. Esse botão é o item que você vai conferir com mais frequência no semestre, e o passo 6 volta a ele.</td></tr>
   </tbody>
   <caption>Os painéis 3 e 4 podem estar fechados em uma instalação nova ou depois de um clique errado. A lista completa está em <span class="caminho">View <i>▸</i> Panels</span>.</caption>
 </table>
-
-<h3>O que é um projeto, e o que o arquivo .qgz não guarda</h3>
-
-<p>Um projeto do QGIS não é um documento com os dados dentro, como uma planilha. É uma descrição de montagem. Ele registra quais camadas participam, em que ordem, com quais estilos e rótulos, qual o CRS de exibição, qual a extensão salva, os layouts de impressão e os marcadores de posição. Cada camada entra como um caminho de arquivo ou uma string de conexão.</p>
-
-<div class="conceito">
-  <div class="lbl">Definição</div>
-  <h4>O .qgz guarda referências, não conteúdo</h4>
-  <p>Guarda: lista de camadas com o caminho de cada uma, simbologia, rótulos, layouts de impressão, CRS do projeto, elipsoide e unidade de medida, temas de mapa, marcadores e variáveis. Não guarda: os arquivos de dado. Mover, renomear ou apagar um GeoPackage deixa a camada como <em>unavailable layer</em> na próxima abertura, e o QGIS oferece apontar o novo caminho.</p>
-</div>
-
-<p>Existe uma exceção que confunde: um GeoPackage pode conter, além das camadas, estilos gravados na própria base. E o QGIS aceita salvar o projeto <em>dentro</em> de um GeoPackage, escolhendo esse formato na janela de <span class="caminho">Project <i>▸</i> Save As</span>, o que produz um arquivo único com dado e montagem juntos. Não vamos usar esse formato no curso, porque ele esconde a distinção entre dado e projeto, que é justamente o que precisa ficar claro agora.</p>
-
-<h3>Plugins: os que vêm instalados e os que vêm do repositório</h3>
-
-<p>Boa parte do que o QGIS faz vem de plugins. Alguns são <em>core plugins</em>, distribuídos com o programa e apenas desativados por padrão, como o DB Manager, que abre bancos de dados, e o próprio console de Python. Outros são externos, publicados por terceiros no repositório oficial em <a href="https://plugins.qgis.org/">plugins.qgis.org</a>, com mais de mil itens de qualidade desigual. Os dois tipos são administrados na mesma janela, em <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins</span>: a aba <em>Installed</em> lista o que já está na máquina, e a aba <em>All</em> consulta o repositório pela internet.</p>
-
-<div class="cuidado">
-  <div class="lbl">Regra do curso</div>
-  <p>Nenhum roteiro deste material exige plugin externo. Onde um plugin apareceria como caminho natural, o roteiro resolve com ferramenta nativa e diz qual plugin foi dispensado. Isso existe porque a máquina de referência é a sua, com perfil limpo, e não a do professor. Se um dia um plugin for necessário, o passo de instalação estará escrito na própria aula, com o aviso de que exige internet.</p>
-</div>
-
-<p>Vale conhecer o mecanismo por outro motivo. Plugin externo é a via pela qual funcionalidade nova chega ao QGIS antes de existir no programa, e é também a via pela qual um resultado seu deixa de ser reproduzível na máquina de outra pessoa. Ao publicar uma análise, declare a versão do QGIS e a lista de plugins usados, do mesmo jeito que se declara a versão de uma biblioteca em um script.</p>
-
-<h3>O console de Python, para o final do semestre</h3>
-
-<p>Tudo que a interface faz também pode ser feito por código. O QGIS é escrito em C++ e expõe sua API em Python, e o caminho para chegar nela é <span class="caminho">Plugins <i>▸</i> Python Console</span>. O console abre como um painel na parte de baixo da janela, com acesso ao projeto aberto e às camadas carregadas.</p>
-
-<pre class="expr">len(QgsProject.instance().mapLayers())   <span class="cm">-- quantas camadas há no projeto aberto</span>
-iface.activeLayer().featureCount()       <span class="cm">-- quantas feições tem a camada selecionada</span></pre>
-
-<p>Não é exigido que você programe neste semestre, e nenhuma avaliação cobra PyQGIS. A informação está aqui por dois motivos práticos: quando uma operação precisar ser repetida em quarenta municípios, o console poupa quarenta cliques; e quando você procurar ajuda na internet, boa parte das respostas vem em forma de trecho de Python, e é útil saber onde colar.</p>
 
 <div class="contexto">
   <div class="lbl">De onde vem esta seção</div>
@@ -405,7 +355,7 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 </section>
 
 <div class="passo" id="malha">
-  <div class="n">4</div>
+  <div class="n">3</div>
   <div class="c">
     <h3>Carregar a primeira camada</h3>
     <p>Vamos abrir um recorte da malha municipal brasileira, que é a base mais reutilizada do curso: os 18 municípios de MS e MT da região do Pantanal, no arquivo <a href="dados/semana01/municipios_pantanal_2022.gpkg" download><code>municipios_pantanal_2022.gpkg</code></a>, do pacote desta aula.</p>
@@ -419,7 +369,10 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 
     <p>Os municípios do recorte aparecem na tela, preenchidos com uma cor aleatória. O painel <em>Layers</em>, no canto inferior esquerdo, mostra a camada. Pense nesse painel como uma pilha de folhas de acetato: o que está em cima tapa o que está embaixo.</p>
 
-    <figure class="ph">captura de tela · QGIS com a malha municipal carregada, painel Layers visível</figure>
+    <figure class="print">
+  <img src="assets/img/s01-malha-layers.png" alt="QGIS com a malha municipal do Pantanal carregada: 18 municípios no canvas, a camada municipios_pantanal_2022 no painel Layers e o CRS EPSG:4674 na barra de status.">
+  <figcaption>Os 18 municípios do recorte no canvas, a camada listada no painel <em>Layers</em> e o CRS <code>EPSG:4674</code> visível na barra de status.</figcaption>
+</figure>
 
     <div class="cuidado">
       <div class="lbl">Erro comum</div>
@@ -429,7 +382,7 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 </div>
 
 <div class="passo" id="osm">
-  <div class="n">5</div>
+  <div class="n">4</div>
   <div class="c">
     <h3>Adicionar um mapa base</h3>
     <p>Um polígono sobre fundo branco não informa onde está nem o que existe em volta. O mapa base coloca cidades, estradas e relevo por baixo dos seus dados, como referência visual.</p>
@@ -462,7 +415,7 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 </div>
 
 <div class="passo" id="atributos">
-  <div class="n">6</div>
+  <div class="n">5</div>
   <div class="c">
     <h3>Abrir a tabela de atributos</h3>
     <p>Toda camada vetorial tem uma tabela por trás. Cada linha é uma feição no mapa, cada coluna é um atributo.</p>
@@ -482,7 +435,7 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 </div>
 
 <div class="passo" id="crs">
-  <div class="n">7</div>
+  <div class="n">6</div>
   <div class="c">
     <h3>O CRS no canto inferior direito</h3>
     <p>Olhe para o canto inferior direito da janela do QGIS. Existe um botão com um código parecido com <code>EPSG:4674</code>. Esse é o sistema de coordenadas do projeto.</p>
@@ -502,39 +455,43 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
   </div>
 </div>
 
-<div class="passo" id="pacote">
-  <div class="n">8</div>
+<div class="passo" id="pastas">
+  <div class="n">7</div>
   <div class="c">
-    <h3>Baixar o pacote do tema 2</h3>
-    <p>Baixe os cinco arquivos abaixo e salve dentro de <code>InfoGeo/tema02_projecoes/dados_brutos/</code>. Eles também estão no Blackboard, em um único zip.</p>
+    <h3>Criar a estrutura de pastas e salvar o projeto como .qgz</h3>
+    <p>Boa parte dos problemas que você vai ter neste semestre não é de QGIS, é de organização de arquivo. Monte a estrutura abaixo uma vez e repita o mesmo padrão em todos os temas.</p>
 
-    <div class="baixar">
-      <div class="hd"><b>Pacote do tema 2</b><span>pasta dados/semana02</span></div>
-      <div class="fonte">Fonte: <b>IBGE · Malhas Territoriais</b> e <b>INPE · Programa Queimadas</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · coleta de 02/08/2026</div>
-      <ul>
-        <li><div><a class="fn" href="dados/semana02/cicatriz_teste_pantanal.gpkg" download>cicatriz_teste_pantanal.gpkg</a>
-            <span class="fd">Um polígono só, com área conhecida. É a referência de todos os números da próxima aula.</span></div>
-            <span class="tp did">didático</span></li>
-        <li><div><a class="fn" href="dados/semana02/area_queimada_pantanal_aq1km.gpkg" download>area_queimada_pantanal_aq1km.gpkg</a>
-            <span class="fd">Cicatrizes de fogo do produto Área Queimada AQ1km do INPE, recortadas pelo bioma Pantanal, com ano, mês e área.</span></div>
-            <span class="tp real">oficial</span></li>
-        <li><div><a class="fn" href="dados/semana02/municipios_pantanal_2022.gpkg" download>municipios_pantanal_2022.gpkg</a>
-            <span class="fd">18 municípios de MS e MT recortados da malha municipal 2022 do IBGE, com código e área oficiais.</span></div>
-            <span class="tp real">oficial</span></li>
-        <li><div><a class="fn" href="dados/semana02/bioma_pantanal_2019.gpkg" download>bioma_pantanal_2019.gpkg</a>
-            <span class="fd">Contorno oficial do bioma Pantanal, do arquivo de biomas 1:250.000 do IBGE. Serve de recorte e de contexto.</span></div>
-            <span class="tp real">oficial</span></li>
-        <li><div><a class="fn" href="dados/semana02/LEIA-ME.txt" download>LEIA-ME.txt</a>
-            <span class="fd">O que cada arquivo é, os números que ele produz e o link da fonte oficial.</span></div></li>
-      </ul>
-      <div class="ft">Os quatro arquivos estão em GeoPackage, UTF-8, EPSG:4674. Três vêm da fonte oficial, com coleta em 02/08/2026: a malha municipal e os biomas do IBGE, a área queimada do INPE. Os valores conferidos estão em <code>dados/semana02/_numeros_oficiais.json</code>. O polígono de teste é didático de propósito: a aula inteira compara contra a área conhecida dele. Leia o LEIA-ME antes de usar qualquer número fora da sala.</div>
+    <p>Crie no seu computador, em um lugar que você encontre com facilidade e que <strong>não esteja dentro de uma pasta sincronizada por Google Drive ou OneDrive</strong>, a seguinte árvore:</p>
+
+<pre class="expr">InfoGeo/
+├── tema02_projecoes/
+│   ├── dados_brutos/      <span class="cm"># exatamente como baixou, nunca edite aqui</span>
+│   ├── dados_tratados/    <span class="cm"># o que você produzir</span>
+│   ├── mapas/             <span class="cm"># PNG e PDF exportados</span>
+│   └── projeto.qgz
+├── tema03_censo/
+└── ...</pre>
+
+    <p>Agora, no QGIS, vá em <span class="caminho">Project <i>▸</i> Save As</span>, navegue até <code>InfoGeo/tema02_projecoes/</code> e salve como <code>projeto.qgz</code>. O mapa que você montou nos passos anteriores, com a malha municipal sobre o OpenStreetMap, vai junto.</p>
+
+    <h3>O que o arquivo .qgz guarda, e o que ele não guarda</h3>
+
+    <p>Um projeto do QGIS não é um documento com os dados dentro, como uma planilha. É uma descrição de montagem. Ele registra quais camadas participam, em que ordem, com quais estilos e rótulos, qual o CRS de exibição, qual a extensão salva, os layouts de impressão e os marcadores de posição. Cada camada entra como um caminho de arquivo ou uma string de conexão.</p>
+
+    <div class="conceito">
+      <div class="lbl">Definição</div>
+      <h4>O .qgz guarda referências, não conteúdo</h4>
+      <p>Guarda: lista de camadas com o caminho de cada uma, simbologia, rótulos, layouts de impressão, CRS do projeto, elipsoide e unidade de medida, temas de mapa, marcadores e variáveis. Não guarda: os arquivos de dado. Mover, renomear ou apagar um GeoPackage deixa a camada como <em>unavailable layer</em> na próxima abertura, e o QGIS oferece apontar o novo caminho.</p>
     </div>
 
-    <p>Abra cada um dos quatro GeoPackage no QGIS agora, ainda em aula, e confirme que todos carregam. Depois feche o projeto sem salvar. O objetivo aqui é só verificar que os arquivos chegaram inteiros.</p>
+    <div class="contexto">
+      <div class="lbl">Por que fora do Drive</div>
+      <p>O formato <code>.qgz</code> é um pacote compactado. Como ele guarda caminhos, e não dados, mover a pasta depois quebra o projeto. E por isso o Drive é problema: quando o sincronizador decide baixar um arquivo sob demanda, o QGIS encontra um arquivo de zero byte e a camada aparece vazia.</p>
+    </div>
 
-    <div class="cuidado">
-      <div class="lbl">Erro comum</div>
-      <p>Se você baixar o zip do Blackboard, descompacte de verdade. No Windows, dar duplo clique abre uma janela que <em>parece</em> uma pasta mas ainda é o arquivo compactado, e o QGIS não consegue ler de dentro dela. Clique com o botão direito e escolha <em>Extrair tudo</em>.</p>
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Feche o QGIS por completo e abra o <code>projeto.qgz</code> com um duplo clique. A malha municipal e o mapa base devem voltar exatamente como estavam. Se alguma camada aparecer como <em>unavailable layer</em>, algum arquivo mudou de lugar, e agora você sabe por quê.</p>
     </div>
   </div>
 </div>
@@ -551,14 +508,13 @@ iface.activeLayer().featureCount()       <span class="cm">-- quantas feições t
 <div class="exercicio">
   <div class="hd"><b>Checklist de saída</b><span>não vale nota · resolva agora</span></div>
   <div class="bd">
-    <p>Este encontro não tem exercício avaliado, mas tem uma condição de saída. Confira os seis itens abaixo. Quem não fechar todos resolve com o professor agora, e não na véspera da próxima aula.</p>
+    <p>Este encontro não tem exercício avaliado, mas tem uma condição de saída. Confira os cinco itens abaixo. Quem não fechar todos resolve com o professor agora, e não na véspera da próxima aula.</p>
     <ol>
       <li>QGIS 4.2 instalado e abrindo sem erro.</li>
       <li>Interface em inglês, com <em>Override system locale</em> marcado.</li>
-      <li>Estrutura de pastas <code>InfoGeo/tema02_projecoes/</code> criada fora de pasta sincronizada.</li>
-      <li>Projeto salvo como <code>projeto.qgz</code> dentro dela.</li>
       <li>Conexão OpenStreetMap cadastrada em XYZ Tiles e malha municipal carregada sobre ela, com opacidade reduzida.</li>
-      <li>Os arquivos do pacote do tema 2 baixados e abrindo.</li>
+      <li>Estrutura de pastas <code>InfoGeo/tema02_projecoes/</code> criada fora de pasta sincronizada.</li>
+      <li>Projeto salvo como <code>projeto.qgz</code>, fechando e reabrindo com as camadas no lugar.</li>
     </ol>
   </div>
   <div class="entrega">
