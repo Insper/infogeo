@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 9 · Quanto do meu município virou pasto desde 1985? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-09.html" class="here">Aula 9</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="done">02 · Hectares</a>
+  <a href="encontro-03.html" class="done">03 · Esgoto</a>
+  <a href="encontro-04.html" class="done">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="done">05 · Habitação</a>
+  <a href="encontro-06.html" class="done">06 · Vizinho</a>
+  <a href="encontro-07.html" class="done">07 · Endereços</a>
+  <a href="encontro-08.html" class="done">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="now">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 9 · Unidade teórica 09 · ODS 15 e 13</div>
+  <h1>Quanto do meu município <em>virou pasto</em> desde 1985?</h1>
+  <p class="sub">No raster da aula, a resposta é 110.115 hectares, 56% do território de Cacaulândia. O número sai de dois milhões de células de 30 metros e de uma classificação que erra 24,7% da pastagem. O tema cobre a produção do número, a leitura da matriz de confusão que limita o seu uso e o caminho para obter no MapBiomas a versão publicável.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>Rondônia</b><span>área de estudo</span></div>
+    <div><b>MapBiomas · INPE</b><span>fontes de referência</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#celula">A célula e o que ela cobra</a></li>
+    <li><a href="#resolucoes">Três resoluções, e nenhuma é a certa</a></li>
+    <li><a href="#nodata">NoData, o buraco silencioso</a></li>
+    <li><a href="#espectro">De onde vem uma classe de uso</a></li>
+    <li><a href="#classificacao">Classificar e depois desconfiar</a></li>
+    <li><a href="#algebra">Álgebra de mapas</a></li>
+    <li><a href="#zonal">Estatística zonal, a ponte de volta</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p0">0. Baixar no MapBiomas</a></li>
+    <li><a href="#p1">1. Abrir e inspecionar</a></li>
+    <li><a href="#p2">2. A paleta oficial</a></li>
+    <li><a href="#p3">3. Achar o buraco de 1985</a></li>
+    <li><a href="#p4">4. Reclassificar em três classes</a></li>
+    <li><a href="#p5">5. A camada de transição</a></li>
+    <li><a href="#p6">6. Estatística zonal por município</a></li>
+    <li><a href="#p7">7. Hectares e os dois denominadores</a></li>
+    <li><a href="#p8">8. Ler o número com a matriz</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>A leitura do tema era a cartilha da coleção mais recente do MapBiomas, indicada no fim da aula 8: o que é uma classe de uso da terra e como a acurácia é reportada. São quinze minutos. Se você não leu, leia agora a tabela de acurácia por classe, enquanto a turma abre o QGIS.</p>
+
+<p>Esta é a primeira aula de raster. Nos sete temas anteriores tudo era ponto, linha e polígono, com uma tabela de atributos do lado. A partir de hoje o dado é uma grade de números sem tabela, sem identidade e sem borda, e quase todo hábito que você criou precisa ser revisto.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana09</span></div>
+  <div class="fonte">Fonte: <b>MapBiomas</b> e <b>IBGE · Malhas Territoriais</b> · <a href="https://brasil.mapbiomas.org/colecoes-mapbiomas/">coleções MapBiomas</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a>. Os dois rasters continuam provisórios: o MapBiomas só entrega recorte por município pela plataforma. O passo 0 do roteiro traz o caminho manual, dos dois jeitos.</div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana09/uso_terra_1985_treino.tif" download>uso_terra_1985_treino.tif</a>
+        <span class="fd">Uso e cobertura da terra em 1985. GeoTIFF de 1 banda, 3.450 × 1.900 células de 30 m, EPSG:31980, NoData 0. Construído para o exercício.</span></div>
+        <span class="tp prov">provisório</span></li>
+    <li><div><a class="fn" href="dados/semana09/uso_terra_2023_treino.tif" download>uso_terra_2023_treino.tif</a>
+        <span class="fd">A mesma grade em 2023, com a mesma legenda e sem falhas de cobertura. Construído para o exercício.</span></div>
+        <span class="tp prov">provisório</span></li>
+    <li><div><a class="fn" href="dados/semana09/municipios_ro_2022.gpkg" download>municipios_ro_2022.gpkg</a>
+        <span class="fd">Monte Negro (1101401) e Cacaulândia (1100601), em Rondônia, da malha municipal 2022 do IBGE, com o contorno e a área oficiais. Dois polígonos, EPSG:31980.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana09/pontos_validacao_treino.gpkg" download>pontos_validacao_treino.gpkg</a>
+        <span class="fd">500 pontos com a classe observada em campo e a classe atribuída pelo mapa. É deles que sai a matriz de confusão. Amostra construída para o exercício.</span></div>
+        <span class="tp prov">provisório</span></li>
+    <li><div><a class="fn" href="dados/semana09/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Origem, licença, lista de classes e todos os números que o roteiro reproduz.</span></div></li>
+  </ul>
+  <div class="ft">Pacote misto desde 02/08/2026. Os limites municipais são oficiais, da malha 2022 do IBGE — e vieram com os códigos corrigidos: os códigos que estavam no arquivo antigo eram de Ouro Preto do Oeste e de Rio Crespo, não de Monte Negro e Cacaulândia. Os dois rasters e os 500 pontos de validação continuam construídos para a aula: o MapBiomas só entrega recorte por município pela plataforma, e a amostra de campo não existe em portal nenhum. A legenda, os códigos de classe e as cores seguem o <a href="https://brasil.mapbiomas.org/">MapBiomas</a>, que cobre o Brasil inteiro em 30 metros desde 1985. Como o contorno oficial não é o mesmo do contorno aproximado que estava aqui antes, todas as contagens de célula por município foram refeitas, e os dois rasters foram gerados de novo numa grade maior: a antiga, de 2.800 × 2.800 células, cobria só 83,1% de Monte Negro depois da troca do contorno.</div>
+</div>
+
+<div class="cuidado">
+  <div class="lbl">Os dois rasters são construídos para o exercício</div>
+  <p>Só o limite municipal é dado oficial: vem da malha 2022 do IBGE, com a área e o contorno certos de Monte Negro e de Cacaulândia. Os dois GeoTIFF de uso da terra e os 500 pontos de validação foram gerados por <code>dados/semana09/gera_dados_semana09.py</code>. Eles copiam do MapBiomas a resolução de 30 metros, o CRS, os códigos de classe e as cores, e reproduzem o padrão de espinha de peixe da colonização de Rondônia. Os valores de célula não vêm do MapBiomas.</p>
+  <p>A consequência prática: o hectare que você obtiver hoje não é um dado do MapBiomas e não pode ser citado como tal, em trabalho, em relatório ou em rede social. O que é transferível é o procedimento e a ordem de grandeza dos vieses. Para número publicável sobre esses dois municípios, o caminho é o passo 0.</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Por que o raster não é oficial</div>
+  <p>O MapBiomas não tem endereço fixo de download por município: ou você usa a plataforma, que exporta pelo Google Earth Engine e estava com falha declarada em agosto de 2026, ou baixa o Brasil inteiro, que é um arquivo grande demais para o começo de uma aula. E a amostra de validação de campo não existe em portal público nenhum. Nos dois casos a alternativa seria pular o conteúdo, e a escolha foi construir o dado e dizer que ele foi construído.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">Um frigorífico precisa provar ao comprador europeu que a fazenda que fornece o boi não desmatou depois de 2020. O analista abre o MapBiomas, mede, e responde. Que parte dessa resposta é medição e que parte é aposta?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Modelo matricial e sensoriamento remoto</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="celula">
+<p class="lede">Um satélite não vê rios, lotes ou pastagens. Ele mede quanta energia chega ao sensor em cada pedacinho quadrado do terreno, e grava um número. O mapa de uso da terra que você vai abrir daqui a pouco é uma grade de seis milhões e meio desses números, e cada um deles é o resultado de uma decisão que alguém tomou.</p>
+
+<p>No modelo vetorial, a unidade é a feição: um polígono tem vértices, área, identidade e uma linha na tabela de atributos. No modelo matricial, a unidade é a <strong>célula</strong>: um quadrado de tamanho fixo que cobre uma posição do território e guarda um valor. Não existe tabela de atributos: existe a grade, e uma legenda que diz o que cada valor significa.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d09-anatomia-raster.svg" alt="À esquerda, uma grade de oito colunas por seis linhas com células coloridas, uma célula destacada com o valor 15, duas células brancas hachuradas marcadas como NoData, e anotações indicando a origem, a extensão e o lado de 30 metros da célula. À direita, quatro caixas listando o que a célula não guarda: identidade, borda exata, precisão sub-célula e unidade.">
+  <figcaption><b>Figura 1</b> Os cinco termos que você precisa para conversar sobre raster: célula, resolução, extensão, banda e valor. O que a figura mostra e o texto não diz é que o valor 15 não significa nada sozinho: ele só vira "pastagem" quando alguém aplica uma tabela de códigos que mora fora do arquivo.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Os cinco termos</h4>
+  <p>A <strong>célula</strong> é o quadrado elementar. A <strong>resolução espacial</strong> é o lado da célula no terreno, 30 metros no MapBiomas. A <strong>extensão</strong> é o retângulo que a grade cobre, dado pelas coordenadas dos cantos. A <strong>banda</strong> é uma grade completa de valores: uma imagem de satélite tem várias, um mapa de uso da terra costuma ter uma. E o <strong>valor</strong> é o número gravado na célula, que pode ser uma medida física, como reflectância, ou um código de classe, como 15 para pastagem.</p>
+</div>
+
+<p>Uma célula de 30 metros cobre 900 metros quadrados, ou 0,09 hectare. Esse número vai aparecer o tempo todo hoje, porque é o fator de conversão entre contagem de células e área. Somar 1.223.499 células e multiplicar por 0,09 é literalmente como se mede desmatamento no Brasil.</p>
+
+<p>Duas consequências mudam o jeito de pensar. A primeira: nada menor que a célula existe. Uma estrada de 6 metros de largura não aparece em uma grade de 30 metros, não porque o satélite não a viu, mas porque a célula que a contém é majoritariamente outra coisa. A segunda: não há borda. O limite entre pastagem e floresta é uma escada de quadrados de 30 metros, e a suavidade que você vê na tela é interpolação do programa de desenho.</p>
+</section>
+
+<section class="part" id="resolucoes">
+<h2>Resolução espacial, temporal e espectral</h2>
+
+<p>Resolução espacial é o lado da célula. Mas há outras duas que costumam ser confundidas com ela, e a diferença entre as três decide o que a sua análise consegue afirmar.</p>
+
+<table>
+  <thead><tr><th style="width:22%">Resolução</th><th style="width:30%">O que mede</th><th>O que ela limita</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Espacial</strong></td><td>O lado da célula no terreno</td><td>O menor objeto detectável. Landsat entrega 30 m, Sentinel-2 entrega 10 m, MODIS entrega 250 m.</td></tr>
+    <tr><td><strong>Temporal</strong></td><td>De quanto em quanto tempo o satélite revisita o mesmo ponto</td><td>A menor mudança detectável no tempo. Landsat volta a cada 16 dias, Sentinel-2 a cada 5, MODIS todo dia.</td></tr>
+    <tr><td><strong>Espectral</strong></td><td>Quantas faixas do espectro o sensor mede, e quão estreitas</td><td>Quais materiais podem ser distinguidos entre si.</td></tr>
+  </tbody>
+  <caption>As três brigam entre si. Um sensor que enxerga 10 metros cobre menos área por passagem e revisita menos. Escolher um satélite é escolher qual das três você prefere ter.</caption>
+</table>
+
+<figure class="diagrama">
+  <img src="assets/img/d09-tres-resolucoes.svg" alt="Quatro painéis com a mesma cena: a geometria vetorial contínua, depois a mesma cena rasterizada em células de 10 m, 30 m e 250 m. O rio de 90 metros e a estrada de 22 metros vão se degradando até que a estrada some e o rio vira manchas desconectadas.">
+  <figcaption><b>Figura 2</b> A degradação não é gradual e nem uniforme. A estrada de 22 metros sobrevive a 10 m, vira uma linha picotada a 30 m e desaparece a 250 m; o rio de 90 metros só se rompe na última célula. Objetos estreitos e alongados são os primeiros a desaparecer da grade.</figcaption>
+</figure>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Com célula de 30 metros, qual é a menor área desmatada que você consegue detectar com alguma confiança?</p>
+  <p>Uma célula isolada, 0,09 hectare, é ruído: pode ser uma clareira, pode ser sombra de nuvem, pode ser erro de classificação. Os sistemas oficiais adotam uma área mínima de mapeamento justamente para não contar esse ruído. O PRODES, do INPE, só considera polígonos de desmatamento a partir de 6,25 hectares, o equivalente a cerca de 70 células. Abaixo disso, o valor gravado na célula não permite distinguir mudança real de ruído de classificação.</p>
+</div>
+</section>
+
+<section class="part" id="nodata">
+<h2>NoData e o efeito sobre as médias</h2>
+
+<p>Uma grade cobre sempre um retângulo, e o território raramente tem essa forma. Sempre sobram células que não têm valor: fora da área imageada, sob nuvem, sob sombra de nuvem, com falha do sensor. Essas células recebem um valor especial, o <strong>NoData</strong>, que é um número comum, escolhido para significar "aqui não há informação". No pacote de hoje, o NoData é 0.</p>
+
+<p>O problema é que 0 é um número. Se alguma ferramenta ignorar a declaração de NoData e tratar aquele 0 como valor, ele entra na conta. Uma média que deveria ser 27 vira 19 porque um terço das células valia zero por convenção. Isso não gera erro, não gera aviso e não muda nada visível na tela.</p>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>O caso mais frequente na prática não é esse, e é pior: o NoData está declarado corretamente e a ferramenta o ignora do jeito certo, mas <strong>o denominador da sua conta continua sendo a área total do município</strong>. Você divide uma soma calculada sobre 1.866.532 células por uma área que corresponde a 2.144.650 células, e o resultado sai 13% abaixo do verdadeiro. Ninguém percebe, porque o número continua plausível.</p>
+</div>
+
+<p>É exatamente o que acontece com Monte Negro no pacote de hoje. O mosaico de 1985 tem nuvem sobre 25.030,6 hectares do município, 13,0% da área. A mesma conta, com dois denominadores defensáveis, devolve 46,3% ou 40,3%. Seis pontos percentuais separam os dois, e ambos podem ser publicados sem mentira, desde que se declare qual denominador foi usado.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Nuvem sobre 13,0% do município em 1985. Você reporta a fração convertida sobre a área total ou sobre a área observada?</p>
+  <p>Sobre a área observada, e diz isso na frase. Reportar sobre a área total afirma implicitamente que nada mudou embaixo da nuvem, o que é uma hipótese e não uma medida. Reportar sobre a área observada afirma que o comportamento embaixo da nuvem é igual ao do resto, o que também é uma hipótese, mas é a hipótese mais fraca das duas. E as duas exigem que a extensão do buraco apareça no relatório.</p>
+</div>
+</section>
+
+<section class="part" id="espectro">
+<h2>De onde vem uma classe de uso da terra</h2>
+
+<p>Você não precisa saber processar imagem para usar um produto de sensoriamento remoto, mas precisa saber de onde ele vem, senão não sabe onde ele quebra.</p>
+
+<p>Cada material reflete a luz solar de um jeito próprio em cada faixa do espectro. A clorofila absorve muito no vermelho e reflete muito no infravermelho próximo; a água absorve quase tudo no infravermelho; o solo exposto reflete de forma crescente do azul ao infravermelho médio. O perfil de reflectância de um alvo ao longo das bandas é a sua <strong>assinatura espectral</strong>, e é a matéria-prima de qualquer classificação.</p>
+
+<p>Combinar bandas amplifica contrastes. O índice de vegetação por diferença normalizada, o NDVI, é a razão entre a diferença e a soma do infravermelho próximo com o vermelho. Vegetação vigorosa dá valores altos, próximos de 0,8; solo exposto dá valores baixos; água dá valores negativos. É uma conta de duas bandas que separa surpreendentemente bem o que é verde do que não é.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d09-assinatura-espectral.svg" alt="À esquerda, curvas de reflectância por banda de Landsat para água, floresta, soja em pleno vigor e pastagem verde, todas bem separadas. À direita, as curvas de pastagem degradada e de soja em entressafra com solo descoberto, praticamente sobrepostas, com a área entre elas destacada em vermelho.">
+  <figcaption><b>Figura 3</b> À esquerda, os alvos que se separam bem, e que costumam ilustrar os manuais. À direita, o par que aparece de fato na fronteira agrícola: pastagem degradada e talhão de soja entre safras têm quase a mesma assinatura na mesma data, e nenhuma escolha de algoritmo resolve isso a partir de uma imagem só.</figcaption>
+</figure>
+
+<p>A saída para o problema da direita não é espacial nem espectral: é temporal. Um talhão de soja fica descoberto em julho e verde em janeiro; uma pastagem degradada fica parecida o ano inteiro. É por isso que o MapBiomas não classifica uma imagem, e sim um mosaico anual construído a partir de dezenas de cenas, com variáveis derivadas da série temporal. E é por isso que a acurácia do produto varia tanto entre biomas: onde a estação seca é longa e a nuvem é rara, a série é limpa; na Amazônia ocidental, não é.</p>
+</section>
+
+<section class="part" id="classificacao">
+<h2>Classificar, e depois desconfiar do resultado</h2>
+
+<p>Classificar é atribuir a cada célula um rótulo, a partir dos seus valores nas bandas e das amostras de treinamento que o analista forneceu. Há muitos algoritmos, e a escolha entre eles importa menos do que quase todo curso sugere. O que importa é a etapa seguinte.</p>
+
+<p>Depois de classificar, sorteia-se um conjunto de pontos, visita-se cada um em campo ou em imagem de altíssima resolução, e anota-se o que existe ali de verdade. Cruzando a classe observada com a classe mapeada, monta-se a <strong>matriz de confusão</strong>. É ela que diz quanto a classificação acerta, classe por classe; sem ela, o mapa é uma afirmação que ninguém verificou.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d09-matriz-confusao.svg" alt="Matriz de confusão de cinco por cinco classes com 500 pontos, diagonal em verde, células de erro grande em vermelho, coluna de erro de omissão à direita e linha de erro de comissão embaixo, com acurácia global de 80,0% e kappa de 0,722.">
+  <figcaption><b>Figura 4</b> A mesma matriz lida em duas direções. Na linha, quanto do que existe o mapa perdeu: 24,7% da pastagem real recebeu outro rótulo. Na coluna, quanto do que o mapa afirma não existe: 22,0% do que ele chama de pastagem é outra coisa. Os dois erros são independentes e podem ter tamanhos muito diferentes.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Omissão e comissão</h4>
+  <p>O <strong>erro de omissão</strong> mede o que o mapa deixou de fora de uma classe, e se lê na linha da referência. O <strong>erro de comissão</strong> mede o que o mapa colocou dentro de uma classe indevidamente, e se lê na coluna do mapeado. Uma classe pode ter omissão baixa e comissão alta ao mesmo tempo: é o caso de um mapa que rotula pastagem generosamente, pegando quase toda a pastagem real e mais um bocado de outras coisas junto.</p>
+</div>
+
+<p>A acurácia global é a soma da diagonal dividida pelo total. Nos 500 pontos do pacote de hoje, ela vale 80,0%. Esse número diz pouco, porque é uma média ponderada pela frequência das classes: como floresta é a classe mais comum e a mais fácil, ela puxa a média para cima e esconde as classes que interessam.</p>
+
+<table>
+  <thead><tr><th>Classe</th><th class="num">Omissão</th><th class="num">Comissão</th><th>Leitura</th></tr></thead>
+  <tbody>
+    <tr><td>Formação florestal</td><td class="num">5,6%</td><td class="num">10,5%</td><td>Confiável nas duas direções</td></tr>
+    <tr><td>Soja</td><td class="num">18,3%</td><td class="num">25,8%</td><td>Um quarto do que o mapa chama de soja não é soja</td></tr>
+    <tr class="hi"><td>Pastagem</td><td class="num">24,7%</td><td class="num">22,0%</td><td>Um quarto se perde e um quinto é intruso</td></tr>
+    <tr class="hi"><td>Mosaico de usos</td><td class="num">56,7%</td><td class="num">48,0%</td><td>Pior que cara ou coroa em uma das direções</td></tr>
+    <tr><td>Outros</td><td class="num">10,0%</td><td class="num">10,0%</td><td>Água e área urbana são fáceis</td></tr>
+  </tbody>
+  <caption>Calculado sobre <code>pontos_validacao_treino.gpkg</code>. O kappa vale 0,722, e é um índice que corrige a acurácia pela concordância esperada ao acaso. Vale conhecer porque aparece em relatório oficial, e vale desconfiar dele, porque é sensível à proporção das classes e há vinte anos de literatura pedindo a aposentadoria.</caption>
+</table>
+
+<p>Olhe a linha da pastagem na figura 4. Das 170 pastagens de referência, 18 foram mapeadas como mosaico de usos e 14 como soja. Só 9 foram confundidas com floresta. Ou seja: a pastagem some para dentro do lado agrícola da legenda, não para dentro do lado nativo. Isso tem uma consequência direta e pouco intuitiva: se você agrupar pastagem, soja e mosaico em uma única classe "agropecuária", boa parte desse erro se cancela, e a estimativa agregada fica muito melhor do que a de qualquer uma das três isoladamente.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Um produto de sensoriamento remoto declara 80% de acurácia global. Isso é bom?</p>
+  <p>A pergunta está mal formulada, e é assim que ela chega na sua mesa. Depende da classe que você vai usar e do lado do erro que te machuca. Para um relatório de área florestal, 80% global com 5,6% de omissão na floresta é ótimo. Para embargar uma fazenda por pastagem ilegal, 22% de comissão em pastagem significa que um em cada cinco autos de infração baseados só no mapa cai. O número que importa nunca é o global.</p>
+</div>
+</section>
+
+<section class="part" id="algebra">
+<h2>Álgebra de mapas e reclassificação</h2>
+
+<p>Como não há tabela de atributos, não há consulta por atributo. A operação equivalente no mundo matricial é a <strong>álgebra de mapas</strong>: aplicar uma expressão aritmética ou lógica célula a célula, na mesma posição de duas ou mais grades, produzindo uma grade nova.</p>
+
+<p>A regra é rígida e vale a pena decorar: as grades precisam ter a mesma resolução, a mesma extensão e o mesmo sistema de coordenadas. Se não tiverem, o programa reamostra sem perguntar, e reamostrar dado categórico cria nas células de borda valores de classe que não existiam no original.</p>
+
+<p>A <strong>reclassificação</strong> é o caso mais simples: uma tabela que mapeia intervalos de valor de entrada em valores de saída. É o que transforma as oito classes do produto original nas três categorias com que a sua pergunta trabalha. Você vai fazer isso no passo 4, e é uma decisão analítica com consequência, não uma formalidade: escolher onde cada classe cai já responde metade da pergunta.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d09-algebra-transicao.svg" alt="Três grades de seis por seis células lado a lado: uso em 1985 reclassificado em três categorias, uso em 2023 na mesma legenda, e a grade de transição resultante da expressão que marca com 1 as células que eram nativas e viraram agropecuária. Duas células de NoData em 1985 saem do resultado.">
+  <figcaption><b>Figura 5</b> A operação é posicional: nada de junção, nada de chave, nada de predicado espacial. O que a figura mostra e o texto esconde é que as células sem dado em 1985 desaparecem do resultado, e são elas que definem o denominador correto da fração.</figcaption>
+</figure>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">A classe "mosaico de usos" existe porque o classificador não conseguiu separar pastagem de agricultura naquele pedaço. Ao reclassificar, você a coloca em "agropecuária" ou em "outros"?</p>
+  <p>O MapBiomas a coloca em agropecuária no seu nível 1, e há bom argumento para isso: mosaico de usos é área antropizada, ninguém discute. Mas repare no que a escolha faz com o seu número. Em Cacaulândia, contar o mosaico como agropecuária leva a conversão de 50,7% para 56,5%. Quase seis pontos de diferença saem de uma decisão de legenda, não de uma medição. Você vai reproduzir os dois números no passo 7.</p>
+</div>
+</section>
+
+<section class="part" id="zonal">
+<h2>Estatística zonal, a ponte de volta</h2>
+
+<p>Todo o trabalho até aqui produz grades, e grade não é unidade de gestão: ninguém multa uma célula nem aprova crédito para um pixel. A pergunta é sempre sobre um município, uma fazenda, uma bacia, um assentamento.</p>
+
+<p>A <strong>estatística zonal</strong> é a operação que fecha o ciclo: recebe um conjunto de polígonos e uma grade, e devolve, para cada polígono, uma estatística das células que caem dentro dele. Contagem, soma, média, mínimo, máximo, desvio-padrão. É a junção entre o mundo matricial e o mundo vetorial, e o resultado volta a ser uma tabela de atributos, com uma linha por polígono.</p>
+
+<div class="conceito">
+  <div class="lbl">O detalhe que decide o número</div>
+  <h4>Qual célula está "dentro" do polígono?</h4>
+  <p>Uma célula de 30 metros na borda do município está parcialmente dentro e parcialmente fora. A convenção usual, e a que o QGIS adota, é incluir a célula quando o seu <em>centro</em> cai dentro do polígono. Isso significa que a área somada pela estatística zonal nunca bate exatamente com a área geométrica do polígono, e a diferença cresce quando o polígono é pequeno ou muito recortado. Em Cacaulândia, o IBGE publica 1.961,778 km², o polígono medido em EPSG:31980 dá 1.960,221 km² e a contagem de células devolve 1.959,961 km². Três números para o mesmo município, e a diferença entre o primeiro e o último é de 0,11%. Para um lote de dois hectares, a mesma convenção pode ser toda a resposta.</p>
+</div>
+
+<p>Com contagem e soma você chega em qualquer coisa. Se a grade vale 1 onde houve conversão e 0 onde não houve, a soma é o número de células convertidas e a contagem é o número de células válidas. Multiplique a soma por 0,09 e você tem hectares. Divida uma pela outra e você tem a fração. É toda a aritmética da aula.</p>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 09</div>
+  <p class="q">Dada uma afirmação baseada em um produto de sensoriamento remoto, a prova pode pedir que você identifique se o erro relevante é de omissão ou de comissão e qual decisão ele compromete; que aponte o efeito de NoData ou de resolução sobre um número apresentado; ou que descreva a sequência de operações matriciais necessária para responder a uma pergunta de mudança de uso da terra, incluindo a escolha de denominador.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Medindo a conversão em Cacaulândia</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part">
+<p class="lede">Os números abaixo são exatos e foram conferidos no QGIS 4.2.0. Se o seu resultado divergir em mais de uma unidade na última casa, algum parâmetro saiu diferente, e vale parar para descobrir qual.</p>
+
+<div class="passo" id="p0">
+  <div class="n">0</div>
+  <div class="c">
+    <h3>Baixar o raster de uso da terra no MapBiomas</h3>
+    <p>Os dois rasters do pacote são construídos para o exercício, e este passo é o caminho para o dado de verdade. O MapBiomas não entrega recorte por município por endereço fixo: ou você usa a plataforma, ou baixa o Brasil inteiro e recorta no QGIS. Os dois caminhos estão abaixo. Faça o que funcionar no dia; a estrutura do roteiro é a mesma nos dois casos.</p>
+
+<p>Peça o ano de <strong>1985</strong> e o de <strong>2023</strong>, que são os dois anos do pacote da aula. A coleção 10.1 vai até 2024; se você baixar 2024, os seus números vão diferir dos do roteiro por um ano de mudança, e não por erro.</p>
+
+    <p><b>Caminho A · pela plataforma, com recorte por município</b></p>
+    <ol>
+      <li>Abra <a href="https://plataforma.brasil.mapbiomas.org">plataforma.brasil.mapbiomas.org</a>. Feche a <em>Nota informativa</em> no botão <em>Continuar</em>.</li>
+      <li>No painel da esquerda, em <em>Temas</em>, confirme que está marcado <em>COBERTURA</em> e, dentro dele, <em>Cobertura 30m (40 anos)</em>, coleção 10.1, e a opção <em>Cobertura</em>.</li>
+      <li>No rodapé do painel da esquerda, clique em <strong>Downloads</strong>. Abre a janela <em>Download de Mapas (GeoTiffs)</em>.</li>
+      <li>A lista <em>Território</em> do bloco de cima só traz os territórios grandes, e não tem município. Role a janela até <strong>Gerar mapa personalizado (GeoTiff)</strong> e clique.</li>
+      <li>Em território, procure <code>Monte Negro</code> e depois <code>Cacaulândia</code>, os dois em Rondônia. Em subtema, escolha <em>Cobertura</em>. Em ano, escolha <strong>1985</strong> na primeira vez e <strong>2023</strong> na segunda.</li>
+      <li>Clique em <em>Download (.TIFF)</em> e salve em <code>InfoGeo/tema09_raster/dados_brutos/</code>, com os nomes <code>uso_terra_1985.tif</code> e <code>uso_terra_2023.tif</code>. São quatro arquivos no total, dois por município.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Se der erro na exportação</div>
+      <p>A própria plataforma avisa, em nota informativa, que as tarefas de exportação de GeoTIFF pelo Google Earth Engine podem falhar. Se falhar, use o caminho B.</p>
+    </div>
+
+    <p><b>Caminho B · link direto do Brasil inteiro e recorte no QGIS</b></p>
+    <ol>
+      <li>Baixe o mosaico anual do Brasil da coleção 10, um arquivo por ano. O endereço do ano de 2023 é o abaixo; para outro ano, troque o número no fim do nome do arquivo e confirme que o link abre antes de iniciar o download.</li>
+    </ol>
+
+<pre class="expr">https://storage.googleapis.com/mapbiomas-public/initiatives/brasil/collection_10/lulc/coverage/brazil_coverage_2023.tif</pre>
+
+    <ol start="2">
+      <li>É o Brasil inteiro em 30 metros, então é um arquivo grande. Confira o tamanho que o navegador mostra antes de deixar baixar, e faça isso fora do horário de aula.</li>
+      <li>Carregue o <code>.tif</code> no QGIS junto com <code>municipios_ro_2022.gpkg</code>, que já é a malha oficial do IBGE.</li>
+      <li>Rode <span class="caminho">Raster <i>▸</i> Extraction <i>▸</i> Clip Raster by Mask Layer</span>. Em <em>Input layer</em>, o mosaico; em <em>Mask layer</em>, <code>municipios_ro_2022</code>; marque <em>Match the extent of the clipped raster to the extent of the mask layer</em>.</li>
+      <li>Em <em>Assign a specified NoData value to output bands</em>, ponha <code>0</code>, que é o NoData da legenda do MapBiomas.</li>
+      <li>Salve como <code>uso_terra_2023.tif</code> em <code>dados_tratados/</code>. Repita para o ano de 1985.</li>
+      <li>O mosaico do MapBiomas vem em <code>EPSG:4326</code>. Reprojete cada recorte para <code>EPSG:31980</code> com <span class="caminho">Raster <i>▸</i> Projections <i>▸</i> Warp (Reproject)</span>, com <em>Resampling method</em> em <strong>Nearest neighbour</strong> — em raster de classe, qualquer outra reamostragem inventa classe que não existe.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">A legenda</div>
+      <p>Os códigos de classe e as cores oficiais estão em <em>Detalhamento das Legendas</em>, na página <a href="https://brasil.mapbiomas.org/colecoes-mapbiomas/">Coleções MapBiomas</a>. Baixe o arquivo de legenda de lá em vez de digitar cor por cor.</p>
+    </div>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O GeoTIFF que você baixou abre em <code>EPSG:4326</code>, com uma banda e valores que são códigos de classe do MapBiomas: 3, 15, 21, 33, 39 e 48 aparecem em Rondônia. Se abrir com três bandas e valores de 0 a 255, você baixou a imagem de visualização em vez do dado.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">O que muda quando você troca o raster da aula pelo do MapBiomas</div>
+      <p>Tudo, menos o procedimento. A grade do MapBiomas vem em EPSG:4326, com outra origem e outro número de células, e o NoData dele não é nuvem de 1985: é área fora do recorte. Os hectares que você vai obter não serão os do roteiro, e é esse o ponto. Se for citar número em trabalho, cite o do MapBiomas, com a coleção e o ano na frase, e nunca o do arquivo <code>_treino</code>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p1">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Abrir os dois rasters e interrogar as propriedades</h3>
+    <ol>
+      <li>Crie a pasta <code>InfoGeo/tema09_raster</code> e salve um projeto novo em <span class="caminho">Project <i>▸</i> Save As</span>.</li>
+      <li>Defina o CRS do projeto como <code>EPSG:31980 — SIRGAS 2000 / UTM zone 20S</code>, no botão do canto inferior direito. Rondônia está no fuso 20.</li>
+      <li>Arraste <code>uso_terra_1985_treino.tif</code>, <code>uso_terra_2023_treino.tif</code> e <code>municipios_ro_2022.gpkg</code> para dentro da janela.</li>
+      <li>Clique com o botão direito em <code>uso_terra_1985_treino</code>, escolha <em>Properties</em> e abra a aba <em>Information</em>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Você deve encontrar exatamente isto: dimensões <strong>3450 × 1900</strong>, tamanho de pixel <strong>30 × −30</strong>, uma banda, tipo de dado <em>Byte</em>, valor de NoData <strong>0</strong>, CRS <code>EPSG:31980</code>, e a extensão de <strong>433.500 a 537.000</strong> em X e de <strong>8.838.600 a 8.895.600</strong> em Y. São 6.555.000 células cobrindo 103,5 por 57 quilômetros, o retângulo que contém os dois municípios com cerca de um quilômetro de folga em cada lado.</p>
+    </div>
+
+    <figure class="ph">captura de tela · aba Information das propriedades do raster de 1985, com o bloco de dimensões, pixel size e NoData visíveis</figure>
+
+    <div class="contexto">
+      <div class="lbl">Cinco perguntas para todo raster novo</div>
+      <p>Qual a resolução? Qual a extensão? Quantas bandas? Qual o tipo de dado? Qual o valor de NoData? Um arquivo que não responde às cinco não deveria entrar na análise. Faça disso um hábito, do mesmo jeito que no tema 2 você passou a perguntar o CRS antes de medir qualquer coisa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Aplicar a paleta oficial e olhar o mapa</h3>
+    <p>Sem legenda a grade aparece como uma mancha cinza; a paleta oficial é o que permite ler nela o padrão de ocupação de Rondônia.</p>
+    <ol>
+      <li>Abra <em>Properties</em> do raster de 2023 e vá à aba <em>Symbology</em>.</li>
+      <li>Em <em>Render type</em>, escolha <em>Paletted/Unique values</em>.</li>
+      <li>Clique em <em>Classify</em>. O QGIS varre a banda e lista os oito valores presentes em 2023. No raster de 1985 aparecem sete: a soja, código 39, ainda não existia na cena.</li>
+      <li>Ajuste rótulo e cor de cada um conforme a tabela abaixo, que é a legenda oficial do MapBiomas.</li>
+      <li>Repita para o raster de 1985, ou use <em>Style <i>▸</i> Copy Style</em> e <em>Paste Style</em>.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th class="num" style="width:70px">Valor</th><th style="width:38%">Classe</th><th style="width:22%">Cor</th><th>Categoria operacional</th></tr></thead>
+      <tbody>
+        <tr><td class="num">3</td><td>Formação florestal</td><td><code>#1f8d49</code></td><td>Vegetação nativa</td></tr>
+        <tr><td class="num">11</td><td>Campo alagado e área pantanosa</td><td><code>#519799</code></td><td>Vegetação nativa</td></tr>
+        <tr><td class="num">15</td><td>Pastagem</td><td><code>#edde8e</code></td><td>Agropecuária</td></tr>
+        <tr><td class="num">21</td><td>Mosaico de usos</td><td><code>#ffefc3</code></td><td>Agropecuária</td></tr>
+        <tr><td class="num">24</td><td>Área urbanizada</td><td><code>#d4271e</code></td><td>Outros</td></tr>
+        <tr><td class="num">33</td><td>Rio, lago e oceano</td><td><code>#2532e4</code></td><td>Outros</td></tr>
+        <tr><td class="num">39</td><td>Soja</td><td><code>#f5b3c8</code></td><td>Agropecuária</td></tr>
+        <tr><td class="num">48</td><td>Outras lavouras perenes</td><td><code>#e6ccff</code></td><td>Agropecuária</td></tr>
+      </tbody>
+      <caption>Use estas cores mesmo achando-as feias. Paleta oficial é vocabulário compartilhado: quem trabalha com o tema reconhece a classe pela cor antes de ler a legenda.</caption>
+    </table>
+
+    <ol start="6">
+      <li>Deixe <code>municipios</code> no topo, com preenchimento vazio e contorno preto de 0,6 mm.</li>
+      <li>Alterne a visibilidade entre 1985 e 2023 algumas vezes.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Em 1985 você deve ver uma mancha verde quase contínua, cortada por uma faixa clara leste-oeste e por alguns riscos verticais curtos: a rodovia e as primeiras linhas do projeto de assentamento. Em 2023, os riscos viraram faixas largas que quase se tocam, no padrão de espinha de peixe. Restam a mata ciliar ao longo dos rios e dois blocos de floresta nas pontas da cena.</p>
+    </div>
+
+    <figure class="ph">captura de tela · os dois rasters lado a lado com a paleta MapBiomas aplicada e o limite municipal por cima</figure>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Achar o buraco de 1985 antes de fazer qualquer conta</h3>
+    <p>Se você deu zoom na parte oeste da cena de 1985, viu manchas brancas com contorno arredondado. É nuvem, e o próximo passo é medir quanto ela custa.</p>
+    <ol>
+      <li>Abra a <em>Processing Toolbox</em> com <code>Ctrl+Alt+T</code> e procure <code>native:zonalstatisticsfb</code>, que aparece como <em>Zonal statistics</em>.</li>
+      <li>Rode a primeira vez sobre o raster de 1985.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Zonal statistics · primeira rodada</div>
+      <dl>
+        <dt>Input layer</dt><dd>municipios</dd>
+        <dt>Raster layer</dt><dd>uso_terra_1985_treino</dd>
+        <dt>Raster band</dt><dd>Band 1</dd>
+        <dt>Output column prefix</dt><dd>c85_</dd>
+        <dt>Statistics to calculate</dt><dd>Count</dd>
+        <dt>Zonal statistics</dt><dd>dados_tratados/mun_a.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Rode a segunda vez sobre o raster de 2023, mas agora com <code>mun_a</code> como <em>Input layer</em>. Encadear as rodadas é o que mantém as duas colunas na mesma tabela.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Zonal statistics · segunda rodada</div>
+      <dl>
+        <dt>Input layer</dt><dd>mun_a</dd>
+        <dt>Raster layer</dt><dd>uso_terra_2023_treino</dd>
+        <dt>Raster band</dt><dd>Band 1</dd>
+        <dt>Output column prefix</dt><dd>c23_</dd>
+        <dt>Statistics to calculate</dt><dd>Count</dd>
+        <dt>Zonal statistics</dt><dd>dados_tratados/mun_b.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="4">
+      <li>Abra a tabela de atributos de <code>mun_b</code> e compare as duas colunas.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Município</th><th class="num">Células em 2023</th><th class="num">Células em 1985</th><th class="num">Sem dado</th><th class="num">Fração</th></tr></thead>
+      <tbody>
+        <tr><td>Cacaulândia</td><td class="num">2.177.734</td><td class="num">2.164.754</td><td class="num">12.980</td><td class="num">0,6%</td></tr>
+        <tr class="hi"><td>Monte Negro</td><td class="num">2.144.650</td><td class="num">1.866.532</td><td class="num">278.118</td><td class="num">13,0%</td></tr>
+      </tbody>
+      <caption>A coluna de 2023 serve de referência porque aquele mosaico não tem falha de cobertura. 278.118 células valem 25.030,6 hectares de Monte Negro que ninguém observou em 1985. Os dois municípios têm quase a mesma área, 1.961,8 e 1.931,4 km² pelo IBGE, e por isso as contagens de 2023 ficam parecidas.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Cacaulândia: <code>c23_count</code> = <strong>2.177.734</strong> e <code>c85_count</code> = <strong>2.164.754</strong>. Monte Negro: <strong>2.144.650</strong> e <strong>1.866.532</strong>. Se as duas colunas vierem iguais nos dois municípios, o QGIS está contando o NoData como valor: confira em <em>Properties ▸ Information</em> do raster de 1985 que o valor de NoData é 0.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Não peça a média aqui</div>
+      <p>Se você marcar <em>Mean</em> nesta rodada, o QGIS vai calcular a média dos códigos de classe e devolver algo como 9,7. Não existe uso da terra 9,7. Média só faz sentido sobre grade numérica contínua, e a de hoje é categórica: só contagem e soma têm significado.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Reclassificar as oito classes em três</h3>
+    <p>A pergunta do tema não distingue soja de pastagem: distingue vegetação nativa de área antrópica. Reduzir a legenda a três categorias é o que torna a álgebra do passo seguinte legível.</p>
+    <ol>
+      <li>Na <em>Processing Toolbox</em>, procure <code>native:reclassifybytable</code>, que aparece como <em>Reclassify by table</em>.</li>
+      <li>Em <em>Reclassification table</em>, clique no botão de reticências e monte oito linhas, com os limites deslocados de meia unidade para não deixar dúvida sobre a borda.</li>
+    </ol>
+
+<pre class="expr">Minimum   Maximum   Value      <span class="cm">-- classe de origem</span>
+   2,5       3,5       1        <span class="cm">-- 3  formação florestal   → nativa</span>
+  10,5      11,5       1        <span class="cm">-- 11 campo alagado        → nativa</span>
+  14,5      15,5       2        <span class="cm">-- 15 pastagem             → agropecuária</span>
+  20,5      21,5       2        <span class="cm">-- 21 mosaico de usos      → agropecuária</span>
+  38,5      39,5       2        <span class="cm">-- 39 soja                 → agropecuária</span>
+  47,5      48,5       2        <span class="cm">-- 48 lavouras perenes     → agropecuária</span>
+  23,5      24,5       3        <span class="cm">-- 24 área urbanizada      → outros</span>
+  32,5      33,5       3        <span class="cm">-- 33 rio e lago           → outros</span></pre>
+
+    <div class="params">
+      <div class="hd">Reclassify by table</div>
+      <dl>
+        <dt>Raster layer</dt><dd>uso_terra_1985_treino</dd>
+        <dt>Band number</dt><dd>1</dd>
+        <dt>Output no data value</dt><dd>0</dd>
+        <dt>Range boundaries</dt><dd>min &lt; value ≤ max</dd>
+        <dt>Use no data when no range matches value</dt><dd>marcado</dd>
+        <dt>Output data type</dt><dd>Byte</dd>
+        <dt>Reclassified raster</dt><dd>dados_tratados/rec_1985.tif</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Repita para 2023, salvando como <code>rec_2023.tif</code>.</li>
+      <li>Confirme que as duas camadas novas entraram no projeto com os nomes <code>rec_1985</code> e <code>rec_2023</code>. O nome importa: é ele que você vai digitar na expressão do passo 5.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Aplique <em>Paletted/Unique values</em> nas duas camadas novas e clique em <em>Classify</em>. Devem aparecer três valores, 1, 2 e 3, e nada mais. Se aparecer um 0 na lista, a opção de NoData para valores sem correspondência não foi marcada.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>A camada de transição, em uma linha de álgebra</h3>
+    <p>Queremos marcar as células que eram vegetação nativa em 1985 e são agropecuária em 2023. Nenhuma outra combinação interessa.</p>
+    <ol>
+      <li>Na <em>Processing Toolbox</em>, procure <code>native:rastercalc</code>, que aparece como <em>Raster calculator</em> dentro de <em>Raster analysis</em>.</li>
+      <li>Em <em>Input layers</em>, marque <code>rec_1985</code> e <code>rec_2023</code>.</li>
+      <li>Escreva a expressão exatamente assim, com aspas duplas e o sufixo de banda:</li>
+    </ol>
+
+<pre class="expr">("rec_1985@1" = 1) * ("rec_2023@1" = 2)   <span class="cm">-- 1 onde as duas condições valem, 0 no resto</span></pre>
+
+    <ol start="4">
+      <li>Deixe extensão, tamanho de célula e CRS em branco, para o algoritmo herdá-los das camadas de entrada.</li>
+      <li>Salve como <code>dados_tratados/transicao.tif</code>.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">Por que multiplicação e não "e"</div>
+      <p>Cada comparação devolve 1 quando verdadeira e 0 quando falsa. Multiplicar as duas dá 1 apenas quando as duas são verdadeiras, que é exatamente o comportamento do "e" lógico. O QGIS aceita <code>AND</code> também, e o resultado é o mesmo. A multiplicação tem a vantagem de deixar óbvio, na leitura, que o NoData se propaga: qualquer célula sem dado em uma das entradas fica sem dado na saída.</p>
+    </div>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Estilize <code>transicao</code> com <em>Paletted/Unique values</em>, deixando 0 em cinza-claro e 1 em vermelho. O vermelho deve desenhar a espinha de peixe inteira, deixando de fora os rios, as duas cidades, as manchas de floresta remanescente e o buraco de nuvem no oeste, que continua sem dado.</p>
+    </div>
+
+    <figure class="ph">captura de tela · camada de transição em vermelho sobre o limite dos dois municípios, com o buraco de nuvem visível a oeste</figure>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Estatística zonal sobre a transição</h3>
+    <ol>
+      <li>Rode <code>native:zonalstatisticsfb</code> mais uma vez.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Zonal statistics · terceira rodada</div>
+      <dl>
+        <dt>Input layer</dt><dd>mun_b</dd>
+        <dt>Raster layer</dt><dd>transicao</dd>
+        <dt>Raster band</dt><dd>Band 1</dd>
+        <dt>Output column prefix</dt><dd>tr_</dd>
+        <dt>Statistics to calculate</dt><dd>Count, Sum</dd>
+        <dt>Zonal statistics</dt><dd>dados_tratados/conversao.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="2">
+      <li>Abra a tabela de atributos do resultado.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Cacaulândia: <code>tr_count</code> = <strong>2.164.754</strong> e <code>tr_sum</code> = <strong>1.223.499</strong>. Monte Negro: <code>tr_count</code> = <strong>1.866.532</strong> e <code>tr_sum</code> = <strong>863.932</strong>. Repare que o <em>count</em> repete os valores do passo 3: são as células válidas nos dois anos, porque o NoData de 1985 se propagou pela multiplicação.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>Hectares, e os dois denominadores defensáveis</h3>
+    <ol>
+      <li>Entre em modo de edição na camada <code>conversao</code> e abra o <em>Field Calculator</em> com <code>Ctrl+I</code>.</li>
+      <li>Crie <code>conv_ha</code>, decimal com precisão 1:</li>
+    </ol>
+
+<pre class="expr">"tr_sum" * 900 / 10000   <span class="cm">-- células × 900 m² ÷ 10.000 = hectares</span></pre>
+
+    <ol start="3">
+      <li>Crie <code>frac_obs</code>, a fração sobre o que foi observado:</li>
+    </ol>
+
+<pre class="expr">"tr_sum" / "tr_count" * 100</pre>
+
+    <ol start="4">
+      <li>Crie <code>frac_mun</code>, a fração sobre a área do município. O denominador vem da contagem de 2023, que cobre o município inteiro:</li>
+    </ol>
+
+<pre class="expr">"tr_sum" / "c23_count" * 100</pre>
+
+    <ol start="5">
+      <li>Salve as edições e desligue o modo de edição.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Município</th><th class="num">Convertido (ha)</th><th class="num">Sobre o observado</th><th class="num">Sobre o município</th><th class="num">Diferença</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Cacaulândia</td><td class="num">110.114,9</td><td class="num">56,5%</td><td class="num">56,2%</td><td class="num">0,3 p.p.</td></tr>
+        <tr><td>Monte Negro</td><td class="num">77.753,9</td><td class="num">46,3%</td><td class="num">40,3%</td><td class="num">6,0 p.p.</td></tr>
+      </tbody>
+      <caption>O mesmo procedimento, a mesma expressão, dois municípios vizinhos. Em Cacaulândia a escolha do denominador é irrelevante; em Monte Negro ela move a resposta em 6,0 pontos percentuais, e a causa é o buraco de nuvem de 1985.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">A resposta bruta</div>
+      <p>Cacaulândia tem <strong>196.177,8 hectares</strong> pelo IBGE, e a contagem de células devolve 195.996,1. No raster da aula, entre 1985 e 2023, <strong>110.114,9 hectares</strong> passaram de vegetação nativa a agropecuária, ou <strong>56,5%</strong> do que foi observado nos dois anos, e a vegetação nativa caiu de <strong>95,1%</strong> para <strong>38,5%</strong> do território. É o resultado correto do procedimento sobre um arquivo construído: para citar Cacaulândia em trabalho, refaça a conta com o GeoTIFF do passo 0.</p>
+    </div>
+
+    <p>Faça mais uma conta, para ver o peso de uma decisão de legenda. Volte ao passo 5 e gere uma segunda transição excluindo o mosaico de usos do lado agropecuário, com a expressão abaixo, e rode a estatística zonal de novo.</p>
+
+<pre class="expr">("rec_1985@1" = 1) * (("uso_terra_2023_treino@1" = 15) OR
+                      ("uso_terra_2023_treino@1" = 39) OR
+                      ("uso_terra_2023_treino@1" = 48))</pre>
+
+    <div class="cuidado">
+      <div class="lbl">O resultado</div>
+      <p>Sem o mosaico, Cacaulândia converteu <strong>98.687,4 hectares</strong>, ou <strong>50,7%</strong>. São <strong>11.427,5 hectares</strong> e 5,8 pontos percentuais que dependem inteiramente de onde você coloca uma classe cuja acurácia de usuário é 52,0%. Nenhuma célula mudou de valor entre as duas contas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Ler o número junto com a matriz de confusão</h3>
+    <p>Você tem 110.114,9 hectares. Falta a segunda metade do trabalho, que é dizer quanto esse número vale.</p>
+    <ol>
+      <li>Carregue <code>pontos_validacao_treino.gpkg</code>.</li>
+      <li>Abra a tabela de atributos e agrupe: use o painel <em>Statistics</em> ou exporte para uma planilha e monte a tabulação cruzada de <code>classe_ref</code> por <code>classe_map</code>. Você deve reproduzir a figura 4.</li>
+      <li>Localize a coluna da pastagem: o mapa atribuiu pastagem a <strong>164</strong> pontos, e o campo encontrou pastagem em <strong>170</strong>.</li>
+    </ol>
+
+    <p>A razão entre os dois totais é o ajuste mais simples que existe para uma estimativa de área. Em Cacaulândia, o mapa aponta 102.797,6 hectares de pastagem em 2023. Corrigido pela razão 170 sobre 164, o valor sobe para 106.558,5 hectares, cerca de 3,7% a mais.</p>
+
+    <ol start="4">
+      <li>Exporte a tabela final: botão direito na camada, <span class="caminho">Export <i>▸</i> Save Features As</span>, formato <em>Comma Separated Value</em>, arquivo <code>saida/conversao_municipios.csv</code>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>A tabulação cruzada tem <strong>500</strong> pontos no total e <strong>400</strong> na diagonal, o que dá a acurácia global de 80,0%. A linha da pastagem soma 170 e a coluna, 164. O CSV exportado precisa abrir com uma linha por município e as colunas <code>conv_ha</code>, <code>frac_obs</code> e <code>frac_mun</code> preenchidas nas duas.</p>
+    </div>
+
+    <div class="conceito">
+      <div class="lbl">A conclusão do roteiro</div>
+      <h4>O número tem três partes, e só a primeira sai do software</h4>
+      <p>A primeira é a medição: 110.114,9 hectares, reproduzível por qualquer pessoa com os mesmos arquivos. A segunda é a convenção: qual denominador, qual legenda, qual ano de referência, e nenhuma delas está no dado. A terceira é a incerteza: 24,7% de omissão e 22,0% de comissão na pastagem, que ninguém pode remover, só declarar. Um laudo que apresenta a primeira sem as outras duas não está errado, mas o corte esconde exatamente a margem que poderia derrubar a conclusão, e por isso costuma favorecer quem encomendou o laudo.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>Você já tem os dois municípios na mesma tabela. Agora olhe para Monte Negro.</p>
+    <ol>
+      <li>Anote a fração convertida de Monte Negro nos dois denominadores e compare com a de Cacaulândia.</li>
+      <li>Cacaulândia converteu 56,5% e Monte Negro, 46,3%. Dez pontos de diferença entre dois municípios vizinhos, de área quase igual, com o mesmo tipo de solo, a mesma rodovia e o mesmo ciclo de colonização.</li>
+    </ol>
+    <p>Responda, em três frases:</p>
+    <ol type="a">
+      <li>Essa diferença é real ou é artefato? Aponte pelo menos duas características dos arquivos que você entregaria como prova.</li>
+      <li>Que informação adicional resolveria a dúvida de vez? Seja específico: nome do dado, fonte e o que exatamente você olharia nele.</li>
+      <li>Se você tivesse que responder hoje, sem essa informação adicional, qual dos dois números colocaria em um relatório e com que ressalva?</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma captura da tabela de atributos com as colunas <code>conv_ha</code>, <code>frac_obs</code> e <code>frac_mun</code> para os dois municípios, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">No raster desta aula, 110.115 hectares de vegetação nativa viraram agropecuária em Cacaulândia entre 1985 e 2023. Pouco mais da metade do município. O intervalo de confiança desse número não vem no arquivo.</p>
+  <p>A medição não está em disputa: qualquer pessoa com os mesmos dois rasters chega ao mesmo valor, célula por célula. A etiqueta está. A classe pastagem tem 24,7% de omissão e 22,0% de comissão, e a classe mosaico de usos, que responde por 11.427 hectares da conta, acerta metade das vezes. Quem responde "110.115 hectares" e para por aí entregou metade do serviço.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos, todas com resposta em aberto.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">O regulamento europeu de produtos livres de desmatamento exige provar que a área não foi desmatada depois de 31 de dezembro de 2020. Um produto de 30 metros com 22% de comissão em pastagem serve de prova?</p>
+  <p>Serve para triagem e não serve para condenação. A diferença prática é enorme: com o mapa, você seleciona as fazendas que precisam ser olhadas de perto, e reduz o custo da verificação em duas ordens de grandeza. Sem uma etapa de verificação por imagem de alta resolução ou visita, uma em cada cinco exclusões seria injusta. E cada exclusão injusta é um processo.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Quem deveria pagar pela validação de campo: quem produz o mapa, quem usa ou quem é afetado por ele?</p>
+  <p>Vale notar quem paga hoje. O MapBiomas publica a matriz de confusão porque decidiu publicar, não porque alguém o obriga. Boa parte dos produtos comerciais de monitoramento não publica nada equivalente, e o comprador raramente exige. Enquanto validação for custo voluntário do produtor do dado, ela vai continuar sendo a primeira coisa a sair do orçamento.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se aumentar a resolução para 10 metros com o Sentinel-2, a acurácia melhora?</p>
+  <p>Melhora para objetos pequenos e piora, às vezes, para classes de textura. Célula menor significa mais variabilidade dentro de cada classe e mais confusão entre classes parecidas. E a série do Sentinel-2 começa em 2015, o que não ajuda quem precisa de uma linha de base em 1985. Trocar de sensor troca de problema.</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>Você recebeu a classificação pronta e não a produziu. Não discutimos escolha de amostras de treinamento, seleção de algoritmo nem filtro temporal, que é onde a maior parte da qualidade de um produto como o MapBiomas realmente se decide.</li>
+    <li>A matriz de confusão do pacote tem 500 pontos sorteados sobre a área toda. Uma matriz honesta precisa de amostragem estratificada por classe e de intervalo de confiança em cada célula, e nada disso foi feito aqui.</li>
+    <li>Medimos conversão entre dois anos. O caminho entre eles ficou de fora: uma célula que virou pasto em 1996, foi abandonada, regenerou e voltou a ser aberta em 2015 aparece igual a uma que foi desmatada uma vez só.</li>
+    <li>A área foi calculada como número de células vezes 900 metros quadrados, o que é área projetada. Em terreno inclinado, a superfície real é maior, e em algumas regiões de relevo forte a diferença passa de 10%.</li>
+    <li>Nada aqui distingue desmatamento legal de ilegal. Isso exige cruzar com o Cadastro Ambiental Rural, com as datas de autorização de supressão e com o Código Florestal, e é uma pergunta jurídica antes de ser uma pergunta de raster.</li>
+    <li>Os dois rasters e os 500 pontos de validação foram construídos para este exercício. Copiam do MapBiomas a resolução, o CRS, os códigos de classe e as cores, e imitam o padrão de espinha de peixe de Rondônia, mas os valores de célula não vêm do MapBiomas. Os 110.114,9 hectares são o resultado correto de um procedimento correto sobre um arquivo inventado, e não descrevem Cacaulândia. Só o limite municipal é oficial. O caminho para o dado publicável está no passo 0.</li>
+    <li>A matriz de confusão do pacote foi montada com totais escolhidos para a aula. Ela mostra a forma que um relatório de acurácia tem e a ordem de grandeza que o MapBiomas reporta na Amazônia, e não é a acurácia medida da coleção 10.</li>
+  </ul>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Próximo tema</div>
+  <p>A pergunta é "quanta gente chega ao hospital em trinta minutos?", e ela retoma criticamente o buffer de 600 metros do tema 5. É a última aula de conteúdo, fecha o curso pelo lado da comunicação cartográfica, e é nela que a APS 3 é lançada.</p>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">Luo e Wang, <em>Measures of spatial accessibility to health care in a GIS environment</em>, 2003. Leia só a seção que apresenta o método de dois estágios.
+      <span class="src">Environment and Planning B · leitura dirigida de 15 minutos · antes do tema 10</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">MapBiomas, relatório de acurácia da coleção mais recente, com as tabelas por bioma e por classe.
+      <span class="src">brasil.mapbiomas.org · leia antes de citar qualquer número do MapBiomas em trabalho</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Olofsson e outros, <em>Good practices for estimating area and assessing accuracy of land change</em>, 2014. É o texto que estabeleceu o ajuste de área por matriz de confusão.
+      <span class="src">Remote Sensing of Environment 148 · a seção 4 é a que interessa</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">INPE, metodologia do PRODES: por que a área mínima de mapeamento é 6,25 hectares e o que isso deixa de fora.
+      <span class="src">obt.inpe.br/prodes</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-08.html"><span class="k">Tema anterior</span><span class="t">Tenho orçamento para intervir em cinco pontos. Quais?</span></a>
+  <a href="encontro-10.html" class="r"><span class="k">Próximo tema</span><span class="t">Quanta gente chega ao hospital em trinta minutos?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

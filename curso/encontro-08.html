@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 8 · Tenho orçamento para intervir em cinco pontos. Quais? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-08.html" class="here">Aula 8</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="done">02 · Hectares</a>
+  <a href="encontro-03.html" class="done">03 · Esgoto</a>
+  <a href="encontro-04.html" class="done">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="done">05 · Habitação</a>
+  <a href="encontro-06.html" class="done">06 · Vizinho</a>
+  <a href="encontro-07.html" class="done">07 · Endereços</a>
+  <a href="encontro-08.html" class="now">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 8 · Unidade teórica 08 · ODS 3 e 11</div>
+  <h1>Tenho orçamento para intervir em <em>cinco pontos</em>. Quais?</h1>
+  <p class="sub">São 21.653 sinistros com vítima e 938 mortes em São Paulo em 2025. Com raio de 300 metros o DBSCAN cola Marginal Tietê, Marginal Pinheiros e centro num agrupamento só, de 5.334 registros e 235,8 km². Com raio de 150 metros aparecem 322 agrupamentos do tamanho de uma quadra, e os cinco piores respondem por 2,0% das mortes.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>São Paulo</b><span>área de estudo</span></div>
+    <div><b>Infosiga SP · GeoSampa</b><span>fontes</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#onde">De "está agrupado" para "onde"</a></li>
+    <li><a href="#testes">Quadrats e vizinho mais próximo</a></li>
+    <li><a href="#kernel">Kernel e largura de banda</a></li>
+    <li><a href="#dbscan">DBSCAN</a></li>
+    <li><a href="#kmeans">K-means e a escolha de K</a></li>
+    <li><a href="#duas">As duas perguntas</a></li>
+    <li><a href="#gistar">Gi*, quando o dado é área</a></li>
+    <li><a href="#metros">Metros antes de tudo</a></li>
+    <li><a href="#decisao">Do cluster à decisão</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p1">1. Carregar, conferir o CRS e limpar a extensão</a></li>
+    <li><a href="#p2">2. Kernel com raio de 150 m</a></li>
+    <li><a href="#p3">3. Três raios lado a lado</a></li>
+    <li><a href="#p4">4. DBSCAN com 300 m</a></li>
+    <li><a href="#p5">5. Os outros dois raios: 150 e 600 m</a></li>
+    <li><a href="#p6">6. Mexer no MinPts</a></li>
+    <li><a href="#p7">7. Envoltória de cada cluster</a></li>
+    <li><a href="#p8">8. A tabela de prioridade</a></li>
+    <li><a href="#p9">9. K-means para setorizar</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>A leitura do tema era a nota metodológica do Infosiga SP sobre como um sinistro entra na base e como recebe coordenada. São doze minutos. Ela importa hoje porque metade das decisões do roteiro depende de saber o que é um registro e o que é uma vítima.</p>
+
+<p>Os arquivos deste tema já vêm em <code>EPSG:31983</code>, em metros. Isso não é detalhe de conveniência: os três métodos de hoje recebem um raio como parâmetro, e raio só tem sentido em metros.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana08</span></div>
+  <div class="fonte">Fonte: <b>Infosiga SP · Detran-SP</b>, pelo <a href="https://dadosabertos.sp.gov.br/dataset/eventos-de-sinistro">Portal de Dados Abertos do Estado de São Paulo</a>, e <b>GeoSampa · Prefeitura de São Paulo</b> · coleta de 02/08/2026</div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana08/sinistros_sp_capital_2025.gpkg" download>sinistros_sp_capital_2025.gpkg</a>
+        <span class="fd">21.653 sinistros de trânsito com vítima e com coordenada, no município de São Paulo, ano de 2025, com gravidade, tipo de sinistro, turno e contagem de veículos por modo. Ponto, EPSG:31983.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana08/viario_estrutural_sp.gpkg" download>viario_estrutural_sp.gpkg</a>
+        <span class="fd">266 trechos do viário estrutural do Plano Diretor, Mapa 8, 475,3 km no total, para apoiar a leitura dos agrupamentos. Linha, EPSG:31983.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana08/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Campos, totais, recorte e todos os números conferidos sobre o dado oficial.</span></div></li>
+  </ul>
+  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. Os sinistros vêm dos doze CSV mensais de 2025 da série <em>Eventos de Sinistro</em>, filtrados pelo código IBGE 3550308, mantidos só os eventos com pelo menos uma vítima e com latitude e longitude preenchidas — de 42.671 eventos registrados na capital em 2025, 25.617 tiveram vítima e 21.653 desses têm coordenada, o que já é um assunto da aula. O CSV do Infosiga vem em Latin-1 e foi convertido para UTF-8. Os valores conferidos estão em <code>dados/semana08/_numeros_oficiais.json</code>, inclusive os do bloco <code>analise</code>, que traz cada número citado no roteiro abaixo.</div>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">Uma secretaria municipal tem R$ 12 milhões para requalificar cinco pontos da malha viária no próximo exercício. Você recebe a base de sinistros com vítimas dos últimos dois anos e uma semana de prazo. Quais cinco pontos, e como você defende a escolha diante de um vereador que quer o ponto do bairro dele?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Densidade e agrupamento</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="onde">
+<p class="lede">No tema anterior você descreveu uma nuvem de pontos com centro e dispersão. Nenhuma daquelas medidas responde onde. O centro médio dos sinistros de São Paulo em 2025 cai no distrito da Liberdade, a duzentos metros da Avenida da Aclimação, o que é verdade e é inútil: ninguém constrói uma rotatória no centro médio.</p>
+
+<p>Hoje a pergunta é outra. Existe concentração acima do que o acaso produziria? Se existe, em que lugares? E dá para transformar esses lugares em uma lista ordenada que um secretário assine? Os quatro métodos desta aula respondem partes diferentes dessa cadeia, e cada um encaixa em um tipo de decisão; boa parte do trabalho de hoje é aprender a escolher pelo tipo de decisão, não pelo aspecto do mapa.</p>
+</section>
+
+<section class="part" id="testes">
+<h2>Dois testes contra a aleatoriedade</h2>
+
+<p>Antes de procurar onde, convém confirmar que há o que procurar. Os dois testes clássicos partem do mesmo modelo nulo do tema anterior, a aleatoriedade espacial completa, e chegam ao mesmo veredito por caminhos distintos.</p>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Quadrats e índice de dispersão</h4>
+  <p>Divide-se a área em células de tamanho igual e conta-se quantos eventos caem em cada uma. Sob aleatoriedade, essa contagem segue uma distribuição de Poisson, cuja variância é igual à média. O índice de dispersão é a razão entre a variância observada e a média observada. Vale 1 no padrão aleatório, menos de 1 no regular e mais de 1 no agrupado.</p>
+</div>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Índice do vizinho mais próximo</h4>
+  <p>Mede-se, para cada evento, a distância até o evento mais próximo, e tira-se a média. Sob aleatoriedade, essa média vale 0,5 dividido pela raiz da densidade de pontos por unidade de área. O índice R é a razão entre a média observada e a esperada. Abaixo de 1 indica agrupamento, acima de 1 indica regularidade.</p>
+</div>
+
+<figure class="diagrama">
+  <img src="assets/img/d08-quadrat-vizinho.svg" alt="À esquerda, a nuvem de sinistros sobreposta a uma grade de quadrats de 2 km com as células coloridas pela contagem. À direita, o histograma das distâncias ao vizinho mais próximo comparado com a curva esperada sob aleatoriedade.">
+  <figcaption><b>Figura 1</b> Os dois testes aplicados ao arquivo deste tema. Com quadrats de 2 km o índice de dispersão dá 83,05 contra 1 esperado, e o índice do vizinho mais próximo dá 0,366 contra 1 esperado. A distância média ao vizinho é de 70,8 metros, pouco mais de um terço dos 193,1 metros que o acaso produziria com a mesma densidade.</figcaption>
+</figure>
+
+<p>Os dois testes têm o mesmo defeito e é um defeito grande. O índice de dispersão depende do tamanho da célula: com quadrats de 1 km ele dá 26,31 sobre a mesma base, e com 2 km dá 83,05, três vezes mais. É o problema da unidade de área modificável, que você viu no tema 3, reaparecendo aqui. O índice do vizinho mais próximo depende da área adotada no denominador: com o retângulo envolvente, 3.218,5 km², R dá 0,366; com a envoltória convexa dos pontos, 2.766,4 km², dá 0,395; com o polígono do município, 1.521,1 km², dá 0,533. O último é o único denominador que corresponde a um território onde a prefeitura pode intervir, e é o menos favorável à tese do agrupamento.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se os dois índices dependem de escolhas arbitrárias, para que servem?</p>
+  <p>Para descartar a hipótese preguiçosa. Mesmo no denominador mais conservador, R fica em 0,533 com escore z de −131,2. Nenhuma escolha razoável de recorte levaria esse padrão de volta para perto da aleatoriedade. O que os índices não fazem é apontar lugar: eles resumem a cidade inteira em um número. Servem como porta de entrada, e o erro é parar neles.</p>
+</div>
+</section>
+
+<section class="part" id="kernel">
+<h2>Kernel: a largura de banda é a decisão</h2>
+
+<p>O estimador de densidade por kernel troca a contagem por célula por uma superfície contínua. Sobre cada evento coloca-se uma função em forma de sino, com raio de influência definido, e somam-se todas as funções. Onde os sinos se sobrepõem, o valor sobe. O resultado é um raster em que cada pixel traz uma densidade de eventos por unidade de área.</p>
+
+<p>Duas coisas se escolhem. A forma da função quase não muda o resultado. O raio de influência, a <strong>largura de banda</strong>, muda a contagem de manchas, a área destacada e a recomendação que sai do mapa.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d08-banda-kernel.svg" alt="Os mesmos 21.582 sinistros mostrados em três mapas de densidade, com raios de 150, 500 e 2.000 metros, e o contorno de 25% do valor máximo em cada um.">
+  <figcaption><b>Figura 2</b> Mesmo dado, mesma escala de cor, três raios. A 150 metros o contorno de 25% do máximo cerca 19 manchas somando 0,30 km². A 2.000 metros sobram 7 manchas somando 428,99 km², e a maior delas cobre 415,50 km² sozinha, mais de um quarto do município.</figcaption>
+</figure>
+
+<p>Banda pequena produz um mapa de pulgas: dezenas de picos minúsculos, cada um com um punhado de eventos, sem estabilidade nenhuma. Rode com um ano de dado diferente e os picos mudam de lugar. Banda grande produz uma mancha só, que confirma o que todo mundo já sabia sobre a cidade e não indica esquina alguma.</p>
+
+<div class="cuidado">
+  <div class="lbl">Não existe banda ótima</div>
+  <p>Existem regras de referência que sugerem um valor a partir da dispersão dos dados, e existem métodos adaptativos que variam a banda conforme a densidade local. Nenhum deles conhece a sua pergunta. Se a intervenção é semaforização de cruzamento, a banda tem que ser da ordem da quadra. Se é uma campanha de fiscalização por região, a banda é da ordem do quilômetro. Em vez de procurar um valor certo, escolha um valor que você consiga justificar pela decisão que o mapa vai apoiar, e registre a justificativa.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Um consultor entrega um mapa de calor sem informar a largura de banda. O que você faz?</p>
+  <p>Devolve. Um mapa de calor sem banda declarada é como uma área sem CRS: o número existe e não é auditável. Peça também o tamanho do pixel e se a saída é bruta ou reescalada: a legenda raramente diz qual das duas é, e a leitura muda conforme a resposta.</p>
+</div>
+</section>
+
+<section class="part" id="dbscan">
+<h2>DBSCAN: agrupar por densidade</h2>
+
+<p>O kernel devolve uma superfície contínua, e superfície não se ordena nem entra em edital. Para transformar concentração em objetos que se possam contar, nomear e ranquear, é preciso um algoritmo de agrupamento, e o mais usado em dado espacial é o DBSCAN.</p>
+
+<p>Ele trabalha com dois parâmetros. O raio <strong>ε</strong>, que define a vizinhança de cada ponto, e o <strong>MinPts</strong>, o número mínimo de pontos que essa vizinhança precisa conter para que o ponto seja considerado denso. A partir daí, três categorias.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d08-dbscan.svg" alt="Esquema do DBSCAN mostrando pontos centrais em vermelho com seus raios, pontos de borda em âmbar e pontos de ruído em cinza, com a legenda das três categorias.">
+  <figcaption><b>Figura 3</b> Um cluster do DBSCAN é a união das vizinhanças dos pontos centrais. Por isso ele encontra agrupamento de forma alongada, em L ou em anel, que um método baseado em distância ao centro não encontraria.</figcaption>
+</figure>
+
+<p>A terceira categoria é a que distingue o DBSCAN. Um ponto que não é central nem alcança nenhum central é rotulado como <strong>ruído</strong>, e fica fora de todos os clusters. No arquivo deste tema, com ε de 150 metros e MinPts de 10, isso acontece com 15.624 dos 21.582 sinistros, ou 72,4%. Quase três quartos dos sinistros da cidade não pertencem a concentração alguma.</p>
+
+<p>Há um preço do outro lado. Um cluster do DBSCAN cresce por contágio: basta uma fileira de pontos densos ligando duas manchas para que as duas virem uma só. Numa cidade em que os sinistros se distribuem ao longo de avenidas contínuas, essa fileira quase sempre existe.</p>
+
+<div class="cuidado">
+  <div class="lbl">Encadeamento</div>
+  <p>Com ε de 300 metros, o mesmo arquivo devolve um agrupamento que junta Marginal Tietê, Marginal Pinheiros, Radial Leste e o centro: são 5.334 sinistros e 235,8 km² de envoltória, um quarto do território analisado dentro de um único identificador de cluster. Com 600 metros o encadeamento consome a cidade inteira: 20.446 dos 21.582 pontos ficam no mesmo cluster. O algoritmo não errou. Ele respondeu que, nessa escala, São Paulo é uma mancha só.</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Como o rótulo aparece</div>
+  <p>Na literatura e nas bibliotecas de Python, o ruído recebe o rótulo <code>−1</code>. No QGIS, a coluna <code>CLUSTER_ID</code> devolve esses pontos com valor nulo, em branco na tabela de atributos. É o mesmo conceito com duas convenções. Filtre por <code>"CLUSTER_ID" IS NULL</code> para isolá-los.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Um método que deixa 72,4% dos casos de fora está funcionando bem?</p>
+  <p>Está funcionando conforme especificado. Os 15.624 pontos continuam no arquivo, com um rótulo que diz que eles estão espalhados. Esse rótulo é um resultado. Ele afirma que quase três quartos dos sinistros de São Paulo acontecem fora de qualquer concentração, e portanto que uma política baseada só em pontos críticos alcança, no máximo, o quarto restante. Quem apaga o ruído do mapa apaga esse limite junto.</p>
+</div>
+</section>
+
+<section class="part" id="kmeans">
+<h2>K-means e a escolha de K</h2>
+
+<p>O K-means resolve um problema diferente. Você informa quantos grupos quer, ele escolhe K centros e atribui cada ponto ao centro mais próximo, repetindo até os centros pararem de se mexer. Toda a área fica repartida, sem sobra e sem sobreposição, em algo parecido com um diagrama de Voronoi dos centros.</p>
+
+<p>Não existe ruído no K-means. Um sinistro isolado no extremo sul entra em algum setor obrigatoriamente. Também não existe forma livre: os grupos saem aproximadamente circulares, porque o critério é distância ao centro.</p>
+
+<p>A escolha de K é a parte incômoda. Dois procedimentos ajudam, e nenhum decide.</p>
+
+<table>
+  <thead><tr><th class="num" style="width:8%">K</th><th class="num" style="width:24%">Inércia (×10⁹)</th><th class="num" style="width:20%">Silhueta</th><th>Leitura</th></tr></thead>
+  <tbody>
+    <tr><td class="num">2</td><td class="num">2.077,7</td><td class="num">0,409</td><td>Divide a cidade em norte e sul</td></tr>
+    <tr class="hi"><td class="num">3</td><td class="num">1.250,0</td><td class="num">0,422</td><td>Melhor silhueta do conjunto</td></tr>
+    <tr><td class="num">4</td><td class="num">971,2</td><td class="num">0,386</td><td>Ganho de inércia já bem menor</td></tr>
+    <tr><td class="num">5</td><td class="num">801,6</td><td class="num">0,358</td><td>O K que o orçamento impõe</td></tr>
+    <tr><td class="num">6</td><td class="num">675,5</td><td class="num">0,372</td><td>—</td></tr>
+    <tr><td class="num">7</td><td class="num">587,8</td><td class="num">0,351</td><td>—</td></tr>
+  </tbody>
+  <caption>Calculado sobre os 21.582 pontos de <code>sinistros_sp_capital_2025.gpkg</code> que caem dentro do município, com semente 0. A inércia é a soma dos quadrados das distâncias ao centro do próprio grupo, e cai sempre que K aumenta. O cotovelo é o ponto em que ela para de cair rápido, aqui entre 3 e 4. A silhueta mede o quanto cada ponto está mais perto do próprio grupo que do vizinho, entre −1 e 1, e foi calculada sobre amostra de 5.000 pontos, porque o cálculo completo compara cada ponto com todos os outros.</caption>
+</table>
+
+<p>A tabela indica K igual a 3. O orçamento da secretaria indica 5. Os dois números respondem perguntas diferentes, e o dado não tem autoridade sobre a restrição orçamentária. O que a tabela permite dizer é que a repartição em 5 setores tem qualidade de separação pior que a repartição em 3, e que isso é o preço de uma decisão administrativa. Repare também que a silhueta nunca passa de 0,42: a nuvem de sinistros de São Paulo não tem separação natural nenhuma, e qualquer K é uma linha desenhada por conveniência sobre uma mancha contínua.</p>
+</section>
+
+<section class="part" id="duas">
+<h2>DBSCAN e K-means respondem perguntas diferentes</h2>
+
+<p>Vale a pena isolar a distinção, porque ela é a origem de metade dos relatórios ruins que circulam por prefeitura.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d08-dbscan-kmeans.svg" alt="Os mesmos sinistros analisados de dois modos: à esquerda o DBSCAN com 322 clusters pequenos e o ruído em cinza; à direita o K-means com cinco setores que cobrem toda a área.">
+  <figcaption><b>Figura 4</b> À esquerda, 322 concentrações e 15.624 pontos que não pertencem a nenhuma. À direita, cinco setores que repartem os 21.582 pontos sem deixar nada de fora. Os dois mapas estão certos e respondem a perguntas que não se substituem.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:22%">Método</th><th style="width:34%">Pergunta que responde</th><th>Quando usar</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DBSCAN</strong></td><td>Onde existe concentração acima do esperado?</td><td>Priorização de intervenção, identificação de ponto crítico, detecção de anomalia</td></tr>
+    <tr><td><strong>K-means</strong></td><td>Como reparto o território em áreas de responsabilidade?</td><td>Setorização de equipe, definição de base operacional, divisão de rota</td></tr>
+  </tbody>
+  <caption>Usar K-means para achar ponto crítico devolve cinco centros de massa que não correspondem a lugar algum. Usar DBSCAN para setorizar deixa 72,4% dos sinistros sem responsável.</caption>
+</table>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">A secretaria quer instalar cinco bases de equipe de resposta rápida. DBSCAN ou K-means?</p>
+  <p>K-means, com K igual a 5, porque a pergunta é de repartição e toda ocorrência precisa de uma base responsável, inclusive as isoladas. Se a pergunta fosse onde requalificar cinco trechos de via, seria DBSCAN, porque aí o que interessa é a concentração e o resto do território não entra na conta. A mesma cidade, o mesmo orçamento, o mesmo número cinco, e dois algoritmos diferentes.</p>
+</div>
+</section>
+
+<section class="part" id="gistar">
+<h2>Gi* de Getis-Ord, quando o dado já vem por área</h2>
+
+<p>Tudo acima supõe ponto solto com coordenada. Boa parte do dado público brasileiro não é assim: chega como contagem por setor censitário, por bairro, por distrito. Rodar DBSCAN sobre centroides de polígono é um erro, porque o centroide não é o evento e a densidade calculada sobre ele é a densidade dos centroides.</p>
+
+<p>Para dado por área existe o Gi* de Getis-Ord. Ele usa a matriz de vizinhança do tema 6 e compara, para cada unidade, a soma dos valores da própria unidade e dos vizinhos contra a soma que se esperaria se os valores estivessem distribuídos ao acaso pelo mapa. O resultado é um escore z por unidade: valores altos cercados de valores altos formam mancha quente; valores baixos cercados de baixos formam mancha fria.</p>
+
+<div class="contexto">
+  <div class="lbl">Gi* e Moran local não são a mesma coisa</div>
+  <p>O LISA do tema 6 detecta também os pontos fora do padrão, a unidade alta cercada de baixas. O Gi* não distingue esse caso: ele mede intensidade local, não similaridade. Quando a pergunta é "onde a coisa se acumula", Gi*. Quando é "onde o padrão se quebra", LISA. Nenhuma das duas vem no QGIS de fábrica: quem precisar instala o plugin <code>r_spatial_statistics</code> por <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins</span>, com internet, ou roda no GeoDa. Nesta aula nenhum passo depende disso.</p>
+</div>
+</section>
+
+<section class="part" id="metros">
+<h2>Metros antes de tudo</h2>
+
+<p>Este é o pré-requisito que mais reprova, e é aritmética simples. Todo método desta aula recebe uma distância como parâmetro. Se a camada está em graus, o programa aceita o número e interpreta como graus.</p>
+
+<p>Um grau de longitude não tem comprimento fixo. Ele vale cerca de 111,3 km no equador e encolhe com o cosseno da latitude. Um grau de latitude fica quase constante, perto de 110,9 km.</p>
+
+<table>
+  <thead><tr><th style="width:34%">Local</th><th class="num">0,003° no eixo leste-oeste</th><th class="num">0,003° no eixo norte-sul</th></tr></thead>
+  <tbody>
+    <tr><td>São Paulo, latitude −23,55</td><td class="num">306 m</td><td class="num">333 m</td></tr>
+    <tr><td>Boa Vista, latitude +2,82</td><td class="num">334 m</td><td class="num">332 m</td></tr>
+    <tr><td>Porto Alegre, latitude −30,03</td><td class="num">289 m</td><td class="num">333 m</td></tr>
+  </tbody>
+  <caption>O mesmo parâmetro em graus produz vizinhanças de tamanhos diferentes conforme a latitude, e em cada lugar a vizinhança é uma elipse achatada em vez de um círculo. Em São Paulo a diferença entre os dois eixos passa de 8%.</caption>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Rodar DBSCAN com ε igual a 300 numa camada em EPSG:4326. O algoritmo procura vizinhos a 300 graus de distância, o que é mais que a volta do planeta, e devolve um único cluster com todos os pontos. Esse é o caso fácil, porque o resultado é obviamente absurdo. O caso difícil é ε igual a 0,003: o resultado parece plausível, sai sem aviso, e está errado em uma direção mais que na outra.</p>
+</div>
+</section>
+
+<section class="part" id="decisao">
+<h2>Do cluster à decisão</h2>
+
+<p>Um agrupamento identificado é meio produto. O que a secretaria assina é uma lista ordenada com critério explícito, e a ordem quase nunca é a do número de ocorrências.</p>
+
+<p>Ordenar por contagem de sinistros favorece corredor movimentado. Ordenar por óbitos favorece o ponto onde a velocidade é alta e o pedestre está desprotegido. Ordenar por óbitos divididos por fluxo, quando existe contagem volumétrica, favorece o lugar onde a taxa é alta mesmo com pouco tráfego. Cada critério produz uma lista diferente, e a escolha é política. O trabalho técnico é declarar qual foi usado e mostrar como a lista mudaria com outro.</p>
+
+<div class="conceito">
+  <div class="lbl">Regra da entrega</div>
+  <h4>Se o cluster não vira uma página, o cluster não serve</h4>
+  <p>A entrega mínima de uma análise de agrupamento é uma tabela com uma linha por cluster, contendo: um identificador, um nome de referência que uma pessoa reconheça, a contagem de eventos, a contagem de vítimas ou o valor em disputa, a área da envoltória e a posição no ranking. Mapa colorido acompanha; não substitui.</p>
+  <p>O nome de referência é onde o Infosiga cobra o preço da sua base. Ele grava <code>logradouro</code>, o nome da via, e não o cruzamento. Um cluster de 150 metros costuma reunir de três a dez grafias de logradouro, com abreviação e sem acento, e o rótulo honesto é o logradouro mais frequente seguido do segundo. Quem escreve "Avenida X esquina com Rua Y" no relatório está inventando uma informação que o arquivo não tem.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 08</div>
+  <p class="q">A prova pode mostrar dois mapas de calor do mesmo dado com bandas diferentes e pedir qual sustenta qual recomendação. Pode dar uma saída de DBSCAN com contagem de ruído e pedir a leitura desse número. Pode pedir a escolha entre DBSCAN, K-means e Gi* diante de uma pergunta de gestão descrita em três linhas, com justificativa. E pode apresentar uma análise rodada em graus para que você identifique o erro e estime o efeito.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Dos 21.653 sinistros à lista de cinco pontos</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="p1">
+<p class="lede">Todos os valores abaixo saem do arquivo que você baixou. Se o seu QGIS mostrar outro número, algum passo saiu diferente, e vale parar para descobrir qual antes de seguir.</p>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Carregar, conferir o CRS e limpar a extensão</h3>
+    <ol>
+      <li>Crie a pasta <code>InfoGeo/tema08_agrupamento</code>, com <code>dados_brutos</code> e <code>dados_tratados</code> dentro.</li>
+      <li>Abra um projeto novo, salve como <code>projeto.qgz</code> e arraste os dois GeoPackage para a janela.</li>
+      <li>Em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> CRS</span>, defina o CRS do projeto como <code>EPSG:31983</code>.</li>
+      <li>Confira em <em>Properties ▸ Information</em> de cada camada que elas já estão em EPSG:31983. Nenhuma reprojeção é necessária hoje.</li>
+      <li>Abra a tabela de atributos dos sinistros com <code>F6</code> e leia o total de feições. Depois clique com o botão direito na camada e escolha <em>Zoom to Layer</em>.</li>
+      <li>O mapa vai abrir mostrando meio estado de São Paulo. Em <em>Properties ▸ Information</em>, leia o campo <em>Extent</em>: a camada vai de 530 km a leste até 34 km a oeste do meridiano central do fuso, e sobe até a altura de Franca, perto da divisa com Minas Gerais. O município tem 47 km de largura.</li>
+      <li>Aplique o filtro abaixo em <span class="caminho">Layer <i>▸</i> Filter</span>. Ele mantém só os registros cuja coordenada cai dentro do retângulo envolvente do município de São Paulo.</li>
+    </ol>
+
+<pre class="expr">$x &gt;= 313394.9 AND $x &lt;= 360619.8 AND $y &gt;= 7343708.3 AND $y &lt;= 7416188.7
+<span class="cm">-- retângulo envolvente do município de São Paulo em EPSG:31983,
+   medido sobre a malha de setores censitários do IBGE 2022</span></pre>
+
+    <ol start="8">
+      <li>Clique com o botão direito na camada e escolha <em>Zoom to Layer</em> de novo. O mapa fecha em São Paulo, e o campo <em>Extent</em> passa a mostrar 47,0 km por 68,4 km.</li>
+      <li>Deixe a camada de vias visível por baixo dos pontos, com linha fina cinza. Ela serve de referência para reconhecer os agrupamentos depois.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O arquivo inteiro tem <strong>21.653</strong> sinistros, <strong>26.076</strong> vítimas e <strong>938</strong> óbitos, todos de 2025. Depois do filtro sobram <strong>21.582</strong> registros e 25.991 vítimas, com os mesmos 938 óbitos: nenhum dos 71 descartados tinha vítima fatal. Somando <code>vitimas_fatais</code>, <code>vitimas_graves</code> e <code>vitimas_leves</code> você chega ao valor de <code>vitimas</code> em toda linha.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Por que 71 registros saem da análise</div>
+      <p>O Infosiga registra o sinistro no município que respondeu pela ocorrência, e para rodovia a coordenada às vezes vem do marco quilométrico de outro trecho. Os 71 descartados estão quase todos em SP 021 (Rodoanel), SP 070 (Ayrton Senna), Raposo Tavares e SP 330 (Anhanguera), e o mais distante cai a 377 km da Praça da Sé. Deixá-los na camada faria o mapa de calor do passo 3 cobrir 564 km por 402 km em vez de 47 por 68, o que multiplica por setenta o número de pixels do raster e trava o QGIS na sala. O critério é geométrico e auditável, o descarte é de 0,3% da base e não tira nenhum óbito. Registre isso no relatório em vez de deixar o filtro escondido no projeto.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Coordenada repetida</div>
+      <p>Nos 21.582 registros que ficaram existem apenas 19.141 coordenadas distintas. São 3.579 sinistros empilhados em 1.138 posições, e a maior pilha tem 44 registros no mesmo ponto da Marginal Pinheiros, perto da Ponte Eusébio Matoso. Isso acontece quando o geocodificador não achou o número e devolveu um ponto de referência da via. A distância ao vizinho mais próximo é zero em 3.574 casos, e é isso que puxa a média para 70,8 metros. Toda concentração que você encontrar hoje precisa ser checada contra essa possibilidade antes de virar obra.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Sinistro e vítima são coisas diferentes</div>
+      <p>Um sinistro pode ter mais de uma vítima e mais de um óbito. Ordenar clusters por número de sinistros e ordenar por número de óbitos produz listas diferentes, e você vai ver isso acontecer no passo 8. Decida agora qual dos dois é a sua unidade de decisão.</p>
+    </div>
+
+    <figure class="ph">captura de tela · projeto com os 21.582 pontos sobre o viário estrutural, painel Layers e barra de status mostrando EPSG:31983</figure>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>O primeiro mapa de calor, com raio de 150 metros</h3>
+    <ol>
+      <li>Abra <span class="caminho">Processing <i>▸</i> Toolbox</span> e procure <code>qgis:heatmapkerneldensityestimation</code>, que aparece como <em>Heatmap (Kernel Density Estimation)</em>.</li>
+      <li>Preencha conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Heatmap (Kernel Density Estimation)</div>
+      <dl>
+        <dt>Point layer</dt><dd>sinistros</dd>
+        <dt>Radius</dt><dd>150 meters</dd>
+        <dt>Output raster size · Pixel size X</dt><dd>25</dd>
+        <dt>Pixel size Y</dt><dd>25</dd>
+        <dt>Radius from field</dt><dd>vazio</dd>
+        <dt>Weight from field</dt><dd>vazio</dd>
+        <dt>Kernel shape</dt><dd>Quartic (biweight)</dd>
+        <dt>Output value scaling</dt><dd>Raw</dd>
+        <dt>Heatmap</dt><dd>dados_tratados/kde_150.tif</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Rode. O raster entra em escala de cinza.</li>
+      <li>Em <em>Properties ▸ Symbology</em>, troque <em>Render type</em> para <em>Singleband pseudocolor</em>, escolha uma rampa sequencial e clique em <em>Classify</em>.</li>
+      <li>Em <em>Transparency</em>, marque <em>Additional no data value</em> igual a 0 para que o fundo fique limpo.</li>
+      <li>Anote o valor máximo do raster. Ele aparece em <em>Properties ▸ Information</em>, no bloco de estatísticas da banda 1, ou no topo da escala em <em>Symbology</em>. O número absoluto depende da normalização que o QGIS usa no kernel e não precisa bater com o de ninguém; o que importa é a razão.</li>
+      <li>Para contar as manchas, rode <span class="caminho">Raster <i>▸</i> Raster Calculator</span> com a expressão abaixo, trocando <code>MAX</code> pelo valor que você anotou, e salve como <code>dados_tratados/mancha_150.tif</code>.</li>
+    </ol>
+
+<pre class="expr">"kde_150@1" &gt; 0.25 * MAX   <span class="cm">-- 1 onde a densidade passa de um quarto do pico, 0 no resto</span></pre>
+
+    <ol start="8">
+      <li>Rode <code>gdal:polygonize</code> sobre <code>mancha_150.tif</code>, filtre as feições com valor 1 e leia a contagem. Some a área com <code>sum($area)</code> na barra de estatísticas.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Você deve estar vendo pontos quentes espalhados, cada um do tamanho de meia quadra. Acima de um quarto do valor máximo sobram <strong>19 manchas</strong>, somando <strong>0,30 km²</strong>. A maior tem 0,04 km². Uma ou duas manchas de diferença vêm do alinhamento da grade e não são problema; uma diferença de dez, sim.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">O limiar de 25% é refém do pico</div>
+      <p>O pico do raster de 150 metros cai na Marginal Pinheiros, ao lado da Ponte Eusébio Matoso, e boa parte dele vem das 44 ocorrências gravadas na mesma coordenada que você viu no passo 1. Como o limiar é 25% de um máximo inflado por empilhamento, ele exclui manchas reais. Trocar o limiar por um valor absoluto de densidade muda a contagem sem mudar o dado. Declare qual usou.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Os três raios lado a lado</h3>
+    <ol>
+      <li>Repita o passo 2 com <em>Radius</em> igual a <strong>500</strong>, pixel de 25 m e saída <code>kde_500.tif</code>.</li>
+      <li>Repita mais uma vez com <em>Radius</em> igual a <strong>2000</strong>, agora com pixel de <strong>50</strong> m, e saída <code>kde_2000.tif</code>.</li>
+      <li>Aplique a mesma simbologia nos três, copiando o estilo com botão direito em <span class="caminho">Styles <i>▸</i> Copy Style</span> e colando nos outros dois.</li>
+      <li>Use <span class="caminho">View <i>▸</i> New Map View</span> para abrir duas telas adicionais e ver os três ao mesmo tempo, ou alterne a visibilidade com a caixa de seleção.</li>
+      <li>Repita o cálculo de manchas do passo 2 nos dois rasters novos.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th class="num" style="width:12%">Raio</th><th class="num" style="width:10%">Pixel</th><th class="num" style="width:14%">Manchas</th><th class="num" style="width:18%">Área total</th><th class="num" style="width:18%">Maior mancha</th><th>O que o mapa oferece</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td class="num">150 m</td><td class="num">25 m</td><td class="num">19</td><td class="num">0,30 km²</td><td class="num">0,04 km²</td><td>Alvos do tamanho de meia quadra</td></tr>
+        <tr><td class="num">500 m</td><td class="num">25 m</td><td class="num">39</td><td class="num">6,98 km²</td><td class="num">0,51 km²</td><td>Alvos do tamanho de trecho de avenida</td></tr>
+        <tr><td class="num">2.000 m</td><td class="num">50 m</td><td class="num">7</td><td class="num">428,99 km²</td><td class="num">415,50 km²</td><td>Regiões, não pontos</td></tr>
+      </tbody>
+      <caption>Manchas acima de 25% do valor máximo de cada raster, kernel quartic. A área destacada cresce 1.400 vezes da primeira linha à última, com o mesmo dado. O pixel de 50 m na última linha é por tempo de cálculo: com 25 m o resultado seria 429,17 km² em vez de 428,99 km², diferença de 0,04%, ao custo de quatro vezes mais pixels.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Leitura</div>
+      <p>Nenhum dos três está errado, e a coluna de manchas não é monótona. O raio de 150 metros produz menos manchas que o de 500 porque o pico dele é mais alto, e o limiar de 25% sobe junto. O de 2.000 metros derrete a cidade numa mancha de 415,50 km², um quarto do município. Se o edital pede cinco pontos de obra, o raio de 150 metros é o defensável, e você escreve isso no relatório junto com o limiar usado.</p>
+    </div>
+
+    <figure class="ph">captura de tela · três mapas de calor lado a lado, com a mesma simbologia e a mesma extensão, rotulados com o raio de cada um</figure>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>DBSCAN com ε de 300 metros</h3>
+    <ol>
+      <li>Na <em>Toolbox</em>, procure <code>native:dbscanclustering</code>, que aparece como <em>DBSCAN clustering</em>.</li>
+      <li>Preencha conforme abaixo e deixe as duas caixas de opções avançadas desmarcadas.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">DBSCAN clustering</div>
+      <dl>
+        <dt>Input layer</dt><dd>sinistros, já filtrado</dd>
+        <dt>Minimum cluster size</dt><dd>10</dd>
+        <dt>Maximum distance between clustered points</dt><dd>300 meters</dd>
+        <dt>Treat border points as noise (DBSCAN*)</dt><dd>desmarcado</dd>
+        <dt>Cluster field name</dt><dd>CLUSTER_ID</dd>
+        <dt>Clusters</dt><dd>dados_tratados/db_300.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Rode e abra a tabela de atributos da saída. Duas colunas novas apareceram: <code>CLUSTER_ID</code> e <code>CLUSTER_SIZE</code>.</li>
+      <li>Ordene por <code>CLUSTER_SIZE</code> clicando no cabeçalho, em ordem decrescente. Olhe a primeira linha.</li>
+      <li>Para contar o ruído, use <span class="caminho">Layer <i>▸</i> Filter</span> com a expressão abaixo e leia o total no topo da tabela.</li>
+    </ol>
+
+<pre class="expr">"CLUSTER_ID" IS NULL   <span class="cm">-- no QGIS o ruído vem em branco; em Python o rótulo é −1</span></pre>
+
+    <ol start="6">
+      <li>Limpe o filtro. Em <em>Properties ▸ Symbology</em>, escolha <em>Categorized</em>, coluna <code>CLUSTER_ID</code>, e clique em <em>Classify</em>. Deixe a categoria de valor nulo em cinza claro.</li>
+      <li>Selecione no mapa o cluster de maior <code>CLUSTER_SIZE</code> e olhe onde ele está.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>São <strong>279 clusters</strong> e <strong>5.399 pontos de ruído</strong>, 25,0% da base. E o maior cluster tem <strong>5.334 sinistros</strong>, um quarto de tudo. Ele vai da Marginal Tietê à Marginal Pinheiros, desce a Radial Leste e engloba o centro. Os 16.183 pontos agrupados carregam 651 dos 938 óbitos, 69,4%.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Esse resultado não serve, e é assim que se descobre</div>
+      <p>Um cluster de 5.334 registros espalhados por 235,8 km² não é um ponto de intervenção: é a cidade formal inteira dentro de um identificador. O DBSCAN cresce por contágio, e nas avenidas de São Paulo há sinistro a menos de 300 metros um do outro em quilômetros seguidos. O parâmetro que a literatura sugere como razoável para dado urbano é exatamente o que quebra aqui. Antes de escolher ε, olhe o tamanho do maior cluster.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Ponto central e ponto de borda</div>
+      <p>Dos 16.183 sinistros agrupados nesta rodada, 12.602 são pontos centrais e 3.581 são pontos de borda. O QGIS não separa os dois na saída. A distinção importa quando dois clusters ficam próximos: um ponto de borda alcançável por mais de um cluster é atribuído ao primeiro que o encontra, e a atribuição pode variar entre implementações. Com o encadeamento desta rodada isso deixa de ser detalhe, porque a fronteira entre um cluster e o vizinho passa a depender da ordem de leitura do arquivo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>Os outros dois raios: 150 e 600 metros</h3>
+    <p>Com o resultado de 300 metros na mão, rode os extremos antes de decidir.</p>
+    <ol>
+      <li>Repita o passo 4 com <em>Maximum distance</em> igual a <strong>600</strong> e saída <code>db_600.gpkg</code>.</li>
+      <li>Repita com <em>Maximum distance</em> igual a <strong>150</strong> e saída <code>db_150.gpkg</code>.</li>
+      <li>Em cada saída, leia o número de clusters, a contagem de nulos e o maior <code>CLUSTER_SIZE</code>.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th class="num" style="width:10%">ε</th><th class="num" style="width:13%">Clusters</th><th class="num" style="width:18%">Ruído</th><th class="num" style="width:16%">Maior cluster</th><th class="num" style="width:17%">Área do maior</th><th>Serve para quê</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td class="num">150 m</td><td class="num">322</td><td class="num">15.624 · 72,4%</td><td class="num">135</td><td class="num">0,539 km²</td><td>Objetos do tamanho de um canteiro de obra</td></tr>
+        <tr><td class="num">300 m</td><td class="num">279</td><td class="num">5.399 · 25,0%</td><td class="num">5.334</td><td class="num">235,834 km²</td><td>Um corredor único mais 278 restos</td></tr>
+        <tr><td class="num">600 m</td><td class="num">29</td><td class="num">552 · 2,6%</td><td class="num">20.446</td><td class="num">1.255,890 km²</td><td>Nada: o cluster é o município</td></tr>
+      </tbody>
+      <caption>MinPts fixo em 10, sobre os mesmos 21.582 pontos. À medida que ε cresce o ruído desaparece, e o que parece ganho é o algoritmo engolindo a cidade. Com 600 metros um único cluster reúne 94,7% dos sinistros.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Decisão do roteiro</div>
+      <p>Seguimos com <strong>ε de 150 metros</strong>. É o único dos três em que todo cluster continua sendo um lugar: a mediana tem 14 sinistros e 0,027 km², e o maior tem 135 sinistros e 0,539 km². O preço é o ruído de 72,4% e o fato de os clusters reunirem só 236 dos 938 óbitos, 25,2%. Esse preço entra no corpo do relatório, junto da lista, porque é ele que define o alcance máximo da política.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Por que a escolha inverteu o que se costuma ensinar</div>
+      <p>Em base de sinistro de cidade média, com alguns milhares de registros, ε de 300 metros costuma devolver dezenas de clusters compactos e é a recomendação usual. São Paulo em 2025 tem 21.582 sinistros com vítima em 1.521 km², densidade alta o bastante para que 300 metros conectem tudo. A recomendação de valor não sobrevive à mudança de densidade; o teste, sim: rode três raios e descarte os que produzem um cluster maior que a intervenção possível.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Mexer no MinPts, com o raio fixo</h3>
+    <p>O ε recebe toda a atenção, e o MinPts também muda a resposta. Rode o mesmo algoritmo mais três vezes sobre a camada filtrada, mantendo 150 metros e trocando só o tamanho mínimo do cluster.</p>
+
+    <table>
+      <thead><tr><th class="num" style="width:13%">MinPts</th><th class="num" style="width:15%">Clusters</th><th class="num" style="width:20%">Ruído</th><th class="num" style="width:17%">Maior cluster</th><th>O que aconteceu</th></tr></thead>
+      <tbody>
+        <tr><td class="num">5</td><td class="num">1.005</td><td class="num">8.328 · 38,6%</td><td class="num">493</td><td>Mil alvos, a maioria com cinco ou seis sinistros</td></tr>
+        <tr class="hi"><td class="num">10</td><td class="num">322</td><td class="num">15.624 · 72,4%</td><td class="num">135</td><td>O que o roteiro usa</td></tr>
+        <tr><td class="num">20</td><td class="num">43</td><td class="num">20.173 · 93,5%</td><td class="num">115</td><td>Sobram os pontos de maior volume</td></tr>
+        <tr><td class="num">30</td><td class="num">15</td><td class="num">20.831 · 96,5%</td><td class="num">110</td><td>Quinze lugares na cidade inteira</td></tr>
+      </tbody>
+      <caption>ε fixo em 150 metros. O número de clusters cai 67 vezes de MinPts 5 para MinPts 30, e o ruído vai de 38,6% a 96,5%. Não há faixa estável: aqui o MinPts pesa tanto quanto o ε.</caption>
+    </table>
+
+    <div class="cuidado">
+      <div class="lbl">O que muda e o que não muda</div>
+      <p>O tamanho do maior cluster quase não se move: 493 com MinPts 5, e 110 com MinPts 30. Quem olha só essa coluna conclui que o resultado é estável. O que se move é quantos lugares entram na lista, e é disso que depende o edital. Repare também que MinPts 5 devolve 1.005 clusters, dos quais centenas existem apenas porque cinco ocorrências caíram na mesma coordenada de referência de via.</p>
+    </div>
+
+    <div class="confira">
+      <div class="lbl">Critério prático</div>
+      <p>Não existindo faixa estável, o critério passa a ser o instrumento: quantos lugares a secretaria consegue tratar. Com cinco obras no orçamento, qualquer MinPts entre 10 e 30 serve, porque todos devolvem mais de cinco candidatos. Registre no relatório que você testou a faixa inteira, e não só o valor escolhido.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>A envoltória de cada cluster</h3>
+    <p>Para virar objeto de projeto, cada cluster precisa de um perímetro. A envoltória convexa é o polígono mais simples que serve.</p>
+    <ol>
+      <li>Na <em>Toolbox</em>, procure <code>qgis:minimumboundinggeometry</code>, ou <em>Minimum bounding geometry</em>.</li>
+      <li>Entrada: <code>db_150</code>. Em <em>Field</em>, escolha <code>CLUSTER_ID</code>, para que o algoritmo gere uma geometria por cluster.</li>
+      <li>Em <em>Geometry type</em>, escolha <strong>Convex hull</strong>. Salve como <code>dados_tratados/envoltorias_150.gpkg</code>.</li>
+      <li>Rode. A saída traz uma linha por cluster, com os campos de largura, altura, área e perímetro já calculados.</li>
+      <li>Se o polígono do valor nulo aparecer, ele é a envoltória do ruído: apague essa feição, porque ela cobre a cidade inteira e não significa nada.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>As 322 envoltórias somam <strong>13,20 km²</strong>, ou 0,87% do município. Dentro desse 0,87% do território estão 25,2% dos óbitos. A maior envoltória tem 0,539 km², a mediana tem 0,027 km² e há clusters de quatro pontos com envoltória quase degenerada, porque quatro sinistros na mesma calçada geram um polígono de poucos metros quadrados.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Envoltória de cluster pequeno mente a área</div>
+      <p>Um cluster de dez pontos alinhados ao longo de um quarteirão devolve uma envoltória fina e comprida, com área quase nula. Isso faz qualquer razão de óbitos por km² explodir. Se você for ranquear por densidade, use um buffer de raio fixo em torno dos pontos, ou informe a área junto com o número de pontos, para que o leitor veja o denominador.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Contar vítimas por cluster e montar a tabela de prioridade</h3>
+    <p>O QGIS agrega dentro da calculadora de campo, com funções que recebem um agrupamento. Vamos criar três colunas na camada de pontos e depois transferi-las para as envoltórias.</p>
+    <ol>
+      <li>Na camada <code>db_150</code>, abra o <em>Field Calculator</em> e crie um campo inteiro chamado <code>n_sinistros</code> com a expressão abaixo.</li>
+    </ol>
+
+<pre class="expr">count("id_sinistro", group_by:="CLUSTER_ID")</pre>
+
+    <ol start="2">
+      <li>Crie <code>n_vitimas</code> com <code>sum("vitimas", group_by:="CLUSTER_ID")</code>.</li>
+      <li>Crie <code>n_obitos</code> com <code>sum("vitimas_fatais", group_by:="CLUSTER_ID")</code>.</li>
+      <li>Crie <code>via</code>, de texto, com <code>minimum("logradouro", group_by:="CLUSTER_ID")</code> apenas para ter algum rótulo automático, e saiba que ele é o primeiro nome em ordem alfabética, não o mais frequente. O logradouro mais frequente sai de um agrupamento na tabela dinâmica ou de duas linhas de Python; a tabela abaixo usa o mais frequente.</li>
+      <li>Salve as edições e desligue o modo de edição.</li>
+      <li>Na <em>Toolbox</em>, rode <code>native:joinattributestable</code> para levar essas colunas às envoltórias.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Join attributes by field value</div>
+      <dl>
+        <dt>Input layer</dt><dd>envoltorias_150</dd>
+        <dt>Table field</dt><dd>CLUSTER_ID</dd>
+        <dt>Input layer 2</dt><dd>db_150</dd>
+        <dt>Table field 2</dt><dd>CLUSTER_ID</dd>
+        <dt>Layer 2 fields to copy</dt><dd>n_sinistros, n_vitimas, n_obitos, via</dd>
+        <dt>Join type</dt><dd>Take attributes of the first matching feature only</dd>
+        <dt>Joined layer</dt><dd>dados_tratados/prioridade.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="7">
+      <li>Abra a tabela de <code>prioridade</code> e ordene por <code>n_obitos</code> em ordem decrescente.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th class="num" style="width:6%">#</th><th style="width:32%">Logradouro mais frequente</th><th class="num">Sinistros</th><th class="num">Vítimas</th><th class="num">Óbitos</th><th class="num">Área</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td class="num">1</td><td>Avenida Washington Luís</td><td class="num">35</td><td class="num">40</td><td class="num">5</td><td class="num">0,068 km²</td></tr>
+        <tr class="hi"><td class="num">2</td><td>Avenida Itaquera</td><td class="num">19</td><td class="num">19</td><td class="num">4</td><td class="num">0,072 km²</td></tr>
+        <tr class="hi"><td class="num">3</td><td>Avenida Carlos Lacerda</td><td class="num">15</td><td class="num">16</td><td class="num">4</td><td class="num">0,027 km²</td></tr>
+        <tr class="hi"><td class="num">4</td><td>Avenida Tiradentes</td><td class="num">95</td><td class="num">109</td><td class="num">3</td><td class="num">0,539 km²</td></tr>
+        <tr class="hi"><td class="num">5</td><td>Avenida Comendador Sant'Anna</td><td class="num">28</td><td class="num">35</td><td class="num">3</td><td class="num">0,042 km²</td></tr>
+        <tr><td class="num">6</td><td>Rua Joaquim Marra</td><td class="num">23</td><td class="num">27</td><td class="num">3</td><td class="num">0,053 km²</td></tr>
+        <tr><td class="num">7</td><td>SP 015 · Marginal Tietê</td><td class="num">22</td><td class="num">26</td><td class="num">3</td><td class="num">0,047 km²</td></tr>
+        <tr><td class="num">8</td><td>Avenida Engenheiro Armando de Arruda Pereira</td><td class="num">16</td><td class="num">22</td><td class="num">3</td><td class="num">0,028 km²</td></tr>
+        <tr><td class="num">9</td><td>Ponte do Tatuapé</td><td class="num">20</td><td class="num">21</td><td class="num">3</td><td class="num">0,064 km²</td></tr>
+        <tr><td class="num">10</td><td>Avenida Nove de Julho</td><td class="num">18</td><td class="num">20</td><td class="num">3</td><td class="num">0,063 km²</td></tr>
+      </tbody>
+      <caption>Dez primeiros dos 322 clusters de ε 150 m e MinPts 10, ordenados por óbitos e, no empate, por vítimas. O rótulo é o valor mais frequente do campo <code>logradouro</code> dentro do cluster; nenhum deles é um cruzamento, porque o Infosiga não grava cruzamento. Do sexto ao décimo todos têm 3 óbitos, e a ordem entre eles é decidida pelo desempate.</caption>
+    </table>
+
+    <div class="cuidado">
+      <div class="lbl">Cinco empates decidem quem entra na lista</div>
+      <p>Os clusters da quarta à décima posição têm 3 óbitos cada. Sete candidatos disputam duas vagas, e quem decide é a regra de desempate, não o dado. Trocar o desempate de vítimas para número de sinistros muda a quarta e a quinta linha. Uma lista de cinco pontos construída sobre 3 mortes de diferença precisa vir com essa frase escrita.</p>
+    </div>
+
+    <div class="confira">
+      <div class="lbl">A resposta do roteiro</div>
+      <p>Os cinco primeiros somam <strong>192 sinistros, 219 vítimas e 19 óbitos</strong>. São <strong>2,0%</strong> de todas as mortes da base, concentradas em <strong>0,748 km²</strong>, ou 0,05% do município. A lista cabe em uma página e num orçamento de R$ 12 milhões. O que ela não sustenta é a promessa de resolver o problema: 919 das 938 mortes de 2025 aconteceram fora desses cinco pontos.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">A ordem depende do critério</div>
+      <p>Ordene a mesma tabela por número de sinistros e a lista vira outra: entram um trecho da Marginal Pinheiros com 135 registros e 2 óbitos, a Avenida Tiradentes com 95 e 3, outro trecho da Marginal Pinheiros com 93 e 2, a Avenida Washington Luís com 75 e nenhum óbito, e a Estrada de Itapecerica com 69 e 2. Só a Tiradentes aparece nas duas listas. Os cinco pontos do primeiro critério concentram 19 mortes por ano; os do segundo, 9. As duas listas atacam problemas diferentes, e o relatório precisa dizer qual delas está atacando.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que os cinco pontos não têm de especial</div>
+      <p>Nos cinco clusters do topo, 76,0% dos sinistros envolvem motocicleta e 12,5% envolvem pedestre. Na base inteira, 69,7% e 14,1%. O perfil é quase o mesmo do resto da cidade. O que distingue os cinco pontos é a concentração: qualquer intervenção desenhada para eles serve também para os 72,4% de sinistros espalhados, que não vão aparecer em mapa de cluster nenhum.</p>
+    </div>
+
+    <figure class="ph">captura de tela · tabela de atributos da camada prioridade ordenada por n_obitos, com as cinco primeiras linhas selecionadas e destacadas no mapa</figure>
+  </div>
+</div>
+
+<div class="passo" id="p9">
+  <div class="n">9</div>
+  <div class="c">
+    <h3>K-means, para a outra pergunta</h3>
+    <p>A mesma secretaria quer instalar cinco bases de equipe de resposta. Agora todo sinistro precisa ter um responsável, inclusive os 15.624 que o DBSCAN chamou de ruído.</p>
+    <ol>
+      <li>Na <em>Toolbox</em>, procure <code>native:kmeansclustering</code>, ou <em>K-means clustering</em>.</li>
+      <li>Entrada: <code>sinistros</code>, filtrado. <em>Number of clusters</em>: <strong>5</strong>. Campo de saída: <code>CLUSTER_ID</code>.</li>
+      <li>Salve como <code>dados_tratados/km_5.gpkg</code> e rode.</li>
+      <li>Simbolize por <code>CLUSTER_ID</code> com cinco cores e compare visualmente com a saída do DBSCAN.</li>
+      <li>Rode <code>qgis:minimumboundinggeometry</code> sobre a saída, de novo agrupando por <code>CLUSTER_ID</code>, para desenhar a área de cada setor.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Os cinco setores ficam com aproximadamente 5.364, 5.305, 3.978, 3.582 e 3.353 sinistros. Nenhum ponto sobra. As envoltórias cobrem quase toda a mancha urbana, contra os 13,20 km² das envoltórias do DBSCAN.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Por que os seus números podem diferir em algumas unidades</div>
+      <p>O K-means depende da posição inicial dos centros, sorteada a cada execução. Rodar duas vezes pode trocar alguns pontos de setor e mudar os totais em dezenas de unidades. O DBSCAN não tem esse problema: com os mesmos parâmetros, devolve sempre o mesmo resultado. Quando você precisar de reprodutibilidade exata em K-means, registre a semente ou entregue o arquivo de saída junto com o relatório.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>A lista do roteiro foi montada sobre todos os tipos de sinistro. A Secretaria de Mobilidade pergunta agora onde estão os pontos de atropelamento, porque a política de travessia segura tem verba própria.</p>
+    <ol>
+      <li>Na camada filtrada de sinistros, acrescente ao filtro a condição <code>"tipo_sinistro" = 'ATROPELAMENTO'</code> e leia quantos registros sobram e quantos óbitos eles carregam.</li>
+      <li>Rode <code>native:dbscanclustering</code> com ε de <strong>150</strong> metros e MinPts de <strong>10</strong>. Anote clusters e ruído.</li>
+      <li>Repita com MinPts de <strong>5</strong>. Anote clusters e ruído, gere as envoltórias e monte a tabela dos cinco clusters com mais óbitos.</li>
+    </ol>
+    <p>Depois responda, em quatro frases:</p>
+    <ol type="a">
+      <li>Que fração das mortes de trânsito de São Paulo em 2025 são atropelamentos, e que fração delas cai dentro dos cinco pontos que você achou?</li>
+      <li>Por que o MinPts que serviu para o conjunto todo não serve para o recorte de atropelamento?</li>
+      <li>A verba de travessia segura deve ser gasta nesses cinco pontos ou em outra coisa? Diga o que o dado sustenta e o que não sustenta.</li>
+      <li>Se a secretaria insistir em cinco pontos, qual é a frase que você escreve no relatório para que ninguém atribua a você uma promessa que o dado não faz?</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma tabela de duas linhas, uma por valor de MinPts, com clusters e ruído, mais a tabela dos cinco pontos e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Para o professor conferir com a turma</div>
+  <p>São <strong>3.191 atropelamentos</strong> com <strong>365 óbitos</strong>: 38,9% de todas as mortes de trânsito da base saem de 14,8% dos registros. Com ε de 150 metros e MinPts 10 saem <strong>2 clusters</strong> e 3.170 pontos de ruído, 99,3%. Com MinPts 5 saem <strong>37 clusters</strong> e 2.954 de ruído, 92,6%; os cinco com mais óbitos somam 11 mortes, 3,0% dos óbitos por atropelamento, em 0,082 km². São clusters pequenos, de 5 a 10 sinistros; o maior dos 37, com 17 sinistros entre a Avenida Rangel Pestana e o Largo da Concórdia, no Brás, não tem óbito nenhum. A conclusão que se leva ao secretário é desconfortável e correta: morte de pedestre em São Paulo não é fenômeno de ponto crítico, é fenômeno difuso, e uma política de cinco travessias alcança 3% do problema. O instrumento adequado é de área, não de ponto: limite de velocidade, tempo de semáforo para pedestre, iluminação de via.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">Os cinco pontos são as cinco envoltórias com mais óbitos: 19 mortes em 0,748 km². Isso é 2,0% das mortes de 2025.</p>
+  <p>A defesa diante do vereador tem três peças, e nenhuma delas é o mapa. A primeira é o critério declarado: óbitos, com desempate por vítimas, sobre agrupamentos de raio 150 metros e mínimo de 10 sinistros, escolhidos depois de ver que 300 e 600 metros colam a cidade num cluster só. A segunda é a tabela de sensibilidade ao MinPts, que mostra que o número de candidatos varia de 15 a 1.005 e que a lista de cinco sobrevive em toda a faixa. A terceira é o tamanho do que sobra de fora: 919 das 938 mortes. Quem apresentar essa lista como plano de redução de mortes está mentindo; quem a apresentar como o que cabe em cinco obras está certo.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos, com a resposta em aberto.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Concentrar obra onde já morreu muita gente é justo com o bairro que tem pouco sinistro porque tem pouca gente circulando?</p>
+  <p>A contagem absoluta favorece área de fluxo alto. A taxa por veículo-quilômetro favorece área periférica, onde há menos tráfego e mais mortes por exposição. As duas métricas são defensáveis e produzem listas quase disjuntas. Sem contagem volumétrica de tráfego, o que existe é a contagem absoluta, e vale dizer isso em voz alta em vez de deixar implícito.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Um cluster de sinistros indica um lugar perigoso ou um lugar movimentado?</p>
+  <p>Sem denominador, indica movimento. A Marginal Pinheiros lidera o campo <code>logradouro</code> com 601 registros em 2025, e a Marginal Tietê vem em seguida com 380, porque passa por elas um volume enorme de veículos. Isso não as torna irrelevantes para a política, já que a morte acontece de fato ali. Torna, sim, discutível a afirmação de que são "as vias mais perigosas da cidade": 13 óbitos em cada uma, contra 17 na Avenida Jacu Pêssego, que tem menos de um terço dos registros.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se o resultado muda tanto com o parâmetro, quem garante que o analista não escolheu o parâmetro que produz o resultado desejado?</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>Toda a análise ignora o denominador. Sem contagem de tráfego, de pedestres ou de população exposta, o que se mede é onde os eventos acontecem, e não onde o risco é maior por unidade de exposição.</li>
+    <li>Nada aqui é temporal. Os 21.582 sinistros de 2025 foram tratados como um conjunto único, embora o arquivo traga data, hora, dia da semana e turno. Um ponto que só existe na madrugada de sábado pede intervenção diferente de um que existe todo dia às sete da manhã.</li>
+    <li>A distância usada foi euclidiana. Dois sinistros a 200 metros um do outro, separados por uma linha férrea sem passagem, foram tratados como vizinhos. A distância pela rede viária é o assunto do tema 10.</li>
+    <li>Os agrupamentos não foram testados contra a hipótese nula. Saber que existem 322 clusters não é saber que 322 é mais do que o acaso produziria com essa densidade. Um teste formal exigiria simulação de Monte Carlo.</li>
+    <li>Ficaram de fora 3.964 dos 25.617 eventos com vítima de 2025 na capital porque não tinham latitude e longitude, além dos 71 descartados pelo recorte geométrico. Se a falta de coordenada for mais comum na periferia ou em ocorrência de madrugada, todo o resultado está enviesado, e nada no arquivo permite saber.</li>
+    <li>As 3.579 ocorrências empilhadas em coordenada repetida continuam contando como pontos independentes. Elas inflam o pico do mapa de calor e criam pontos centrais no DBSCAN. Tratá-las exigiria voltar ao endereço original, que é o assunto do tema 7.</li>
+  </ul>
+</div>
+
+<div class="conceito">
+  <div class="lbl">Entrega fora de sala</div>
+  <h4>A APS 2 é lançada hoje</h4>
+  <p>O enunciado está no Blackboard e o prazo é de duas semanas. Ela retoma a parte que ficou de fora do roteiro do tema anterior: você recebe uma lista suja de endereços de equipamentos públicos, limpa e padroniza o texto, geocodifica contra a base de referência, reporta a taxa de match desagregada por município e só então aplica o que foi feito hoje. A nota considera, com peso igual, a análise de agrupamento e a honestidade do relato sobre os endereços que não deram match.</p>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">MapBiomas, cartilha da coleção mais recente: o que é uma classe de uso da terra e como a acurácia é reportada.
+      <span class="src">Leitura dirigida de 15 minutos · antes do tema 9</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Martin Ester, Hans-Peter Kriegel, Jörg Sander e Xiaowei Xu, <em>A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</em>.
+      <span class="src">KDD-96 · seis páginas · o artigo original do DBSCAN</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Arthur Getis e J. K. Ord, <em>The Analysis of Spatial Association by Use of Distance Statistics</em>, seções 1 e 5.
+      <span class="src">Geographical Analysis, 1992 · a origem do Gi*</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">Manual de análise de dados de sinistros do Programa Vida no Trânsito, sobre critério de priorização de ponto crítico.
+      <span class="src">Ministério da Saúde e Ministério dos Transportes · capítulos de priorização</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Ferramenta</div>
+    <div class="t">Documentação do QGIS para <em>Heatmap (Kernel Density Estimation)</em>, <em>DBSCAN clustering</em> e <em>K-means clustering</em>.
+      <span class="src">docs.qgis.org · seção Processing algorithms · Vector analysis e Interpolation</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-07.html"><span class="k">Tema anterior</span><span class="t">Tenho uma lista de endereços. Como ela vira padrão no mapa?</span></a>
+  <a href="encontro-09.html" class="r"><span class="k">Próximo tema</span><span class="t">Quanto do meu município virou pasto desde 1985?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

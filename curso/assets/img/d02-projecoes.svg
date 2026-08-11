@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="724.032pt" height="269.126922pt" viewBox="0 0 724.032 269.126922" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-08-02T12:44:36.207492</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.9, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 269.126922 
+L 724.032 269.126922 
+L 724.032 0 
+L 0 0 
+L 0 269.126922 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 103.032 222.762359 
+L 294.8445 222.762359 
+L 294.8445 23.178359 
+L 103.032 23.178359 
+L 103.032 222.762359 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="patch_3">
+    <path d="M 198.93825 136.823837 
+C 211.146875 136.823837 222.857109 133.261204 231.489911 126.920567 
+C 240.122712 120.57993 244.97325 111.978974 244.97325 103.011959 
+C 244.97325 94.044945 240.122712 85.443988 231.489911 79.103351 
+C 222.857109 72.762714 211.146875 69.200082 198.93825 69.200082 
+C 186.729625 69.200082 175.019391 72.762714 166.386589 79.103351 
+C 157.753788 85.443988 152.90325 94.044945 152.90325 103.011959 
+C 152.90325 111.978974 157.753788 120.57993 166.386589 126.920567 
+C 175.019391 133.261204 186.729625 136.823837 198.93825 136.823837 
+z
+" clip-path="url(#p7680f6ec78)" style="fill: #f2efea; stroke: #14141a; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(148.472375 176.255215)">preserva forma e ângulo</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(176.295359 186.683565)">(conforme)</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #a80404" transform="translate(144.652328 204.431779)">perde área, cada vez mais</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #a80404" transform="translate(162.815328 214.860129)">longe do equador</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="198.93825" y="15.178359" transform="rotate(-0 198.93825 15.178359)">Cilíndrica</text>
+   </g>
+   <g id="line2d_1">
+    <path d="M 173.491446 131.188524 
+L 224.385054 131.188524 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 157.089703 117.100242 
+L 240.786797 117.100242 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 152.90325 103.011959 
+L 244.97325 103.011959 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 157.089703 88.923677 
+L 240.786797 88.923677 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 173.491446 74.835395 
+L 224.385054 74.835395 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 152.90325 157.017042 
+L 244.97325 157.017042 
+L 244.97325 49.006877 
+L 152.90325 49.006877 
+L 152.90325 157.017042 
+z
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #e50505; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 152.90325 157.017042 
+L 152.90325 49.006877 
+" clip-path="url(#p7680f6ec78)" style="fill: none; stroke: #e50505; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 314.02575 222.762359 
+L 505.83825 222.762359 
+L 505.83825 23.178359 
+L 314.02575 23.178359 
+L 314.02575 222.762359 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4"/>
+   <g id="patch_6">
+    <path d="M 409.932 136.823837 
+C 422.140625 136.823837 433.850859 133.261204 442.483661 126.920567 
+C 451.116462 120.57993 455.967 111.978974 455.967 103.011959 
+C 455.967 94.044945 451.116462 85.443988 442.483661 79.103351 
+C 433.850859 72.762714 422.140625 69.200082 409.932 69.200082 
+C 397.723375 69.200082 386.013141 72.762714 377.380339 79.103351 
+C 368.747538 85.443988 363.897 94.044945 363.897 103.011959 
+C 363.897 111.978974 368.747538 120.57993 377.380339 126.920567 
+C 386.013141 133.261204 397.723375 136.823837 409.932 136.823837 
+z
+" clip-path="url(#pf465de329a)" style="fill: #f2efea; stroke: #14141a; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(355.270672 176.255215)">preserva área ou distância</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(370.154953 186.683565)">na faixa de contato</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #a80404" transform="translate(366.688531 204.103779)">perde forma fora dos</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #a80404" transform="translate(375.445234 214.727648)">paralelos padrão</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="409.932" y="15.178359" transform="rotate(-0 409.932 15.178359)">Cônica</text>
+   </g>
+   <g id="line2d_7">
+    <path d="M 384.485196 131.188524 
+L 435.378804 131.188524 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 368.083453 117.100242 
+L 451.780547 117.100242 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 363.897 103.011959 
+L 455.967 103.011959 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 368.083453 88.923677 
+L 451.780547 88.923677 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 384.485196 74.835395 
+L 435.378804 74.835395 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 409.932 34.918595 
+L 336.403875 142.928759 
+L 483.460125 142.928759 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke: #e50505; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 370.29075 86.57563 
+L 449.57325 86.57563 
+" clip-path="url(#pf465de329a)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #e50505"/>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_8">
+    <path d="M 525.0195 222.762359 
+L 716.832 222.762359 
+L 716.832 23.178359 
+L 525.0195 23.178359 
+L 525.0195 222.762359 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_5"/>
+   <g id="matplotlib.axis_6"/>
+   <g id="patch_9">
+    <path d="M 620.92575 136.823837 
+C 633.134375 136.823837 644.844609 133.261204 653.477411 126.920567 
+C 662.110212 120.57993 666.96075 111.978974 666.96075 103.011959 
+C 666.96075 94.044945 662.110212 85.443988 653.477411 79.103351 
+C 644.844609 72.762714 633.134375 69.200082 620.92575 69.200082 
+C 608.717125 69.200082 597.006891 72.762714 588.374089 79.103351 
+C 579.741288 85.443988 574.89075 94.044945 574.89075 103.011959 
+C 574.89075 111.978974 579.741288 120.57993 588.374089 126.920567 
+C 597.006891 133.261204 608.717125 136.823837 620.92575 136.823837 
+z
+" clip-path="url(#p0fd5392e1c)" style="fill: #f2efea; stroke: #14141a; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(570.135719 176.066871)">preserva direção a partir</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; fill: #1f6b4a" transform="translate(587.062312 186.495221)">do ponto central</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a80404" x="620.92575" y="204.431779" transform="rotate(-0 620.92575 204.431779)">perde tudo o mais, rápido</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="620.92575" y="15.178359" transform="rotate(-0 620.92575 15.178359)">Plana / azimutal</text>
+   </g>
+   <g id="line2d_13">
+    <path d="M 595.478946 131.188524 
+L 646.372554 131.188524 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 579.077203 117.100242 
+L 662.774297 117.100242 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 574.89075 103.011959 
+L 666.96075 103.011959 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 579.077203 88.923677 
+L 662.774297 88.923677 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 595.478946 74.835395 
+L 646.372554 74.835395 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #9a9aa2; stroke-width: 0.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 547.397625 69.200082 
+L 694.453875 69.200082 
+" clip-path="url(#p0fd5392e1c)" style="fill: none; stroke: #e50505; stroke-width: 2; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m901ce79775" d="M 0 3.162278 
+C 0.838646 3.162278 1.643056 2.82908 2.236068 2.236068 
+C 2.82908 1.643056 3.162278 0.838646 3.162278 0 
+C 3.162278 -0.838646 2.82908 -1.643056 2.236068 -2.236068 
+C 1.643056 -2.82908 0.838646 -3.162278 0 -3.162278 
+C -0.838646 -3.162278 -1.643056 -2.82908 -2.236068 -2.236068 
+C -2.82908 -1.643056 -3.162278 -0.838646 -3.162278 0 
+C -3.162278 0.838646 -2.82908 1.643056 -2.236068 2.236068 
+C -1.643056 2.82908 -0.838646 3.162278 0 3.162278 
+z
+" style="stroke: #e50505"/>
+    </defs>
+    <g clip-path="url(#p0fd5392e1c)">
+     <use xlink:href="#m901ce79775" x="620.92575" y="69.200082" style="fill: #e50505; stroke: #e50505"/>
+    </g>
+   </g>
+  </g>
+  <g id="text_10">
+   <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #9a9aa2" x="7.2" y="260.346359" transform="rotate(-0 7.2 260.346359)">Nenhuma preserva forma e área ao mesmo tempo. Gauss provou em 1827 que isso é impossível, não difícil.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7680f6ec78">
+   <rect x="103.032" y="23.178359" width="191.8125" height="199.584"/>
+  </clipPath>
+  <clipPath id="pf465de329a">
+   <rect x="314.02575" y="23.178359" width="191.8125" height="199.584"/>
+  </clipPath>
+  <clipPath id="p0fd5392e1c">
+   <rect x="525.0195" y="23.178359" width="191.8125" height="199.584"/>
+  </clipPath>
+ </defs>
+</svg>

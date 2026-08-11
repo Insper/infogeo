@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 2 · Quantos hectares queimaram de verdade? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-02.html" class="here">Aula 2</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="now">02 · Hectares</a>
+  <a href="encontro-03.html" class="ahead">03 · Esgoto</a>
+  <a href="encontro-04.html" class="ahead">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="ahead">05 · Habitação</a>
+  <a href="encontro-06.html" class="ahead">06 · Vizinho</a>
+  <a href="encontro-07.html" class="ahead">07 · Endereços</a>
+  <a href="encontro-08.html" class="ahead">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 2 · Unidade teórica 02 · ODS 13 e 15</div>
+  <h1>Quantos hectares queimaram <em>de verdade</em>?</h1>
+  <p class="sub">O mesmo polígono, medido em quatro sistemas de coordenadas, devolve quatro números diferentes. Um deles passa 2.394 hectares do valor verdadeiro. O tema define qual dos quatro é o número auditável e por qual critério.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>Pantanal</b><span>área de estudo</span></div>
+    <div><b>INPE · IBGE</b><span>fontes</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#laranja">O problema da laranja</a></li>
+    <li><a href="#datum">Geoide, elipsoide, datum</a></li>
+    <li><a href="#sirgas">Por que o Brasil trocou de datum</a></li>
+    <li><a href="#tradeoff">O que se preserva e o que se perde</a></li>
+    <li><a href="#utm">UTM e os fusos brasileiros</a></li>
+    <li><a href="#albers">Albers, para somar o país</a></li>
+    <li><a href="#epsg">O código EPSG</a></li>
+    <li><a href="#onthefly">Reprojeção na tela e de verdade</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p1">1. Abrir e inspecionar</a></li>
+    <li><a href="#p2">2. Descobrir o CRS</a></li>
+    <li><a href="#p3">3. A medida sem sentido</a></li>
+    <li><a href="#p4">4. Ligar o elipsoide</a></li>
+    <li><a href="#p5">5. Duas funções de área</a></li>
+    <li><a href="#p6">6. Reprojetar para o fuso certo</a></li>
+    <li><a href="#p7">7. O erro de 2.394 hectares</a></li>
+    <li><a href="#p8">8. Albers e a tabela final</a></li>
+    <li><a href="#p9">9. A virada: distância</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>Você deveria ter lido o capítulo sobre projeções do <em>How to Lie with Maps</em>. Se não leu, leia as cinco primeiras páginas agora, enquanto a turma se organiza.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana02</span></div>
+  <div class="fonte">Fonte: <b>IBGE · Malhas Territoriais</b> e <b>INPE · Programa Queimadas</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · coleta de 02/08/2026</div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana02/cicatriz_teste_pantanal.gpkg" download>cicatriz_teste_pantanal.gpkg</a>
+        <span class="fd">1 polígono, EPSG:4674. Área geodésica de 303.514,4555 ha. Todos os números do roteiro saem dele.</span></div>
+        <span class="tp did">didático</span></li>
+    <li><div><a class="fn" href="dados/semana02/area_queimada_pantanal_aq1km.gpkg" download>area_queimada_pantanal_aq1km.gpkg</a>
+        <span class="fd">3.042 cicatrizes com id, ano, mês e área, do produto Área Queimada AQ1km v6 do INPE, meses de julho a novembro de 2020 e junho a novembro de 2024, recortados pelo bioma Pantanal. Soma de 7.255.548,0 ha somando mês a mês.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana02/municipios_pantanal_2022.gpkg" download>municipios_pantanal_2022.gpkg</a>
+        <span class="fd">18 municípios de MS e MT da malha municipal 2022 do IBGE, com código e área oficiais. Serve de recorte no exercício.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana02/bioma_pantanal_2019.gpkg" download>bioma_pantanal_2019.gpkg</a>
+        <span class="fd">Contorno oficial do bioma Pantanal, 1 polígono, EPSG:4674. Recortado do arquivo de biomas 1:250.000 do IBGE, baixado em 02/08/2026. Área de 150.961,0 km² em Albers equivalente.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana02/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Descrição de cada arquivo, os números que produz e as fontes oficiais equivalentes.</span></div></li>
+  </ul>
+  <div class="ft">GeoPackage, UTF-8, EPSG:4674. O contorno do bioma e a malha municipal vêm do IBGE; as cicatrizes de fogo, do produto AQ1km do INPE, tudo com coleta em 02/08/2026. Os valores conferidos, arquivo por arquivo, estão em <code>dados/semana02/_numeros_oficiais.json</code>. O <code>cicatriz_teste_pantanal.gpkg</code> é didático de propósito: existe para ter área geodésica conhecida, de 303.514,4555 ha.</div>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Como este pacote foi montado</div>
+  <p>Os polígonos de área queimada vêm do produto Área Queimada AQ1km v6 do <a href="https://data.inpe.br/queimadas/dados-abertos/">Programa Queimadas</a>, do INPE, nos meses de julho a novembro de 2020 e junho a novembro de 2024, recortados pelo contorno oficial do bioma Pantanal. Cada feição é um agrupamento contíguo de pixels de 1 km queimados naquele mês, de modo que a soma mês a mês conta duas vezes a área que voltou a queimar. As malhas de município e de bioma vêm do portal de geociências do IBGE, convertidas de Shapefile para GeoPackage e para UTF-8. O arquivo <code>cicatriz_teste_pantanal.gpkg</code> é um polígono único, construído para esta aula, com área conhecida: os números do roteiro se referem a ele, e você deve reproduzi-los exatamente.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">Um órgão ambiental divulga que 303 mil hectares queimaram no Pantanal. Um consultor contratado pela defesa refaz a conta e chega a 306 mil. Nenhum dos dois errou a soma. Quem está certo?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Geodésia e cartografia matemática</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="laranja">
+<p class="lede">Descasque uma laranja inteira sem quebrar a casca e tente espalhá-la sobre a mesa até formar um retângulo. A casca rasga, ou estica, ou sobra em alguns lugares e falta em outros. Por mais cuidado que você tenha, não dá certo, e a razão é matemática, não manual.</p>
+
+<p>Em 1827, Gauss demonstrou que nenhuma superfície curva pode ser aplanada sem deformação. O resultado ficou conhecido como <em>Theorema Egregium</em>, e é a razão pela qual toda projeção cartográfica é uma escolha sobre qual erro você prefere cometer. Como nenhum mapa plano consegue acertar tudo ao mesmo tempo, cada projeção é desenhada para preservar a propriedade que uma família de perguntas exige, ao custo das demais.</p>
+
+<p>O problema é que o QGIS não avisa qual erro você está cometendo. Ele calcula e mostra um número com duas casas decimais, que parece confiável justamente por ter casas decimais. Boa parte desta aula consiste em descobrir de onde esse número saiu e em que condições ele merece confiança.</p>
+</section>
+
+<section class="part" id="datum">
+<h2>Geoide, elipsoide e datum</h2>
+
+<p>A Terra não é uma esfera. Ela gira, então achata nos polos e incha no equador: o raio equatorial tem cerca de 6.378 km e o polar, 6.357 km. Uma diferença de 21 quilômetros.</p>
+
+<p>Mas ela também não é um elipsoide. A distribuição de massa no interior do planeta é irregular, então a superfície de nível do campo gravitacional, aquilo que chamaríamos de "nível do mar estendido por baixo dos continentes", tem ondulações de até cem metros para cima e para baixo. Essa superfície irregular é o <strong>geoide</strong>. É a forma física da Terra, e ela é impossível de descrever com uma equação simples.</p>
+
+<p>Como ninguém consegue fazer conta sobre o geoide, adota-se um <strong>elipsoide de referência</strong>: um sólido matemático, definido por dois números, que se aproxima do geoide. E aqui está o detalhe que gera confusão: existem muitos elipsoides possíveis, e cada um se ajusta melhor a uma parte do planeta.</p>
+
+
+<figure class="diagrama">
+  <img src="assets/img/d02-geoide.svg" alt="Corte do planeta mostrando três curvas quase sobrepostas: topografia irregular, geoide ondulado e elipsoide liso.">
+  <figcaption><b>Figura 1</b> O GPS calcula sobre o elipsoide, a água escoa segundo o geoide e você caminha sobre a topografia. A ondulação entre geoide e elipsoide chega a cem metros, e é ela que um datum tenta acomodar.</figcaption>
+</figure>
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Datum geodésico</h4>
+  <p>Um datum é o conjunto formado por um elipsoide de referência mais a maneira como ele foi amarrado ao planeta: qual ponto de origem, com que orientação, com que ajuste. Dois data diferentes atribuem coordenadas diferentes ao mesmo poste de luz. A diferença é sistemática, não aleatória, e no Brasil chega à ordem de dezenas de metros.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se dois arquivos usam data diferentes, o erro que aparece ao sobrepô-los é aleatório ou tem direção definida?</p>
+  <p>Tem direção definida, e é isso que o torna perigoso. Um erro aleatório aparece como confusão visual e você percebe. Um deslocamento sistemático de sessenta metros para nordeste parece um alinhamento perfeito, só que errado. Você só descobre quando um lote inteiro cai do lado errado da divisa.</p>
+</div>
+</section>
+
+<section class="part" id="sirgas">
+<h2>Por que o Brasil trocou de datum duas vezes</h2>
+
+<p>Até os anos 1980, boa parte da cartografia brasileira usava <strong>Córrego Alegre</strong>, um datum local com origem em um vértice em Minas Gerais. Depois veio o <strong>SAD69</strong>, o datum sul-americano, com origem no vértice Chuá, também em Minas. Ambos foram construídos com medições terrestres e são otimizados para o continente, não para o planeta.</p>
+
+<p>Com o GPS, isso deixou de servir. Um receptor de satélite trabalha em um referencial geocêntrico, com origem no centro de massa da Terra, e data locais têm origem deslocada em relação a esse centro. O Brasil adotou então o <strong>SIRGAS 2000</strong>, geocêntrico e compatível com o WGS84 usado pelo GPS, que se tornou o sistema oficial em 2005 e obrigatório a partir de 2015.</p>
+
+<p>Na prática, o que isso significa para você: uma camada antiga em SAD69 sobreposta a uma camada em SIRGAS 2000 aparece deslocada. O deslocamento varia com a posição, e no território brasileiro fica na casa de algumas dezenas de metros. Suficiente para mover uma divisa de lote, uma faixa de domínio de rodovia ou o limite de uma área de preservação permanente.</p>
+
+<div class="cuidado">
+  <div class="lbl">O que você vai encontrar na vida real</div>
+  <p>Muito arquivo antigo em portal público ainda está em SAD69, e nem sempre o metadado avisa. Se você sobrepuser duas camadas e elas parecerem "quase" alinhadas, com um deslocamento constante, suspeite de datum antes de suspeitar de erro de digitalização.</p>
+</div>
+</section>
+
+<section class="part" id="tradeoff">
+<h2>O que uma projeção preserva e o que ela sacrifica</h2>
+
+<p>Uma projeção é uma função matemática que leva um par latitude-longitude sobre o elipsoide para um par de coordenadas planas. Como a superfície é curva e o plano não é, alguma propriedade se perde. As candidatas a serem preservadas são quatro.</p>
+
+<table>
+  <thead><tr><th style="width:20%">Propriedade</th><th style="width:36%">O que fica correto</th><th>Quando você precisa</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Conformidade</strong></td><td>Os ângulos, e portanto a forma local das feições</td><td>Navegação, cadastro urbano, engenharia. UTM é conforme.</td></tr>
+    <tr><td><strong>Equivalência</strong></td><td>A área dos polígonos</td><td>Somar hectares, comparar territórios. Albers é equivalente.</td></tr>
+    <tr><td><strong>Equidistância</strong></td><td>A distância a partir de um ponto ou ao longo de uma linha</td><td>Análise de alcance a partir de uma origem única</td></tr>
+    <tr><td><strong>Azimutalidade</strong></td><td>A direção a partir de um ponto central</td><td>Radiocomunicação, rotas aéreas de longo curso</td></tr>
+  </tbody>
+  <caption>Conformidade e equivalência são mutuamente exclusivas. Nenhuma projeção preserva as duas ao mesmo tempo, e isso também é consequência do teorema de Gauss.</caption>
+</table>
+
+
+<figure class="diagrama">
+  <img src="assets/img/d02-projecoes.svg" alt="Três esferas com uma superfície de projeção encostada: cilindro, cone e plano, cada uma com o que preserva e o que perde.">
+  <figcaption><b>Figura 2</b> Cada família encosta uma superfície diferente no globo, e o que fica correto é o que está perto do contato. Longe dele, o erro cresce.</figcaption>
+</figure>
+<p>A frase acima merece ser lida de novo, porque é o núcleo da aula: <strong>não existe projeção que preserve forma e área simultaneamente</strong>. Se alguém te oferecer uma, está errado ou está aproximando dentro de uma região pequena o bastante para a diferença não aparecer.</p>
+</section>
+
+<section class="part" id="utm">
+<h2>UTM e os oito fusos que cobrem o Brasil</h2>
+
+<p>O sistema Universal Transversa de Mercator resolve o problema da distorção por uma estratégia simples: não projetar o mundo inteiro de uma vez. O planeta é fatiado em 60 fusos de 6 graus de longitude cada, e cada fuso recebe a sua própria projeção, otimizada para aquela faixa. Dentro do fuso, a distorção fica pequena. Fora dele, cresce rápido.</p>
+
+<p>Cada fuso tem um meridiano central, onde o fator de escala vale 0,9996, e o erro cresce à medida que você se afasta desse meridiano. Nas bordas do fuso, a 3 graus do centro, a escala já passou de 1. A conta é direta: a distorção de área é aproximadamente o quadrado do fator de escala.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d02-utm-fusos.svg" alt="À esquerda, contorno do Brasil dividido por linhas verticais nos fusos 18 a 25. À direita, curva em U mostrando a distorção de área crescendo para as bordas do fuso.">
+  <figcaption><b>Figura 3</b> A distorção cresce com o quadrado da distância ao meridiano central. O polígono de teste da aula está a meio grau do meridiano central do fuso 21 e a 5,5 graus do meridiano central do fuso 22, e é daí que vem o erro que o passo 7 vai medir.</figcaption>
+</figure>
+
+<p>O Brasil é atravessado por oito fusos, do 18 ao 25. Para descobrir o fuso de um ponto, existe uma fórmula:</p>
+
+<pre class="expr">fuso = parte inteira de ((longitude + 180) / 6) + 1
+
+<span class="cm">Corumbá, MS   long. -57,653  →  fuso 21
+Cuiabá, MT    long. -56,096  →  fuso 21
+Curitiba, PR  long. -49,273  →  fuso 22
+São Paulo, SP long. -46,633  →  fuso 23
+Salvador, BA  long. -38,501  →  fuso 24</span></pre>
+
+<div class="conceito">
+  <div class="lbl">O problema prático</div>
+  <h4>Mato Grosso, Pará e Bahia atravessam mais de um fuso</h4>
+  <p>Se a sua área de estudo cabe em um fuso, use aquele fuso. Se ela cruza a fronteira entre dois, você não tem escolha boa em UTM: qualquer fuso que escolher vai distorcer metade do território. Nesse caso, mude de família de projeção: a cônica de Albers, apresentada na próxima seção, foi construída para esse cenário.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Você precisa somar a área desmatada em todos os municípios do Mato Grosso, que vai da longitude −61 à −50. Qual fuso UTM usar?</p>
+  <p>Nenhum. O estado cobre os fusos 20, 21 e 22. Escolher um deles introduz erro sistemático crescente nos municípios do outro extremo. A resposta correta é usar uma projeção equivalente de abrangência continental, e você vai ver o número exato desse erro no passo 7 do roteiro.</p>
+</div>
+</section>
+
+<section class="part" id="albers">
+<h2>Albers, para quando o assunto é área</h2>
+
+<p>A cônica equivalente de Albers é uma projeção construída com um objetivo único: manter a área correta. Ela sacrifica a forma, que fica progressivamente esticada conforme você se afasta dos paralelos padrão, e em troca entrega áreas que somam certo em toda a extensão do território.</p>
+
+<p>É a projeção que o IBGE usa quando publica totais de área para o Brasil, e é a que você deve usar sempre que a resposta da sua pergunta for um número em hectares ou quilômetros quadrados sobre uma região grande.</p>
+
+<p>O preço aparece nas outras medidas. No passo 9 do roteiro você vai medir a mesma distância entre duas cidades em UTM e em Albers, e a diferença passa de treze quilômetros. É o comportamento esperado: pelo teorema de Gauss, a projeção que mantém a área correta precisa deformar alguma outra propriedade, e na Albers a deformação recai sobre forma e distância.</p>
+</section>
+
+<section class="part" id="epsg">
+<h2>O código EPSG</h2>
+
+<p>Cada combinação de datum e projeção recebe um número em um catálogo mantido originalmente pelo <em>European Petroleum Survey Group</em>. É por isso que se fala em EPSG. O número é o identificador inequívoco: dizer "UTM 21 Sul" é ambíguo porque não informa o datum, mas dizer <code>EPSG:31981</code> não deixa dúvida.</p>
+
+<table>
+  <thead><tr><th style="width:22%">Código</th><th style="width:38%">Nome</th><th>Use quando</th></tr></thead>
+  <tbody>
+    <tr><td><code>EPSG:4674</code></td><td>SIRGAS 2000 geográfico</td><td>Padrão dos dados brasileiros. Coordenadas em graus.</td></tr>
+    <tr><td><code>EPSG:4326</code></td><td>WGS 84 geográfico</td><td>GPS, GeoJSON, APIs. Coordenadas em graus.</td></tr>
+    <tr><td><code>EPSG:31978</code> a <code>31985</code></td><td>SIRGAS 2000 / UTM fusos 18S a 25S</td><td>Análise local em metros. Escolha o fuso da sua área.</td></tr>
+    <tr><td><code>EPSG:31983</code></td><td>SIRGAS 2000 / UTM 23S</td><td>São Paulo e boa parte do Sudeste. Você usa no tema 5.</td></tr>
+    <tr><td><code>EPSG:5880</code></td><td>SIRGAS 2000 / Policônica do Brasil</td><td>Mapas do país inteiro. Não é equivalente nem conforme.</td></tr>
+    <tr><td><code>ESRI:102033</code></td><td>Albers equivalente da América do Sul</td><td>Somar áreas em escala regional ou nacional.</td></tr>
+  </tbody>
+  <caption>SIRGAS 2000 e WGS 84 são compatíveis para efeitos práticos. A diferença entre eles está abaixo do erro de um GPS de celular.</caption>
+</table>
+</section>
+
+<section class="part" id="onthefly">
+<h2>Reprojeção na tela e reprojeção de verdade</h2>
+
+<p>Quando você carrega no mesmo projeto uma camada em EPSG:4674 e outra em EPSG:31981, o QGIS as desenha alinhadas. Isso é a reprojeção dinâmica, ou <em>on the fly</em>: o programa converte tudo para o CRS do projeto na hora de desenhar.</p>
+
+<p>Ela resolve apenas o problema visual. Os arquivos continuam nos seus sistemas originais, e várias ferramentas de análise trabalham sobre o dado como ele está no disco, não como aparece na tela. Se a pergunta envolve medida, você precisa reprojetar de verdade: gerar um arquivo novo no sistema correto.</p>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 02</div>
+  <p class="q">Dada uma tarefa analítica, a prova pode pedir que você escolha o sistema de coordenadas e justifique a escolha, ou que aponte e estime a ordem de grandeza do erro de uma medição de área feita no sistema errado.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Medindo a cicatriz de fogo no QGIS</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="p1">
+<p class="lede">Os números abaixo são exatos. Se o seu QGIS mostrar outra coisa, algum passo saiu diferente, e vale parar para descobrir qual antes de seguir.</p>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Abrir o projeto e carregar as camadas</h3>
+    <ol>
+      <li>Abra o QGIS e vá em <span class="caminho">Project <i>▸</i> Open</span>. Navegue até <code>InfoGeo/tema02_projecoes/projeto.qgz</code>, o que você salvou no tema anterior.</li>
+      <li>Se sobraram camadas da aula anterior, remova todas: clique com o botão direito em cada uma e escolha <em>Remove Layer</em>.</li>
+      <li>Arraste <code>cicatriz_teste_pantanal.gpkg</code> da sua pasta <code>dados_brutos</code> direto para dentro da janela do QGIS. Arrastar funciona e é mais rápido que o menu.</li>
+      <li>Arraste também <code>municipios_pantanal_2022.gpkg</code> e <code>bioma_pantanal_2019.gpkg</code>.</li>
+      <li>No painel <em>Browser</em>, em <em>XYZ Tiles</em>, dê duplo clique na conexão <em>OpenStreetMap</em> que você cadastrou no tema 1 e arraste a camada para o fundo da pilha. Se a conexão não aparecer, refaça o <a href="encontro-01.html#osm">passo 5 do Encontro 1</a>.</li>
+      <li>Clique com o botão direito em <code>cicatriz_teste</code> e escolha <em>Zoom to Layer</em>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Você deve estar olhando para um polígono único, com o formato aproximado de um hexágono irregular, na região de Corumbá, no Mato Grosso do Sul. O mapa base deve mostrar a planície pantaneira ao redor.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Descobrir em que sistema cada camada está</h3>
+    <p>Antes de qualquer medida, sempre a mesma pergunta: em que sistema esse dado está?</p>
+    <ol>
+      <li>Clique com o botão direito em <code>cicatriz_teste</code>, escolha <em>Properties</em> e abra a aba <em>Information</em>.</li>
+      <li>Localize o bloco <em>Coordinate Reference System (CRS)</em>. Deve constar <code>EPSG:4674 - SIRGAS 2000</code>, com unidades em graus.</li>
+      <li>Feche e repita para <code>municipios</code>. Também está em EPSG:4674.</li>
+      <li>Olhe o canto inferior direito da janela do QGIS. O botão ali mostra o CRS do <em>projeto</em>, que é diferente do CRS de cada camada.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">Duas coisas distintas</div>
+      <p>Cada camada tem o seu CRS, que é o sistema em que as coordenadas estão gravadas no arquivo. O projeto tem o seu, que é o sistema em que tudo é desenhado na tela. O QGIS converte de um para o outro ao desenhar. Confundir os dois é a origem de metade dos problemas de projeção que você vai encontrar.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>A primeira medida, e o problema da unidade</h3>
+    <p>Vamos calcular a área do polígono do jeito mais direto possível, e ver o que acontece.</p>
+    <ol>
+      <li>Selecione a camada <code>cicatriz_teste</code> no painel <em>Layers</em>.</li>
+      <li>Abra a tabela de atributos com <code>F6</code>.</li>
+      <li>Clique no ícone da calculadora de campo, ou use <code>Ctrl+I</code>, para abrir o <em>Field Calculator</em>.</li>
+      <li>Marque <em>Create a new field</em>, dê o nome <code>area_v1</code>, tipo <em>Decimal number (real)</em>, com precisão 4.</li>
+      <li>No campo de expressão, escreva apenas:</li>
+    </ol>
+
+<pre class="expr">$area</pre>
+
+    <ol start="6">
+      <li>Repare no painel <em>Preview</em>, na parte de baixo da janela. Ele já mostra o resultado.</li>
+      <li>Clique <em>OK</em>, depois no botão de salvar edições e desligue o modo de edição.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">O resultado</div>
+      <p>O valor é <code>0,2582</code>, e a unidade não é hectare nem metro quadrado: são <strong>graus quadrados</strong>. Grau quadrado não mede área nenhuma, porque um grau de longitude vale 111 km no equador e zero no polo. O número tem quatro casas decimais e nenhum significado físico.</p>
+    </div>
+
+    <div class="pense">
+      <div class="lbl">Pergunta norteadora</div>
+      <p class="q">Por que o QGIS calculou isso em vez de avisar que a operação não faz sentido?</p>
+      <p>Porque do ponto de vista do programa a operação faz sentido: ele recebeu um polígono com coordenadas numéricas e aplicou a fórmula da área de um polígono. O software não sabe que aqueles números são ângulos. Quem sabe é você.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Ligar o elipsoide e refazer a conta</h3>
+    <p>Um projeto novo do QGIS nasce sem elipsoide definido, e foi por isso que a medida anterior saiu em graus quadrados. A configuração que corrige isso fica escondida nas propriedades do projeto, e quase nenhum curso a menciona.</p>
+    <ol>
+      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span>.</li>
+      <li>Localize a seção <em>Measurements</em>.</li>
+      <li>No campo <em>Ellipsoid</em>, você vai encontrar <em>None / Planimetric</em>. Troque para <em>GRS 1980</em>, que é o elipsoide do SIRGAS 2000.</li>
+      <li>Logo abaixo, em <em>Units for area measurement</em>, escolha <em>Hectares</em>.</li>
+      <li>Em <em>Units for distance measurement</em>, escolha <em>Kilometers</em>.</li>
+      <li>Clique <em>OK</em>.</li>
+    </ol>
+
+    <p>Agora repita o passo 3, criando um campo novo chamado <code>area_v2</code> com a mesma expressão <code>$area</code>.</p>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O valor deve ser <strong>303.514,4555</strong> hectares. Esse é o número de referência da aula. Ele foi calculado sobre a superfície do elipsoide, sem passar por nenhuma projeção, e é o mais próximo da verdade que dá para chegar.</p>
+    </div>
+
+    <div class="conceito">
+      <div class="lbl">O que mudou</div>
+      <h4>A função <code>$area</code> tem duas personalidades</h4>
+      <p>Com elipsoide definido, ela devolve a área geodésica, medida sobre a superfície curva, na unidade que você escolheu nas propriedades do projeto. Sem elipsoide definido, ela devolve a área plana calculada diretamente sobre as coordenadas da camada, seja lá qual for a unidade delas. A expressão muda de comportamento conforme essa configuração, e nada na tela indica qual dos dois está em uso.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>As duas funções de área do QGIS</h3>
+    <p>Existe uma segunda maneira de pedir área ao QGIS, e ela se comporta de outro jeito.</p>
+    <ol>
+      <li>Abra o <em>Field Calculator</em> de novo e crie o campo <code>area_v3</code>, decimal com precisão 6.</li>
+      <li>Use a expressão:</li>
+    </ol>
+
+<pre class="expr">area($geometry)</pre>
+
+    <ol start="3">
+      <li>Confirme e olhe a tabela lado a lado com <code>area_v2</code>.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Campo</th><th>Expressão</th><th class="num">Valor</th><th>O que significa</th></tr></thead>
+      <tbody>
+        <tr><td><code>area_v2</code></td><td><code>$area</code></td><td class="num">303.514,4555</td><td>Área geodésica, em hectares</td></tr>
+        <tr><td><code>area_v3</code></td><td><code>area($geometry)</code></td><td class="num">0,258250</td><td>Área plana, em graus quadrados</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cuidado">
+      <div class="lbl">Guarde esta regra</div>
+      <p><code>$area</code> respeita o elipsoide e as unidades do projeto. <code>area($geometry)</code> ignora as duas coisas e calcula sempre no plano, na unidade da camada. A segunda só é segura quando a camada já está em um sistema projetado em metros.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Reprojetar de verdade, para o fuso certo</h3>
+    <p>Corumbá está na longitude −57,65, o que a coloca no fuso 21. O código correspondente em SIRGAS 2000 é <code>EPSG:31981</code>.</p>
+    <ol>
+      <li>Clique com o botão direito em <code>cicatriz_teste</code> e escolha <span class="caminho">Export <i>▸</i> Save Features As</span>.</li>
+      <li>Preencha a janela conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Save Vector Layer as</div>
+      <dl>
+        <dt>Format</dt><dd>GeoPackage</dd>
+        <dt>File name</dt><dd>dados_tratados/cicatriz_utm21.gpkg</dd>
+        <dt>Layer name</dt><dd>cicatriz_utm21</dd>
+        <dt>CRS</dt><dd>EPSG:31981 — SIRGAS 2000 / UTM zone 21S</dd>
+        <dt>Encoding</dt><dd>UTF-8</dd>
+        <dt>Add saved file to map</dt><dd>marcado</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Clique <em>OK</em>. A camada nova entra no projeto.</li>
+      <li>Abra a tabela de atributos dela e crie um campo <code>area_utm21</code> com a expressão:</li>
+    </ol>
+
+<pre class="expr">area($geometry) / 10000   <span class="cm">-- metros quadrados divididos por 10.000 = hectares</span></pre>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O valor deve ser <strong>303.289,18</strong> hectares. Agora <code>area($geometry)</code> é seguro, porque a camada está em metros. Compare com a referência geodésica: a diferença é de 225 hectares para menos, ou <strong>−0,074%</strong>. Esse é o preço de projetar, e é pequeno o bastante para quase toda aplicação.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>O erro do fuso vizinho</h3>
+    <p>Imagine que você recebeu esse arquivo de um colega que trabalha em Curitiba e deixou o projeto no fuso 22, que é o dele. Ou que você simplesmente escolheu errado na lista, porque 21 e 22 estão um do lado do outro no menu.</p>
+    <ol>
+      <li>Repita o passo 6, mas escolha <code>EPSG:31982 — SIRGAS 2000 / UTM zone 22S</code>.</li>
+      <li>Salve como <code>cicatriz_utm22.gpkg</code>.</li>
+      <li>Crie o campo <code>area_utm22</code> com a mesma expressão de conversão para hectares.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">O resultado</div>
+      <p>São <strong>305.908,87</strong> hectares. A diferença para a referência é de <strong>+2.394 hectares</strong>, ou <strong>+0,789%</strong>. Em um único polígono, e sem que nada na tela indique que algo está errado. O mapa fica visualmente idêntico.</p>
+    </div>
+
+    <p>Dá para prever esse erro sem medir. O meridiano central do fuso 22 está na longitude −51, e o nosso polígono está em torno de −56,5, ou seja, a 5,5 graus de distância. Aplicando o fator de escala do UTM nessa distância, a distorção de área esperada fica em torno de 0,8%. A teoria previu a observação com uma casa decimal de acerto.</p>
+
+    <div class="pense">
+      <div class="lbl">Pergunta norteadora</div>
+      <p class="q">2.394 hectares equivalem a cerca de 3.400 campos de futebol. Em que situação concreta essa diferença muda uma decisão?</p>
+      <p>Em uma multa ambiental calculada por hectare, por exemplo, ou em um seguro rural com indenização proporcional à área atingida. E lembre da perícia: se a parte contrária tiver um assistente técnico competente, ele vai refazer a conta e encontrar a diferença.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Albers e a tabela final</h3>
+    <ol>
+      <li>Repita o passo 6 mais duas vezes, agora com <code>EPSG:5880</code>, a policônica do Brasil, e com <code>ESRI:102033</code>, a Albers equivalente da América do Sul.</li>
+      <li>Para achar a Albers na janela de seleção de CRS, digite <code>102033</code> na caixa <em>Filter</em>.</li>
+      <li>Calcule a área em hectares em cada uma e monte a tabela.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Sistema</th><th class="num">Área (ha)</th><th class="num">Diferença (ha)</th><th class="num">Desvio</th></tr></thead>
+      <tbody>
+        <tr><td>Geodésica sobre GRS80 <em>(referência)</em></td><td class="num">303.514,46</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>ESRI:102033 · Albers equivalente</td><td class="num">303.517,67</td><td class="num">+3</td><td class="num">+0,001%</td></tr>
+        <tr><td>EPSG:31981 · UTM 21S <em>(fuso correto)</em></td><td class="num">303.289,18</td><td class="num">−225</td><td class="num">−0,074%</td></tr>
+        <tr><td>EPSG:5880 · Policônica do Brasil</td><td class="num">303.794,24</td><td class="num">+280</td><td class="num">+0,092%</td></tr>
+        <tr class="hi"><td>EPSG:31982 · UTM 22S <em>(fuso vizinho)</em></td><td class="num">305.908,87</td><td class="num">+2.394</td><td class="num">+0,789%</td></tr>
+      </tbody>
+      <caption>Valores medidos no QGIS 4.2.0 sobre o polígono de teste. Reproduza-os exatamente.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Leitura da tabela</div>
+      <p>A Albers acerta a área na terceira casa decimal, porque foi construída para isso. O fuso UTM correto erra 0,07%, o que é aceitável na maioria das aplicações. O fuso errado erra dez vezes mais. Nenhum desses erros aparece na tela.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p9">
+  <div class="n">9</div>
+  <div class="c">
+    <h3>A mesma comparação, agora com distância</h3>
+    <p>Se a Albers é tão boa, por que não usar sempre? Vamos medir a distância entre Corumbá e Cuiabá em cada sistema e ver.</p>
+    <ol>
+      <li>Crie uma camada temporária de linha ligando as duas cidades, ou use a ferramenta de medição em cada projeto reprojetado.</li>
+      <li>O caminho mais rápido: <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span>, confirme que o elipsoide está em GRS 1980, e use <span class="caminho">View <i>▸</i> Measure <i>▸</i> Measure Line</span>. Com o elipsoide ligado, a régua devolve a distância geodésica.</li>
+      <li>Para as outras medidas, mude o CRS do projeto no canto inferior direito e desligue o elipsoide, deixando <em>None / Planimetric</em>. Aí a régua mede no plano da projeção.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Sistema</th><th class="num">Distância (km)</th><th class="num">Desvio</th></tr></thead>
+      <tbody>
+        <tr><td>Geodésica sobre GRS80 <em>(referência)</em></td><td class="num">412,392</td><td class="num">—</td></tr>
+        <tr><td>EPSG:31981 · UTM 21S</td><td class="num">412,239</td><td class="num">−0,037%</td></tr>
+        <tr><td>EPSG:5880 · Policônica do Brasil</td><td class="num">412,799</td><td class="num">+0,099%</td></tr>
+        <tr><td>EPSG:31982 · UTM 22S</td><td class="num">414,225</td><td class="num">+0,445%</td></tr>
+        <tr class="hi"><td>ESRI:102033 · Albers equivalente</td><td class="num">425,440</td><td class="num">+3,164%</td></tr>
+      </tbody>
+      <caption>Corumbá (−57,653 / −19,009) a Cuiabá (−56,096 / −15,596).</caption>
+    </table>
+
+    <figure>
+      <img src="assets/img/erro-projecao.svg" alt="Dois gráficos de barras horizontais comparando o desvio percentual de quatro sistemas de coordenadas em relação à medida geodésica, para área e para distância.">
+      <figcaption><b>Figura 4</b> A mesma escolha que acerta a área erra a distância. Albers desvia 0,001% em área e 3,164% em distância. UTM no fuso correto é o único que fica abaixo de 0,1% nas duas medidas.</figcaption>
+    </figure>
+
+    <div class="conceito">
+      <div class="lbl">A conclusão do roteiro</div>
+      <h4>A projeção não se escolhe pelo território. Escolhe-se pela pergunta.</h4>
+      <p>Se você vai somar hectares em escala nacional, use Albers e aceite que as distâncias ficarão erradas em alguns por cento. Se vai medir distância, área e forma dentro de uma região que cabe em um fuso, use o UTM daquele fuso. Se a região atravessa fusos e a pergunta é de área, volte para Albers. E em qualquer caso, deixe registrado no relatório qual sistema você usou, porque sem essa informação o número não é auditável.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>Abra a camada <code>area_queimada_pantanal_aq1km.gpkg</code>, que traz 3.042 cicatrizes de fogo espalhadas pela planície, somando 7.255.548 hectares mês a mês.</p>
+    <ol>
+      <li>Escolha um município e recorte os polígonos de fogo que caem dentro dele. Os três que concentram mais área queimada no pacote são Corumbá, com 2,73 milhões de hectares, Poconé, com 1,12 milhão, e Barão de Melgaço, com 1,09 milhão. Use <span class="caminho">Vector <i>▸</i> Geoprocessing Tools <i>▸</i> Clip</span>.</li>
+      <li>Calcule a área total queimada nesse município em UTM 21S e em Albers.</li>
+      <li>Registre a diferença em hectares e em porcentagem.</li>
+    </ol>
+    <p>Depois responda, em duas frases:</p>
+    <ol type="a">
+      <li>Qual dos dois números você colocaria em um laudo pericial sobre esse município, e por quê?</li>
+      <li>E se o pedido fosse o total queimado no Pantanal inteiro, que atravessa dois fusos? A sua resposta muda?</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma captura de tela da tabela de atributos com os dois campos de área, mais as duas frases. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Para o professor conferir com a turma</div>
+  <p>Em Corumbá, o recorte dá 2.733.858,78 ha em Albers e 2.731.959,23 ha em UTM 21S, uma diferença de 1.899,55 ha, ou −0,07%. Em Poconé, 1.115.154,82 contra 1.114.278,77, ou −0,08%. O desvio percentual é o mesmo do polígono de teste do passo 6, porque depende da distância ao meridiano central e não do tamanho da área. Quem repetir a conta em UTM 22S encontra +0,98% em Corumbá, isto é, 26.905,76 hectares a mais. Vale notar que a soma sobre os quinze municípios tocados dá 7.228.176 ha, e não os 7.255.548 do arquivo: os 27.372 hectares que faltam queimaram na faixa do bioma que fica fora da malha municipal brasileira, junto à fronteira com a Bolívia e o Paraguai.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">Queimaram 303.514 hectares. Os dois lados da disputa estavam certos na aritmética e o consultor da defesa usou o fuso errado.</p>
+  <p>O número que você defende depende de uma escolha declarada, não descoberta. Medida de área sem indicação do sistema de coordenadas é um número sem procedência, do mesmo jeito que um valor monetário sem indicação de moeda. A partir de hoje, todo resultado seu carrega o CRS junto.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos, com a resposta em aberto.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se a diferença entre projeções é de menos de 1%, ela importa mesmo?</p>
+  <p>Depende inteiramente de onde o número entra. Em um mapa de comunicação, 0,8% é invisível. Em uma multa de R$ 5 mil por hectare, são R$ 12 milhões. O erro é o mesmo nos dois casos; o que muda é o tamanho da consequência.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">O QGIS deveria avisar quando você mede área em uma camada em graus?</p>
+  <p>Vale discutir o desenho da ferramenta. Softwares que impedem o erro protegem o iniciante e atrapalham quem sabe o que está fazendo. A posição contrária é que um número sem unidade coerente nunca deveria ser produzido em silêncio.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Quem é responsável quando um laudo usa a projeção errada: o perito, o software ou quem forneceu o dado?</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>Você mediu a área do polígono que recebeu, e não discutiu como esse polígono foi delimitado. A cicatriz de fogo tem borda difusa, e a decisão de onde traçar o limite embute um erro que pode ser maior que o de projeção. Isso volta no tema 9, com a matriz de confusão.</li>
+    <li>Os dados do INPE detectam fogo por satélite, com passagem em horário fixo. Um incêndio que começa e termina entre duas passagens pode não aparecer.</li>
+    <li>Os 7.255.548 hectares do arquivo AQ1km são a soma de onze meses, e uma área que queimou em agosto e voltou a queimar em setembro entra duas vezes. Para saber quanto do Pantanal queimou ao menos uma vez seria preciso dissolver os polígonos por ano antes de somar, o que é operação do tema 5.</li>
+    <li>A escolha entre Albers e UTM foi feita para uma região específica. Em latitudes muito altas ou em áreas que cruzam o equador, a análise precisa ser refeita.</li>
+    <li>Nada aqui trata de altitude. Área medida sobre a projeção é área plana, e uma encosta de 30 graus tem mais superfície real do que a sua sombra no mapa.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">IBGE, dicionário de variáveis dos agregados por setor censitário do Censo 2022.
+      <span class="src">Leitura dirigida de 10 minutos · antes do tema 3</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">IBGE, nota técnica sobre a adoção do SIRGAS 2000 como sistema geodésico de referência do Brasil.
+      <span class="src">ibge.gov.br · geociências</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">John P. Snyder, <em>Map Projections: A Working Manual</em>, seções sobre UTM e sobre a cônica equivalente de Albers.
+      <span class="src">USGS Professional Paper 1395 · domínio público · para consulta</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">INPE, metodologia do Programa Queimadas e do TerraBrasilis: como a área queimada é delimitada.
+      <span class="src">terrabrasilis.dpi.inpe.br · leia antes de citar o dado em qualquer trabalho</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-01.html"><span class="k">Tema anterior</span><span class="t">Por que dizer onde muda a resposta?</span></a>
+  <a class="r" href="encontro-03.html"><span class="k">Próximo tema</span><span class="t">Quem vive sem esgoto na minha cidade?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 7 · Tenho uma lista de endereços. Como ela vira padrão no mapa? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-07.html" class="here">Aula 7</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="done">02 · Hectares</a>
+  <a href="encontro-03.html" class="done">03 · Esgoto</a>
+  <a href="encontro-04.html" class="done">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="done">05 · Habitação</a>
+  <a href="encontro-06.html" class="done">06 · Vizinho</a>
+  <a href="encontro-07.html" class="now">07 · Endereços</a>
+  <a href="encontro-08.html" class="ahead">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 7 · Unidade teórica 07 · ODS 13 e 15</div>
+  <h1>Tenho uma lista de endereços. Como ela vira <em>padrão</em> no mapa?</h1>
+  <p class="sub">No cadastro do CNES do oeste baiano, 77 estabelecimentos de saúde dividem 25 coordenadas. Não é sorteio: em Riachão das Neves são 13 dos 23, e em Barreiras são 3 dos 335. O tema trata da origem desse empilhamento e do resumo de uma nuvem de pontos por centro médio, distância padrão e elipse de desvio padrão.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>Cerrado da Bahia</b><span>área de estudo</span></div>
+    <div><b>INPE · CNES · IBGE</b><span>fontes</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#lista">A lista que não é mapa</a></li>
+    <li><a href="#geocod">Geocodificação e níveis de precisão</a></li>
+    <li><a href="#match">Taxa de match</a></li>
+    <li><a href="#vies">O viés do não-match</a></li>
+    <li><a href="#cnefe">CNEFE e LGPD</a></li>
+    <li><a href="#processo">Evento, localização e o modelo nulo</a></li>
+    <li><a href="#centros">Três centros</a></li>
+    <li><a href="#dispersao">Dispersão, elipse e envoltória</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p1">1. Carregar os focos</a></li>
+    <li><a href="#p2">2. O satélite de referência</a></li>
+    <li><a href="#p3">3. Reprojetar para metros</a></li>
+    <li><a href="#p4">4. Centro médio</a></li>
+    <li><a href="#p5">5. Centro ponderado</a></li>
+    <li><a href="#p6">6. Distância padrão</a></li>
+    <li><a href="#p7">7. Elipse de desvio padrão</a></li>
+    <li><a href="#p8">8. Envoltória e retângulo envolvente</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>A leitura do tema era a nota metodológica do INPE sobre o satélite de referência do Programa Queimadas. São quatro páginas. Se você não leu, leia enquanto a turma se organiza: metade do roteiro de hoje depende de entender por que existe um satélite de referência.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana07</span></div>
+  <div class="fonte">Fonte: <b>INPE · Programa Queimadas</b> e <b>CNES · DATASUS</b> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a> · coleta de 02/08/2026</div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana07/focos_oeste_bahia_2023_2024.gpkg" download>focos_oeste_bahia_2023_2024.gpkg</a>
+        <span class="fd">212.160 focos de calor no Cerrado do oeste da Bahia, junho a novembro de 2023 e de 2024, dezesseis satélites, com potência radiativa, dias sem chuva e risco de fogo. Ponto, EPSG:4674. Dos arquivos anuais <code>focos_br_todos-sats_2023</code> e <code>2024</code> do INPE.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana07/cnes_oeste_bahia_2026.gpkg" download>cnes_oeste_bahia_2026.gpkg</a>
+        <span class="fd">1.712 estabelecimentos de saúde ativos em 36 municípios do oeste baiano, com a latitude e a longitude do próprio cadastro. Ponto, EPSG:4674. Da competência 06/2026 da base do CNES.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana07/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Origem, campos, recorte e a lista completa dos números conferidos.</span></div></li>
+  </ul>
+  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. O recorte mudou: em vez do MATOPIBA inteiro, que na base real passa de um milhão de focos, o pacote traz o Cerrado do estado da Bahia dentro do mesmo retângulo, que é onde está Formosa do Rio Preto. O CNES não publica nível de geocodificação; o que o arquivo traz é o empilhamento real de estabelecimentos sobre a mesma coordenada, que é o sintoma observável do problema que a aula discute. Os valores conferidos estão em <code>dados/semana07/_numeros_oficiais.json</code>.</div>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">Uma secretaria estadual manda a você uma planilha com 1.712 endereços de estabelecimentos de saúde e pede um mapa que mostre onde a rede está concentrada. Você geocodifica, plota e a mancha aparece. Quanto dessa mancha é a rede, e quanto é o geocodificador?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Processo pontual e centrografia</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="lista">
+<p class="lede">Uma lista de endereços é um texto; o mapa de pontos que sai dela é uma geometria. A conversão entre os dois é feita por um procedimento que erra, e erra de maneira previsível. Metade desta aula é sobre esse procedimento; a outra metade é sobre o que fazer com a nuvem de pontos depois que ela existe.</p>
+
+<p>Você chega aqui sabendo cruzar tabelas, medir área e desconfiar de uma classificação. O que ainda falta é um método para descrever uma nuvem de pontos sem apelar para o olho. Dois mil focos de fogo espalhados entre Barreiras e Formosa do Rio Preto parecem muitas coisas dependendo de quem olha o mapa. A centrografia transforma esse "parece" em quatro ou cinco números que outra pessoa pode conferir.</p>
+</section>
+
+<section class="part" id="geocod">
+<h2>Geocodificação é um procedimento estatístico</h2>
+
+<p>Geocodificar é converter uma cadeia de texto em um par de coordenadas. A cadeia é algo como "Av. Getúlio Vargas, 1250, Centro, Bom Jesus, PI". A saída é um ponto. Entre a entrada e a saída existe um casamento aproximado contra uma base de referência, e esse casamento tem qualidade variável.</p>
+
+<p>O erro mais comum de quem começa é tratar o resultado como uma operação exata, do tipo que converte metro em pé. Trata-se, na verdade, de uma inferência, com margem de erro conhecida, e a margem depende do nível em que o casamento foi possível.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d07-precisao-geocodificacao.svg" alt="Quatro painéis mostrando o mesmo endereço geocodificado em quatro níveis de precisão: telhado, face de quadra, centroide de CEP e centroide de município, com o raio de erro de cada nível.">
+  <figcaption><b>Figura 1</b> A mesma linha de endereço resolvida em quatro níveis. Repare na barra de escala: o quarto painel está 200 vezes mais afastado que o primeiro. O ponto continua existindo, com a mesma aparência na tela, e o erro passou de 6 metros para 6 quilômetros.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Nível de precisão da geocodificação</h4>
+  <p>É a informação que diz qual foi o objeto usado para atribuir a coordenada. Do mais preciso para o menos: o telhado ou o centroide do lote, quando a base de referência tem o imóvel; a interpolação na face de quadra, que estima a posição do número dentro do trecho de rua; o centroide do CEP; e o centroide do município. Toda API de geocodificação séria devolve esse campo. Quem descarta essa coluna perde a única informação que permite auditar o mapa depois.</p>
+</div>
+
+<p>A interpolação na face de quadra merece um parágrafo, porque é o nível mais frequente em cidade brasileira média e o menos compreendido. O geocodificador sabe que a Rua X, no trecho entre a Rua A e a Rua B, contém os números de 100 a 298. Recebe o número 172 e supõe que os números estão distribuídos de forma uniforme ao longo do trecho. Coloca o ponto em 36% do comprimento, contando do início. Se o quarteirão tem um terreno baldio de cem metros no meio, a suposição falha e o ponto cai na casa errada. Erro típico de algumas dezenas de metros, o suficiente para trocar o setor censitário em área urbana densa.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se o erro de geocodificação é de trinta metros, ele importa para qual análise?</p>
+  <p>Depende do tamanho da unidade de análise. Para somar estabelecimentos por município, trinta metros nunca muda nada. Para contar por setor censitário, muda em toda quadra de borda. Para medir distância até a UBS mais próxima, muda pouco. Para dizer se o ponto está dentro ou fora de um raio de 300 metros de uma estação, muda em todo caso que cai perto da borda do raio. A regra prática: o erro posicional importa quando é da mesma ordem de grandeza da menor feição da análise.</p>
+</div>
+</section>
+
+<section class="part" id="match">
+<h2>Taxa de match, e o que ela esconde</h2>
+
+<p>A taxa de match é a proporção de endereços da lista que o geocodificador conseguiu resolver. É o primeiro número que o fornecedor apresenta e costuma ser o único. Uma taxa de 96% soa excelente para quem nunca fez a conta seguinte.</p>
+
+<p>O problema é que "match" não é um estado binário. Um serviço pode declarar 96% de match e ter resolvido metade dos casos no centroide do município. Do ponto de vista do relatório, foram 96%. Do ponto de vista do mapa, metade dos pontos está empilhada sobre um punhado de praças de matriz.</p>
+
+<p>O CNES não publica o nível de precisão de cada coordenada, e é justamente por isso que ele serve de exemplo. Você não tem a coluna que auditaria o cadastro, então precisa procurar o sintoma. Há dois sintomas observáveis no arquivo desta aula, e os dois se medem com uma expressão de campo.</p>
+
+<table>
+  <thead><tr><th style="width:30%">Sintoma</th><th class="num" style="width:14%">Registros</th><th class="num" style="width:14%">Participação</th><th>O que ele denuncia</th></tr></thead>
+  <tbody>
+    <tr><td>Coordenada com 6 ou mais casas decimais</td><td class="num">1.539</td><td class="num">89,9%</td><td>Posição tomada em campo ou sobre imagem, erro de metros</td></tr>
+    <tr><td>Coordenada com 4 ou 5 casas</td><td class="num">117</td><td class="num">6,8%</td><td>Arredondamento de dezenas de metros</td></tr>
+    <tr class="hi"><td>Coordenada com 3 casas ou menos</td><td class="num">56</td><td class="num">3,3%</td><td>Grade de 110 m ou mais grosseira, típica de digitação manual</td></tr>
+    <tr class="hi"><td>Coordenada repetida por dois ou mais cadastros</td><td class="num">77</td><td class="num">4,5%</td><td>Ponto herdado de outro registro ou da sede do município</td></tr>
+  </tbody>
+  <caption>Arquivo <code>cnes_oeste_bahia_2026.gpkg</code>, 1.712 estabelecimentos ativos. As duas últimas linhas se sobrepõem em parte: 32 dos 77 empilhados também têm coordenada de três casas. Os 77 dividem entre si 25 coordenadas distintas, e a maior pilha tem 13 estabelecimentos.</caption>
+</table>
+
+<p>Três casas decimais de grau valem cerca de 110 metros de lado em latitude. Duas casas valem 1,1 quilômetro. Quando 13 unidades básicas de saúde de Riachão das Neves aparecem todas em −44,910 / −11,746, com três casas decimais e bairro registrado como <em>zona rural</em>, ninguém foi a campo com GPS. Alguém digitou o ponto da sede e replicou.</p>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Rodar um mapa de calor sobre uma camada que contém pontos empilhados. Os 77 registros viram 25 picos de densidade desproporcionais, e dois deles, com 13 e 12 unidades, ficam mais altos que Barreiras inteira, que tem 335 estabelecimentos espalhados. O mapa passa a mostrar a geografia do cadastro em vez da geografia da rede de saúde. Antes de qualquer análise de densidade, conte as coordenadas repetidas e declare quantas são.</p>
+</div>
+</section>
+
+<section class="part" id="vies">
+<h2>O viés do não-match</h2>
+
+<p>Aqui está o ponto de que o resto da aula depende. Endereços que falham na geocodificação não falham ao acaso: a falha se concentra onde o logradouro não tem nome oficial ou onde a base de referência está desatualizada, ou seja, em ocupação informal e em município pequeno.</p>
+
+<p>O CNES não deixa medir não-match, porque só entram no cadastro os estabelecimentos que receberam coordenada. Dá para medir o parente próximo, que é a qualidade da coordenada atribuída, e o mecanismo é o mesmo: falta de base de referência boa no município. Separe os 36 municípios por porte, contando estabelecimentos cadastrados, e olhe a proporção de pontos empilhados em cada grupo.</p>
+
+<table>
+  <thead><tr><th style="width:26%">Porte</th><th class="num">Municípios</th><th class="num">Estabelecimentos</th><th class="num">Em coordenada repetida</th><th class="num">Com 3 casas ou menos</th></tr></thead>
+  <tbody>
+    <tr><td>100 ou mais estabelecimentos</td><td class="num">4</td><td class="num">885</td><td class="num">1,4%</td><td class="num">0,5%</td></tr>
+    <tr><td>de 40 a 99</td><td class="num">3</td><td class="num">186</td><td class="num">7,0%</td><td class="num">2,2%</td></tr>
+    <tr class="hi"><td>menos de 40</td><td class="num">29</td><td class="num">641</td><td class="num">8,1%</td><td class="num">7,5%</td></tr>
+  </tbody>
+  <caption>Barreiras, Luís Eduardo Magalhães, Bom Jesus da Lapa e Caetité formam sozinhos o primeiro grupo, com 885 dos 1.712 estabelecimentos. A taxa de coordenada grosseira é quinze vezes maior no terceiro grupo que no primeiro.</caption>
+</table>
+
+<figure class="diagrama">
+  <img src="assets/img/d07-vies-nao-match.svg" alt="Três painéis: os 23 estabelecimentos de Riachão das Neves como deveriam aparecer, os mesmos 23 como o cadastro os grava com 13 sobre um ponto só, e um gráfico de barras com a proporção de coordenada empilhada e grosseira por porte de município.">
+  <figcaption><b>Figura 2</b> Em Riachão das Neves, 13 dos 23 estabelecimentos dividem a coordenada −44,910 / −11,746. Em Barreiras, com 335 estabelecimentos, são 3. A proporção de coordenada empilhada cresce conforme o porte do município diminui.</figcaption>
+</figure>
+
+<p>Se você tratar cada ponto como uma posição real, como faz quase todo mundo, o mapa mostra uma rede de saúde concentrada em Barreiras e em Luís Eduardo Magalhães. A rede é concentrada, de fato: os quatro municípios grandes têm 52% dos estabelecimentos e menos de um sexto dos municípios. Mas não tanto quanto o mapa afirma, porque a rede difusa dos 29 municípios pequenos aparece colapsada em pilhas sobre as sedes. Parte da concentração é do fenômeno e parte é do procedimento, e o mapa não distingue as duas.</p>
+
+<p>A consequência é direta. Uma política de expansão de atenção básica desenhada sobre esse mapa tende a reforçar os municípios grandes, porque é neles que o cadastro é bom, e a subestimar a demanda dos 29 pequenos, exatamente onde a rede é mais rala e o cadastro pior.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Você entrega o mapa sabendo que 4,5% dos pontos estão empilhados, ou espera até resolver o resto?</p>
+  <p>Entrega, porque o resto não se resolve em prazo de consultoria. O que muda é o que vai junto: a contagem de coordenadas repetidas por município, a lista dos municípios em que a pilha passa de metade da rede e uma frase dizendo que a comparação entre municípios de portes diferentes não é válida sem correção. Um mapa com limite declarado é utilizável; apresentar as 13 unidades empilhadas como se fossem 13 lugares distintos, sem aviso, é afirmar uma coisa que você já sabe estar errada.</p>
+</div>
+</section>
+
+<section class="part" id="cnefe">
+<h2>O CNEFE e o limite jurídico do ponto</h2>
+
+<p>Até 2022, quem geocodificava endereço brasileiro dependia de serviço comercial estrangeiro, com cobertura desigual e sem transparência sobre o método. O Censo 2022 mudou isso. O <strong>CNEFE</strong>, Cadastro Nacional de Endereços para Fins Estatísticos, foi publicado com cerca de 106 milhões de endereços, cada um com latitude e longitude coletadas pelo recenseador no dispositivo móvel, em campo.</p>
+
+<p>É a maior base de referência de endereços já publicada no país, gratuita e auditável. Não resolve tudo: a coleta é do momento do Censo, endereço novo não está lá, e a estrutura de texto exige tratamento antes de servir de base para casamento. Mas muda o patamar do que se pode exigir de um trabalho de geocodificação feito no Brasil a partir de agora.</p>
+
+<div class="conceito">
+  <div class="lbl">Limite jurídico</div>
+  <h4>Quando o ponto deixa de ser dado e passa a ser pessoa</h4>
+  <p>A LGPD, Lei 13.709/2018, define dado pessoal como informação relacionada a pessoa natural identificada ou <em>identificável</em>. A coordenada de uma residência, sozinha, costuma bastar para identificar quem mora nela. Um ponto de estabelecimento de saúde não é dado pessoal. Um ponto de residência de paciente é, e quando o dado descreve condição de saúde ele é dado pessoal sensível, com regime mais restrito. Agregar por setor censitário ou por hexágono é o que separa uma análise publicável de um vazamento.</p>
+</div>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Publicar o mapa de pontos "só para a equipe interna" e depois exportar a figura para o relatório final. Um scatter de residências em escala de bairro permite reidentificação por qualquer pessoa que conheça a rua. O deslocamento aleatório dos pontos também não resolve sozinho, porque a mediana do deslocamento continua indicando a posição verdadeira quando há repetição de casos.</p>
+</div>
+</section>
+
+<section class="part" id="processo">
+<h2>Evento, localização e o modelo nulo</h2>
+
+<p>A partir daqui a lista já virou nuvem de pontos e a pergunta muda. Em análise de padrão pontual, chamamos de <strong>evento</strong> a ocorrência efetiva registrada, e de <strong>localização</strong> qualquer posição do território onde o evento poderia ter acontecido. A distinção parece escolástica e não é: a pergunta da análise é sempre se os eventos observados se distribuem como se tivessem sido sorteados entre todas as localizações possíveis.</p>
+
+<p>Esse sorteio tem nome. A <strong>aleatoriedade espacial completa</strong>, ou CSR na sigla em inglês, é o modelo nulo da área. Ela afirma duas coisas: que a chance de um evento cair em uma região depende só do tamanho da região, e que a posição de um evento não altera a chance de outro cair perto. Um processo de Poisson homogêneo.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d07-csr.svg" alt="Três painéis com 160 pontos cada: padrão agrupado, padrão aleatório e padrão regular.">
+  <figcaption><b>Figura 3</b> Os três painéis têm a mesma quantidade de pontos e a mesma área. A contagem não separa os três casos, e é por isso que a análise de padrão pontual não começa contando.</figcaption>
+</figure>
+
+<p>Ninguém acredita que fogo no Cerrado siga CSR. O modelo nulo é uma régua, e ninguém precisa acreditar nele para usá-lo. Serve para dizer o quanto o padrão observado se afasta do que o acaso produziria, e para que esse "quanto" seja um número comparável entre dois recortes. No tema 8 você vai medir esse afastamento com dois testes. Hoje o objetivo é mais modesto: descrever a nuvem.</p>
+</section>
+
+<section class="part" id="centros">
+<h2>Centro médio, mediano e ponderado</h2>
+
+<p>A centrografia é a estatística descritiva do ponto. Média, mediana e desvio padrão, transportados para duas dimensões. O nome é antigo, do começo do século XX, e os cálculos são simples o bastante para caber em uma planilha. A dificuldade está em escolher qual usar.</p>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Centro médio</h4>
+  <p>É o ponto cujas coordenadas são a média aritmética das coordenadas dos eventos. Tem a mesma propriedade da média em uma dimensão: minimiza a soma dos quadrados das distâncias e é sensível a valor extremo. Um foco de fogo isolado a 400 quilômetros do restante puxa o centro médio na direção dele.</p>
+</div>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Centro mediano</h4>
+  <p>É o ponto que minimiza a soma das distâncias, sem elevar ao quadrado. Resiste a valor extremo do mesmo jeito que a mediana resiste em uma dimensão. Não tem fórmula fechada: calcula-se por iteração. Alguns programas chamam de centro mediano a mediana separada de cada coordenada, que é outra coisa e não coincide com esta.</p>
+</div>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Centro médio ponderado</h4>
+  <p>É a média das coordenadas com peso. O peso muda a pergunta: sem peso, cada foco de fogo conta igual e o centro responde onde o fogo acontece; com peso pela potência radiativa, cada foco conta pelo tanto de energia que liberou e o centro responde onde o fogo queima forte. São perguntas diferentes e as respostas podem ficar dezenas de quilômetros distantes uma da outra.</p>
+</div>
+
+<figure class="diagrama">
+  <img src="assets/img/d07-centrografia.svg" alt="Dois painéis sobre a mesma nuvem de pontos: à esquerda o centro médio, o centro mediano e o centro médio ponderado; à direita a distância padrão e a elipse de desvio padrão.">
+  <figcaption><b>Figura 4</b> A mesma nuvem. À esquerda, três centros que respondem a três perguntas distintas. À direita, um círculo que resume a dispersão em um número e uma elipse que resume dispersão e direção em três.</figcaption>
+</figure>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">O centro médio de uma nuvem de pontos precisa cair sobre algum ponto observado?</p>
+  <p>Não, e em geral não cai. O centro médio dos focos do satélite de referência no Cerrado baiano em 2024 cai em Riachão das Neves, a 3,2 km do foco mais próximo, sobre uma área que não queimou. Em 2023 ele cai em Angical, 22,9 km a leste-nordeste. Ele é uma síntese estatística, não um lugar. Confundir as duas coisas produz frases como "o epicentro das queimadas é Riachão das Neves", que é um erro de interpretação, não de cálculo.</p>
+</div>
+</section>
+
+<section class="part" id="dispersao">
+<h2>Dispersão: círculo, elipse e envoltória</h2>
+
+<p>A <strong>distância padrão</strong> é a raiz da média dos quadrados das distâncias de cada evento ao centro médio. É o desvio padrão em duas dimensões, sai em metros e desenha um círculo. Um único número, fácil de comparar entre dois anos, que joga fora toda a informação de direção.</p>
+
+<p>A <strong>elipse de desvio padrão</strong> guarda a direção. Ela ajusta os dois eixos que melhor descrevem o espalhamento e devolve três quantidades: o comprimento do eixo maior, o comprimento do eixo menor e o azimute do eixo maior. A razão entre os eixos diz o quanto o padrão é alongado; o azimute diz para onde.</p>
+
+<div class="cuidado">
+  <div class="lbl">Cuidado com a leitura</div>
+  <p>A forma do território contamina a forma da elipse. Se o recorte de análise é uma faixa estreita norte-sul, qualquer conjunto de pontos dentro dela produz uma elipse alongada norte-sul, inclusive um conjunto sorteado ao acaso. Ler uma elipse isolada e concluir que "o fenômeno tem orientação norte-sul" é confundir o dado com a moldura.</p>
+</div>
+
+<figure class="diagrama">
+  <img src="assets/img/d07-elipse-territorio.svg" alt="Três territórios de formatos diferentes, cada um com 400 pontos sorteados ao acaso dentro dele e a elipse de desvio padrão correspondente.">
+  <figcaption><b>Figura 5</b> O mesmo processo aleatório em três recortes. A razão entre os eixos vai de 3,05 na faixa estreita a 1,01 no território compacto. Nenhum dos três padrões tem orientação: a orientação é do polígono.</figcaption>
+</figure>
+
+<p>Daí a regra que vale levar para o resto do curso: <strong>compare duas elipses calculadas no mesmo recorte, em vez de interpretar uma sozinha</strong>. A elipse de 2023 contra a de 2024, no mesmo bioma, com o mesmo satélite, diz alguma coisa. A elipse de 2024 sozinha diz principalmente a forma do recorte.</p>
+
+<p>Há um caso em que nem a comparação salva, e você vai encontrá-lo no passo 7. Quando a nuvem é quase redonda, o eixo maior deixa de ter significado: pequenas variações na amostra giram a elipse inteira. O sinal de alerta é a razão entre os eixos. Perto de 1, o azimute é ruído com aparência de resultado, e reportá-lo é pior do que omitir, porque um número de uma casa decimal convida à interpretação.</p>
+
+<p>Faltam duas medidas de extensão, mais simples. O retângulo envolvente, ou bounding box, é o menor retângulo alinhado aos eixos que contém todos os pontos. É barato de calcular, serve de índice espacial e superestima muito a área ocupada. A envoltória convexa é o menor polígono convexo que contém todos os pontos, como um elástico esticado em volta da nuvem. Aproxima melhor, e a razão entre as duas áreas é um indicador útil de o quanto a nuvem é irregular.</p>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 07</div>
+  <p class="q">A prova pode apresentar um mapa de pontos geocodificados com a taxa de match declarada e pedir que você diga qual conclusão o mapa sustenta e qual não sustenta. Pode também dar duas elipses de desvio padrão do mesmo fenômeno em dois períodos e pedir a leitura da mudança, com a advertência sobre o efeito do recorte. Saber calcular à mão não é cobrado; saber dizer o que cada medida responde e o que ela ignora é.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Centrografia dos focos de fogo no Cerrado baiano</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="p1">
+<p class="lede">Todos os valores abaixo saem do arquivo que você baixou. Se o seu QGIS mostrar outro número, algum passo saiu diferente, e vale parar para descobrir qual.</p>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Abrir o projeto e carregar os focos</h3>
+    <ol>
+      <li>Crie a pasta <code>InfoGeo/tema07_pontos</code> e, dentro dela, <code>dados_brutos</code> e <code>dados_tratados</code>.</li>
+      <li>Abra o QGIS, vá em <span class="caminho">Project <i>▸</i> New</span> e salve como <code>projeto.qgz</code> na pasta do tema.</li>
+      <li>Arraste <code>focos_oeste_bahia_2023_2024.gpkg</code> para dentro da janela do QGIS.</li>
+      <li>No painel <em>Browser</em>, em <em>XYZ Tiles</em>, dê duplo clique na conexão <em>OpenStreetMap</em> que você cadastrou no tema 1 e arraste a camada para o fundo da pilha. Se a conexão não aparecer, refaça o <a href="encontro-01.html#osm">passo 5 do Encontro 1</a>.</li>
+      <li>Clique com o botão direito na camada de focos e escolha <em>Zoom to Layer</em>.</li>
+      <li>Abra a tabela de atributos com <code>F6</code> e confira o número de registros no topo da janela.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>São <strong>212.160</strong> feições, distribuídas por 38 municípios. A nuvem cobre o Cerrado do estado da Bahia, de Formosa do Rio Preto ao norte até Caetité ao sul, com a maior concentração no oeste, entre São Desidério e Santa Rita de Cássia. Formosa do Rio Preto sozinha tem 40.107 focos, quase um quinto do arquivo.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Antes que você reclame do desenho</div>
+      <p>Duzentos e doze mil pontos sobrepostos formam uma mancha sólida, e é impossível ler qualquer coisa nela. Não tente. O passo 2 corta o arquivo para 2.689 pontos, e é sobre esse recorte que a aula inteira trabalha. Enquanto isso, baixe a opacidade da camada para 20% em <em>Properties ▸ Symbology</em>, só para conseguir ver o mapa base por baixo.</p>
+    </div>
+
+    <figure class="ph">captura de tela · painel Layers com a camada de focos carregada sobre o OpenStreetMap, tabela de atributos aberta mostrando 212.160 feições</figure>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>O satélite de referência, e por que somar todos infla a conta</h3>
+    <p>O arquivo traz detecções de dezesseis sensores diferentes. Cada um sobrevoa a mesma área em horário diferente, com resolução diferente. Um único incêndio que dura seis horas pode aparecer como foco no NOAA-20 de manhã, no AQUA à tarde e no GOES-16 a cada dez minutos. Somar tudo conta o mesmo fogo dezenas de vezes: o GOES-16 sozinho responde por 73.071 dos 212.160 registros.</p>
+    <p>Para que a série histórica seja comparável ao longo dos anos, o INPE define um <strong>satélite de referência</strong>, o AQUA_M-T, com passagem no início da tarde. Todo número de foco divulgado como série temporal vem dele. Vamos reproduzir esse filtro.</p>
+    <ol>
+      <li>Clique com o botão direito na camada de focos e escolha <em>Filter</em>.</li>
+      <li>Na janela <em>Query Builder</em>, escreva a expressão abaixo e clique <em>OK</em>.</li>
+    </ol>
+
+<pre class="expr">"satelite" = 'AQUA_M-T' AND "ano" = 2024   <span class="cm">-- aspas duplas em campo, simples em texto</span></pre>
+
+    <ol start="3">
+      <li>Abra a tabela de atributos de novo e leia o total.</li>
+      <li>Troque o filtro para <code>"ano" = 2024</code> apenas, leia o total, e volte para o filtro completo.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Recorte</th><th class="num">Focos</th><th>O que o número significa</th></tr></thead>
+      <tbody>
+        <tr><td>Todos os satélites, 2023 e 2024</td><td class="num">212.160</td><td>Detecções, com o mesmo incêndio contado dezenas de vezes</td></tr>
+        <tr><td>Todos os satélites, 2024</td><td class="num">92.387</td><td>Detecções de um ano só, ainda com repetição</td></tr>
+        <tr class="hi"><td>AQUA_M-T, 2024</td><td class="num">2.689</td><td>Série de referência, comparável com outros anos</td></tr>
+        <tr><td>AQUA_M-T, 2023</td><td class="num">3.218</td><td>O comparativo que você usa no exercício</td></tr>
+      </tbody>
+      <caption>A razão entre a segunda e a terceira linha é de 34,4 vezes. Uma manchete que diga "noventa mil focos" e outra que diga "dois mil e setecentos" podem estar as duas certas, sobre o mesmo território e o mesmo ano.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Com o filtro completo, o topo da tabela de atributos mostra <strong>2.689</strong> feições; só com <code>"ano" = 2024</code>, mostra <strong>92.387</strong>. Se o primeiro número vier zero, o nome do satélite saiu com hífen ou maiúscula diferentes: o valor exato no campo é <code>AQUA_M-T</code>. Deixe o filtro completo ativo antes de seguir.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Comparar um número de focos obtido com todos os satélites contra a série histórica do INPE, que é do satélite de referência. O AQUA_M-T responde por <strong>2,78%</strong> dos 212.160 registros do arquivo. Uma diferença de mais de trinta vezes não tem nada a ver com o fogo, tem a ver com quantos sensores olharam. Também é erro somar satélites para "aumentar a amostra": o passo 4 mostra que multiplicar a amostra por 34 desloca o centro médio em 5,4 km, sobre uma nuvem que se espalha por mais de cem. A amostra maior não acrescenta precisão, porque os sensores extras estão revendo os mesmos incêndios, não encontrando incêndios novos.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Reprojetar para metros antes de qualquer medida</h3>
+    <p>O arquivo está em EPSG:4674, em graus. Média de coordenadas em graus é média de ângulos, e o resultado não é um centro. Todo o recorte cabe no fuso 23, então o destino é <code>EPSG:31983</code>.</p>
+    <ol>
+      <li>Abra <span class="caminho">Processing <i>▸</i> Toolbox</span> e procure por <code>native:reprojectlayer</code>, que aparece como <em>Reproject layer</em>.</li>
+      <li>Preencha conforme a tabela abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Reproject layer</div>
+      <dl>
+        <dt>Input layer</dt><dd>focos (com o filtro AQUA_M-T e 2024 ativo)</dd>
+        <dt>Target CRS</dt><dd>EPSG:31983 — SIRGAS 2000 / UTM zone 23S</dd>
+        <dt>Reprojected</dt><dd>dados_tratados/focos_aqua_2024_utm.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Clique <em>Run</em>. A camada nova entra no projeto.</li>
+      <li>Confirme em <em>Properties ▸ Information</em> que o CRS agora é EPSG:31983 e que a camada tem 2.689 feições.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>A extensão da camada nova, em <em>Properties ▸ Information</em>, vai de <strong>333.728 a 760.736</strong> em X e de <strong>8.469.069 a 8.930.162</strong> em Y, tudo em metros. Se você ainda estiver vendo números entre −47 e −11, a reprojeção não foi aplicada e a camada carregada é a original.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Por que o fuso 23 e não o 22</div>
+      <p>Confira a longitude antes de acreditar. Abra a tabela de atributos da camada original e calcule o mínimo e o máximo de <code>$x</code>: o recorte vai de −46,609 a −42,600, e o fuso 23 cobre de −48 a −42. Cabe inteiro, com folga de quase um grau e meio na borda oeste. Se o recorte incluísse o Tocantins, cruzaria para o fuso 22 e a escolha teria que ser outra, com o custo que você mediu no tema 2.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>O centro médio simples</h3>
+    <ol>
+      <li>Na <em>Toolbox</em>, procure <code>native:meancoordinates</code>, que aparece como <em>Mean coordinate(s)</em>.</li>
+      <li>Preencha conforme abaixo e deixe os dois campos opcionais em branco.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Mean coordinate(s)</div>
+      <dl>
+        <dt>Input layer</dt><dd>focos_aqua_2024_utm</dd>
+        <dt>Weight field</dt><dd>vazio</dd>
+        <dt>Unique ID field</dt><dd>vazio</dd>
+        <dt>Mean coordinates</dt><dd>dados_tratados/centro_medio_2024.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Rode. A saída é uma camada com um único ponto.</li>
+      <li>Para ler as coordenadas, abra o <em>Field Calculator</em> na camada de saída e crie dois campos virtuais com <code>$x</code> e <code>$y</code>. Ou passe o cursor sobre o ponto com a ferramenta <em>Identify Features</em>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O centro médio dos 2.689 focos está em <strong>E 513.389,4 / N 8.690.545,0</strong>, em EPSG:31983, o que em graus dá −44,8771 / −11,8453, dentro de Riachão das Neves. Rode o mesmo algoritmo sobre os 92.387 focos de todos os satélites de 2024 e você obtém E 508.165,0 / N 8.689.367,6, a <strong>5,4 km</strong> de distância. Multiplicar a amostra por 34 mexeu o centro em cinco quilômetros, sobre uma nuvem cuja dispersão passa de cem.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>O centro ponderado pela energia liberada</h3>
+    <p>O campo <code>frp</code> traz a potência radiativa do fogo, em megawatts. É uma medida da intensidade da queima no momento da passagem do satélite. Ponderar por ela muda a pergunta de "onde o fogo acontece" para "onde o fogo queima forte".</p>
+    <ol>
+      <li>Rode <em>Mean coordinate(s)</em> de novo, agora com <code>frp</code> no campo <em>Weight field</em>.</li>
+      <li>Salve como <code>centro_ponderado_2024.gpkg</code>.</li>
+      <li>Carregue os dois pontos no mapa e dê a eles símbolos diferentes.</li>
+      <li>Para medir a distância entre eles, use <span class="caminho">View <i>▸</i> Measure <i>▸</i> Measure Line</span> com encaixe ativado, ou calcule a diferença das coordenadas na mão.</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>Medida</th><th class="num">Leste (m)</th><th class="num">Norte (m)</th></tr></thead>
+      <tbody>
+        <tr><td>Centro médio simples</td><td class="num">513.389,4</td><td class="num">8.690.545,0</td></tr>
+        <tr><td>Centro médio ponderado pela FRP</td><td class="num">489.595,6</td><td class="num">8.706.785,4</td></tr>
+        <tr class="hi"><td>Diferença</td><td class="num">−23.793,9</td><td class="num">+16.240,4</td></tr>
+      </tbody>
+      <caption>AQUA_M-T, 2024, 2.689 focos, EPSG:31983.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O deslocamento é de <strong>28.808 metros</strong>, ou 28,8 km, com azimute de <strong>304,3 graus</strong>, para noroeste. O centro ponderado sobe em direção a Formosa do Rio Preto e São Desidério, onde a lavoura mecanizada produz focos de potência radiativa mais alta. A soma da FRP dos 2.689 focos é de 272.848,6 MW, com mediana de 41,1 MW e máximo de 3.718,3 MW: a média, de 101,5 MW, é duas vezes e meia a mediana. É uma distribuição de cauda longa, e é a cauda que puxa o centro.</p>
+    </div>
+
+    <div class="pense">
+      <div class="lbl">Pergunta norteadora</div>
+      <p class="q">Qual dos dois centros você põe no relatório de uma brigada de incêndio?</p>
+      <p>Depende do que a brigada faz. Se a decisão é onde posicionar equipes para atender o maior número de ocorrências, o centro simples. Se é onde posicionar equipamento pesado para os eventos que ameaçam sair de controle, o ponderado. Vinte e nove quilômetros separam as duas respostas, o que em estrada de terra no oeste baiano é mais de uma hora de deslocamento.</p>
+    </div>
+
+    <figure class="ph">captura de tela · mapa com os dois centros marcados, ferramenta de medição mostrando a distância de 28,8 km entre eles</figure>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Distância padrão</h3>
+    <p>O QGIS 4.2 não traz ferramenta pronta para a distância padrão, e você não precisa de uma: a conta é um desvio padrão em duas dimensões e sai inteira do <em>Field Calculator</em>, em quatro campos e uma expressão final. De quebra, você fica sabendo qual fórmula usou, coisa que a janela de uma ferramenta pronta não conta.</p>
+    <ol>
+      <li>Selecione <code>focos_aqua_2024_utm</code> no painel <em>Layers</em> e abra o <em>Field Calculator</em>, o ícone de ábaco na barra da tabela de atributos, ou <code>Ctrl+I</code>.</li>
+      <li>Crie o campo <code>x</code>, tipo <em>Decimal (double)</em>, com a expressão <code>$x</code>. Clique <em>OK</em>: a camada entra em modo de edição e a coluna aparece na tabela. Repita para <code>y</code>, com <code>$y</code>. Como a camada está em EPSG:31983, os dois campos saem em metros.</li>
+      <li>Abra o <em>Field Calculator</em> de novo e crie <code>dx2</code> com a primeira expressão abaixo, depois <code>dy2</code> com a segunda. A função de agregação <code>mean("x")</code> percorre a camada inteira e devolve a média da coluna, então cada linha guarda o quadrado do seu desvio em relação ao centro médio.</li>
+    </ol>
+
+<pre class="expr">("x" - mean("x"))^2   <span class="cm">-- campo dx2: quadrado do desvio em x</span>
+("y" - mean("y"))^2   <span class="cm">-- campo dy2: quadrado do desvio em y</span></pre>
+
+    <ol start="4">
+      <li>Ainda no <em>Field Calculator</em>, digite <code>sqrt(mean("dx2") + mean("dy2"))</code> e leia o resultado na linha <em>Preview</em>, logo abaixo da caixa de expressão. Esse número é a distância padrão e não precisa virar coluna: anote e feche com <em>Cancel</em>.</li>
+      <li>Encerre a edição com <em>Toggle Editing</em> e confirme que quer salvar as quatro colunas novas.</li>
+      <li>Para desenhar o círculo no mapa, rode <code>native:buffer</code> sobre <code>centro_medio_2024</code> com <em>Distance</em> igual ao valor anotado e <em>Segments</em> em 50, salvando como <code>dados_tratados/distancia_padrao_2024.gpkg</code>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>A distância padrão é de <strong>144.181 metros</strong>, ou 144,2 km. O círculo correspondente cobre 65.308 km². A expressão com <code>mean</code> divide por <em>n</em>; uma implementação que divida por <em>n</em> − 1 devolve 144.208 m, uma diferença de 0,02% que não muda nenhuma conclusão com 2.689 pontos.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que fazer com esse número</div>
+      <p>Sozinho, quase nada: 144 km não é grande nem pequeno sem referência. Ele serve para comparação. A distância padrão de 2023, com 3.218 focos, é de 136.114 m. A dispersão subiu 5,9% de um ano para o outro, enquanto a contagem de focos caiu 16,4%. Menos fogo, espalhado por mais território. As duas afirmações se defendem, porque os dois números foram calculados do mesmo jeito, no mesmo recorte, com o mesmo satélite.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>Elipse de desvio padrão</h3>
+    <p>A elipse procura a direção em que a nuvem mais se espalha e devolve três números: semieixo maior, semieixo menor e azimute. O QGIS 4.2 não tem ferramenta nativa que a desenhe, e para o diagnóstico que esta aula pede o desenho é dispensável. Os campos <code>dx2</code> e <code>dy2</code> do passo 6 já contêm o que interessa: o desvio padrão em cada eixo, calculado em separado. Se os dois saírem parecidos, a elipse é quase um círculo, e é isso que você precisa saber antes de citar qualquer azimute.</p>
+    <ol>
+      <li>No <em>Field Calculator</em> de <code>focos_aqua_2024_utm</code>, digite <code>sqrt(mean("dx2"))</code> e leia o <em>Preview</em>: é o desvio padrão na direção leste-oeste. Anote.</li>
+      <li>Troque a expressão por <code>sqrt(mean("dy2"))</code> e anote o desvio na direção norte-sul. Feche com <em>Cancel</em>: nenhum dos dois precisa virar coluna.</li>
+      <li>Divida o maior pelo menor. Essa razão é o diagnóstico da forma: perto de 1, nenhuma direção domina; a partir de mais ou menos 2, existe um alongamento que merece ser reportado.</li>
+      <li>Volte à Figura 4 para ver o que a elipse acrescenta ao círculo, e à Figura 5 para lembrar o que o recorte faz com ela.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Os desvios de 2024 são <strong>95.584 m</strong> em x e <strong>107.943 m</strong> em y, razão de 1,13: o espalhamento norte-sul é só 13% maior que o leste-oeste. Refazendo as contas sobre a camada de 2023, que o exercício manda montar, saem 93.956 m e 98.486 m, razão de 1,05. Nuvem quase redonda nos dois anos.</p>
+    </div>
+
+    <p>A tabela abaixo traz a elipse completa dos dois anos, calculada fora do QGIS com a convenção declarada na legenda. Ela está aqui para você conferir a leitura, não para reproduzir em sala. Repare que o desvio em y que você acabou de calcular, 107.943 m, fica a 0,5% do semieixo maior de 2024: como o azimute é quase norte, o eixo da elipse quase coincide com o eixo y, e os desvios por eixo contam a mesma história que ela.</p>
+
+    <table>
+      <thead><tr><th>Grandeza</th><th class="num">2024</th><th class="num">2023</th><th>Leitura</th></tr></thead>
+      <tbody>
+        <tr><td>Semieixo maior</td><td class="num">107.458 m</td><td class="num">97.630 m</td><td>Espalhamento na direção predominante</td></tr>
+        <tr><td>Semieixo menor</td><td class="num">96.130 m</td><td class="num">94.845 m</td><td>Espalhamento na direção perpendicular</td></tr>
+        <tr class="hi"><td>Razão entre os eixos</td><td class="num">1,118</td><td class="num">1,029</td><td>Nuvem quase redonda nos dois anos</td></tr>
+        <tr class="hi"><td>Azimute do eixo maior</td><td class="num">6,7°</td><td class="num">165,7°</td><td>Girou 21 graus entre um ano e outro</td></tr>
+        <tr><td>Área da elipse</td><td class="num">32.452 km²</td><td class="num">29.090 km²</td><td>Metade da área do círculo de distância padrão</td></tr>
+      </tbody>
+      <caption>Valores calculados com σ = raiz da média dos quadrados dos desvios, dividindo por <em>n</em>, e azimute pela convenção de Yuill, contado no sentido horário a partir do norte e reduzido ao intervalo de 0 a 180 graus.</caption>
+    </table>
+
+    <div class="cuidado">
+      <div class="lbl">Convenção de escala</div>
+      <p>Implementações diferentes desenham a elipse com fatores diferentes. Algumas multiplicam os semieixos por raiz de dois, e nesse caso você vai ler 151.968 m e 135.949 m para 2024. A razão entre os eixos e o azimute não mudam, e são justamente essas duas grandezas que você interpreta. Registre no relatório qual convenção usou, do mesmo jeito que registra o CRS.</p>
+    </div>
+
+    <div class="confira">
+      <div class="lbl">A leitura honesta desta tabela</div>
+      <p>A elipse cresceu 11,6% de área e não diz mais nada. Olhe a razão entre os eixos: <strong>1,029 em 2023 e 1,118 em 2024</strong>. Uma nuvem com razão 1,03 é uma nuvem redonda, e em nuvem redonda o eixo maior é escolhido por diferenças ínfimas na amostra. É por isso que o azimute pula de 165,7° para 6,7°: não houve rotação de nada, houve troca de qual das duas direções quase iguais ganhou por pouco. Reportar "o fogo se orientou a 6,7 graus em 2024" seria inventar um padrão a partir de arredondamento.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Quando confiar no azimute</div>
+      <p>Não existe limiar oficial, e a prática defensável é declarar a razão entre os eixos sempre que você citar o azimute. Abaixo de cerca de 1,3 o azimute não sustenta afirmação nenhuma sozinho; acima de 2, a direção começa a valer alguma coisa. O jeito de decidir sem chutar é reamostrar: sorteie metade dos pontos vinte vezes, calcule vinte azimutes e olhe o espalhamento deles. Se os vinte valores cobrirem meio círculo, você tem a sua resposta.</p>
+    </div>
+
+    <figure class="ph">captura de tela · Field Calculator aberto sobre focos_aqua_2024_utm, expressão sqrt(mean("dy2")) digitada e a linha Preview mostrando 107943, com a nuvem de focos e o círculo da distância padrão ao fundo</figure>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Envoltória convexa e retângulo envolvente</h3>
+    <ol>
+      <li>Na <em>Toolbox</em>, procure <code>qgis:minimumboundinggeometry</code>, que aparece como <em>Minimum bounding geometry</em>.</li>
+      <li>Entrada: <code>focos_aqua_2024_utm</code>. Campo de agrupamento: vazio.</li>
+      <li>Em <em>Geometry type</em>, escolha <strong>Convex hull</strong>. Salve como <code>envoltoria_2024.gpkg</code> e rode.</li>
+      <li>Repita com <em>Geometry type</em> em <strong>Envelope (bounding box)</strong>, salvando como <code>bbox_2024.gpkg</code>.</li>
+      <li>Em cada saída, crie um campo com a expressão abaixo para ler a área em quilômetros quadrados.</li>
+    </ol>
+
+<pre class="expr">area($geometry) / 1000000   <span class="cm">-- a camada já está em metros, então isso é seguro</span></pre>
+
+    <table>
+      <thead><tr><th>Geometria</th><th class="num">Área (km²)</th><th class="num">Sobre a envoltória</th></tr></thead>
+      <tbody>
+        <tr><td>Retângulo envolvente</td><td class="num">196.890</td><td class="num">+32%</td></tr>
+        <tr><td>Envoltória convexa</td><td class="num">149.318</td><td class="num">—</td></tr>
+        <tr><td>Círculo de distância padrão</td><td class="num">65.308</td><td class="num">−56%</td></tr>
+        <tr><td>Elipse de desvio padrão</td><td class="num">32.452</td><td class="num">−78%</td></tr>
+      </tbody>
+      <caption>Quatro maneiras de dizer "a área ocupada pelo fogo", com resultados que variam seis vezes entre o maior e o menor. A envoltória inclui todos os pontos; a elipse inclui a região de maior concentração.</caption>
+    </table>
+
+    <div class="confira">
+      <div class="lbl">A leitura final do roteiro</div>
+      <p>A razão entre a envoltória e o retângulo envolvente é de <strong>0,7584</strong>. A nuvem preenche três quartos do retângulo, o que é típico de padrão espalhado sem grandes reentrâncias. Refaça a conta com 2023 e você obtém 0,7613, praticamente o mesmo, sobre uma envoltória de área quase idêntica: 149.880 km² contra 149.318. Ou seja, a extensão do fogo não mudou de um ano para o outro, o que mudou foi a quantidade dentro dela.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Por que a envoltória mal se mexeu</div>
+      <p>Porque ela é definida pelos pontos extremos, e basta um foco em cada canto do Cerrado baiano para fixá-la. A envoltória convexa é a medida mais frágil desta aula: um único registro espúrio a duzentos quilômetros do resto muda a área em dezenas de milhares de quilômetros quadrados, e nenhuma das outras três medidas se abala. Quando você quiser extensão robusta, corte os 5% mais distantes do centro antes de calcular, e diga que cortou.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>O centro médio se moveu entre 2023 e 2024. Meça o quanto e para onde.</p>
+    <ol>
+      <li>Troque o filtro da camada de focos para <code>"satelite" = 'AQUA_M-T' AND "ano" = 2023</code> e reprojete para EPSG:31983, salvando como <code>focos_aqua_2023_utm.gpkg</code>.</li>
+      <li>Rode <em>Mean coordinate(s)</em> sobre essa camada, sem peso.</li>
+      <li>Meça a distância entre o centro médio de 2023 e o de 2024, em quilômetros, e anote a direção do deslocamento em azimute.</li>
+    </ol>
+    <p>Depois responda, em três frases:</p>
+    <ol type="a">
+      <li>O centro se deslocou. Isso é o fogo mudando de lugar, o satélite detectando diferente, ou o seu filtro?</li>
+      <li>Que informação adicional você precisaria pedir ao INPE para separar as três hipóteses?</li>
+      <li>Se o deslocamento fosse de 3 km em vez do que você mediu, você o reportaria? Justifique com a distância padrão.</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma captura de tela com os dois centros médios sobre o mapa e a medição de distância visível, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Para o professor conferir com a turma</div>
+  <p>O deslocamento é de <strong>22,9 km</strong>, com azimute de <strong>249,8 graus</strong>, ou seja, para oés-sudoeste. O centro médio de 2023 está em E 534.913,5 / N 8.698.479,4, em Angical, e o de 2024, em E 513.389,4 / N 8.690.545,0, em Riachão das Neves. Vale colocar o número ao lado da distância padrão de 144,2 km: o deslocamento equivale a 15,9% da dispersão da própria nuvem, o que é pouco para sustentar sozinho uma afirmação sobre mudança de padrão. Quem responder que o fogo "migrou para o oeste" precisa explicar por que uma migração real caberia dentro de um sexto do raio da própria nuvem.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">A lista vira padrão em duas etapas, e as duas erram. A geocodificação decide quais endereços entram no mapa, e a centrografia decide como o mapa é resumido em números.</p>
+  <p>No cadastro de hoje, 77 dos 1.712 estabelecimentos dividem 25 coordenadas, e o defeito se concentra nos municípios pequenos: 8,1% de pontos empilhados nos que têm menos de 40 unidades, contra 1,4% nos quatro maiores. Depois disso, os 2.689 focos do satélite de referência couberam em cinco números: centro médio em Riachão das Neves, deslocamento de 28,8 km até o centro ponderado pela energia, distância padrão de 144,2 km, razão entre eixos de 1,118 e azimute de 6,7 graus. Quatro desses números têm sentido em comparação. O quinto, o azimute, não tem sentido nenhum, e descobrir isso foi o resultado mais útil do dia.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos, com a resposta em aberto.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Quem deve pagar pelo endereço que não deu match: o contratante da análise ou o município que não mantém o cadastro de logradouros?</p>
+  <p>Vale discutir o incentivo. Manter cadastro de endereço custa dinheiro e não rende voto. O CNEFE do IBGE resolveu parte do problema com dinheiro federal, e ainda assim envelhece a cada ano sem recenseamento. A pergunta prática para o consultor é outra: quando o cadastro é ruim, o custo de campo entra no orçamento ou vira erro silencioso no resultado?</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Um mapa de pontos de residência de pacientes com determinada doença, publicado em escala municipal, é dado anonimizado?</p>
+  <p>Em município de 12 mil habitantes, provavelmente não. A LGPD trata como pessoal o dado que torna a pessoa identificável, e em cidade pequena a coordenada da casa mais o diagnóstico bastam. Em capital, com centenas de casos na mesma quadra, a resposta muda. O critério não é o formato do arquivo, é a possibilidade concreta de reidentificação.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se a elipse de desvio padrão é tão sensível ao recorte, por que continuar usando?</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>Você descreveu a nuvem e não testou nada. Dizer que 2.689 focos estão agrupados exige comparar contra o que a aleatoriedade produziria, e esse teste é a primeira parte do tema 8.</li>
+    <li>A centrografia trata todos os pontos como se estivessem sobre uma superfície homogênea. O oeste baiano tem o rio Grande, a serra do Espírito Santo e o Parque Nacional Grande Sertão Veredas, e o fogo não pode acontecer em qualquer lugar com a mesma chance. Um modelo nulo mais honesto seria não homogêneo.</li>
+    <li>Não houve prática de geocodificação. A limpeza de endereço, a padronização de abreviatura e o casamento contra o CNEFE ficam para a APS 2, que é lançada no próximo tema. O que se mediu hoje foram sintomas de geocodificação ruim em um cadastro alheio, não a operação em si.</li>
+    <li>O recorte é o Cerrado da Bahia, e não o MATOPIBA. O MATOPIBA inteiro, nos mesmos meses de 2023 e 2024, tem 1.343.286 focos, e nenhuma das ferramentas desta aula roda nesse volume em tempo de sala. As conclusões sobre a forma da nuvem valem para este recorte e precisam ser refeitas em qualquer outro.</li>
+    <li>Ponderar pela potência radiativa supõe que a FRP medida na passagem representa o incêndio inteiro. Um fogo intenso que se apagou antes das 13h30 entra no arquivo com valor baixo ou não entra. Vale lembrar também que 4.603 dos 92.387 focos de todos os satélites em 2024 não trazem FRP nenhuma.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">Infosiga SP, nota metodológica sobre o registro e a georreferência dos sinistros de trânsito com vítimas.
+      <span class="src">Leitura dirigida de 12 minutos · antes do tema 8</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">IBGE, documentação do CNEFE 2022: estrutura dos arquivos, cobertura e o que significa cada tipo de endereço.
+      <span class="src">ibge.gov.br · Censo 2022 · CNEFE</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">INPE, perguntas frequentes do Programa Queimadas, com a definição de satélite de referência e o alerta sobre somar sensores.
+      <span class="src">terrabrasilis.dpi.inpe.br/queimadas</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Trevor Bailey e Anthony Gatrell, <em>Interactive Spatial Data Analysis</em>, capítulo sobre padrões de pontos: evento, localização e aleatoriedade espacial completa.
+      <span class="src">Longman, 1995 · seções iniciais do capítulo 3</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">Daniel Goldberg, <em>A Geocoding Best Practices Guide</em>: níveis de precisão, taxa de match e o efeito do não-match em estudos de saúde.
+      <span class="src">North American Association of Central Cancer Registries · leitura por capítulo</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-06.html"><span class="k">Tema anterior</span><span class="t">O que acontece num município depende do vizinho?</span></a>
+  <a href="encontro-08.html" class="r"><span class="k">Próximo tema</span><span class="t">Tenho orçamento para intervir em cinco pontos. Quais?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

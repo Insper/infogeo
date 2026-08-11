@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparar o mapa para entrega — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="extra-print-layout.html" class="here">Print Layout</a></li>
+  </ul>
+</div></div>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Material de apoio · entregas</div>
+  <h1>Preparar o mapa para entrega</h1>
+  <p class="sub">Um mapa entregue circula sem o autor por perto: precisa trazer escala, orientação, fonte, data e sistema de coordenadas para que outra pessoa possa conferir e decidir. Aqui está como montar essa peça no QGIS 4.2 e qual especificação as entregas da disciplina seguem.</p>
+  <div class="facts">
+    <div><b>QGIS 4.2</b><span>versão conferida</span></div>
+    <div><b>A4 paisagem</b><span>página padrão da entrega</span></div>
+    <div><b>PDF vetorial + PNG 300 dpi</b><span>formatos aceitos</span></div>
+    <div><b>Temas 4 e 10</b><span>onde o módulo é usado em aula</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Neste módulo</h6>
+  <ol>
+    <div class="grp">O layout de impressão</div>
+    <li><a href="#porque">Por que existe um compositor</a></li>
+    <li><a href="#criar">Criar o layout e a página</a></li>
+    <li><a href="#mapa">Item de mapa</a></li>
+    <li><a href="#legenda">Legenda</a></li>
+    <li><a href="#escala">Barra de escala</a></li>
+    <li><a href="#norte">Norte e grade</a></li>
+    <li><a href="#credito">Bloco de crédito</a></li>
+    <li><a href="#inset">Mapa de detalhe</a></li>
+    <li><a href="#exportar">Exportar</a></li>
+    <li><a href="#atlas">Atlas</a></li>
+    <li><a href="#template">Template .qpt</a></li>
+    <div class="grp">Entrega</div>
+    <li><a href="#padrao">Padrão de entrega</a></li>
+    <li><a href="#checagem">Tabela de checagem</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<div class="partmark">
+  <div class="pn">Módulo extra</div>
+  <h2 class="pt" style="margin:0">O gerador de layout do QGIS 4.2</h2>
+  <div class="pd">consulta</div>
+</div>
+
+<section class="part" id="porque">
+<p class="lede">Este módulo não pertence a um tema só. Ele é usado pela primeira vez no tema 4, quando quatro classificações do mesmo indicador vão para a mesma página, volta no tema 10, na prancha de acesso à urgência, e vale para toda entrega de APS e para o projeto final.</p>
+
+<h2>Por que existe uma janela separada do canvas</h2>
+
+<p>O canvas do QGIS mostra o que você precisa ver enquanto trabalha, e o que você precisa ver muda a cada minuto: liga uma camada, dá zoom, mede uma distância, desliga a camada de novo. Nada disso tem tamanho de papel, margem, título ou fonte declarada. O canvas é instrumento de análise.</p>
+
+<p>A prancha tem outro destinatário. Ela vai como anexo de processo, como slide de reunião de secretaria, como figura de relatório. Quem a lê não sabe qual camada estava ligada, em qual escala você olhava nem qual sistema de coordenadas mediu aquela área. Tudo isso precisa estar escrito na própria peça, porque a peça circula sozinha, e uma pergunta feita por quem recebe o mapa costuma chegar semanas depois, quando você já não lembra.</p>
+
+<p>O layout de impressão, aberto em <span class="caminho">Project <i>▸</i> New Print Layout</span>, é um segundo documento dentro do mesmo projeto. Ele tem página com dimensão em milímetros, itens posicionáveis e uma janela de mapa que aponta para o projeto, mas com escala e extensão próprias. Um projeto pode ter vários layouts, e todos ficam gravados no <code>.qgz</code>. A lista deles está em <span class="caminho">Project <i>▸</i> Layout Manager</span>.</p>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Visualizar e publicar são operações diferentes</h4>
+  <p>No canvas, a escala é consequência do zoom. Na prancha, a escala é uma decisão declarada, que fica travada e aparece na barra de escala. Essa é a diferença que gera todas as outras exigências deste módulo: quando a escala passa a ser um compromisso, a fonte, a data e o sistema de coordenadas também precisam ser.</p>
+</div>
+</section>
+
+<section class="part" id="criar">
+<h2>Criar o layout, nomear e definir a página</h2>
+
+<p>Antes de abrir o layout de impressão, arrume o projeto. O layout lê os nomes das camadas do painel <em>Layers</em> e a simbologia que estiver aplicada, então renomear <code>setores_sp_capital_2022 — sem esgoto</code> para <em>Domicílios sem ligação de esgoto (%)</em> economiza trabalho depois, na legenda.</p>
+
+<ol>
+  <li>Abra <span class="caminho">Project <i>▸</i> New Print Layout</span>. O QGIS pede um nome: use o nome do arquivo que vai ser exportado, sem acento e sem espaço, como <code>acesso_urgencia_vale_do_ribeira</code>. Esse nome é o que aparece no <em>Layout Manager</em> e o que você vai procurar em dezembro.</li>
+  <li>Clique com o botão direito sobre a página e escolha <em>Page Properties</em>. Em <em>Size</em>, escolha <em>A4</em>; em <em>Orientation</em>, <em>Landscape</em>. A entrega da disciplina é em A4 paisagem, e o A3 fica reservado para recorte que não cabe legível em A4.</li>
+  <li>Ligue as guias e a grade em <span class="caminho">View <i>▸</i> Show Guides</span> e <span class="caminho">View <i>▸</i> Snap to Grid</span>. Trabalhar com alinhamento livre produz peça torta, e a diferença aparece impressa.</li>
+</ol>
+
+<div class="params">
+  <div class="hd">Page Properties</div>
+  <dl>
+    <dt>Size</dt><dd>A4 (297 × 210 mm)</dd>
+    <dt>Orientation</dt><dd>Landscape</dd>
+    <dt>Margem útil</dt><dd>10 mm em cada borda</dd>
+    <dt>Background</dt><dd>branco, sem moldura decorativa</dd>
+  </dl>
+</div>
+
+<figure class="ph">captura de tela · compositor recém-aberto em A4 paisagem, com os painéis Layout, Item Properties e Atlas à direita e a página vazia com as guias visíveis</figure>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>O layout mora no projeto, não no computador. Se você fechar o QGIS sem salvar o <code>.qgz</code>, o layout inteiro se perde, ainda que o PDF exportado continue na pasta. Salve o projeto antes de exportar, e não depois.</p>
+</div>
+</section>
+
+<section class="part" id="mapa">
+<h2>Item de mapa: inserir, travar a escala e travar a extensão</h2>
+
+<p>O item de mapa é uma janela que olha para o projeto. Ele não copia as camadas: se você desligar uma camada no canvas depois de montar a prancha, o item de mapa muda junto, a menos que você o trave.</p>
+
+<ol>
+  <li>Use <span class="caminho">Add Item <i>▸</i> Add Map</span> e desenhe o retângulo. Em A4 paisagem, o mapa principal ocupa da ordem de dois terços da largura, com o restante reservado para legenda, barra de escala e crédito.</li>
+  <li>Com o item selecionado, abra o painel <em>Item Properties</em>. Em <em>Main properties</em>, digite a escala à mão, em número redondo: <code>1:250000</code>, não <code>1:237418</code>. Escala quebrada indica que ninguém decidiu a escala.</li>
+  <li>Para reposicionar o território dentro do quadro sem mexer na escala, use a ferramenta <em>Move item content</em>. Arrastar o item move o quadro na página; arrastar o conteúdo move o mapa dentro do quadro.</li>
+  <li>Marque <em>Lock layers</em> e <em>Lock styles for layers</em>. Daqui em diante o item de mapa ignora o que você fizer no canvas, o que permite montar duas pranchas com composições diferentes no mesmo projeto.</li>
+  <li>Se o projeto tiver temas de mapa gravados, marque <em>Follow map theme</em> e escolha o tema. É assim que o tema 4 coloca quatro classificações lado a lado com um único conjunto de camadas.</li>
+</ol>
+
+<div class="params">
+  <div class="hd">Item Properties · Map</div>
+  <dl>
+    <dt>Scale</dt><dd>valor redondo, digitado</dd>
+    <dt>Map rotation</dt><dd>0,0° salvo motivo declarado</dd>
+    <dt>CRS</dt><dd>o CRS métrico da análise, não EPSG:4326</dd>
+    <dt>Lock layers</dt><dd>marcado</dd>
+    <dt>Follow map theme</dt><dd>quando houver tema gravado</dd>
+    <dt>Frame</dt><dd>linha de 0,2 mm, cinza escuro</dd>
+  </dl>
+</div>
+
+<div class="confira">
+  <div class="lbl">Confira</div>
+  <p>Mude a escala do canvas e volte ao layout. Se o item de mapa não se moveu, a extensão está travada como deveria. Se ele acompanhou o canvas, você marcou o botão <em>Set Map Extent to Match Main Canvas Extent</em> e esqueceu de digitar a escala em seguida.</p>
+</div>
+
+<div class="cuidado">
+  <div class="lbl">Sobre o CRS do item de mapa</div>
+  <p>O item de mapa tem CRS próprio, e ele governa a forma do território na página e o comportamento da barra de escala. Uma prancha em EPSG:3857 exibe barra de escala em metros que erra proporcionalmente ao cosseno da latitude, o que no Brasil chega a mais de 10% de exagero. Publique em SIRGAS 2000, no fuso UTM do recorte, ou em Albers quando a peça precisar comparar áreas.</p>
+</div>
+</section>
+
+<section class="part" id="legenda">
+<h2>Legenda: filtrar, renomear, agrupar</h2>
+
+<p>A legenda que o QGIS insere por padrão é um espelho do painel de camadas, incluindo o que não informa nada ao leitor: o mapa base, a camada de contexto em cinza, o nome do arquivo com data e sufixo. Legenda boa é a lista mínima do que precisa ser decodificado.</p>
+
+<ol>
+  <li>Use <span class="caminho">Add Item <i>▸</i> Add Legend</span> e posicione a caixa.</li>
+  <li>Em <em>Item Properties</em>, na seção <em>Legend items</em>, desmarque <em>Auto update</em>. Sem isso, nada do que você editar sobrevive à próxima camada carregada no projeto.</li>
+  <li>Selecione o que não informa e remova com o botão de menos: mapa base, limites de contexto, camadas de trabalho intermediárias.</li>
+  <li>Renomeie cada item que sobrou com o botão de lápis, escrevendo o rótulo do jeito que o leitor lê, com unidade: <em>Domicílios sem ligação de esgoto (%)</em>, <em>Isócrona de 30 minutos pela rede viária</em>.</li>
+  <li>Agrupe quando houver duas famílias de informação, com o botão de grupo, e dê ao grupo um nome que oriente a leitura, como <em>Acesso</em> e <em>Referência</em>.</li>
+  <li>Marque <em>Only show items inside linked map</em> para que feições fora do enquadramento não apareçam na legenda. Em atlas, restrinja também à feição da página atual, na opção equivalente logo abaixo.</li>
+</ol>
+
+<p>Um limite prático: até seis itens de legenda em prancha A4. Passando disso, o leitor deixa de consultar a legenda e passa a adivinhar pela cor, e a peça perde a função. Se a análise exige mais de seis classes, o problema costuma estar na classificação, não na legenda.</p>
+
+<figure class="ph">captura de tela · painel Item Properties da legenda com Auto update desmarcado, três itens renomeados e o mapa base já removido da lista</figure>
+</section>
+
+<section class="part" id="escala">
+<h2>Barra de escala: estilo, unidade e segmentos</h2>
+
+<p>A barra de escala existe porque a peça vai ser reduzida, ampliada e reimpressa, e a escala numérica escrita em texto deixa de valer no momento em que alguém aperta "ajustar à página". A barra gráfica sobrevive a isso.</p>
+
+<ol>
+  <li>Use <span class="caminho">Add Item <i>▸</i> Add Scale Bar</span> e escolha o item de mapa correspondente, se houver mais de um na página.</li>
+  <li>Em <em>Style</em>, prefira <em>Single box</em> ou <em>Line ticks up</em>. Estilos com muitas subdivisões roubam atenção de graça.</li>
+  <li>Em <em>Units</em>, escolha metros para recorte urbano e quilômetros para recorte regional. Deixe <em>Label for units</em> preenchido, <code>m</code> ou <code>km</code>: barra sem unidade não é barra de escala.</li>
+  <li>Em <em>Segments</em>, use dois ou três segmentos à direita e nenhum à esquerda, com largura fixa em número redondo, como 5 km. A barra deve terminar num valor que o leitor consiga usar de régua.</li>
+</ol>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Barra de escala sobre um mapa cuja escala não foi travada, ou cujo CRS é geográfico, mostra um número plausível e errado. Confira a ordem: primeiro o CRS métrico e a escala digitada no item de mapa, depois a barra.</p>
+</div>
+</section>
+
+<section class="part" id="norte">
+<h2>Indicação de norte e grade de coordenadas, e quando dispensar cada uma</h2>
+
+<p>A seta de norte entra por <span class="caminho">Add Item <i>▸</i> Add North Arrow</span>, que é um item de imagem já apontado para a pasta de setas SVG do QGIS. Em <em>Item Properties</em>, na seção de rotação da imagem, marque a sincronia com o item de mapa: assim, se o mapa for rotacionado, a seta acompanha em vez de mentir.</p>
+
+<p>A seta é dispensável quando o mapa está com norte para cima, sem rotação, e o recorte é reconhecível pelo leitor, como a mancha urbana de São Paulo ou o contorno de um estado. Nesse caso ela só ocupa espaço. Ela é obrigatória quando existe rotação, quando o recorte é um retângulo sem referência reconhecível, ou quando a peça vai ser usada em campo.</p>
+
+<p>A grade de coordenadas é configurada no próprio item de mapa, em <em>Item Properties</em>, seção <em>Grids</em>: adicione uma grade, escolha o intervalo em unidades do CRS, o estilo do quadro (a moldura em zebra é a convenção cartográfica) e o formato das anotações, em grau decimal ou em grau, minuto e segundo.</p>
+
+<p>Grade é dispensável na maioria dos mapas temáticos, em que o leitor compara intensidade e não extrai posição. Ela passa a ser obrigatória quando a peça serve para localizar algo no terreno, quando instrui processo administrativo ou judicial, e quando o leitor vai precisar transcrever uma coordenada. Na dúvida, pergunte se alguém vai ler número de coordenada na peça: se ninguém vai, a grade só adiciona ruído.</p>
+</section>
+
+<section class="part" id="credito">
+<h2>Bloco de crédito, que não é opcional</h2>
+
+<p>O bloco de crédito é o que separa um mapa auditável de uma figura bonita. Ele entra como um único item de texto, em <span class="caminho">Add Item <i>▸</i> Add Label</span>, com corpo pequeno, alinhado à borda inferior da página. Quatro informações são obrigatórias na disciplina: a fonte de cada base, a data de coleta, o sistema de coordenadas em que se mediu e a autoria.</p>
+
+<pre class="expr">Domicílios sem ligação de esgoto · São Paulo, SP · setores censitários
+Fontes: malha e agregados por setor, IBGE, Censo 2022, revisão de 17/04/2025,
+        coleta de 02/08/2026.
+Sistema de coordenadas: SIRGAS 2000 / UTM 23S, EPSG:31983.
+Método: razão entre domicílios sem ligação à rede e domicílios particulares
+        permanentes; classificação em quantis, 5 classes.
+Elaboração: [nome do aluno], InfoGeo · Insper, 2026.</pre>
+
+<p>Repare no que está declarado: a revisão da base, a data de coleta, o código EPSG, o denominador do indicador e o método de classificação. Cada um desses itens já apareceu como fonte de erro em algum tema do curso, e declarar é o que permite a outra pessoa refazer a conta e discordar do resultado com argumento.</p>
+
+<div class="contexto">
+  <div class="lbl">Sobre a licença da fonte</div>
+  <p>Base do IBGE, do INPE e do DATASUS é de uso livre com citação da fonte. MapBiomas exige a citação da coleção usada. OpenStreetMap como mapa base exige o crédito <em>© OpenStreetMap contributors</em> na peça, sob a ODbL. Quando o mapa base aparece na prancha, esse crédito entra no bloco.</p>
+</div>
+</section>
+
+<section class="part" id="inset">
+<h2>Mapa de detalhe, com o retângulo do mapa principal</h2>
+
+<p>O mapa de detalhe, ou <em>inset</em>, resolve dois problemas opostos. No primeiro, o recorte principal é pequeno e o leitor não sabe onde ele fica no país: o inset mostra o estado inteiro com o retângulo do enquadramento. No segundo, o recorte principal é regional e existe uma área densa que fica ilegível: o inset amplia essa área.</p>
+
+<ol>
+  <li>Insira um segundo item de mapa, pequeno, num canto que não tenha informação relevante do mapa principal.</li>
+  <li>Ajuste a escala dele para o contexto desejado, com <em>Lock layers</em> marcado e, em geral, com menos camadas: um contorno de estado e nada mais.</li>
+  <li>No <em>Item Properties</em> do mapa de contexto, seção <em>Overviews</em>, adicione uma visão geral e aponte <em>Map frame</em> para o mapa principal. O QGIS desenha o retângulo da extensão do mapa principal dentro do inset, e ele se atualiza junto.</li>
+  <li>Dê ao retângulo um preenchimento vazio com contorno vermelho de 0,4 mm. Preenchimento sólido cobre o contexto que o inset deveria mostrar.</li>
+</ol>
+
+<div class="confira">
+  <div class="lbl">Confira</div>
+  <p>Mude a escala do mapa principal e olhe o inset: o retângulo tem que mudar de tamanho sozinho. Se ele ficou parado, o <em>Overview</em> está apontando para o mapa errado, ou você desenhou um retângulo à mão em vez de usar a função.</p>
+</div>
+
+<figure class="ph">captura de tela · prancha com mapa principal, inset no canto inferior direito e o retângulo de extensão desenhado pelo Overview</figure>
+</section>
+
+<section class="part" id="exportar">
+<h2>Exportar: PDF vetorial e PNG com DPI declarado</h2>
+
+<p>As duas saídas servem a coisas diferentes. O PDF vetorial é o arquivo de arquivo: mantém o texto como texto, permite ampliar sem serrilhar e é o que vai anexado a processo. O PNG é o que se cola em slide, documento de texto e mensagem.</p>
+
+<h3>PDF</h3>
+<ol>
+  <li>Use <span class="caminho">Layout <i>▸</i> Export as PDF</span>.</li>
+  <li>Marque <em>Always export as vectors</em>. Sem isso, uma camada com transparência ou com efeito de desenho faz o QGIS rasterizar a página inteira, e o resultado é um PDF que serrilha no zoom.</li>
+  <li>Em <em>Text export</em>, escolha <em>Always export texts as text objects</em>. Isso mantém o crédito pesquisável e permite a quem receber copiar o código EPSG em vez de digitar.</li>
+  <li><em>Create Geospatial PDF</em> é opcional e útil quando o destinatário vai abrir a peça em um leitor com suporte a camadas georreferenciadas. Ele engorda o arquivo.</li>
+</ol>
+
+<h3>PNG</h3>
+<ol>
+  <li>Use <span class="caminho">Layout <i>▸</i> Export as Image</span>.</li>
+  <li>Defina 300 dpi. É o mínimo aceito na disciplina, e a resolução em que texto de 8 pontos continua legível impresso. Uma prancha A4 paisagem a 300 dpi sai com cerca de 3.508 por 2.480 pixels.</li>
+  <li>Deixe <em>Crop to content</em> desmarcado quando a peça for para impressão, porque o corte remove a margem que a impressora precisa.</li>
+</ol>
+
+<div class="cuidado">
+  <div class="lbl">O que não conta como exportação</div>
+  <p>Captura de tela do canvas, mesmo em tela grande, não é prancha e não é aceita como entrega. Ela chega sem escala declarada, sem crédito, na resolução do monitor, e com os painéis do QGIS aparecendo na borda. O mesmo vale para foto de tela.</p>
+</div>
+</section>
+
+<section class="part" id="atlas">
+<h2>Atlas: uma prancha por feição</h2>
+
+<p>Atlas é o mecanismo que gera uma página por feição de uma camada. Ele é a diferença entre montar dez pranchas municipais à mão e montar uma e mandar imprimir dez. No projeto final, é o que produz um mapa por distrito, por município ou por unidade de saúde sem repetir trabalho.</p>
+
+<ol>
+  <li>No layout de impressão, abra o painel <em>Atlas</em> e marque <em>Generate an atlas</em>.</li>
+  <li>Em <em>Coverage layer</em>, escolha a camada cujas feições viram páginas, por exemplo a malha dos dez municípios do recorte. Marque <em>Hidden coverage layer</em> se essa camada não deve ser desenhada.</li>
+  <li>Em <em>Page name</em>, escolha o campo que nomeia cada página, como <code>NM_MUN</code>. Em <em>Sort by</em>, ordene por esse mesmo campo, para a saída sair em ordem previsível.</li>
+  <li>No <em>Item Properties</em> do mapa principal, marque <em>Controlled by atlas</em>. Escolha <em>Margin around feature</em>, com 10%, quando as feições tiverem tamanhos diferentes, ou <em>Fixed scale</em> quando as páginas precisarem ser comparáveis entre si.</li>
+  <li>Nos rótulos, use expressão em vez de texto fixo, para o título mudar a cada página. O nome da página está na variável <code>@atlas_pagename</code>, e qualquer atributo da feição pode ser lido diretamente.</li>
+  <li>Em <em>Output</em>, monte o nome do arquivo por expressão. Percorra as páginas com as setas do painel para conferir antes de exportar.</li>
+  <li>Exporte com <span class="caminho">Atlas <i>▸</i> Export Atlas as PDF</span>. Escolha arquivo único quando a entrega é um caderno, ou um arquivo por página quando cada município recebe a sua peça.</li>
+</ol>
+
+<pre class="expr">'Domicílios sem esgoto · ' || "NM_MUN"        <span class="cm">-- título que muda por página</span>
+'infogeo_projeto_sobrenome_' || lower(replace("NM_MUN",' ','_'))   <span class="cm">-- nome do arquivo</span></pre>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Com <em>Fixed scale</em>, feições grandes vazam da moldura e feições pequenas somem no meio do branco. Com <em>Margin around feature</em>, cada página sai numa escala diferente, e comparar duas páginas passa a ser indevido. Escolha conforme o uso e escreva no crédito qual dos dois foi usado.</p>
+</div>
+</section>
+
+<section class="part" id="template">
+<h2>Salvar como template .qpt e reusar</h2>
+
+<p>Depois de montar uma prancha que atende ao padrão da disciplina, guarde a montagem. Em <span class="caminho">Layout <i>▸</i> Save as Template</span>, grave um arquivo <code>.qpt</code> na sua pasta do curso. O template guarda os itens, as posições, as fontes e o texto fixo, mas não guarda as camadas: ele é a moldura, não o mapa.</p>
+
+<p>Para reusar, há dois caminhos. Em um projeto novo, <span class="caminho">Project <i>▸</i> Layout Manager</span> cria um layout a partir de template. Em um layout já aberto, <span class="caminho">Layout <i>▸</i> Add Items from Template</span> traz os itens para dentro da página atual, o que é útil para importar só o bloco de crédito e a barra de escala.</p>
+
+<p>Vale montar o seu template uma vez, no começo do semestre, com o bloco de crédito já estruturado e os campos de fonte e data em branco. As três APS e o projeto passam a começar do mesmo esqueleto, e o tempo que sobra vai para a análise.</p>
+</section>
+
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Entrega</div>
+  <h2 class="pt" style="margin:0">Padrão de entrega da disciplina</h2>
+  <div class="pd">vale para as três APS e para o projeto</div>
+</div>
+
+<section class="part" id="padrao">
+<p class="lede">O que vem abaixo é especificação, não recomendação. Toda peça cartográfica entregue na disciplina, em APS ou no projeto, é conferida contra esta lista antes de ser lida pelo mérito da análise.</p>
+
+<h3>1. Página e formato</h3>
+<ul>
+  <li>Página A4 paisagem, 297 por 210 mm, margem útil de 10 mm. A3 paisagem é permitido quando o recorte não fica legível em A4, e a justificativa entra no bloco de crédito.</li>
+  <li>Exportação em <strong>PDF vetorial</strong>, com <em>Always export as vectors</em> e texto exportado como texto. O PDF é a peça oficial.</li>
+  <li>Uma cópia em <strong>PNG a 300 dpi</strong> acompanha o PDF, para uso em slide e em relatório.</li>
+  <li>Captura de tela do canvas não é entrega.</li>
+</ul>
+
+<h3>2. Elementos obrigatórios na peça</h3>
+<ul>
+  <li>Título que enuncia o que está sendo mostrado, com o recorte territorial e o período. "Domicílios sem ligação de esgoto · São Paulo, SP · Censo 2022" informa; "Mapa 1" não.</li>
+  <li>Item de mapa com escala digitada em valor redondo e camadas travadas.</li>
+  <li>Legenda com no máximo seis itens, com rótulos escritos para o leitor e com unidade explícita, sem nome de arquivo e sem o mapa base.</li>
+  <li>Barra de escala com unidade métrica declarada.</li>
+  <li>Indicação de norte quando houver rotação ou quando o recorte não for reconhecível; grade de coordenadas quando a peça servir para localizar em campo ou instruir processo.</li>
+  <li>Bloco de crédito com fonte de cada base, data de coleta, revisão da base quando existir, código EPSG do sistema de coordenadas em que se mediu, método em uma linha e autoria com data de elaboração.</li>
+</ul>
+
+<h3>3. Nomenclatura do arquivo</h3>
+<p>Tudo em minúsculas, sem acento, sem espaço e sem caractere especial, separado por sublinhado:</p>
+
+<pre class="expr">infogeo_&lt;entrega&gt;_&lt;sobrenome&gt;_&lt;assunto&gt;.pdf
+
+infogeo_aps01_batista_soja_mt_quantis.pdf
+infogeo_aps03_batista_acesso_urgencia_vale.pdf
+infogeo_projeto_batista_esgoto_parelheiros.pdf
+infogeo_projeto_batista_esgoto_registro.png</pre>
+
+<p>Em atlas, o nome de cada página segue o mesmo padrão com o nome da feição no fim, gerado por expressão. Arquivo chamado <code>mapa_final_v3_ok.pdf</code> volta para correção sem ser aberto.</p>
+
+<h3>4. O que reprova a peça</h3>
+<p>Qualquer um dos itens abaixo, isoladamente, invalida a entrega, e a peça é devolvida para refazer:</p>
+<ul>
+  <li>Ausência do código EPSG no bloco de crédito, ou área e distância medidas em EPSG:4326 ou EPSG:3857.</li>
+  <li>Ausência da fonte ou da data de coleta de qualquer base usada.</li>
+  <li>Escala não travada, escala quebrada ou barra de escala sem unidade.</li>
+  <li>Legenda com nome de arquivo, com camada de trabalho ou com o mapa base entre os itens.</li>
+  <li>Indicador apresentado como taxa sem o denominador declarado.</li>
+  <li>Captura de tela, PNG abaixo de 300 dpi ou PDF rasterizado quando o vetorial era possível.</li>
+  <li>Nome de arquivo fora do padrão da seção 3.</li>
+  <li>Crédito de mapa base ausente quando o OpenStreetMap aparece na peça.</li>
+</ul>
+</section>
+
+<section class="part" id="checagem">
+<h2>Tabela de checagem, para usar antes de enviar</h2>
+
+<p>Percorra as onze linhas com a peça aberta na tela. A coluna da direita é o que o professor vai olhar primeiro.</p>
+
+<table>
+  <thead><tr><th style="width:34px">#</th><th style="width:26%">Item</th><th style="width:30%">Onde se confere</th><th>Reprova se</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>Tamanho e orientação</td><td>Page Properties</td><td>não é A4 paisagem, sem justificativa de A3</td></tr>
+    <tr><td class="num">2</td><td>Escala do mapa</td><td>Item Properties do mapa</td><td>escala quebrada, ou camadas não travadas</td></tr>
+    <tr><td class="num">3</td><td>CRS da peça</td><td>Item Properties do mapa e bloco de crédito</td><td>geográfico ou Mercator web em peça com medida</td></tr>
+    <tr><td class="num">4</td><td>Título</td><td>na própria página</td><td>não diz o que, onde e quando</td></tr>
+    <tr><td class="num">5</td><td>Legenda</td><td>Item Properties da legenda</td><td>mais de seis itens, nome de arquivo, mapa base listado</td></tr>
+    <tr><td class="num">6</td><td>Barra de escala</td><td>Item Properties da barra</td><td>sem unidade, ou vinculada ao mapa errado</td></tr>
+    <tr><td class="num">7</td><td>Norte e grade</td><td>na própria página</td><td>mapa rotacionado sem seta, ou peça de campo sem grade</td></tr>
+    <tr><td class="num">8</td><td>Bloco de crédito</td><td>rodapé da página</td><td>falta fonte, data de coleta, EPSG, método ou autoria</td></tr>
+    <tr><td class="num">9</td><td>Denominador do indicador</td><td>título, legenda ou crédito</td><td>taxa sem dizer sobre o que foi dividida</td></tr>
+    <tr><td class="num">10</td><td>Exportação</td><td>arquivo aberto fora do QGIS</td><td>PDF rasterizado, PNG abaixo de 300 dpi, captura de tela</td></tr>
+    <tr><td class="num">11</td><td>Nome do arquivo</td><td>gerenciador de arquivos</td><td>fora do padrão <code>infogeo_&lt;entrega&gt;_&lt;sobrenome&gt;_&lt;assunto&gt;</code></td></tr>
+  </tbody>
+  <caption>A mesma tabela é usada na banca do encontro 12, prancha por prancha, antes da arguição sobre a análise.</caption>
+</table>
+
+<div class="limites">
+  <div class="lbl">O que este módulo não resolve</div>
+  <ul>
+    <li>Especificação não produz hierarquia visual. Uma peça pode cumprir as onze linhas e continuar ilegível, com camada de contexto saturada e cor sem ordem. Isso é assunto do tema 4, e o teste dos dez segundos do tema 10 é a forma mais rápida de detectar.</li>
+    <li>Nada aqui trata de mapa interativo. Webmap tem outras exigências, e a exportação com qgis2web reprojeta para EPSG:3857, o que impede medida. O tema 10 trata disso.</li>
+    <li>Impressão em gráfica pede sangria, perfil de cor e prova, que não são cobrados na disciplina.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para consultar ao montar a prancha</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k">Base</div>
+    <div class="t">Documentação oficial do QGIS, <em>Training Manual</em>, módulo <em>Laying out the Maps</em>.
+      <span class="src"><a href="https://docs.qgis.org/3.44/en/docs/training_manual/map_composer/map_composer.html">docs.qgis.org</a> · base deste módulo, adaptada para a 4.2 e para o padrão da disciplina</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Documentação oficial do QGIS, <em>User Manual</em>, capítulos sobre <em>Layouts</em> e <em>Atlas generation</em>.
+      <span class="src">docs.qgis.org · para as opções que este módulo não cobre</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Crítica</div>
+    <div class="t">Mark Monmonier, <em>How to Lie with Maps</em>, capítulos sobre generalização e sobre a legenda.
+      <span class="src">o que a especificação não pega: a peça correta que ainda engana</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-04.html"><span class="k">Usado no tema 4</span><span class="t">Este mapa está me convencendo ou me enganando?</span></a>
+  <a href="encontro-10.html" class="r"><span class="k">Usado no tema 10</span><span class="t">Quanta gente chega ao hospital em trinta minutos?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encontro 1 · Por que dizer onde muda a resposta? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-01.html" class="here">Encontro 1</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="now">01 · Abertura</a>
+  <a href="encontro-02.html" class="ahead">02 · Hectares</a>
+  <a href="encontro-03.html" class="ahead">03 · Esgoto</a>
+  <a href="encontro-04.html" class="ahead">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="ahead">05 · Habitação</a>
+  <a href="encontro-06.html" class="ahead">06 · Vizinho</a>
+  <a href="encontro-07.html" class="ahead">07 · Endereços</a>
+  <a href="encontro-08.html" class="ahead">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 1 · Abertura · Unidade teórica 01</div>
+  <h1>Por que dizer <em>onde</em> muda a resposta?</h1>
+  <p class="sub">Apresentação da disciplina, a primeira distinção conceitual do curso, instalação do QGIS e o pacote de dados que você vai usar no próximo tema.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>45 / 60 / 15</b><span>teoria / tutorial / checklist</span></div>
+    <div><b>QGIS 4.2</b><span>versão do semestre</span></div>
+    <div><b>Sem entrega</b><span>não há exercício avaliado</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Neste encontro</h6>
+  <ol>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#disciplina">A disciplina em uma frase</a></li>
+    <li><a href="#arco">As dez perguntas</a></li>
+    <li><a href="#avaliacao">Como você será avaliado</a></li>
+    <li><a href="#espacial">Espacial e georreferenciado</a></li>
+    <li><a href="#representacao">Como o mundo vira camada</a></li>
+    <li><a href="#vetorraster">Vetor e raster</a></li>
+    <li><a href="#escala">Escala e generalização</a></li>
+    <li><a href="#tobler">A lei de Tobler</a></li>
+    <div class="grp">Parte 2 · tutorial</div>
+    <li><a href="#instalar">1. Instalar o QGIS</a></li>
+    <li><a href="#idioma">2. Fixar o idioma</a></li>
+    <li><a href="#pastas">3. Pastas e projeto</a></li>
+    <li><a href="#interface">A janela do QGIS</a></li>
+    <li><a href="#malha">4. Primeira camada</a></li>
+    <li><a href="#osm">5. Mapa base</a></li>
+    <li><a href="#atributos">6. Tabela de atributos</a></li>
+    <li><a href="#crs">7. Um olhar no CRS</a></li>
+    <li><a href="#pacote">8. Pacote do tema 2</a></li>
+    <div class="grp">Parte 3</div>
+    <li><a href="#checklist">Checklist de saída</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<!-- ══════════════ PARTE 1 ══════════════ -->
+<div class="partmark">
+  <div class="pn">Parte 1</div>
+  <h2 class="pt" style="margin:0">Abertura e fundamentação</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="disciplina">
+<p class="lede">Esta disciplina trata de um tipo específico de pergunta: aquela cuja resposta muda quando você pergunta <em>onde</em>. Saber que o Brasil produziu 160 milhões de toneladas de soja basta para a manchete. Quem analisa crédito rural, ou prepara uma ação civil pública sobre desmatamento, precisa de outra coisa: saber que essa produção se organiza em manchas contíguas, que atravessam divisas estaduais e avançam sobre um bioma específico, porque o risco de cada contrato depende de onde ele cai dentro dessa mancha. O QGIS entra como instrumento para enxergar e medir isso. O assunto do curso é a pergunta, não o software.</p>
+
+<p>Ao longo do semestre você vai responder dez perguntas. Todas são brasileiras, todas usam dados públicos que você pode baixar hoje, e todas terminam em um número que alguém precisaria para decidir alguma coisa. Cado tema acrescenta uma capacidade nova, e nenhum tema depende de algo que ainda não foi ensinado.</p>
+
+<div class="conceito">
+  <div class="lbl">O formato de toda aula</div>
+  <h4>Uma pergunta por encontro</h4>
+  <p>Toda aula abre enunciando a pergunta do tema e mostrando por que a resposta ingênua falha. Depois vem a teoria que torna a pergunta respondível, o roteiro no QGIS que a responde, um exercício de quinze minutos para testar se a resposta é robusta, e o fechamento com o que você pode e o que não pode afirmar a partir dali.</p>
+</div>
+</section>
+
+<section class="part" id="arco">
+<h2>As dez perguntas, e por que estão nessa ordem</h2>
+<p>O arco tem uma lógica de dependência. Você não consegue construir um indicador antes de saber cruzar duas bases, não consegue desconfiar de um mapa antes de saber fazer um, e não consegue medir acesso a um hospital antes de entender por que a distância em linha reta é insuficiente.</p>
+
+<table>
+  <thead><tr><th style="width:56px">Tema</th><th>A pergunta</th><th style="width:30%">O que você passa a saber fazer</th></tr></thead>
+  <tbody>
+    <tr class="hi"><td class="num">1</td><td>Por que dizer <em>onde</em> muda a resposta?</td><td>Instalar o ambiente e separar dado espacial de dado georreferenciado</td></tr>
+    <tr><td class="num">2</td><td>Quantos hectares queimaram de verdade?</td><td>Medir área e distância sem erro sistemático</td></tr>
+    <tr><td class="num">3</td><td>Quem vive sem esgoto na minha cidade, e em qual quarteirão?</td><td>Cruzar geografia com tabela e construir um indicador próprio</td></tr>
+    <tr><td class="num">4</td><td>Este mapa está me convencendo ou me enganando?</td><td>Produzir e auditar um mapa temático</td></tr>
+    <tr><td class="num">5</td><td>Onde ainda cabe habitação social perto do metrô?</td><td>Encadear operações de sobreposição para responder adequação</td></tr>
+    <tr><td class="num">6</td><td>O que acontece num município depende do vizinho?</td><td>Testar dependência espacial e localizar agrupamentos</td></tr>
+    <tr><td class="num">7</td><td>Tenho uma lista de endereços. Como ela vira padrão no mapa?</td><td>Transformar endereço em ponto e descrever deslocamento no tempo</td></tr>
+    <tr><td class="num">8</td><td>Tenho orçamento para intervir em cinco pontos. Quais?</td><td>Reduzir milhares de ocorrências a uma lista de prioridades</td></tr>
+    <tr><td class="num">9</td><td>Quanto do meu município virou pasto desde 1985?</td><td>Trabalhar com raster e quantificar mudança de uso da terra</td></tr>
+    <tr><td class="num">10</td><td>Quanta gente chega ao hospital em trinta minutos?</td><td>Medir acessibilidade pela rede real e comunicar o resultado</td></tr>
+  </tbody>
+  <caption>Os encontros 11 e 12 são reservados para revisão e prova, e para a banca de projetos.</caption>
+</table>
+</section>
+
+<section class="part" id="avaliacao">
+<h2>Como você será avaliado</h2>
+<p>Três atividades práticas somam 30% da nota, a prova final vale 30% e o projeto em grupo, 40%.</p>
+
+<p>As APS saem ao fim dos temas 4, 8 e 10, sempre com uma base de dados que você ainda não viu e uma pergunta que ainda não foi feita em aula. São feitas fora de sala e entregues pelo Blackboard.</p>
+
+<p>A prova é conceitual: em vez de perguntar onde fica o menu do buffer, ela mostra um mapa, uma análise ou uma recomendação e pede diagnóstico: qual projeção está inadequada, qual classificação está enviesada, qual inferência os dados não sustentam, qual método está errado para a pergunta feita. Toda questão nasce de uma das dez unidades teóricas, e você vê o escopo de cada uma no fim da parte teórica de cada encontro.</p>
+
+<p>O projeto é uma consultoria territorial. Seu grupo formula a própria pergunta, no mesmo formato das dez do semestre, e entrega diagnóstico, mapas, um webmap navegável e uma recomendação de uma página com as limitações declaradas. Metade da nota está na qualidade da pergunta e na honestidade sobre os limites do que você mediu.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Pense em uma decisão que alguém da sua área toma com frequência. Ela mudaria se quem decide soubesse exatamente onde as coisas estão?</p>
+  <p>Guarde essa resposta. Ela é o rascunho do seu projeto final.</p>
+</div>
+</section>
+
+<section class="part" id="espacial">
+<h2>Dado espacial e dado georreferenciado não são a mesma coisa</h2>
+
+<p>Comece por esta distinção, porque ela organiza o curso inteiro e costuma ser atropelada até em relatório profissional.</p>
+
+<p>Um dado <strong>georreferenciado</strong> tem um atributo de localização amarrado a um sistema de referência. A planilha da Receita Federal com o endereço de cada CNPJ é georreferenciável. O cadastro do CNES com a latitude e a longitude de cada hospital já é georreferenciado. O que define a categoria é a existência de uma âncora: um par de coordenadas, um código de município, um CEP, algo que permita colocar aquela linha da tabela em um lugar do planeta.</p>
+
+<p>Um dado <strong>espacial</strong> é outra coisa. É um dado no qual a proximidade importa para explicar o valor. O preço do metro quadrado num quarteirão de Pinheiros não é independente do preço no quarteirão ao lado. A produtividade da soja em Luís Eduardo Magalhães não é independente da produtividade nos municípios vizinhos, porque compartilham clima, solo, distância até o porto e o mesmo pacote tecnológico. Nesses casos existe dependência entre vizinhos, e ignorá-la produz análise errada.</p>
+
+<div class="conceito">
+  <div class="lbl">Guarde assim</div>
+  <h4>Georreferenciado é uma propriedade do arquivo. Espacial é uma propriedade do fenômeno.</h4>
+  <p>Quase todo dado público brasileiro relevante chega até você georreferenciado. O trabalho do analista é reconhecer quando o fenômeno por trás dele é espacial, e usar as ferramentas que levam a dependência a sério. A tema 6 é inteiramente sobre isso.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">A ocorrência de dengue em um bairro é um dado espacial ou apenas georreferenciado? E o número de CNPJs abertos por município?</p>
+  <p>Na dengue, o vizinho contamina literalmente: o mosquito voa cerca de 100 metros e os moradores se deslocam. Já a abertura de CNPJ tem um componente de vizinhança mais fraco, mas não nulo, porque serviços se aglomeram. Quase nada é puramente independente. A pergunta útil não é "tem dependência?", é "a dependência é forte o bastante para mudar a minha conclusão?".</p>
+</div>
+</section>
+
+<section class="part" id="representacao">
+<h2>Como o mundo vira camada</h2>
+
+<p>Entre a paisagem lá fora e o arquivo no seu computador existem quatro etapas, e cada uma joga informação fora. Vale conhecer as quatro porque é nelas que moram os erros que você vai encontrar depois.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d01-representacao.svg" alt="Quatro caixas em sequência: mundo real, modelo conceitual, modelo representacional e implementação, com o que se perde entre cada uma.">
+  <figcaption><b>Figura 1</b> Entre a paisagem e o arquivo existem quatro etapas, e cada seta descarta informação. Os erros que você vai encontrar depois nascem quase sempre em uma dessas passagens.</figcaption>
+</figure>
+
+<p>Começa no <strong>mundo real</strong>: um rio, um lote, uma queimada, uma pessoa que mora em algum lugar. Nada disso tem borda perfeitamente definida. O rio muda de largura na cheia, o limite da queimada é uma faixa de transição de dezenas de metros, e a pessoa dorme num lugar e trabalha em outro.</p>
+
+<p>A segunda etapa é o <strong>modelo conceitual</strong>, onde você decide como aquilo existe. Duas escolhas estão disponíveis. Você pode tratar o espaço como uma coleção de objetos discretos, cada um com identidade e borda: o lote 45 da quadra 12, o município de Corumbá, o hospital das Clínicas. Ou pode tratá-lo como um campo contínuo, no qual toda posição tem um valor: altitude, temperatura, precipitação, índice de vegetação.</p>
+
+
+<figure class="diagrama">
+  <img src="assets/img/d01-objeto-campo.svg" alt="À esquerda, quatro lotes com borda definida e rótulo. À direita, uma superfície contínua com curvas de nível.">
+  <figcaption><b>Figura 2</b> Objetos têm borda, identidade e uma linha de tabela. Campos têm valor em toda posição. Forçar um fenômeno socioeconômico a virar campo costuma inventar informação onde não havia.</figcaption>
+</figure>
+<p>A escolha entre os dois modelos vem do fenômeno, não da preferência de quem analisa. Altitude é campo, porque existe altitude em todo ponto do terreno. Município é objeto, porque a divisa é uma convenção jurídica com um traçado definido. Fenômenos socioeconômicos quase sempre são objetos, porque nascem de unidades administrativas. Quando alguém força um fenômeno socioeconômico a virar campo, com interpolação de renda entre pontos, o resultado costuma inventar informação onde não havia.</p>
+
+<p>A terceira etapa é o <strong>modelo representacional</strong>: objetos viram vetores, campos viram matrizes. A quarta é a <strong>implementação</strong>, o arquivo de fato, com seu formato, sua compressão e suas limitações.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Poluição do ar é objeto discreto ou campo contínuo? E a fonte que a emite?</p>
+  <p>A concentração de material particulado existe em todo ponto do espaço, então é campo. A chaminé que emite é um objeto pontual. Um bom estudo de qualidade do ar usa os dois modelos ao mesmo tempo, e sabe qual pergunta cada um responde.</p>
+</div>
+</section>
+
+<section class="part" id="vetorraster">
+<h2>Vetor e raster, e o que se perde em cada um</h2>
+
+<p>No modelo <strong>vetorial</strong>, o mundo é descrito por pontos, linhas e polígonos definidos por coordenadas. Um hospital é um ponto com um par de coordenadas. Uma rodovia é uma sequência de vértices. Um município é um anel fechado de vértices. Cada feição carrega uma linha de tabela com seus atributos. A precisão é a dos vértices, e as relações entre feições podem ser consultadas: este ponto está dentro daquele polígono, esta linha cruza aquela outra.</p>
+
+<p>No modelo <strong>raster</strong>, o espaço é uma grade regular de células, e cada célula guarda um valor. Uma imagem de satélite classificada em uso da terra tem células de 30 por 30 metros, e cada uma vale "floresta", "pastagem" ou "área urbana". A precisão é a do tamanho da célula, o que significa que um córrego de 5 metros de largura simplesmente não existe numa grade de 30 metros.</p>
+
+
+<figure class="diagrama">
+  <img src="assets/img/d01-vetor-raster.svg" alt="O mesmo córrego e o mesmo lago representados em vetor, em raster de 30 metros e em raster de 100 metros.">
+  <figcaption><b>Figura 3</b> Repare no terceiro painel: na grade de 100 metros o córrego deixou de existir. A linha vermelha é a geometria real, sobreposta para comparação.</figcaption>
+</figure>
+<table>
+  <thead><tr><th style="width:22%"></th><th>Vetorial</th><th>Matricial (raster)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Bom para</strong></td><td>Objetos com borda: lotes, divisas, redes, endereços</td><td>Fenômenos que variam continuamente: altitude, temperatura, cobertura da terra</td></tr>
+    <tr><td><strong>Precisão</strong></td><td>Definida pelos vértices, independente da escala de exibição</td><td>Definida pelo tamanho da célula. Nada menor que a célula existe</td></tr>
+    <tr><td><strong>Formatos</strong></td><td>GeoPackage (.gpkg), Shapefile (.shp), GeoJSON</td><td>GeoTIFF (.tif), NetCDF, HDF</td></tr>
+    <tr><td><strong>Fraqueza</strong></td><td>Sobreposição entre muitos polígonos fica lenta e gera erro de topologia</td><td>Arquivos grandes, e a borda de qualquer feição vira escada</td></tr>
+    <tr><td><strong>No curso</strong></td><td>Temas 2 a 8 e 10</td><td>Tema 9</td></tr>
+  </tbody>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Sobre o Shapefile</div>
+  <p>O Shapefile é o formato mais comum nos portais brasileiros e é o pior formato que você vai usar. Ele não é um arquivo, são pelo menos três que precisam andar juntos. Os nomes de campo têm no máximo dez caracteres, o que transforma <code>POPULACAO_RESIDENTE</code> em <code>POPULACAO_</code>. E o texto costuma vir em Latin-1, o que quebra todos os acentos ao abrir. Sempre que puder, converta para GeoPackage assim que baixar. Você vai fazer isso no tema 2.</p>
+</div>
+</section>
+
+<section class="part" id="escala">
+<h2>Escala não é zoom</h2>
+
+<p>Escala é a razão entre a distância no mapa e a distância no terreno. Em 1:50.000, um centímetro no papel vale 500 metros no chão. Números maiores no denominador significam mais território e menos detalhe. Um mapa 1:1.000.000 é de escala pequena, ainda que cubra o país inteiro.</p>
+
+<p>O que importa na prática é que a escala está embutida no dado, não na tela. A malha municipal do IBGE é generalizada para uma escala de referência. Se você der zoom até o nível de quarteirão, os vértices vão aparecer espaçados e a divisa vai parecer um zigue-zague grosseiro. O arquivo não está com defeito: ele foi generalizado para uma escala de referência, e perguntas no nível do quarteirão estão fora do que aqueles vértices conseguem responder.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Você precisa saber se um imóvel está dentro ou fora de uma área de proteção. Pode usar a camada de biomas do IBGE, generalizada para 1:250.000?</p>
+  <p>Não. Nessa escala, um milímetro de traço equivale a 250 metros no terreno. A resposta para um imóvel específico pode inverter dependendo de qual lado do traço ele cai. Esse tipo de erro aparece em perícia ambiental com frequência.</p>
+</div>
+</section>
+
+<section class="part" id="tobler">
+<h2>A primeira lei da geografia</h2>
+
+<p>Em 1970, Waldo Tobler publicou um artigo sobre simulação do crescimento urbano em Detroit e enunciou de passagem uma frase que virou o fundamento do campo: tudo se relaciona com tudo, mas coisas próximas se relacionam mais do que coisas distantes.</p>
+
+
+<figure class="diagrama">
+  <img src="assets/img/d01-tobler.svg" alt="Três mapas em tons de cinza: xadrez, ruído aleatório e manchas suaves, ilustrando autocorrelação negativa, ausente e positiva.">
+  <figcaption><b>Figura 4</b> Quase todo dado territorial brasileiro se parece com o painel da direita: valores altos tendem a aparecer cercados de valores altos, e não salpicados ao acaso.</figcaption>
+</figure>
+<p>O enunciado parece trivial, mas contradiz uma premissa central da estatística clássica: a de que as observações são independentes. Quando você roda uma regressão com municípios como unidades, está afirmando implicitamente que o valor de um município não carrega informação sobre o do vizinho. Para quase qualquer variável territorial brasileira, isso é falso, e a consequência é um erro-padrão subestimado que faz você declarar significante o que não é.</p>
+
+<p>No tema 6 você vai medir essa dependência com o índice de Moran e localizar onde ela se concentra. Por enquanto, guarde a lei como uma suspeita permanente: sempre que olhar um mapa e ver manchas, considere que parte do padrão pode vir da dependência entre vizinhos, e não do fenômeno em si.</p>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 01</div>
+  <p class="q">A prova pode pedir que você classifique um fenômeno como objeto discreto ou campo contínuo e justifique a representação escolhida, ou que identifique um erro de escala e de generalização em um mapa apresentado.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · tutorial</div>
+  <h2 class="pt" style="margin:0">Instalar o QGIS e montar o primeiro projeto</h2>
+  <div class="pd">60 min</div>
+</div>
+
+<section class="part" id="instalar">
+<p class="lede">Este encontro existe para que nenhum minuto das nove aulas seguintes seja gasto com instalação ou download. Ao final dos oito passos abaixo você terá o QGIS funcionando, um projeto salvo, duas camadas carregadas e o pacote de dados do tema 2 no seu computador.</p>
+
+<div class="contexto">
+  <div class="lbl">Versão fixada para o semestre</div>
+  <p>Use o <strong>QGIS 4.2 Belém do Pará</strong>. Todos os passos, nomes de menu e resultados deste material foram executados e conferidos nessa versão. A partir da 3.40 os passos também funcionam, com duas diferenças anotadas nos pontos onde aparecem: na série 3.x o OpenStreetMap já vem cadastrado em XYZ Tiles, e o cálculo de rede do tema 10 dependia do CRS do projeto.</p>
+</div>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Baixar e instalar</h3>
+    <p>Acesse <a href="https://qgis.org/download/">qgis.org/download</a>. O QGIS é software livre, gratuito e sem cadastro. Baixe o instalador atual da sua plataforma, que hoje é o da versão 4.2.</p>
+
+    <h4>Windows</h4>
+    <ol>
+      <li>Escolha o instalador autônomo de 64 bits (<em>QGIS Standalone Installer</em>).</li>
+      <li>Execute o arquivo <code>.msi</code> baixado e aceite as opções padrão.</li>
+      <li>A instalação leva de cinco a dez minutos e ocupa cerca de 2 GB.</li>
+      <li>O QGIS aparece no menu Iniciar dentro de uma pasta com o nome da versão. Abra o item <em>QGIS Desktop</em>.</li>
+    </ol>
+
+    <h4>macOS</h4>
+    <ol>
+      <li>Baixe o arquivo <code>.dmg</code>. O instalador é universal e roda tanto em Intel quanto em Apple Silicon.</li>
+      <li>Abra o <code>.dmg</code> e arraste o ícone do QGIS para a pasta Aplicativos.</li>
+      <li>Na primeira abertura o macOS bloqueia o aplicativo por não ter sido baixado da App Store. Clique com o botão direito sobre o ícone do QGIS em Aplicativos e escolha <em>Abrir</em>, depois confirme. Fazer isso uma vez basta.</li>
+      <li>Se ainda assim aparecer o aviso, vá em <span class="caminho">Ajustes do Sistema <i>▸</i> Privacidade e Segurança</span> e clique em <em>Abrir mesmo assim</em>.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>A primeira abertura do QGIS demora, às vezes mais de um minuto, porque o programa monta o cache de plugins e de sistemas de coordenadas. A tela pode ficar branca nesse intervalo. Não force o encerramento.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="idioma">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Fixar o idioma da interface em inglês</h3>
+    <p>Por padrão o QGIS adota o idioma do sistema operacional, então a maioria de vocês vai abrir o programa em português. Vamos mudar isso, e a razão é prática: a documentação oficial, os plugins, as respostas do GIS Stack Exchange e os nomes dos algoritmos de processamento estão em inglês. Quando você travar às onze da noite fazendo a APS, vai procurar ajuda em inglês.</p>
+
+    <ol>
+      <li>Abra <span class="caminho">Settings <i>▸</i> Options <i>▸</i> General</span>.</li>
+      <li>Na seção <em>Application</em>, marque a caixa <em>Override system locale</em>.</li>
+      <li>Em <em>User interface translation</em>, escolha <em>American English (en_US)</em>.</li>
+      <li>Clique <em>OK</em> e feche o QGIS. Abra de novo.</li>
+    </ol>
+
+    <p>Neste material, todo nome de menu aparece em inglês, com o termo em português entre parênteses na primeira vez que for usado. Assim você acompanha o roteiro e continua entendendo material em português.</p>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O menu superior deve mostrar <em>Project · Edit · View · Layer · Settings · Plugins · Vector · Raster · Database · Web · Mesh · Processing · Help</em>. Se ainda estiver em português, a caixa <em>Override system locale</em> não foi marcada ou o QGIS não foi reiniciado.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="pastas">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Criar a estrutura de pastas e salvar o projeto</h3>
+    <p>Boa parte dos problemas que você vai ter neste semestre não é de QGIS, é de organização de arquivo. O projeto <code>.qgz</code> guarda apenas o caminho até cada camada, então basta mover uma pasta para o mapa abrir vazio no tema seguinte. Monte a estrutura abaixo uma vez e repita o mesmo padrão em todos os temas.</p>
+
+    <p>Crie no seu computador, em um lugar que você encontre com facilidade e que <strong>não esteja dentro de uma pasta sincronizada por Google Drive ou OneDrive</strong>, a seguinte árvore:</p>
+
+<pre class="expr">InfoGeo/
+├── tema02_projecoes/
+│   ├── dados_brutos/      <span class="cm"># exatamente como baixou, nunca edite aqui</span>
+│   ├── dados_tratados/    <span class="cm"># o que você produzir</span>
+│   ├── mapas/             <span class="cm"># PNG e PDF exportados</span>
+│   └── projeto.qgz
+├── tema03_censo/
+└── ...</pre>
+
+    <p>Agora, no QGIS, vá em <span class="caminho">Project <i>▸</i> Save As</span>, navegue até <code>InfoGeo/tema02_projecoes/</code> e salve como <code>projeto.qgz</code>.</p>
+
+    <div class="contexto">
+      <div class="lbl">Por que .qgz e por que fora do Drive</div>
+      <p>O formato <code>.qgz</code> é um pacote compactado que guarda as referências às camadas, os estilos, os layouts e as configurações do projeto. Ele não guarda os dados, apenas os caminhos até eles. Por isso mover a pasta depois quebra o projeto, e por isso o Drive é problema: quando o sincronizador decide baixar um arquivo sob demanda, o QGIS encontra um arquivo de zero byte e a camada aparece vazia.</p>
+    </div>
+  </div>
+</div>
+
+<section class="part" id="interface">
+<h2>A janela do QGIS: menu, barras, painéis, canvas e barra de status</h2>
+
+<p>Antes de carregar qualquer coisa, vale gastar cinco minutos reconhecendo onde as coisas ficam. A janela do QGIS é dividida em seis regiões, e o material do semestre inteiro vai se referir a elas pelo nome, em inglês, do jeito que aparecem na interface que você acabou de configurar.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d01-interface-qgis.svg" alt="Esquema da janela do QGIS com seis regiões numeradas: barra de menu no topo, barras de ferramentas abaixo, painéis Browser e Layers empilhados à esquerda, área do mapa à direita e barra de status no pé, com o código EPSG no canto direito.">
+  <figcaption><b>Figura 5</b> As seis regiões da janela, na disposição de fábrica do QGIS 4.2. Os painéis são móveis: podem ser arrastados para outra borda, empilhados como abas ou soltos como janelas próprias, e a disposição fica gravada no projeto.</figcaption>
+</figure>
+
+<figure class="ph">captura de tela · janela real do QGIS 4.2 recém-instalado, em inglês, com um projeto vazio: barra de menu, as barras de ferramentas padrão, os painéis Browser e Layers visíveis à esquerda, o canvas em branco e a barra de status com o botão de CRS legível no canto inferior direito</figure>
+
+<table>
+  <thead><tr><th style="width:34px">N</th><th style="width:22%">Região</th><th>O que é e o que você faz nela</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td><strong>Menu bar</strong></td><td>Todo comando do QGIS está aqui, inclusive os que também têm botão. Quando este material escreve <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Vector Layer</span>, é este caminho.</td></tr>
+    <tr><td class="num">2</td><td><strong>Toolbars</strong></td><td>Atalhos dos comandos mais usados, agrupados por assunto. Some uma barra sem querer e você a traz de volta em <span class="caminho">View <i>▸</i> Toolbars</span>. Nenhum passo do curso depende de um botão específico estar visível.</td></tr>
+    <tr><td class="num">3</td><td><strong>Browser panel</strong></td><td>Navegador de fontes de dados: pastas do computador, GeoPackage, bancos PostGIS, serviços WMS e a entrada <em>XYZ Tiles</em>, onde você vai cadastrar o OpenStreetMap no passo 5. Duplo clique em um arquivo carrega a camada.</td></tr>
+    <tr><td class="num">4</td><td><strong>Layers panel</strong></td><td>As camadas do projeto. A caixa liga e desliga a exibição, e a ordem da pilha é a ordem de desenho: o que está em cima tapa o que está embaixo. Duplo clique abre as propriedades da camada.</td></tr>
+    <tr><td class="num">5</td><td><strong>Map view</strong></td><td>Também chamado de canvas. É o desenho das camadas ligadas, no CRS do projeto. Vale insistir: é exibição, não é o dado. Mudar a cor ou a ordem aqui não altera nenhum valor no arquivo.</td></tr>
+    <tr><td class="num">6</td><td><strong>Status bar</strong></td><td>Coordenada do cursor, escala, ampliação, rotação e o botão do CRS do projeto, no canto direito. Esse botão é o item que você vai conferir com mais frequência no semestre, e o passo 7 volta a ele.</td></tr>
+  </tbody>
+  <caption>Os painéis 3 e 4 podem estar fechados em uma instalação nova ou depois de um clique errado. A lista completa está em <span class="caminho">View <i>▸</i> Panels</span>.</caption>
+</table>
+
+<h3>O que é um projeto, e o que o arquivo .qgz não guarda</h3>
+
+<p>Um projeto do QGIS não é um documento com os dados dentro, como uma planilha. É uma descrição de montagem. Ele registra quais camadas participam, em que ordem, com quais estilos e rótulos, qual o CRS de exibição, qual a extensão salva, os layouts de impressão e os marcadores de posição. Cada camada entra como um caminho de arquivo ou uma string de conexão.</p>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>O .qgz guarda referências, não conteúdo</h4>
+  <p>Guarda: lista de camadas com o caminho de cada uma, simbologia, rótulos, layouts de impressão, CRS do projeto, elipsoide e unidade de medida, temas de mapa, marcadores e variáveis. Não guarda: os arquivos de dado. Mover, renomear ou apagar um GeoPackage deixa a camada como <em>unavailable layer</em> na próxima abertura, e o QGIS oferece apontar o novo caminho.</p>
+</div>
+
+<p>Existe uma exceção que confunde: um GeoPackage pode conter, além das camadas, estilos gravados na própria base. E o QGIS aceita salvar o projeto <em>dentro</em> de um GeoPackage, escolhendo esse formato na janela de <span class="caminho">Project <i>▸</i> Save As</span>, o que produz um arquivo único com dado e montagem juntos. Não vamos usar esse formato no curso, porque ele esconde a distinção entre dado e projeto, que é justamente o que precisa ficar claro agora.</p>
+
+<h3>Plugins: os que vêm instalados e os que vêm do repositório</h3>
+
+<p>Boa parte do que o QGIS faz vem de plugins. Alguns são <em>core plugins</em>, distribuídos com o programa e apenas desativados por padrão, como o DB Manager, que abre bancos de dados, e o próprio console de Python. Outros são externos, publicados por terceiros no repositório oficial em <a href="https://plugins.qgis.org/">plugins.qgis.org</a>, com mais de mil itens de qualidade desigual. Os dois tipos são administrados na mesma janela, em <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins</span>: a aba <em>Installed</em> lista o que já está na máquina, e a aba <em>All</em> consulta o repositório pela internet.</p>
+
+<div class="cuidado">
+  <div class="lbl">Regra do curso</div>
+  <p>Nenhum roteiro deste material exige plugin externo. Onde um plugin apareceria como caminho natural, o roteiro resolve com ferramenta nativa e diz qual plugin foi dispensado. Isso existe porque a máquina de referência é a sua, com perfil limpo, e não a do professor. Se um dia um plugin for necessário, o passo de instalação estará escrito na própria aula, com o aviso de que exige internet.</p>
+</div>
+
+<p>Vale conhecer o mecanismo por outro motivo. Plugin externo é a via pela qual funcionalidade nova chega ao QGIS antes de existir no programa, e é também a via pela qual um resultado seu deixa de ser reproduzível na máquina de outra pessoa. Ao publicar uma análise, declare a versão do QGIS e a lista de plugins usados, do mesmo jeito que se declara a versão de uma biblioteca em um script.</p>
+
+<h3>O console de Python, para o final do semestre</h3>
+
+<p>Tudo que a interface faz também pode ser feito por código. O QGIS é escrito em C++ e expõe sua API em Python, e o caminho para chegar nela é <span class="caminho">Plugins <i>▸</i> Python Console</span>. O console abre como um painel na parte de baixo da janela, com acesso ao projeto aberto e às camadas carregadas.</p>
+
+<pre class="expr">len(QgsProject.instance().mapLayers())   <span class="cm">-- quantas camadas há no projeto aberto</span>
+iface.activeLayer().featureCount()       <span class="cm">-- quantas feições tem a camada selecionada</span></pre>
+
+<p>Não é exigido que você programe neste semestre, e nenhuma avaliação cobra PyQGIS. A informação está aqui por dois motivos práticos: quando uma operação precisar ser repetida em quarenta municípios, o console poupa quarenta cliques; e quando você procurar ajuda na internet, boa parte das respostas vem em forma de trecho de Python, e é útil saber onde colar.</p>
+
+<div class="contexto">
+  <div class="lbl">De onde vem esta seção</div>
+  <p>A descrição das seis regiões segue o guia de QGIS do British Antarctic Survey, indicado na seção de leituras. Ele traz capturas de tela da interface em inglês e é uma boa referência para reler em casa, com atenção à parte de painéis e barras de ferramentas.</p>
+</div>
+</section>
+
+<div class="passo" id="malha">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Carregar a primeira camada</h3>
+    <p>Vamos abrir um recorte da malha municipal brasileira, que é a base mais reutilizada do curso: os 18 municípios de MS e MT da região do Pantanal, no arquivo <a href="dados/semana01/municipios_pantanal_2022.gpkg" download><code>municipios_pantanal_2022.gpkg</code></a>, do pacote desta aula.</p>
+
+    <ol>
+      <li>Vá em <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Vector Layer</span>, ou use <code>Ctrl+Shift+V</code> (<code>Cmd+Shift+V</code> no Mac).</li>
+      <li>Em <em>Vector Dataset(s)</em>, clique nos três pontos e selecione <code>municipios_pantanal_2022.gpkg</code>.</li>
+      <li>Clique <em>Add</em>. Se o GeoPackage tiver mais de uma camada, o QGIS pergunta qual você quer. Escolha <code>municipios</code>.</li>
+      <li>Clique <em>Close</em>.</li>
+    </ol>
+
+    <p>Os municípios do recorte aparecem na tela, preenchidos com uma cor aleatória. O painel <em>Layers</em>, no canto inferior esquerdo, mostra a camada. Pense nesse painel como uma pilha de folhas de acetato: o que está em cima tapa o que está embaixo.</p>
+
+    <figure class="ph">captura de tela · QGIS com a malha municipal carregada, painel Layers visível</figure>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Se o mapa não aparecer, clique com o botão direito na camada e escolha <em>Zoom to Layer</em>. O QGIS às vezes mantém a extensão anterior da tela e você fica olhando para um pedaço vazio do planeta.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="osm">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>Adicionar um mapa base</h3>
+    <p>Um polígono sobre fundo branco não informa onde está nem o que existe em volta. O mapa base coloca cidades, estradas e relevo por baixo dos seus dados, como referência visual.</p>
+
+    <ol>
+      <li>No painel <em>Browser</em>, acima do painel <em>Layers</em>, localize a entrada <em>XYZ Tiles</em>. Ela está vazia: nenhuma conexão vem de fábrica.</li>
+      <li>Clique nela com o botão direito e escolha <em>New Connection</em>.</li>
+      <li>Em <em>Name</em>, digite <code>OpenStreetMap</code>. Em <em>URL</em>, cole <code>https://tile.openstreetmap.org/{z}/{x}/{y}.png</code>, exatamente assim, com as chaves.</li>
+      <li>Deixe <em>Min. Zoom Level</em> em 0 e <em>Max. Zoom Level</em> em 19. Clique <em>OK</em>.</li>
+      <li>Dê duplo clique na conexão <em>OpenStreetMap</em> que acabou de aparecer. Ela entra como uma nova camada.</li>
+      <li>No painel <em>Layers</em>, arraste o OpenStreetMap para baixo da malha municipal.</li>
+      <li>Clique duas vezes na malha municipal para abrir <em>Properties</em>, vá em <em>Symbology</em> e reduza a <em>Opacity</em> para uns 40%. Agora dá para ver o mapa base através dos polígonos.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">Por que foi preciso cadastrar</div>
+      <p>Até a série 3.x o QGIS vinha com essa conexão pronta, e bastava o duplo clique. O QGIS 4 parou de embutir conexões de fábrica, então cada perfil novo abre com a lista XYZ Tiles vazia. O endereço que você colou é o servidor público de tiles do próprio projeto OpenStreetMap. A conexão fica gravada no seu perfil de usuário: você cadastra uma vez e ela aparece em todos os projetos deste semestre.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que acabou de acontecer</div>
+      <p>O OpenStreetMap não foi baixado para o seu computador. Ele é servido como imagens prontas a partir de um servidor, sob demanda, conforme você navega. Isso significa duas coisas: você precisa de internet para vê-lo, e você não pode fazer análise sobre ele. É pano de fundo, não é dado.</p>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">Use com moderação</div>
+      <p>Esse servidor é mantido pela comunidade OpenStreetMap com doações, sem cobrança. Navegar e dar zoom durante a aula está dentro do uso aceitável. O que não se faz é deixar scripts requisitando tiles em loop ou baixar o mundo inteiro em zoom alto: quem abusa tem o acesso bloqueado por IP, e o bloqueio derruba a sala inteira quando todos saem pelo mesmo roteador.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="atributos">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Abrir a tabela de atributos</h3>
+    <p>Toda camada vetorial tem uma tabela por trás. Cada linha é uma feição no mapa, cada coluna é um atributo.</p>
+
+    <ol>
+      <li>Clique com o botão direito na camada <code>municipios</code> e escolha <em>Open Attribute Table</em> (<code>F6</code>).</li>
+      <li>Confira o rodapé da janela. Ele informa quantas feições existem: são 18 municípios neste recorte.</li>
+      <li>Clique no cabeçalho de uma coluna para ordenar. Clique de novo para inverter a ordem.</li>
+      <li>Feche a tabela. Selecione a ferramenta <em>Identify Features</em> na barra superior, ou use <code>Ctrl+Shift+I</code>, e clique em qualquer município no mapa. O painel <em>Identify Results</em> abre com os atributos daquela feição.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Clicando sobre Corumbá, o painel deve mostrar o nome, a sigla da unidade federativa, o código do município e a área em hectares. Códigos de município como esse são a chave que vai unir tabelas ao longo de todo o curso. Repare nele agora.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="crs">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>O CRS no canto inferior direito</h3>
+    <p>Olhe para o canto inferior direito da janela do QGIS. Existe um botão com um código parecido com <code>EPSG:4674</code>. Esse é o sistema de coordenadas do projeto.</p>
+
+    <ol>
+      <li>Clique com o botão direito na camada <code>municipios</code>, escolha <em>Properties</em> e vá na aba <em>Information</em>.</li>
+      <li>Procure o campo <em>CRS</em>. Deve constar <code>EPSG:4674 - SIRGAS 2000</code>.</li>
+      <li>Feche. Agora use a ferramenta de medição, <span class="caminho">View <i>▸</i> Measure <i>▸</i> Measure Line</span>, e meça a distância aproximada entre Campo Grande e Cuiabá, as duas capitais presentes no recorte. Anote o número.</li>
+    </ol>
+
+    <p>Guarde esse número. No próximo tema vamos descobrir que ele pode estar errado, e por quanto.</p>
+
+    <div class="pense">
+      <div class="lbl">A pergunta do tema 2</div>
+      <p class="q">Se o mesmo polígono pode ter três áreas diferentes dependendo de uma configuração do projeto, qual delas você colocaria em um laudo?</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="pacote">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Baixar o pacote do tema 2</h3>
+    <p>Baixe os cinco arquivos abaixo e salve dentro de <code>InfoGeo/tema02_projecoes/dados_brutos/</code>. Eles também estão no Blackboard, em um único zip.</p>
+
+    <div class="baixar">
+      <div class="hd"><b>Pacote do tema 2</b><span>pasta dados/semana02</span></div>
+      <div class="fonte">Fonte: <b>IBGE · Malhas Territoriais</b> e <b>INPE · Programa Queimadas</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · coleta de 02/08/2026</div>
+      <ul>
+        <li><div><a class="fn" href="dados/semana02/cicatriz_teste_pantanal.gpkg" download>cicatriz_teste_pantanal.gpkg</a>
+            <span class="fd">Um polígono só, com área conhecida. É a referência de todos os números da próxima aula.</span></div>
+            <span class="tp did">didático</span></li>
+        <li><div><a class="fn" href="dados/semana02/area_queimada_pantanal_aq1km.gpkg" download>area_queimada_pantanal_aq1km.gpkg</a>
+            <span class="fd">Cicatrizes de fogo do produto Área Queimada AQ1km do INPE, recortadas pelo bioma Pantanal, com ano, mês e área.</span></div>
+            <span class="tp real">oficial</span></li>
+        <li><div><a class="fn" href="dados/semana02/municipios_pantanal_2022.gpkg" download>municipios_pantanal_2022.gpkg</a>
+            <span class="fd">18 municípios de MS e MT recortados da malha municipal 2022 do IBGE, com código e área oficiais.</span></div>
+            <span class="tp real">oficial</span></li>
+        <li><div><a class="fn" href="dados/semana02/bioma_pantanal_2019.gpkg" download>bioma_pantanal_2019.gpkg</a>
+            <span class="fd">Contorno oficial do bioma Pantanal, do arquivo de biomas 1:250.000 do IBGE. Serve de recorte e de contexto.</span></div>
+            <span class="tp real">oficial</span></li>
+        <li><div><a class="fn" href="dados/semana02/LEIA-ME.txt" download>LEIA-ME.txt</a>
+            <span class="fd">O que cada arquivo é, os números que ele produz e o link da fonte oficial.</span></div></li>
+      </ul>
+      <div class="ft">Os quatro arquivos estão em GeoPackage, UTF-8, EPSG:4674. Três vêm da fonte oficial, com coleta em 02/08/2026: a malha municipal e os biomas do IBGE, a área queimada do INPE. Os valores conferidos estão em <code>dados/semana02/_numeros_oficiais.json</code>. O polígono de teste é didático de propósito: a aula inteira compara contra a área conhecida dele. Leia o LEIA-ME antes de usar qualquer número fora da sala.</div>
+    </div>
+
+    <p>Abra cada um dos quatro GeoPackage no QGIS agora, ainda em aula, e confirme que todos carregam. Depois feche o projeto sem salvar. O objetivo aqui é só verificar que os arquivos chegaram inteiros.</p>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Se você baixar o zip do Blackboard, descompacte de verdade. No Windows, dar duplo clique abre uma janela que <em>parece</em> uma pasta mas ainda é o arquivo compactado, e o QGIS não consegue ler de dentro dela. Clique com o botão direito e escolha <em>Extrair tudo</em>.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Antes de sair da sala</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="checklist">
+<div class="exercicio">
+  <div class="hd"><b>Checklist de saída</b><span>não vale nota · resolva agora</span></div>
+  <div class="bd">
+    <p>Este encontro não tem exercício avaliado, mas tem uma condição de saída. Confira os seis itens abaixo. Quem não fechar todos resolve com o professor agora, e não na véspera da próxima aula.</p>
+    <ol>
+      <li>QGIS 4.2 instalado e abrindo sem erro.</li>
+      <li>Interface em inglês, com <em>Override system locale</em> marcado.</li>
+      <li>Estrutura de pastas <code>InfoGeo/tema02_projecoes/</code> criada fora de pasta sincronizada.</li>
+      <li>Projeto salvo como <code>projeto.qgz</code> dentro dela.</li>
+      <li>Conexão OpenStreetMap cadastrada em XYZ Tiles e malha municipal carregada sobre ela, com opacidade reduzida.</li>
+      <li>Os arquivos do pacote do tema 2 baixados e abrindo.</li>
+    </ol>
+  </div>
+  <div class="entrega">
+    <b>Se algum item falhou</b>
+    Chame o professor antes de sair. Uma instalação quebrada custa quarenta minutos da sua próxima aula, que já começa com a pergunta dos hectares queimados.
+  </div>
+</div>
+
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">Dizer <em>onde</em> muda a resposta porque muda a unidade de análise, e com ela o que se pode observar.</p>
+  <p>Um total nacional esconde que o fenômeno se organiza em manchas. Um mapa mostra a mancha, e a mancha levanta a pergunta seguinte: ela é o fenômeno, ou é o vizinho contaminando o vizinho? Você sai deste encontro com o ambiente montado e com essa suspeita instalada. Nos próximos nove temas, ela vira método.</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que este encontro não resolveu</div>
+  <ul>
+    <li>Você carregou camadas, mas ainda não sabe se as medidas que o QGIS mostra estão corretas. Esse é o assunto do tema 2.</li>
+    <li>Você viu a tabela de atributos, mas ainda não cruzou duas bases. Junções ficam para a tema 3.</li>
+    <li>O mapa que você produziu usa a cor que o QGIS sorteou. Escolher cor com critério é a tema 4.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">Mark Monmonier, <em>How to Lie with Maps</em>, capítulo sobre projeções cartográficas.
+      <span class="src">Cerca de 15 páginas · leia antes do tema 2</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Base</div>
+    <div class="t">Gilberto Câmara, Clodoveu Davis e Antônio Miguel Monteiro, <em>Introdução à Ciência da Geoinformação</em>, capítulo 1.
+      <span class="src">INPE · disponível de graça em livros.dpi.inpe.br</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Clássico</div>
+    <div class="t">Waldo Tobler, <em>A Computer Movie Simulating Urban Growth in the Detroit Region</em>, 1970.
+      <span class="src">Economic Geography, v. 46 · o artigo onde aparece a primeira lei</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Documentação oficial do QGIS, <em>Training Manual</em>.
+      <span class="src">docs.qgis.org · para consultar quando travar, não para ler inteiro</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Interface</div>
+    <div class="t">British Antarctic Survey, <em>An introduction to QGIS</em>, do guia <em>Working in QGIS</em>.
+      <span class="src"><a href="https://guides.geospatial.bas.ac.uk/qgis-tutorial/working-in-qgis/an-introduction-to-qgis">guides.geospatial.bas.ac.uk</a> · base da seção sobre a janela do QGIS, com capturas da interface em inglês</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="index.html"><span class="k">Voltar</span><span class="t">Página do curso</span></a>
+  <a href="encontro-02.html" class="r"><span class="k">Próximo tema</span><span class="t">Quantos hectares queimaram de verdade?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

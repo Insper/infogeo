@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="736.9344pt" height="289.382563pt" viewBox="0 0 736.9344 289.382563" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-08-02T20:02:45.933812</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.9, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 289.382563 
+L 736.9344 289.382563 
+L 736.9344 0 
+L 0 0 
+L 0 289.382563 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 104.7744 237.276 
+L 729.7344 237.276 
+L 729.7344 7.2 
+L 104.7744 7.2 
+L 104.7744 237.276 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_1">
+    <path d="M 118.7244 40.94448 
+L 241.4844 40.94448 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #14141a; stroke-width: 1.1; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 118.7244 67.01976 
+L 241.4844 67.01976 
+L 241.4844 45.546 
+L 118.7244 45.546 
+z
+" clip-path="url(#p77b6711703)" style="fill: #fdecec"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 258.2244 40.94448 
+L 380.9844 40.94448 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #14141a; stroke-width: 1.1; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 258.2244 67.01976 
+L 380.9844 67.01976 
+L 380.9844 45.546 
+L 258.2244 45.546 
+z
+" clip-path="url(#p77b6711703)" style="fill: #fdecec"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 397.7244 40.94448 
+L 520.4844 40.94448 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #14141a; stroke-width: 1.1; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 397.7244 67.01976 
+L 520.4844 67.01976 
+L 520.4844 45.546 
+L 397.7244 45.546 
+z
+" clip-path="url(#p77b6711703)" style="fill: #fdecec"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 537.2244 40.94448 
+L 659.9844 40.94448 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #14141a; stroke-width: 1.1; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 537.2244 67.01976 
+L 659.9844 67.01976 
+L 659.9844 45.546 
+L 537.2244 45.546 
+z
+" clip-path="url(#p77b6711703)" style="fill: #fdecec"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="180.1044" y="21.51584" transform="rotate(-0 180.1044 21.51584)">contagem</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6b6b73" x="180.1044" y="33.78656" transform="rotate(-0 180.1044 33.78656)">toneladas produzidas</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="319.6044" y="21.51584" transform="rotate(-0 319.6044 21.51584)">taxa</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6b6b73" x="319.6044" y="33.78656" transform="rotate(-0 319.6044 33.78656)">kg por hectare colhido</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="459.1044" y="21.51584" transform="rotate(-0 459.1044 21.51584)">densidade</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6b6b73" x="459.1044" y="33.78656" transform="rotate(-0 459.1044 33.78656)">toneladas por km² do município</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 9.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #14141a" x="598.6044" y="21.51584" transform="rotate(-0 598.6044 21.51584)">per capita</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6b6b73" x="598.6044" y="33.78656" transform="rotate(-0 598.6044 33.78656)">toneladas por habitante</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="110.3544" y="225.00528" transform="rotate(-0 110.3544 225.00528)">Sorriso é 1º em toneladas, 3º em tonelada por km², 37º em rendimento e 56º em tonelada por habitante. Nenhum desses quatro números é falso.</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="123.1884" y="57.267368" transform="rotate(-0 123.1884 57.267368)">Sorriso</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="64.879676" transform="rotate(-0 237.0204 64.879676)">2.244.375 t</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="123.1884" y="82.831367" transform="rotate(-0 123.1884 82.831367)">Diamantino</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="90.443676" transform="rotate(-0 237.0204 90.443676)">1.675.562 t</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="123.1884" y="108.395367" transform="rotate(-0 123.1884 108.395367)">Campo Novo do Parecis</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="116.007676" transform="rotate(-0 237.0204 116.007676)">1.571.355 t</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="123.1884" y="133.959368" transform="rotate(-0 123.1884 133.959368)">Nova Mutum</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="141.571676" transform="rotate(-0 237.0204 141.571676)">1.529.300 t</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="123.1884" y="159.523368" transform="rotate(-0 123.1884 159.523368)">Nova Ubiratã</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="167.135676" transform="rotate(-0 237.0204 167.135676)">1.510.320 t</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="123.1884" y="185.087367" transform="rotate(-0 123.1884 185.087367)">Sapezal</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="237.0204" y="192.699676" transform="rotate(-0 237.0204 192.699676)">1.427.889 t</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="262.6884" y="57.267368" transform="rotate(-0 262.6884 57.267368)">Conquista D'Oeste</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="64.83702" transform="rotate(-0 376.5204 64.83702)">4.200 kg/ha</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="262.6884" y="82.831367" transform="rotate(-0 262.6884 82.831367)">Alto Taquari</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="90.40102" transform="rotate(-0 376.5204 90.40102)">4.020 kg/ha</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="262.6884" y="108.395367" transform="rotate(-0 262.6884 108.395367)">Santa Cruz do Xingu</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="115.96502" transform="rotate(-0 376.5204 115.96502)">4.000 kg/ha</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="262.6884" y="133.959368" transform="rotate(-0 262.6884 133.959368)">Cáceres</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="141.52902" transform="rotate(-0 376.5204 141.52902)">3.965 kg/ha</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="262.6884" y="159.593196" transform="rotate(-0 262.6884 159.593196)">Porto Esperidião</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="167.09302" transform="rotate(-0 376.5204 167.09302)">3.963 kg/ha</text>
+   </g>
+   <g id="text_32">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="262.6884" y="185.251368" transform="rotate(-0 262.6884 185.251368)">São Félix do Araguaia</text>
+   </g>
+   <g id="text_33">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="376.5204" y="192.65702" transform="rotate(-0 376.5204 192.65702)">3.960 kg/ha</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="402.1884" y="57.235336" transform="rotate(-0 402.1884 57.235336)">Ipiranga do Norte</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="64.879676" transform="rotate(-0 516.0204 64.879676)">252,0 t/km²</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="402.1884" y="82.831367" transform="rotate(-0 402.1884 82.831367)">Lucas do Rio Verde</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="90.443676" transform="rotate(-0 516.0204 90.443676)">243,7 t/km²</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="402.1884" y="108.395367" transform="rotate(-0 402.1884 108.395367)">Sorriso</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="116.007676" transform="rotate(-0 516.0204 116.007676)">241,5 t/km²</text>
+   </g>
+   <g id="text_40">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="402.1884" y="133.959368" transform="rotate(-0 402.1884 133.959368)">Primavera do Leste</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="141.571676" transform="rotate(-0 516.0204 141.571676)">206,2 t/km²</text>
+   </g>
+   <g id="text_42">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="402.1884" y="159.523368" transform="rotate(-0 402.1884 159.523368)">Diamantino</text>
+   </g>
+   <g id="text_43">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="167.135676" transform="rotate(-0 516.0204 167.135676)">202,8 t/km²</text>
+   </g>
+   <g id="text_44">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="402.1884" y="185.087367" transform="rotate(-0 402.1884 185.087367)">Campo Verde</text>
+   </g>
+   <g id="text_45">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="516.0204" y="192.699676" transform="rotate(-0 516.0204 192.699676)">201,2 t/km²</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #14141a" x="541.6884" y="57.267368" transform="rotate(-0 541.6884 57.267368)">Santa Rita do Trivelato</text>
+   </g>
+   <g id="text_47">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="64.879676" transform="rotate(-0 655.5204 64.879676)">197,1 t/hab</text>
+   </g>
+   <g id="text_48">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="541.6884" y="82.831367" transform="rotate(-0 541.6884 82.831367)">Santa Cruz do Xingu</text>
+   </g>
+   <g id="text_49">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="90.443676" transform="rotate(-0 655.5204 90.443676)">165,4 t/hab</text>
+   </g>
+   <g id="text_50">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="541.6884" y="108.559368" transform="rotate(-0 541.6884 108.559368)">Nova Maringá</text>
+   </g>
+   <g id="text_51">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="116.007676" transform="rotate(-0 655.5204 116.007676)">141,6 t/hab</text>
+   </g>
+   <g id="text_52">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="541.6884" y="133.959368" transform="rotate(-0 541.6884 133.959368)">Porto dos Gaúchos</text>
+   </g>
+   <g id="text_53">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="141.571676" transform="rotate(-0 655.5204 141.571676)">133,5 t/hab</text>
+   </g>
+   <g id="text_54">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="541.6884" y="159.523368" transform="rotate(-0 541.6884 159.523368)">Nova Ubiratã</text>
+   </g>
+   <g id="text_55">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="167.135676" transform="rotate(-0 655.5204 167.135676)">131,0 t/hab</text>
+   </g>
+   <g id="text_56">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3a42" x="541.6884" y="185.087367" transform="rotate(-0 541.6884 185.087367)">Santo Antônio do Leste</text>
+   </g>
+   <g id="text_57">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: end; fill: #6b6b73" x="655.5204" y="192.699676" transform="rotate(-0 655.5204 192.699676)">128,1 t/hab</text>
+   </g>
+   <g id="line2d_5">
+    <path d="M 119.8404 65.9972 
+L 119.8404 46.56856 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #e50505; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 259.3404 65.9972 
+L 259.3404 46.56856 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #e50505; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 398.8404 65.9972 
+L 398.8404 46.56856 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #e50505; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 398.8404 117.1252 
+L 398.8404 97.69656 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #e50505; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 538.3404 65.9972 
+L 538.3404 46.56856 
+" clip-path="url(#p77b6711703)" style="fill: none; stroke: #e50505; stroke-width: 2.2; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="text_58">
+   <text style="font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #9a9aa2" x="7.2" y="280.602" transform="rotate(-0 7.2 280.602)">Quatro perguntas legítimas sobre o mesmo dado. Cada uma tem um vencedor diferente, e a escolha do denominador é feita pelo cartógrafo, não pelos dados.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p77b6711703">
+   <rect x="104.7744" y="7.2" width="624.96" height="230.076"/>
+  </clipPath>
+ </defs>
+</svg>

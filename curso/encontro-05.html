@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 5 · Onde ainda cabe habitação social perto do metrô? — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="encontro-05.html" class="here">Aula 5</a></li>
+  </ul>
+</div></div>
+
+<nav class="rail"><div class="wrap">
+  <a href="encontro-01.html" class="done">01 · Abertura</a>
+  <a href="encontro-02.html" class="done">02 · Hectares</a>
+  <a href="encontro-03.html" class="done">03 · Esgoto</a>
+  <a href="encontro-04.html" class="done">04 · Mapa que mente</a>
+  <a href="encontro-05.html" class="now">05 · Habitação</a>
+  <a href="encontro-06.html" class="ahead">06 · Vizinho</a>
+  <a href="encontro-07.html" class="ahead">07 · Endereços</a>
+  <a href="encontro-08.html" class="ahead">08 · Cinco pontos</a>
+  <a href="encontro-09.html" class="ahead">09 · Pasto</a>
+  <a href="encontro-10.html" class="ahead">10 · Hospital</a>
+</div></nav>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">Tema 5 · Unidade teórica 05 · ODS 11</div>
+  <h1>Onde ainda cabe habitação social <em>perto do metrô</em>?</h1>
+  <p class="sub">Com raio de 600 metros, 946,19 hectares de ZEIS entram na conta. Com 1000 metros, 2.690,69. O dado é o mesmo nos dois casos. O que muda é um número que alguém escreveu em uma lei.</p>
+  <div class="facts">
+    <div><b>120 min</b><span>duração</span></div>
+    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>São Paulo</b><span>área de estudo</span></div>
+    <div><b>GeoSampa · Lei 16.050/2014</b><span>fontes</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta aula</h6>
+  <ol>
+    <div class="grp">Antes</div>
+    <li><a href="#antes">Preparação e dados</a></li>
+    <div class="grp">Parte 1 · teoria</div>
+    <li><a href="#mcharg">A sobreposição como método</a></li>
+    <li><a href="#operacoes">As seis operações</a></li>
+    <li><a href="#buffer">Buffer e a ilusão do círculo</a></li>
+    <li><a href="#juncao">Junção espacial e agregação</a></li>
+    <li><a href="#validade">Geometria inválida</a></li>
+    <li><a href="#cadeia">Propagação de erro</a></li>
+    <li><a href="#parametro">O raio que vem da lei</a></li>
+    <div class="grp">Parte 2 · roteiro</div>
+    <li><a href="#p0">0. Baixar do GeoSampa</a></li>
+    <li><a href="#p1">1. Carregar as três camadas</a></li>
+    <li><a href="#p2">2. Conferir CRS e contagens</a></li>
+    <li><a href="#p3">3. Achar e corrigir o inválido</a></li>
+    <li><a href="#p4">4. Buffer de 600 metros</a></li>
+    <li><a href="#p5">5. Dissolve, e por quê</a></li>
+    <li><a href="#p6">6. Interseção com as ZEIS</a></li>
+    <li><a href="#p7">7. A diferença: o que ficou fora</a></li>
+    <li><a href="#p8">8. Junção espacial e população</a></li>
+    <li><a href="#p9">9. A tabela dos três raios</a></li>
+    <div class="grp">Parte 3 e 4</div>
+    <li><a href="#exercicio">Exercício</a></li>
+    <li><a href="#fechamento">Fechamento</a></li>
+    <li><a href="#leituras">Leituras</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="antes">
+<div class="partmark">
+  <div class="pn">Antes de começar</div>
+  <h2 class="pt" style="margin:0">Preparação e dados</h2>
+</div>
+
+<p>Você deveria chegar tendo lido os dois artigos do Plano Diretor de São Paulo que tratam de ZEIS e dos eixos de estruturação. São três páginas. Se não leu, leia agora, enquanto a turma abre o QGIS.</p>
+
+<div class="baixar">
+  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana05</span></div>
+  <div class="fonte">Fonte: <b>GeoSampa · Prefeitura de São Paulo</b>, serviço WFS do <a href="https://geosampa.prefeitura.sp.gov.br">geoportal</a> · coleta de 02/08/2026. Os setores censitários vêm do IBGE, mesma data. O passo 0 do roteiro mostra, camada por camada, como refazer cada download.</div>
+  <ul>
+    <li><div><a class="fn" href="dados/semana05/setores_sp_capital_2022.gpkg" download>setores_sp_capital_2022.gpkg</a>
+        <span class="fd">27.301 setores censitários do município de São Paulo, polígono, EPSG:4674. Malha oficial do Censo 2022 com distrito, subdistrito, bairro, área e as variáveis v0001 a v0007. Serve de base para os recortes por distrito e para a análise de densidade.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/estacoes_alta_capacidade_sp.gpkg" download>estacoes_alta_capacidade_sp.gpkg</a>
+        <span class="fd">203 estações em operação, 94 de metrô e 109 de trem metropolitano, ponto, EPSG:31983. Camadas <code>estacao_metro</code> e <code>estacao_trem</code> do GeoSampa, com o campo <code>modo</code> acrescentado na junção.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/zeis_sp.gpkg" download>zeis_sp.gpkg</a>
+        <span class="fd">2.571 perímetros de ZEIS do Plano Diretor, Mapas 4 e 4A, EPSG:31983. Onze deles têm geometria inválida pelo GEOS — no dado oficial mesmo, e é isso que o passo 3 usa.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/distritos_sp.gpkg" download>distritos_sp.gpkg</a>
+        <span class="fd">96 distritos do município de São Paulo, polígono, EPSG:31983, com sigla, região e área.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/eixos_estruturacao_sp.gpkg" download>eixos_estruturacao_sp.gpkg</a>
+        <span class="fd">4.818 polígonos dos Eixos de Estruturação da Transformação Urbana, Mapa 3 do Plano Diretor, EPSG:31983.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/zoneamento_sp_2024.gpkg" download>zoneamento_sp_2024.gpkg</a>
+        <span class="fd">10.240 perímetros de zona da Lei 18.177/2024, Mapa 1, EPSG:31983. É o mapa de perímetros da revisão, não o zoneamento consolidado da cidade inteira.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><a class="fn" href="dados/semana05/LEIA-ME.txt" download>LEIA-ME.txt</a>
+        <span class="fd">Origem de cada arquivo, a camada de origem no GeoSampa e a lista completa dos números conferidos.</span></div></li>
+  </ul>
+  <div class="ft">Pacote oficial desde 02/08/2026. Tudo em GeoPackage e UTF-8. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e as camadas do GeoSampa em EPSG:31983, então reprojete antes de cruzar. Os valores conferidos estão em <code>dados/semana05/_numeros_oficiais.json</code>. O download pela interface do mapa do GeoSampa vem em Shapefile com texto em Latin-1; o WFS já devolve UTF-8. A conversão deste pacote está feita, mas se você baixar de novo pela interface, refaça-a antes de qualquer coisa.</div>
+</div>
+
+<div class="pense">
+  <div class="lbl">A pergunta do tema</div>
+  <p class="q">O município quer saber quantos hectares de ZEIS estão perto o suficiente do transporte de alta capacidade para receber habitação social adensada. Você abre o QGIS e a primeira pergunta que precisa responder não é técnica: perto o suficiente é quanto?</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 1 · teoria</div>
+  <h2 class="pt" style="margin:0">Sobreposição, proximidade e análise de adequação</h2>
+  <div class="pd">40 min</div>
+</div>
+
+<section class="part" id="mcharg">
+<p class="lede">Em 1969, um paisagista escocês radicado na Filadélfia publicou um livro que ensinou o mundo a empilhar mapas. Ian McHarg desenhava cada critério em uma folha de acetato, com as áreas piores em cinza escuro e as melhores em transparente. Depois empilhava as folhas sobre uma mesa de luz e olhava. Onde a luz atravessava, o traçado da estrada podia passar.</p>
+
+<p>O livro é o <em>Design with Nature</em>, e o método ficou conhecido como sobreposição de camadas. Quando os primeiros sistemas de informação geográfica apareceram, a mesa de luz virou álgebra: o acetato virou camada, e o julgamento visual do projetista, uma operação booleana sobre valores numéricos. A ideia sobreviveu inteira nos SIG atuais, incluindo o menu de geoprocessamento que você vai usar hoje.</p>
+
+<p>Duas famílias de resposta saíram daí. A primeira é a peneira: cada critério vira uma condição de sim ou não, as condições são combinadas com um <em>e</em> lógico, e sobra o território que atende a todas. A segunda é a combinação ponderada: cada critério recebe uma nota e um peso, as notas se somam, e o resultado é um ranking de aptidão em vez de uma lista de aprovados.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d05-mcharg.svg" alt="Cinco painéis lado a lado: três critérios binários sobre uma malha de 144 células, o resultado da combinação por e lógico com 19 células aprovadas, e o resultado da soma ponderada mostrando gradação de aptidão.">
+  <figcaption><b>Figura 1</b> Os mesmos três critérios, duas regras de combinação. A peneira aprova 19 células das 144 e nada diz sobre as outras 125. A soma ponderada não aprova ninguém e ordena todo mundo. A escolha entre as duas antecede qualquer conta.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Análise de adequação</h4>
+  <p>Procedimento que combina várias camadas de critério para identificar onde um uso pretendido pode ou deve ocorrer. O produto é um mapa de aptidão. A parte técnica é a combinação; a parte que decide o resultado é a lista de critérios e os pesos, e nenhuma das duas está nos dados.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se você trocar a ordem das camadas na peneira binária, o resultado muda?</p>
+  <p>Não. O <em>e</em> lógico é comutativo, e a peneira devolve o mesmo território em qualquer ordem. Mas isso vale para a operação, não para o processo. Se você define os pesos depois de olhar o primeiro mapa de aptidão, e ajusta até o resultado bater com o que a prefeitura espera, a conta continua correta e a análise deixa de valer. Nesse caso a ordem importa muito, só que a ordem em questão é a das decisões, não a das camadas.</p>
+</div>
+</section>
+
+<section class="part" id="operacoes">
+<h2>Clip, interseção, diferença, união e dissolve</h2>
+
+<p>Tudo o que se faz em análise vetorial se reduz a poucas operações de geometria. O QGIS as reúne em <span class="caminho">Vector <i>▸</i> Geoprocessing Tools</span>, e vale conhecer as diferenças, porque duas delas parecem a mesma coisa e devolvem tabelas de atributos incompatíveis.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d05-operacoes.svg" alt="Seis painéis com as mesmas três geometrias: dois polígonos A1 e A2 encostados formando A, e um polígono B que os atravessa. Cada painel destaca em vermelho o resultado de buffer, interseção, união, diferença, diferença simétrica e dissolve.">
+  <figcaption><b>Figura 2</b> Sempre as mesmas geometrias. O que muda é a regra, e com ela o número de feições de saída, a área total e quais atributos sobrevivem. Repare que a união produz três feições, e não duas.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:20%">Operação</th><th style="width:26%">Algoritmo</th><th>O que sai na tabela de atributos</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Buffer</strong></td><td><code>native:buffer</code></td><td>Uma feição por entrada, com os mesmos atributos. Se marcar <em>Dissolve result</em>, sai uma feição só, sem atributos úteis.</td></tr>
+    <tr><td><strong>Interseção</strong></td><td><code>native:intersection</code></td><td>Uma feição por par que se cruza, com os campos das duas camadas lado a lado.</td></tr>
+    <tr><td><strong>Recorte</strong></td><td><code>native:clip</code></td><td>Geometria igual à da interseção, mas só com os campos da camada de entrada. A camada de recorte é um molde, não uma fonte de dados.</td></tr>
+    <tr><td><strong>Diferença</strong></td><td><code>native:difference</code></td><td>O que sobra da entrada fora da sobreposição, com os campos da entrada.</td></tr>
+    <tr><td><strong>Diferença simétrica</strong></td><td><code>native:symmetricaldifference</code></td><td>As duas exclusividades. Metade das feições tem os campos de uma camada preenchidos e os da outra nulos.</td></tr>
+    <tr><td><strong>Dissolve</strong></td><td><code>native:dissolve</code></td><td>Sem campo escolhido, uma feição multiparte só. Com campo escolhido, uma feição por valor distinto, mantendo o primeiro registro de cada grupo.</td></tr>
+  </tbody>
+  <caption>A união (<code>native:union</code>) é a sétima, e produz a partição completa: a parte só de A, a parte só de B e a parte comum, em três feições.</caption>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Interseção e recorte dão a mesma geometria e por isso muita gente usa qualquer uma das duas. A diferença aparece depois, quando você precisa do atributo que ficou na camada de recorte e ele não está lá. Se você vai precisar de campos das duas camadas, use interseção.</p>
+</div>
+</section>
+
+<section class="part" id="buffer">
+<h2>Buffer</h2>
+
+<p>Um buffer é a região do plano a menos de uma distância dada de uma feição. É a maneira mais direta de transformar a ideia de proximidade em um polígono que se pode medir. E carrega duas simplificações que ninguém declara.</p>
+
+<p>A primeira é geométrica. O QGIS não desenha um círculo, porque um círculo não é um polígono. Ele desenha um polígono regular que aproxima o círculo, e o número de lados vem do parâmetro <em>Segments</em>, que por padrão vale 5. Cinco segmentos por quadrante dão vinte lados no total. Um icoságono de 600 metros de raio tem 111,2461 hectares; o círculo verdadeiro tem 113,0973. A diferença é de 1,64% para menos, em cada uma das 203 estações.</p>
+
+<pre class="expr">área do círculo    = π · r²             = 113,0973 ha
+área do 20-gono    = 10 · r² · sen 18°  = 111,2461 ha   <span class="cm">-- Segments = 5, o padrão do QGIS</span>
+área do 64-gono    = 32 · r² · sen 5,625° = 112,9157 ha <span class="cm">-- Segments = 16, o que o roteiro usa</span></pre>
+
+<p>Na cadeia inteira desta aula, a diferença entre os dois valores de <em>Segments</em> vale 15,06 hectares de ZEIS, sobre um resultado de 946 hectares. É pouco para mudar a conclusão, mas vem de um parâmetro que quase nunca aparece em relatório. O roteiro fixa <em>Segments</em> = 16 e pede que você registre isso junto com o raio.</p>
+
+<p>A segunda simplificação é conceitual, e é maior. O buffer mede distância em linha reta sobre o plano, e ninguém se desloca assim numa cidade. Entre uma estação e um terreno a 600 metros de distância euclidiana pode haver uma linha férrea sem passagem, um córrego canalizado, um muro de condomínio ou uma avenida de seis faixas. A distância a pé pode ser o dobro. Isso volta no tema 10, quando você vai calcular área de serviço sobre a rede viária e comparar com o círculo desta aula.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Se o buffer superestima o alcance real da estação, por que a legislação urbanística usa buffer?</p>
+  <p>Porque a lei precisa de um perímetro que possa ser desenhado, publicado e conferido por qualquer parte interessada. Uma área de serviço calculada sobre rede depende do grafo viário usado, da velocidade adotada e da data do levantamento, e muda quando a rede muda. Um círculo depende de um ponto e de um número. A legislação troca precisão por auditabilidade, e essa troca é defensável desde que esteja declarada.</p>
+</div>
+</section>
+
+<section class="part" id="juncao">
+<h2>Junção espacial e agregação por polígono</h2>
+
+<p>No tema 3 você juntou tabelas por um campo em comum. A junção espacial faz o mesmo sem campo em comum: o que liga os dois registros é a posição. Cada feição da camada de entrada recebe os atributos das feições da outra camada que satisfazem um predicado geométrico.</p>
+
+<div class="conceito">
+  <div class="lbl">Definição</div>
+  <h4>Predicado espacial</h4>
+  <p>Relação topológica entre duas geometrias, avaliada como verdadeira ou falsa. O QGIS oferece <em>intersect</em>, <em>contain</em>, <em>equal</em>, <em>touch</em>, <em>overlap</em>, <em>are within</em> e <em>cross</em>. Dois deles são traiçoeiros: <em>intersect</em> é verdadeiro mesmo quando as feições só encostam pela borda, e <em>touch</em> é falso quando uma está dentro da outra.</p>
+</div>
+
+<p>Depois do predicado vem a segunda decisão, que é o método. <em>Take attributes of the first matching feature only</em> devolve uma linha por feição de entrada e ignora as demais correspondências. <em>Create separate feature for each matching feature</em> devolve uma linha por par. O primeiro método é rápido e mente quando há mais de uma correspondência, porque a escolha do primeiro depende da ordem de leitura do arquivo.</p>
+
+<p>Agregar por polígono é o passo seguinte: somar, contar ou tirar a média dos valores de todas as feições que caem dentro de cada unidade. É como se produz a tabela final de quase toda análise territorial, e é onde entram os dois problemas da aula 4.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Você tem a densidade média do distrito, em habitantes por hectare, e quer estimar quanta gente mora dentro de um perímetro de ZEIS. Multiplicar a área da ZEIS pela densidade do distrito resolve?</p>
+  <p>Resolve no sentido de produzir um número. O número supõe que a população se distribui uniformemente dentro do distrito, o que é falso por construção: uma ZEIS 1 é justamente a porção do distrito onde a densidade é várias vezes a média, e uma ZEIS 3 costuma ser a porção vazia. A estimativa erra nos dois sentidos, e erra mais quanto maior for o distrito. É a falácia ecológica da aula 4 aparecendo dentro de uma operação de rotina.</p>
+</div>
+</section>
+
+<section class="part" id="validade">
+<h2>Geometria inválida</h2>
+
+<p>A norma <em>Simple Features</em>, do Open Geospatial Consortium, define o que é um polígono legítimo: o anel externo fecha, não cruza a si mesmo, os buracos ficam dentro do anel externo e não se sobrepõem. Arquivos de portal público violam essas regras o tempo todo, porque foram digitalizados à mão, convertidos entre formatos ou generalizados por um algoritmo que não checou o resultado.</p>
+
+<p>O caso de manual é o laço de gravata: o anel cruza a si mesmo e forma dois lóbulos com orientação oposta. O cálculo de área soma as duas contribuições com sinais contrários e devolve menos do que a soma dos lóbulos; quando eles têm o mesmo tamanho, devolve zero. Esse é o caso que aparece em exemplo de aula, e não é o que você vai encontrar no GeoSampa.</p>
+
+<p>No arquivo de ZEIS deste tema, 11 dos 2.571 perímetros são inválidos pelo GEOS. Todos são ZEIS 1. Sete acusam <em>Self-intersection</em>, dois, <em>Ring self-intersection</em>, e dois, <em>Too few points in geometry component</em>, o aviso de anel degenerado. Some a coluna de área antes e depois de <em>Fix Geometries</em> e o total sai de 18.058,7046 para 18.058,7228 hectares: dezoito milésimos de hectare de diferença, concentrados em um único perímetro, o C091 do Sé, que passa de 0,4776 para 0,4958 ha. Se o seu critério para se preocupar com validade fosse a soma da coluna, você fecharia o arquivo tranquilo.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d05-validade.svg" alt="Três painéis: o laço de gravata de manual com área zero, o histograma da área dos onze perímetros inválidos do arquivo real, e um gráfico comparando o efeito da invalidez sobre a soma de área e sobre o resultado da interseção.">
+  <figcaption><b>Figura 3</b> À esquerda, o defeito que os manuais mostram. No meio, os onze defeitos que o GeoSampa realmente entrega, do perímetro de 0,15 hectare ao de 245,64. À direita, os dois efeitos: sobre a soma da coluna de área a invalidez custa 0,0182 hectare, e sobre a interseção com o buffer ela custa uma feição inteira, porque o GEOS não consegue processar duas delas.</figcaption>
+</figure>
+
+<div class="cuidado">
+  <div class="lbl">Erro comum</div>
+  <p>Confiar na coluna de área para detectar geometria inválida. Ela não denuncia nada. O que denuncia é a operação de sobreposição: dos onze perímetros defeituosos, dois fazem o GEOS levantar exceção durante a interseção, e o QGIS descarta a feição com um aviso no painel de log que ninguém lê. Neste arquivo o prejuízo é pequeno porque os dois que quebram são pequenos. Poderia ter sido o L086, de 245,64 hectares. Rodar <span class="caminho">Vector <i>▸</i> Geometry Tools <i>▸</i> Check Validity</span> antes de qualquer sobreposição custa dez segundos e é a única forma de saber em qual dos dois casos você está.</p>
+</div>
+</section>
+
+<section class="part" id="cadeia">
+<h2>O que a cadeia de operações faz com a precisão</h2>
+
+<p>A análise desta aula tem cinco etapas: posição da estação, raio, buffer, interseção com a ZEIS, densidade do distrito. Cada uma introduz uma incerteza, e nenhuma delas devolve barra de erro. O QGIS entrega o resultado final com duas casas decimais, e a autoridade dessas duas casas é tipográfica.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d05-cadeia.svg" alt="Cinco caixas em sequência representando as etapas da análise, cada uma com a fonte de imprecisão e uma barra mostrando o erro acumulado, que vai de 2,5 por cento na primeira etapa a 12,8 por cento na última.">
+  <figcaption><b>Figura 4</b> O erro acumulado combina as etapas em quadratura, supondo independência. A etapa que mais pesa é a última, e ela não é geométrica: é a suposição de que a densidade do distrito vale dentro da ZEIS. O resultado de 114.220 habitantes tem um intervalo plausível de trinta mil pessoas.</figcaption>
+</figure>
+
+<p>A regra prática é simples e quase nunca seguida. Reporte o resultado com a precisão que a pior etapa da cadeia sustenta. Se a densidade entra com incerteza de 12%, escrever 114.220 habitantes é fingir uma exatidão de seis algarismos que a conta não tem. Escreva 114 mil, e diga por quê.</p>
+
+<p>A cadeia também põe os defeitos em escala. A geometria inválida do passo 3 custa 0,15 hectare do resultado; o parâmetro <em>Segments</em>, 15; a troca do raio de 600 para 1000 metros, 1.744. O único desses erros que aparece em um aviso do software é o menor dos três.</p>
+</section>
+
+<section class="part" id="parametro">
+<h2>O raio que vem da lei, e não dos dados</h2>
+
+<p>O Plano Diretor Estratégico de São Paulo, a Lei municipal 16.050 de 2014, organiza o adensamento da cidade em torno dos Eixos de Estruturação da Transformação Urbana. A lógica é explícita: onde há transporte coletivo de alta capacidade, permite-se construir mais, exige-se menos vaga de garagem e admite-se habitação de interesse social com parâmetros próprios. Onde não há, não.</p>
+
+<p>Para que isso vire regra aplicável, a lei precisa dizer onde o eixo começa e onde termina. E aí aparece a distância: uma faixa a partir do eixo do corredor e um raio a partir do centro da estação. Os números constam do texto legal e dos mapas anexos, foram redesenhados na revisão intermediária de 2023 e são objeto de disputa em audiência pública desde a primeira minuta.</p>
+
+<p>Nenhum desses números foi medido. Não existe experimento que mostre que a 600 metros a pessoa usa o metrô e a 620 não. Existe uma literatura de planejamento que trabalha com a faixa de 400 a 800 metros como distância caminhável, existem estudos de embarque por faixa de distância, e existe uma negociação política sobre quanto território o mercado imobiliário pode adensar. O valor final do raio sai dessa negociação, e cada metro a mais ou a menos redistribui potencial construtivo entre proprietários.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d05-raio.svg" alt="Três mapas do município de São Paulo com as mesmas estações e os mesmos perímetros de ZEIS, e o raio variando entre 400, 600 e 1000 metros. A área de ZEIS capturada passa de 377,57 para 946,19 e depois para 2.690,69 hectares.">
+  <figcaption><b>Figura 5</b> A camada de ZEIS é idêntica nos três painéis, e a de estações também. Passar de 400 para 1000 metros multiplica por sete o território elegível, de 377,57 para 2.690,69 hectares. Um advogado que consiga ampliar o raio em 400 metros ganha mais terreno do que qualquer levantamento de campo produziria.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th style="width:16%">Raio</th><th class="num">ZEIS dentro (ha)</th><th class="num">Do estoque</th><th class="num">População estimada</th><th>Leitura</th></tr></thead>
+  <tbody>
+    <tr><td><strong>400 m</strong></td><td class="num">377,57</td><td class="num">2,09%</td><td class="num">45.401</td><td>Distância caminhável estrita, cinco minutos</td></tr>
+    <tr class="hi"><td><strong>600 m</strong></td><td class="num">946,19</td><td class="num">5,24%</td><td class="num">114.220</td><td>Faixa usada no desenho dos eixos</td></tr>
+    <tr><td><strong>1000 m</strong></td><td class="num">2.690,69</td><td class="num">14,90%</td><td class="num">320.931</td><td>Doze a quinze minutos a pé, no plano</td></tr>
+  </tbody>
+  <caption>Medidos sobre o pacote desta aula em EPSG:31983, com <em>Segments</em> = 16, contra um estoque total de 18.058,72 hectares de ZEIS. Reproduza-os exatamente no roteiro.</caption>
+</table>
+
+<p>Repare na terceira coluna antes de qualquer indignação. Mesmo com mil metros de raio, 85% do estoque de ZEIS da cidade continua fora do alcance do transporte de alta capacidade. O parâmetro decide quanto do estoque entra na política, e nenhum valor plausível dele faz o estoque caber perto do trilho.</p>
+
+<div class="pense">
+  <div class="lbl">Pergunta norteadora</div>
+  <p class="q">Quem deveria ter a palavra final sobre esse número: o urbanista, o legislador ou o analista que roda o buffer?</p>
+  <p>O analista é o único dos três que não deveria decidir, e é justamente quem decide na prática, porque o valor entra na caixa de diálogo e ninguém pergunta de onde veio. A resposta profissional é registrar o parâmetro como premissa declarada, apresentar o resultado para mais de um valor, e deixar a escolha visível para quem tem mandato para fazê-la. As duas formações da turma se encontram neste ponto: o aluno de Direito descobre que um artigo de lei define um desenho no mapa, e o de Engenharia descobre que o desenho que ele calcula distribui valor imobiliário entre proprietários.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Escopo de prova · unidade teórica 05</div>
+  <p class="q">Dada uma pergunta territorial, a prova pode pedir que você monte a cadeia de operações de sobreposição que a responde, na ordem correta, e que identifique qual parâmetro do procedimento é normativo e não técnico, dizendo quem tem competência para fixá-lo.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 2 · roteiro</div>
+  <h2 class="pt" style="margin:0">Quanta ZEIS cabe dentro do raio</h2>
+  <div class="pd">45 min</div>
+</div>
+
+<section class="part" id="p1">
+<p class="lede">Todos os números abaixo saem dos arquivos do pacote. Se o seu QGIS mostrar outro valor, algum passo saiu diferente, e vale voltar antes de seguir.</p>
+
+<div class="passo" id="p0">
+  <div class="n">0</div>
+  <div class="c">
+    <h3>Baixar as camadas direto do GeoSampa</h3>
+    <p>Os arquivos do pacote já vêm prontos. Este passo é para você saber de onde eles saíram e conseguir refazer o download sozinho, com a camada atualizada, sem depender do pacote. São dois caminhos: o serviço WFS, que é o que foi usado aqui, e a interface do mapa, para quando o WFS estiver fora do ar.</p>
+
+    <p><b>Caminho A · pelo WFS, que é um endereço de internet e devolve o arquivo direto</b></p>
+    <ol>
+      <li>Abra o navegador e cole o endereço abaixo, trocando <code>NOME_DA_CAMADA</code> pelo nome da camada que você quer. Ele devolve um Shapefile compactado, em <code>EPSG:31983</code>, com o texto em UTF-8.</li>
+    </ol>
+
+<pre class="expr">https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=NOME_DA_CAMADA&amp;outputFormat=SHAPE-ZIP</pre>
+
+    <ol start="2">
+      <li>Use estes nomes de camada, um por download, e salve cada zip em <code>InfoGeo/tema05_sobreposicao/dados_brutos/</code>:
+        <ul>
+          <li><code>geoportal:pde2014_v_zeis_04_map</code> — ZEIS 1, Mapa 4 do Plano Diretor</li>
+          <li><code>geoportal:pde2014_v_zeis_04a_map</code> — ZEIS 2, 3, 4 e 5, Mapa 4A</li>
+          <li><code>geoportal:estacao_metro</code> — estações de metrô em operação</li>
+          <li><code>geoportal:estacao_trem</code> — estações de trem metropolitano, CPTM</li>
+          <li><code>geoportal:distrito_municipal</code> — os 96 distritos do município</li>
+          <li><code>geoportal:pde2014_v_eetr_03_map</code> — Eixos de Estruturação da Transformação Urbana, Mapa 3</li>
+          <li><code>geoportal:perimetro_zona_lei_18177_24</code> — perímetros de zona da Lei 18.177/2024, Mapa 1</li>
+        </ul>
+      </li>
+      <li>Descompacte cada zip. Arraste o <code>.shp</code> para dentro do QGIS.</li>
+      <li>Junte as duas camadas de ZEIS em uma só com <span class="caminho">Vector <i>▸</i> Data Management Tools <i>▸</i> Merge Vector Layers</span>, e junte metrô e trem do mesmo jeito, acrescentando antes um campo <code>modo</code> em cada uma.</li>
+      <li>Exporte cada resultado com <span class="caminho">Export <i>▸</i> Save Features As</span>, formato <em>GeoPackage</em>, <em>Encoding</em> em <code>UTF-8</code>, CRS <code>EPSG:31983</code>, dentro de <code>dados_tratados/</code>.</li>
+    </ol>
+
+    <p><b>Caminho B · pela interface do mapa, quando o WFS não responder</b></p>
+    <ol>
+      <li>Abra <a href="https://geosampa.prefeitura.sp.gov.br">geosampa.prefeitura.sp.gov.br</a> e entre em <em>Mapa Digital da Cidade de São Paulo</em>.</li>
+      <li>Na barra de ferramentas da esquerda, clique no ícone de disquete, <em>Download de Camadas</em>. Abre uma janela nova; se o navegador bloquear pop-up, libere para este site.</li>
+      <li>Na janela, escolha a <em>Categoria</em> e depois a <em>Camada</em>:
+        <ul>
+          <li>Categoria <em>Legislação Urbana</em>, camada <em>ZEIS 1 (4)</em> e camada <em>ZEIS 2-3-4-5 (4A)</em></li>
+          <li>Categoria <em>Transporte</em>, camada <em>Metrô - Estação</em> e camada <em>Trem Metropolitano - Estação</em></li>
+          <li>Categoria <em>Limites Administrativos</em>, camada <em>Distrito Municipal</em></li>
+          <li>Categoria <em>Legislação Urbana</em>, camada <em>Eixos de Estruturação da Transformação Urbana (3)</em> e camada <em>Perímetro de Zonas (Lei 18.177/24)</em></li>
+        </ul>
+      </li>
+      <li>Em <em>Formato</em>, escolha <strong>Shapefile</strong>. Em <em>Sistema de coordenadas</em>, deixe <strong>SIRGAS 2000 / UTM 23S</strong>, que é o EPSG:31983.</li>
+      <li>Clique <em>Baixar</em> e salve em <code>InfoGeo/tema05_sobreposicao/dados_brutos/</code>, com o nome que o portal sugerir.</li>
+      <li>O Shapefile do portal vem com o texto em Latin-1. Antes de exportar, abra <em>Properties</em>, aba <em>Source</em>, e troque <em>Data source encoding</em> para <code>ISO-8859-1</code>. Só então exporte para GeoPackage em UTF-8, como no caminho A.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Erro comum</div>
+      <p>Se você exportar para GeoPackage sem corrigir a codificação, <em>Paraisópolis</em> fica gravado com caracteres quebrados em definitivo. Confira sempre um nome com acento na tabela de atributos antes de salvar.</p>
+    </div>
+
+    <p><b>Os setores censitários não vêm do GeoSampa</b></p>
+    <p>O arquivo <code>setores_sp_capital_2022.gpkg</code> é o único do pacote que vem do IBGE, e você precisa dele no passo 8. Baixe a malha de setores do Censo 2022 pelo <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">portal de geociências</a>, filtre por <code>CD_MUN = '3550308'</code> e junte os agregados por setor pela chave <code>CD_SETOR</code>. Ele chega em EPSG:4674, não em 31983: reprojete antes de cruzar com qualquer coisa desta aula.</p>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Criar o projeto e carregar as três camadas</h3>
+    <ol>
+      <li>Abra o QGIS e vá em <span class="caminho">Project <i>▸</i> New</span>. Salve como <code>InfoGeo/tema05_sobreposicao/projeto.qgz</code>.</li>
+      <li>Arraste <code>estacoes_alta_capacidade_sp.gpkg</code>, <code>zeis_sp.gpkg</code> e <code>distritos_sp.gpkg</code> para dentro da janela.</li>
+      <li>No painel <em>Browser</em>, em <em>XYZ Tiles</em>, dê duplo clique na conexão <em>OpenStreetMap</em> que você cadastrou no tema 1 e arraste a camada para o fundo da pilha. Se a conexão não aparecer, refaça o <a href="encontro-01.html#osm">passo 5 do Encontro 1</a>.</li>
+      <li>Clique com o botão direito em <code>zeis</code> e escolha <em>Zoom to Layer</em>.</li>
+      <li>Deixe a ordem assim, de cima para baixo: estações, ZEIS, distritos, mapa base.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Você deve estar olhando para o município inteiro, de Perus a Parelheiros. As estações desenham treze linhas de metrô e de trem, reconhecíveis pelo traçado. Os perímetros de ZEIS aparecem por toda a mancha urbana, miúdos e numerosos na periferia leste e sul, e concentrados em blocos grandes em Heliópolis, em Paraisópolis e ao longo do Tietê.</p>
+    </div>
+
+    <figure class="ph">captura de tela · janela do QGIS com as três camadas carregadas sobre o OpenStreetMap, painel Layers visível à esquerda</figure>
+  </div>
+</div>
+
+<div class="passo" id="p2">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Conferir o sistema de coordenadas e as contagens</h3>
+    <p>Antes de medir qualquer coisa, sempre as mesmas duas perguntas: em que sistema está e quantas feições tem.</p>
+    <ol>
+      <li>Botão direito em cada camada, <em>Properties</em>, aba <em>Information</em>. As três devem estar em <code>EPSG:31983 — SIRGAS 2000 / UTM zone 23S</code>, com unidade em metros.</li>
+      <li>Confirme no canto inferior direito que o CRS do projeto também é <code>EPSG:31983</code>. Se estiver em outro, clique ali e troque.</li>
+      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e ponha o elipsoide em <em>GRS 1980</em>, as unidades de área em <em>Hectares</em> e as de distância em <em>Meters</em>.</li>
+      <li>Abra a tabela de atributos de cada camada com <code>F6</code> e anote o número de linhas.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>203 estações, 2.571 perímetros de ZEIS, 96 distritos. Nas estações, os acentos devem aparecer corretos em <em>SÉ</em>, <em>BRÁS</em>, <em>SANTA CECÍLIA</em> e <em>GUILHERMINA-ESPERANÇA</em>. Nas ZEIS, confira o campo <code>zona</code>: são cinco valores, de <code>ZEIS-1</code> a <code>ZEIS-5</code>, e a ZEIS 1 sozinha responde por 1.401 dos 2.571 perímetros.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">O que muda quando o dado vem do GeoSampa</div>
+      <p>Os arquivos da interface do portal são Shapefile com texto em Latin-1. Ao carregar no QGIS sem declarar a codificação, o <em>ó</em> de <em>Paraisópolis</em> vira um caractere quebrado. A correção é abrir <em>Properties</em>, aba <em>Source</em>, e trocar <em>Data source encoding</em> para <em>ISO-8859-1</em> antes de exportar para GeoPackage em UTF-8. Se você exportar sem corrigir, grava o defeito em definitivo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p3">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Achar as geometrias inválidas e corrigir</h3>
+    <ol>
+      <li>Com <code>zeis</code> selecionada, abra o <em>Field Calculator</em> e crie o campo <code>area_ha</code>, decimal com precisão 4, com a expressão abaixo.</li>
+    </ol>
+
+<pre class="expr">area($geometry) / 10000   <span class="cm">-- a camada já está em metros, então isto é seguro</span></pre>
+
+    <ol start="2">
+      <li>Salve as edições. Abra o painel <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>, escolha a camada <code>zeis</code> e o campo <code>area_ha</code>. Anote a soma.</li>
+      <li>Rode <span class="caminho">Vector <i>▸</i> Geometry Tools <i>▸</i> Check Validity</span> sobre <code>zeis</code>, com <em>Method</em> em <em>GEOS</em>. Olhe a camada <em>Invalid output</em> e o campo <code>_errors</code>.</li>
+      <li>Rode <span class="caminho">Vector <i>▸</i> Geometry Tools <i>▸</i> Fix Geometries</span> sobre <code>zeis</code>. Salve o resultado como <code>zeis_ok.gpkg</code>.</li>
+      <li>Recalcule <code>area_ha</code> na camada corrigida e leia a soma de novo.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p><em>Check Validity</em> devolve 2.560 feições válidas e <strong>11 inválidas</strong>. Sete trazem <em>Self-intersection</em>, duas, <em>Ring self-intersection</em>, e duas, <em>Too few points in geometry component</em>. Todas são ZEIS 1, e vão do perímetro C089, de 0,1533 hectare, ao L086, de 245,6351. A soma de área antes da correção é <strong>18.058,7046</strong> hectares e depois é <strong>18.058,7228</strong>. A correção mexeu em 0,0182 hectare, em um perímetro só.</p>
+    </div>
+
+    <figure class="ph">captura de tela · saída do Check Validity, com os onze pontos de erro em vermelho sobre os perímetros defeituosos</figure>
+
+    <div class="cuidado">
+      <div class="lbl">Por que isso vem primeiro, mesmo com a soma quase igual</div>
+      <p>A área quase não mudou e mesmo assim o passo é obrigatório, porque o estrago da geometria inválida não está na soma: está na sobreposição. Rode o passo 6 com <code>zeis</code> em vez de <code>zeis_ok</code> e o GEOS levanta exceção em dois perímetros, o C089 e o C091. O QGIS descarta os dois e registra o aviso no <em>Log Messages</em>; a saída vem com 450 feições e 946,0337 hectares em vez de 451 e 946,1870. São 0,1533 hectare de diferença porque os dois que quebraram são minúsculos. Se tivesse sido o L086, seriam duas ordens de grandeza a mais, e nada na tela avisaria.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p4">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Buffer de 600 metros nas estações</h3>
+    <ol>
+      <li>Abra <span class="caminho">Processing <i>▸</i> Toolbox</span> e procure por <code>native:buffer</code>, que aparece como <em>Buffer</em>.</li>
+      <li>Preencha conforme abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Buffer</div>
+      <dl>
+        <dt>Input layer</dt><dd>estacoes_alta_capacidade</dd>
+        <dt>Distance</dt><dd>600 meters</dd>
+        <dt>Segments</dt><dd>16 (o padrão é 5; troque)</dd>
+        <dt>End cap style</dt><dd>Round</dd>
+        <dt>Join style</dt><dd>Round</dd>
+        <dt>Dissolve result</dt><dd>desmarcado</dd>
+        <dt>Buffered</dt><dd>dados_tratados/buffer600.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="3">
+      <li>Na camada resultante, crie <code>area_ha</code> com a mesma expressão do passo 3 e leia a soma no painel <em>Statistics</em>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>203 polígonos, soma de <strong>22.921,8964</strong> hectares. Cada um tem 112,9157 hectares, contra 113,0973 do círculo verdadeiro. Se você tivesse deixado <em>Segments</em> em 5, cada buffer teria 111,2461 hectares e a soma cairia para 22.582,9619, uma diferença de 338,93 hectares que ninguém percebe olhando o mapa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p5">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>Dissolver os buffers, e entender por quê</h3>
+    <p>Estações vizinhas têm buffers que se sobrepõem. Se você usar a camada como está, cada pedaço de sobreposição entra duas vezes na conta.</p>
+    <ol>
+      <li>Rode <code>native:dissolve</code>, que aparece como <em>Dissolve</em>.</li>
+      <li>Em <em>Input layer</em>, escolha <code>buffer600</code>. Deixe <em>Dissolve field(s)</em> vazio.</li>
+      <li>Salve como <code>dados_tratados/buffer600_dissolvido.gpkg</code>.</li>
+      <li>Calcule <code>area_ha</code> na camada nova.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Uma feição multiparte com <strong>104 partes</strong>, somando <strong>18.540,6005</strong> hectares. A diferença para os 22.921,8964 do passo anterior é de <strong>4.381,2958</strong> hectares, ou 19,11% do total. Essa é a área que estava sendo contada duas vezes. Repare também nas 104 partes: 203 estações produzem apenas 104 manchas separadas, porque 124 delas têm outra estação a menos de 1.200 metros. A mediana da distância entre uma estação e a vizinha mais próxima é de 1.028 metros.</p>
+    </div>
+
+    <figure class="ph">captura de tela · os 203 buffers antes e as 104 manchas depois do dissolve, lado a lado</figure>
+  </div>
+</div>
+
+<div class="passo" id="p6">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Cruzar com as ZEIS</h3>
+    <ol>
+      <li>Rode <code>native:intersection</code>, que aparece como <em>Intersection</em>.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Intersection</div>
+      <dl>
+        <dt>Input layer</dt><dd>zeis_ok</dd>
+        <dt>Overlay layer</dt><dd>buffer600_dissolvido</dd>
+        <dt>Input fields to keep</dt><dd>todos</dd>
+        <dt>Overlay fields to keep</dt><dd>nenhum</dd>
+        <dt>Intersection</dt><dd>dados_tratados/zeis_600.gpkg</dd>
+      </dl>
+    </div>
+
+    <ol start="2">
+      <li>Calcule <code>area_ha</code> na camada de saída e leia a soma.</li>
+      <li>Agora repita a interseção usando <code>buffer600</code>, o que não foi dissolvido, e compare.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Com o buffer dissolvido: <strong>451 feições</strong> e <strong>946,1870</strong> hectares, que são 5,24% do estoque de 18.058,72. Sem dissolver: 731 feições e 1.231,2753 hectares. A versão errada infla o resultado em 285,0883 hectares, 30,13% a mais, e não há nada na tela que denuncie.</p>
+    </div>
+
+    <div class="conceito">
+      <div class="lbl">O que aconteceu</div>
+      <h4>A dupla contagem não aparece no mapa</h4>
+      <p>Os 731 fragmentos da versão sem dissolve se sobrepõem entre si. Desenhados na tela, formam exatamente a mesma mancha vermelha dos 451. A soma da coluna é que muda, porque a mesma quadra entra uma vez por estação que a alcança, e no centro há quadra alcançada por quatro. O erro cresce com o raio: em 400 metros ele é de 18,81%, em 600 metros de 30,13% e em 1000 metros de 50,21%.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p7">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>A diferença: o que ficou de fora</h3>
+    <p>A pergunta da prefeitura tem duas metades. Quanta ZEIS está servida, e quanta não está.</p>
+    <ol>
+      <li>Rode <code>native:difference</code>, que aparece como <em>Difference</em>.</li>
+      <li><em>Input layer</em>: <code>zeis_ok</code>. <em>Overlay layer</em>: <code>buffer600_dissolvido</code>.</li>
+      <li>Salve como <code>zeis_fora600.gpkg</code> e calcule <code>area_ha</code>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p><strong>2.325 feições</strong> e <strong>17.112,5358</strong> hectares. Some com os 946,1870 do passo anterior: dá 18.058,7228, que é exatamente o total do arquivo corrigido. Se a soma não fechar, alguma coisa se perdeu na cadeia.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Um resultado que vale mais que o outro</div>
+      <p>Reparta o total por tipo de ZEIS e a leitura muda de assunto.</p>
+      <table>
+        <thead><tr><th>Tipo</th><th class="num">Estoque (ha)</th><th class="num">Dentro de 600 m (ha)</th><th class="num">Dentro</th></tr></thead>
+        <tbody>
+          <tr><td>ZEIS 1 · favelas e loteamentos irregulares</td><td class="num">14.473,04</td><td class="num">493,33</td><td class="num">3,41%</td></tr>
+          <tr><td>ZEIS 2 · glebas vazias na periferia</td><td class="num">1.625,77</td><td class="num">76,21</td><td class="num">4,69%</td></tr>
+          <tr class="hi"><td>ZEIS 3 · imóveis subutilizados na área consolidada</td><td class="num">836,79</td><td class="num">257,02</td><td class="num">30,72%</td></tr>
+          <tr><td>ZEIS 4 · terrenos em área de proteção a manancial</td><td class="num">446,93</td><td class="num">22,99</td><td class="num">5,14%</td></tr>
+          <tr><td>ZEIS 5 · lotes para promoção privada de HIS</td><td class="num">676,20</td><td class="num">96,64</td><td class="num">14,29%</td></tr>
+        </tbody>
+      </table>
+      <p>As ZEIS 3, que são o imóvel subutilizado na área já servida, têm 30,72% do seu estoque dentro do raio. As ZEIS 1, que são onde a população mal alojada de fato mora, têm 3,41%. E o estoque de ZEIS 3 é dezessete vezes menor que o de ZEIS 1. O terreno bem servido de transporte é escasso, a população mal alojada está concentrada longe do trilho, e os dois conjuntos quase não se sobrepõem no mapa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo" id="p8">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Junção espacial e estimativa de população</h3>
+    <p>O arquivo de distritos do GeoSampa não traz densidade. Você vai produzi-la a partir dos setores censitários do IBGE, e o caminho é o do tema 3: junção por atributo, depois agregação.</p>
+    <ol>
+      <li>Arraste <code>setores_sp_capital_2022.gpkg</code> para o projeto. São 27.301 setores, em EPSG:4674. A variável <code>v0001</code> é a população residente.</li>
+      <li>Os dois últimos dígitos de <code>CD_DIST</code> são o código do distrito na malha do GeoSampa. Na camada de setores, crie o campo <code>cd_dist</code>, inteiro, com a expressão abaixo.</li>
+    </ol>
+
+<pre class="expr">to_int(right("CD_DIST", 2))   <span class="cm">-- 355030801 vira 1, que é o cd_distrito de Água Rasa</span></pre>
+
+    <ol start="3">
+      <li>Rode <code>native:aggregate</code>, que está em <span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector geometry <i>▸</i> Aggregate</span>, sobre os setores: em <em>Group by expression</em> use <code>"cd_dist"</code> e agregue <code>v0001</code> por <em>sum</em>, com o nome <code>pop</code>.</li>
+      <li>Rode <code>native:joinattributestable</code> para levar <code>pop</code> para a camada <code>distritos</code>, casando <code>cd_distrito</code> com <code>cd_dist</code>. Confirme que os 96 distritos receberam valor e que a soma de <code>pop</code> dá <strong>11.451.999</strong>, a população do município no Censo 2022.</li>
+      <li>Na camada de distritos, crie <code>dens_hab_ha</code>, decimal com precisão 4:</li>
+    </ol>
+
+<pre class="expr">"pop" / (area($geometry) / 10000)   <span class="cm">-- habitantes por hectare</span></pre>
+
+    <ol start="6">
+      <li>Agora cruze as duas camadas com <code>native:intersection</code>: <em>Input layer</em> é <code>zeis_600</code>, <em>Overlay layer</em> é <code>distritos</code>, e em <em>Overlay fields to keep</em> deixe <code>distrito</code> e <code>dens_hab_ha</code>. A interseção parte os fragmentos que cruzam divisa de distrito, o que a junção por localização não faria.</li>
+      <li>Recalcule <code>area_ha</code> na saída e crie o campo <code>pop_pot</code>, decimal com precisão 1:</li>
+    </ol>
+
+<pre class="expr">"area_ha" * "dens_hab_ha"   <span class="cm">-- hectares vezes habitantes por hectare</span></pre>
+
+    <ol start="8">
+      <li>Leia a soma de <code>pop_pot</code> no painel <em>Statistics</em>.</li>
+      <li>Para a tabela por distrito, rode <code>native:dissolve</code> sobre essa camada usando <em>Dissolve field(s)</em> = <code>distrito</code>, e recalcule <code>area_ha</code> na saída. Como o dissolve funde geometria, a área continua correta.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Soma de <code>pop_pot</code>: <strong>114.220</strong> habitantes. O dissolve por distrito devolve <strong>58 feições</strong>, ou seja, 58 dos 96 distritos têm ZEIS dentro do raio de 600 metros. A soma de <code>area_ha</code> depois da interseção com os distritos dá 946,1569, e não 946,1870: os 0,03 hectare que sumiram são lascas de perímetro que caem fora da malha de distritos, sobre a divisa do município.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Distrito</th><th class="num">ZEIS em 600 m (ha)</th><th class="num">Densidade (hab/ha)</th><th class="num">População estimada</th></tr></thead>
+      <tbody>
+        <tr class="hi"><td>Sapopemba</td><td class="num">119,01</td><td class="num">195,68</td><td class="num">23.288</td></tr>
+        <tr><td>Brás</td><td class="num">72,15</td><td class="num">106,77</td><td class="num">7.703</td></tr>
+        <tr><td>Jardim Helena</td><td class="num">70,50</td><td class="num">139,89</td><td class="num">9.862</td></tr>
+        <tr><td>Grajaú</td><td class="num">67,55</td><td class="num">41,43</td><td class="num">2.798</td></tr>
+        <tr><td>Jaraguá</td><td class="num">48,92</td><td class="num">75,28</td><td class="num">3.682</td></tr>
+        <tr><td>Cidade Dutra</td><td class="num">38,78</td><td class="num">65,25</td><td class="num">2.530</td></tr>
+        <tr><td>José Bonifácio</td><td class="num">37,85</td><td class="num">88,04</td><td class="num">3.332</td></tr>
+        <tr><td>Ermelino Matarazzo</td><td class="num">36,86</td><td class="num">119,92</td><td class="num">4.421</td></tr>
+        <tr><td>Campo Limpo</td><td class="num">29,03</td><td class="num">187,51</td><td class="num">5.443</td></tr>
+        <tr><td>Sé</td><td class="num">24,57</td><td class="num">108,65</td><td class="num">2.669</td></tr>
+        <tr><td>Mooca</td><td class="num">22,72</td><td class="num">101,76</td><td class="num">2.312</td></tr>
+        <tr><td>Pirituba</td><td class="num">22,32</td><td class="num">104,40</td><td class="num">2.331</td></tr>
+        <tr><td>Bom Retiro</td><td class="num">19,36</td><td class="num">79,71</td><td class="num">1.543</td></tr>
+        <tr><td>Itaquera</td><td class="num">19,05</td><td class="num">143,28</td><td class="num">2.729</td></tr>
+        <tr><td>Santa Cecília</td><td class="num">17,97</td><td class="num">215,40</td><td class="num">3.871</td></tr>
+      </tbody>
+      <caption>Os quinze primeiros dos 58 distritos alcançados. Grajaú tem o quarto maior estoque de terreno e a menor densidade da lista, um quinto da de Sapopemba. Santa Cecília tem um quarto do terreno de Grajaú e mais população estimada. As duas informações respondem a perguntas diferentes.</caption>
+    </table>
+
+    <div class="contexto">
+      <div class="lbl">Repare em quem lidera a tabela</div>
+      <p>Sapopemba, Jardim Helena, Itaquera, Ermelino Matarazzo. A lista dos distritos com mais ZEIS perto de estação é uma lista de periferia leste, não de centro. Isso é efeito da linha 3-vermelha e dos ramais da CPTM, que atravessam justamente a área onde está o estoque de ZEIS 1. O Brás e a Sé aparecem, e aparecem com um sexto do terreno de Sapopemba.</p>
+    </div>
+
+    <figure class="ph">captura de tela · tabela de atributos da camada final com as colunas area_ha, distrito, dens_hab_ha e pop_pot</figure>
+  </div>
+</div>
+
+<div class="passo" id="p9">
+  <div class="n">9</div>
+  <div class="c">
+    <h3>A tabela dos três raios</h3>
+    <p>Agora refaça a cadeia inteira com 400 metros. São quatro passos, e você já sabe todos.</p>
+    <ol>
+      <li><code>native:buffer</code> com <em>Distance</em> = 400, <em>Segments</em> = 16.</li>
+      <li><code>native:dissolve</code> sem campo.</li>
+      <li><code>native:intersection</code> com <code>zeis_ok</code>.</li>
+      <li><code>area_ha</code> e soma no painel <em>Statistics</em>.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>224 feições e <strong>377,5714</strong> hectares, 2,09% do estoque. O buffer dissolvido cai de 18.540,60 para 8.790,91 hectares, e o número de manchas separadas sobe de 104 para 150. Passar de 400 para 600 metros multiplica por 2,5 a área de ZEIS capturada, enquanto a área do buffer só dobra: o ganho é mais que proporcional porque as estações do centro e do leste estão cercadas de ZEIS que os primeiros 400 metros não alcançavam.</p>
+    </div>
+
+    <div class="conceito">
+      <div class="lbl">A conclusão do roteiro</div>
+      <h4>Os nove passos são reprodutíveis; os parâmetros são escolhas</h4>
+      <p>Qualquer pessoa com o mesmo pacote de dados chega em 946,1870 hectares seguindo estes nove passos, e é isso que faz o método valer alguma coisa. Mas 946,19 só existe porque alguém escolheu 600 metros, e a quarta casa decimal só existe porque alguém escolheu 16 segmentos. Um relatório que apresente o número sem os dois parâmetros impede o leitor de refazer ou contestar a conta, que é justamente o que o método deveria permitir.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 3</div>
+  <h2 class="pt" style="margin:0">Exercício</h2>
+  <div class="pd">15 min</div>
+</div>
+
+<section class="part" id="exercicio">
+<div class="exercicio">
+  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
+  <div class="bd">
+    <p>Refaça a cadeia dos passos 4 a 8 com raio de <strong>1000 metros</strong>, sobre a mesma camada <code>zeis_ok</code>.</p>
+    <ol>
+      <li>Anote a área total de ZEIS dentro do raio, em hectares, e quantos hectares entraram a mais em relação aos 946,19 de 600 metros.</li>
+      <li>Anote a população potencial e quantos distritos passaram a ter ZEIS dentro do raio.</li>
+      <li>Escreva a diferença também em porcentagem do estoque total de ZEIS.</li>
+    </ol>
+    <p>Agora a parte que vale mais que a conta. Escreva dois parágrafos de cinco linhas cada:</p>
+    <ol type="a">
+      <li>Você é o advogado de uma incorporadora que quer ampliar o perímetro dos eixos para 1000 metros. Faça o melhor argumento possível a favor, usando os números que você acabou de produzir. Não invente dado.</li>
+      <li>Você é o procurador do município e precisa responder. Faça o melhor argumento possível contra, usando os mesmos números.</li>
+    </ol>
+    <p>Os dois parágrafos precisam citar pelo menos um valor que você mediu, e nenhum dos dois pode acusar o outro de estar errado na aritmética, porque nenhum estará.</p>
+  </div>
+  <div class="entrega">
+    <b>Entrega</b>
+    Uma captura de tela do painel Statistics com a soma da área para 1000 metros, mais os dois parágrafos. Poste no fórum do tema no Blackboard antes do fim da aula.
+  </div>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Para o professor conferir com a turma</div>
+  <p>Com 1000 metros e <em>Segments</em> = 16 saem 814 feições e 2.690,6938 hectares, 14,90% do estoque, em 68 distritos, com 320.931 habitantes estimados. São 1.744,51 hectares a mais que em 600 metros, um aumento de 184%. O buffer dissolvido vai a 41.885,68 hectares em apenas 43 manchas, contra 63.671,93 antes de dissolver. Quem esquecer o dissolve nesse raio lê 4.041,65 hectares de ZEIS em vez de 2.690,69, um exagero de 1.350,96 hectares, ou 50,21%. Vale mostrar também que a proporção de ZEIS 3 alcançada passa de 30,72% para 58,61%, enquanto a de ZEIS 1 vai de 3,41% para 11,63%. O argumento da incorporadora tem base real na primeira linha; o do procurador está na segunda.</p>
+</div>
+</section>
+
+<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
+<div class="partmark" style="margin-top:70px">
+  <div class="pn">Parte 4</div>
+  <h2 class="pt" style="margin:0">Fechamento</h2>
+  <div class="pd">20 min</div>
+</div>
+
+<section class="part" id="fechamento">
+<div class="resposta">
+  <div class="lbl">A resposta do tema</div>
+  <p class="big">Cabem 946,19 hectares de ZEIS a menos de 600 metros de uma estação, com 114 mil moradores estimados. Com 1000 metros, cabem 2.690,69.</p>
+  <p>Os dois números são corretos e respondem à mesma pergunta com premissas diferentes. Os dois também são pequenos: mesmo o maior deles é 15% do estoque de ZEIS da cidade. A pergunta que sobra é de quem é a competência para fixar a premissa, e a resposta não está no QGIS. Quando você entrega o resultado, entregue o parâmetro junto, do mesmo jeito que no tema 2 você passou a entregar o CRS.</p>
+</div>
+
+<h2>O que discutir com a turma</h2>
+<p>Três perguntas para os últimos minutos, com a resposta em aberto.</p>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Só 3,41% da área de ZEIS 1 está dentro do raio de 600 metros, contra 30,72% das ZEIS 3. O que uma política habitacional faz com essa assimetria?</p>
+  <p>Há pelo menos duas saídas, e elas custam coisas diferentes. Uma é levar gente para onde já há transporte, o que significa produzir moradia nas ZEIS 3 centrais e enfrentar o preço da terra. A outra é levar transporte para onde já há gente, o que significa obra de bilhões e prazo de década. A escolha entre as duas costuma ser apresentada como problema técnico e é orçamentária.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Um parâmetro que muda o resultado em 184% deveria estar em lei ordinária, em decreto ou em norma técnica?</p>
+  <p>Quanto mais fácil de mudar, mais rápido o planejamento se adapta e mais exposto fica à captura por quem tem interesse direto no perímetro. Quanto mais difícil, mais estável e mais defasado. Vale perguntar à turma de Direito o que acontece quando um número desse peso migra de anexo de lei para portaria de secretaria.</p>
+</div>
+
+<div class="pense">
+  <div class="lbl">Discussão</div>
+  <p class="q">Se o buffer superestima o alcance real da estação, o resultado desta aula é otimista ou pessimista em relação ao acesso de fato?</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">O que esta aula não resolveu</div>
+  <ul>
+    <li>A distância foi medida em linha reta sobre o plano. Um terreno separado da estação pela linha férrea entra na conta como se estivesse ao lado. A tema 10 refaz esse cálculo sobre a rede viária e mostra quanto do perímetro desaparece.</li>
+    <li>A população foi estimada aplicando a densidade do distrito inteiro sobre a área da ZEIS. É a hipótese mais frágil de toda a cadeia, e é a que mais pesa no erro final.</li>
+    <li>Não se discutiu capacidade da estação. Um terreno a 300 metros de uma estação que já opera acima da capacidade projetada conta como servido nesta análise, e na prática não está.</li>
+    <li>Todo perímetro de ZEIS foi tratado como igualmente disponível. Na prática há imóvel ocupado, litígio possessório, tombamento e contaminação de solo, e nada disso está na geometria.</li>
+    <li>As ZEIS usadas são as do Plano Diretor de 2014, com a revisão de 2023, e o zoneamento vigente é o da Lei 18.177/2024, que está no pacote e não foi cruzado com nada. Um perímetro de ZEIS que hoje esteja dentro de uma ZEU pode ter parâmetros construtivos diferentes dos que a conta desta aula supõe.</li>
+    <li>Só entraram estações em operação. As 203 do arquivo excluem obra em andamento, e a linha 6-laranja muda esse mapa quando abrir.</li>
+  </ul>
+</div>
+</section>
+
+<section class="part" id="leituras">
+<div class="partmark">
+  <div class="pn">Leituras</div>
+  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+</div>
+
+<div class="leituras">
+  <div class="item">
+    <div class="k prep">Preparação</div>
+    <div class="t">Luc Anselin, nota introdutória sobre autocorrelação espacial e a primeira lei de Tobler.
+      <span class="src">Leitura dirigida de 15 minutos · antes do tema 6</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Referência</div>
+    <div class="t">Ian McHarg, <em>Design with Nature</em>, capítulo sobre o traçado da Richmond Parkway em Staten Island.
+      <span class="src">1969 · o método de sobreposição antes de existir computador</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Oficial</div>
+    <div class="t">São Paulo, Lei municipal 16.050/2014, seção sobre os Eixos de Estruturação da Transformação Urbana e capítulo sobre Zonas Especiais de Interesse Social.
+      <span class="src">gestaourbana.prefeitura.sp.gov.br · leia os artigos, não o resumo</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Aplicado</div>
+    <div class="t">Manual do GeoSampa: como as camadas de zoneamento e ZEIS são organizadas, atualizadas e versionadas.
+      <span class="src">geosampa.prefeitura.sp.gov.br · confira a data da camada antes de citar</span></div>
+  </div>
+  <div class="item">
+    <div class="k">Crítica</div>
+    <div class="t">Ermínia Maricato, sobre o descompasso entre a lei urbanística e a cidade produzida fora dela.
+      <span class="src">para a discussão sobre ZEIS 1 e ZEIS 3 do fechamento</span></div>
+  </div>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-04.html"><span class="k">Tema anterior</span><span class="t">Este mapa está me convencendo ou me enganando?</span></a>
+  <a class="r" href="encontro-06.html"><span class="k">Próximo tema</span><span class="t">O que acontece num município depende do vizinho?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b></div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
