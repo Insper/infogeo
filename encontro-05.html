@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>São Paulo</b><span>área de estudo</span></div>
-    <div><b>GeoSampa · Lei 16.050/2014</b><span>fontes</span></div>
-  </div>
+    <div><b>GeoSampa · Lei 16.050/2014</b><span>fontes</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -88,31 +87,29 @@
 <p>Você deveria chegar tendo lido os dois artigos do Plano Diretor de São Paulo que tratam de ZEIS e dos eixos de estruturação. São três páginas. Se não leu, leia agora, enquanto a turma abre o QGIS.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana05</span></div>
-  <div class="fonte">Fonte: <b>GeoSampa · Prefeitura de São Paulo</b>, serviço WFS do <a href="https://geosampa.prefeitura.sp.gov.br">geoportal</a> · coleta de 02/08/2026. Os setores censitários vêm do IBGE, mesma data. O passo 0 do roteiro mostra, camada por camada, como refazer cada download.</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>GeoSampa</b> · Prefeitura de São Paulo, pelo serviço WFS do geoportal, e <b>IBGE</b> · Censo 2022, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. O passo 0 do roteiro mostra, camada por camada, como refazer cada download. Fonte original: <a href="https://geosampa.prefeitura.sp.gov.br">geoportal</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana05/setores_sp_capital_2022.gpkg" download>setores_sp_capital_2022.gpkg</a>
+    <li><div><span class="fn">setores_sp_capital_2022.gpkg</span>
         <span class="fd">27.301 setores censitários do município de São Paulo, polígono, EPSG:4674. Malha oficial do Censo 2022 com distrito, subdistrito, bairro, área e as variáveis v0001 a v0007. Serve de base para os recortes por distrito e para a análise de densidade.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/estacoes_alta_capacidade_sp.gpkg" download>estacoes_alta_capacidade_sp.gpkg</a>
+    <li><div><span class="fn">estacoes_alta_capacidade_sp.gpkg</span>
         <span class="fd">203 estações em operação, 94 de metrô e 109 de trem metropolitano, ponto, EPSG:31983. Camadas <code>estacao_metro</code> e <code>estacao_trem</code> do GeoSampa, com o campo <code>modo</code> acrescentado na junção.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/zeis_sp.gpkg" download>zeis_sp.gpkg</a>
+    <li><div><span class="fn">zeis_sp.gpkg</span>
         <span class="fd">2.571 perímetros de ZEIS do Plano Diretor, Mapas 4 e 4A, EPSG:31983. Onze deles têm geometria inválida pelo GEOS — no dado oficial mesmo, e é isso que o passo 3 usa.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/distritos_sp.gpkg" download>distritos_sp.gpkg</a>
+    <li><div><span class="fn">distritos_sp.gpkg</span>
         <span class="fd">96 distritos do município de São Paulo, polígono, EPSG:31983, com sigla, região e área.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/eixos_estruturacao_sp.gpkg" download>eixos_estruturacao_sp.gpkg</a>
+    <li><div><span class="fn">eixos_estruturacao_sp.gpkg</span>
         <span class="fd">4.818 polígonos dos Eixos de Estruturação da Transformação Urbana, Mapa 3 do Plano Diretor, EPSG:31983.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/zoneamento_sp_2024.gpkg" download>zoneamento_sp_2024.gpkg</a>
+    <li><div><span class="fn">zoneamento_sp_2024.gpkg</span>
         <span class="fd">10.240 perímetros de zona da Lei 18.177/2024, Mapa 1, EPSG:31983. É o mapa de perímetros da revisão, não o zoneamento consolidado da cidade inteira.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana05/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Origem de cada arquivo, a camada de origem no GeoSampa e a lista completa dos números conferidos.</span></div></li>
   </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026. Tudo em GeoPackage e UTF-8. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e as camadas do GeoSampa em EPSG:31983, então reprojete antes de cruzar. Os valores conferidos estão em <code>dados/semana05/_numeros_oficiais.json</code>. O download pela interface do mapa do GeoSampa vem em Shapefile com texto em Latin-1; o WFS já devolve UTF-8. A conversão deste pacote está feita, mas se você baixar de novo pela interface, refaça-a antes de qualquer coisa.</div>
+  <div class="ft">Pacote oficial desde 02/08/2026. Tudo em GeoPackage e UTF-8. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e as camadas do GeoSampa em EPSG:31983, então reprojete antes de cruzar. O download pela interface do mapa do GeoSampa vem em Shapefile com texto em Latin-1; o WFS já devolve UTF-8. A conversão deste pacote está feita, mas se você baixar de novo pela interface, refaça-a antes de qualquer coisa.</div>
 </div>
 
 <div class="pense">
@@ -362,8 +359,7 @@
     </div>
 
     <p><b>Os setores censitários não vêm do GeoSampa</b></p>
-    <p>O arquivo <code>setores_sp_capital_2022.gpkg</code> é o único do pacote que vem do IBGE, e você precisa dele no passo 8. Baixe a malha de setores do Censo 2022 pelo <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">portal de geociências</a>, filtre por <code>CD_MUN = '3550308'</code> e junte os agregados por setor pela chave <code>CD_SETOR</code>. Ele chega em EPSG:4674, não em 31983: reprojete antes de cruzar com qualquer coisa desta aula.</p>
-  </div>
+    <p>O arquivo <code>setores_sp_capital_2022.gpkg</code> é o único do pacote que vem do IBGE, e você precisa dele no passo 8. Baixe a malha de setores do Censo 2022 pelo <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">portal de geociências</a>, filtre por <code>CD_MUN = '3550308'</code> e junte os agregados por setor pela chave <code>CD_SETOR</code>. Ele chega em EPSG:4674, não em 31983: reprojete antes de cruzar com qualquer coisa desta aula.</p></div>
 </div>
 
 <div class="passo">
@@ -383,8 +379,7 @@
       <p>Você deve estar olhando para o município inteiro, de Perus a Parelheiros. As estações desenham treze linhas de metrô e de trem, reconhecíveis pelo traçado. Os perímetros de ZEIS aparecem por toda a mancha urbana, miúdos e numerosos na periferia leste e sul, e concentrados em blocos grandes em Heliópolis, em Paraisópolis e ao longo do Tietê.</p>
     </div>
 
-    <figure class="ph">captura de tela · janela do QGIS com as três camadas carregadas sobre o OpenStreetMap, painel Layers visível à esquerda</figure>
-  </div>
+    <figure class="ph">captura de tela · janela do QGIS com as três camadas carregadas sobre o OpenStreetMap, painel Layers visível à esquerda</figure></div>
 </div>
 
 <div class="passo" id="p2">
@@ -407,8 +402,7 @@
     <div class="contexto">
       <div class="lbl">O que muda quando o dado vem do GeoSampa</div>
       <p>Os arquivos da interface do portal são Shapefile com texto em Latin-1. Ao carregar no QGIS sem declarar a codificação, o <em>ó</em> de <em>Paraisópolis</em> vira um caractere quebrado. A correção é abrir <em>Properties</em>, aba <em>Source</em>, e trocar <em>Data source encoding</em> para <em>ISO-8859-1</em> antes de exportar para GeoPackage em UTF-8. Se você exportar sem corrigir, grava o defeito em definitivo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -438,8 +432,7 @@
     <div class="cuidado">
       <div class="lbl">Por que isso vem primeiro, mesmo com a soma quase igual</div>
       <p>A área quase não mudou e mesmo assim o passo é obrigatório, porque o estrago da geometria inválida não está na soma: está na sobreposição. Rode o passo 6 com <code>zeis</code> em vez de <code>zeis_ok</code> e o GEOS levanta exceção em dois perímetros, o C089 e o C091. O QGIS descarta os dois e registra o aviso no <em>Log Messages</em>; a saída vem com 450 feições e 946,0337 hectares em vez de 451 e 946,1870. São 0,1533 hectare de diferença porque os dois que quebraram são minúsculos. Se tivesse sido o L086, seriam duas ordens de grandeza a mais, e nada na tela avisaria.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -471,8 +464,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>203 polígonos, soma de <strong>22.921,8964</strong> hectares. Cada um tem 112,9157 hectares, contra 113,0973 do círculo verdadeiro. Se você tivesse deixado <em>Segments</em> em 5, cada buffer teria 111,2461 hectares e a soma cairia para 22.582,9619, uma diferença de 338,93 hectares que ninguém percebe olhando o mapa.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -492,8 +484,7 @@
       <p>Uma feição multiparte com <strong>104 partes</strong>, somando <strong>18.540,6005</strong> hectares. A diferença para os 22.921,8964 do passo anterior é de <strong>4.381,2958</strong> hectares, ou 19,11% do total. Essa é a área que estava sendo contada duas vezes. Repare também nas 104 partes: 203 estações produzem apenas 104 manchas separadas, porque 124 delas têm outra estação a menos de 1.200 metros. A mediana da distância entre uma estação e a vizinha mais próxima é de 1.028 metros.</p>
     </div>
 
-    <figure class="ph">captura de tela · os 203 buffers antes e as 104 manchas depois do dissolve, lado a lado</figure>
-  </div>
+    <figure class="ph">captura de tela · os 203 buffers antes e as 104 manchas depois do dissolve, lado a lado</figure></div>
 </div>
 
 <div class="passo" id="p6">
@@ -529,8 +520,7 @@
       <div class="lbl">O que aconteceu</div>
       <h4>A dupla contagem não aparece no mapa</h4>
       <p>Os 731 fragmentos da versão sem dissolve se sobrepõem entre si. Desenhados na tela, formam exatamente a mesma mancha vermelha dos 451. A soma da coluna é que muda, porque a mesma quadra entra uma vez por estação que a alcança, e no centro há quadra alcançada por quatro. O erro cresce com o raio: em 400 metros ele é de 18,81%, em 600 metros de 30,13% e em 1000 metros de 50,21%.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -563,8 +553,7 @@
         </tbody>
       </table>
       <p>As ZEIS 3, que são o imóvel subutilizado na área já servida, têm 30,72% do seu estoque dentro do raio. As ZEIS 1, que são onde a população mal alojada de fato mora, têm 3,41%. E o estoque de ZEIS 3 é dezessete vezes menor que o de ZEIS 1. O terreno bem servido de transporte é escasso, a população mal alojada está concentrada longe do trilho, e os dois conjuntos quase não se sobrepõem no mapa.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -631,8 +620,7 @@
       <p>Sapopemba, Jardim Helena, Itaquera, Ermelino Matarazzo. A lista dos distritos com mais ZEIS perto de estação é uma lista de periferia leste, não de centro. Isso é efeito da linha 3-vermelha e dos ramais da CPTM, que atravessam justamente a área onde está o estoque de ZEIS 1. O Brás e a Sé aparecem, e aparecem com um sexto do terreno de Sapopemba.</p>
     </div>
 
-    <figure class="ph">captura de tela · tabela de atributos da camada final com as colunas area_ha, distrito, dens_hab_ha e pop_pot</figure>
-  </div>
+    <figure class="ph">captura de tela · tabela de atributos da camada final com as colunas area_ha, distrito, dens_hab_ha e pop_pot</figure></div>
 </div>
 
 <div class="passo" id="p9">
@@ -656,8 +644,7 @@
       <div class="lbl">A conclusão do roteiro</div>
       <h4>Os nove passos são reprodutíveis; os parâmetros são escolhas</h4>
       <p>Qualquer pessoa com o mesmo pacote de dados chega em 946,1870 hectares seguindo estes nove passos, e é isso que faz o método valer alguma coisa. Mas 946,19 só existe porque alguém escolheu 600 metros, e a quarta casa decimal só existe porque alguém escolheu 16 segmentos. Um relatório que apresente o número sem os dois parâmetros impede o leitor de refazer ou contestar a conta, que é justamente o que o método deveria permitir.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -687,8 +674,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura de tela do painel Statistics com a soma da área para 1000 metros, mais os dois parágrafos. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura de tela do painel Statistics com a soma da área para 1000 metros, mais os dois parágrafos. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="contexto">
@@ -774,8 +760,7 @@
   <div class="item">
     <div class="k">Crítica</div>
     <div class="t">Ermínia Maricato, sobre o descompasso entre a lei urbanística e a cidade produzida fora dela.
-      <span class="src">para a discussão sobre ZEIS 1 e ZEIS 3 do fechamento</span></div>
-  </div>
+      <span class="src">para a discussão sobre ZEIS 1 e ZEIS 3 do fechamento</span></div></div>
 </div>
 </section>
 

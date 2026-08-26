@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Vale do Ribeira</b><span>área de estudo</span></div>
-    <div><b>CNES · OSM · IBGE</b><span>fontes de referência</span></div>
-  </div>
+    <div><b>CNES · OSM · IBGE</b><span>fontes de referência</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -89,28 +88,26 @@
 <p>Esta é a décima pergunta e a última aula de conteúdo. Ela tem duas metades: a primeira mede acesso pela rede real, e a segunda trata de como esse número vira uma peça que alguém com poder de decisão consegue ler em dez segundos.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana10</span></div>
-  <div class="fonte">Fonte: <b>OpenStreetMap · Overpass API</b>, <b>CNES · DATASUS</b> e <b>IBGE · Censo 2022</b> · <a href="https://overpass-api.de/api/interpreter">Overpass</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/26565-malhas-de-setores-censitarios-divisoes-intramunicipais.html">portal IBGE</a> · coleta de 02/08/2026</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>OpenStreetMap</b> · Overpass API, <b>CNES</b> · DATASUS e <b>IBGE</b> · Censo 2022, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://overpass-api.de/api/interpreter">Overpass</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/26565-malhas-de-setores-censitarios-divisoes-intramunicipais.html">portal IBGE</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana10/setores_vale_2022.gpkg" download>setores_vale_2022.gpkg</a>
+    <li><div><span class="fn">setores_vale_2022.gpkg</span>
         <span class="fd">1.005 setores censitários dos quinze municípios do Vale do Ribeira, polígono, EPSG:4674, com população nas variáveis v0001 a v0007 do Censo 2022. É este o recorte que o roteiro usa.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana10/malha_viaria_vale_osm.gpkg" download>malha_viaria_vale_osm.gpkg</a>
+    <li><div><span class="fn">malha_viaria_vale_osm.gpkg</span>
         <span class="fd">11.624 trechos de linha, 6.852,760 km, com os campos do próprio OSM: <code>tipo</code> (a chave <code>highway</code>), <code>maxspeed</code>, <code>oneway</code>, <code>surface</code>, <code>nome</code>, <code>ref</code> e <code>comp_m</code>. Recortados pelos quinze municípios. EPSG:31983. Do OpenStreetMap pela Overpass API.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana10/hospitais_vale_cnes_2026.gpkg" download>hospitais_vale_cnes_2026.gpkg</a>
+    <li><div><span class="fn">hospitais_vale_cnes_2026.gpkg</span>
         <span class="fd">17 unidades hospitalares e de urgência ativas em 14 dos quinze municípios: 4 hospitais gerais, 4 prontos-socorros gerais, 8 prontos atendimentos e 1 unidade mista, distinguidos pelo campo <code>tipo</code>. Cananéia não tem nenhuma. Ponto, EPSG:31983, coordenada do próprio cadastro do CNES. Não há campo de leitos nem de horário de funcionamento.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana10/municipios_vale_2022.gpkg" download>municipios_vale_2022.gpkg</a>
+    <li><div><span class="fn">municipios_vale_2022.gpkg</span>
         <span class="fd">15 polígonos municipais da malha 2022 do IBGE, com código e área oficiais, 13.288,0 km² no total. EPSG:31983.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana10/setores_sp_capital_2022.gpkg" download>setores_sp_capital_2022.gpkg</a>
+    <li><div><span class="fn">setores_sp_capital_2022.gpkg</span>
         <span class="fd">27.301 setores censitários do município de São Paulo, polígono, EPSG:4674. Fica no pacote para quem quiser repetir a análise na capital.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana10/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Origem, licença, dicionário de campos e todos os números conferidos sobre o dado oficial.</span></div></li>
   </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026, em GeoPackage e UTF-8. A malha viária veio da Overpass API com uma consulta por retângulo, depois recortada pelos limites municipais; ela inclui de rodovia a rua residencial, porque área de serviço em rede exige conectividade. Os hospitais vieram da competência 06/2026 da base do CNES, com a latitude e a longitude do próprio cadastro. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e o resto do pacote em EPSG:31983, então reprojete antes de cruzar. Com a rede real os hospitais não caem sobre um nó: rode <code>native:snapgeometries</code> antes da área de serviço, ou o cálculo falha. Os valores conferidos estão em <code>dados/semana10/_numeros_oficiais.json</code>, inclusive o bloco <code>analise_rede</code>, com cada número de rota, isócrona e cobertura citado abaixo.</div>
+  <div class="ft">Pacote oficial desde 02/08/2026, em GeoPackage e UTF-8. A malha viária veio da Overpass API com uma consulta por retângulo, depois recortada pelos limites municipais; ela inclui de rodovia a rua residencial, porque área de serviço em rede exige conectividade. Os hospitais vieram da competência 06/2026 da base do CNES, com a latitude e a longitude do próprio cadastro. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e o resto do pacote em EPSG:31983, então reprojete antes de cruzar. Com a rede real os hospitais não caem sobre um nó: rode <code>native:snapgeometries</code> antes da área de serviço, ou o cálculo falha.</div>
 </div>
 
 <div class="pense">
@@ -347,8 +344,7 @@
       <p>De uma consulta à Overpass API por retângulo, em 02/08/2026, com chave <code>highway</code> e os valores <code>motorway</code>, <code>trunk</code>, <code>primary</code>, <code>secondary</code>, <code>tertiary</code>, <code>unclassified</code> e <code>residential</code>, mais os respectivos <code>_link</code>, recortada pelos quinze municípios. O roteiro inteiro roda com o arquivo do pacote, e repetir a consulta hoje devolveria outro arquivo, porque o OSM é editado continuamente. É por isso que o pacote traz o download congelado.</p>
       <p>Para extrair a malha de outra cidade, o caminho é o plugin QuickOSM, que não vem instalado: vá em <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins <i>▸</i> All</span>, busque <code>QuickOSM</code> e clique <em>Install Plugin</em>, com internet. Ele passa a aparecer em <span class="caminho">Vector <i>▸</i> QuickOSM <i>▸</i> QuickOSM</span>. Guarde o resultado como arquivo, com a data no nome.</p>
       <p>Rua residencial entra na consulta porque análise de rede exige conectividade: sem ela, o hospital fica ilhado do resto da malha. O preço é o volume: 7.304 dos 11.624 trechos são <code>residential</code>, e eles somam 2.069,2 km. As rodovias, somadas, dão 1.110,7 km.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p1b">
@@ -393,8 +389,7 @@
     <div class="contexto">
       <div class="lbl">O que ficou de fora da impedância</div>
       <p>O campo <code>surface</code> diz que 869 trechos são <code>unpaved</code> e outros dezenas são de terra, areia ou pedra. Em estrada vicinal de terra no Vale do Ribeira, 40 km/h é otimismo em dia de chuva. Rampa, curva, travessia de balsa e parada de pedágio também não entram. Cada um desses seria um fator a mais na conta, e todos empurram o tempo para cima, nunca para baixo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p2">
@@ -432,8 +427,7 @@
     <div class="contexto">
       <div class="lbl">Contar por um ponto do setor é uma simplificação</div>
       <p>Um setor que fica metade dentro e metade fora conta inteiro ou não conta nada, dependendo de onde cai o seu centroide. A alternativa é a ponderação por área, que reparte a população proporcionalmente à área interseccionada, e que embute a hipótese de que a população se distribui uniformemente dentro do setor. Nenhuma das duas é correta; as duas precisam ser declaradas. Nos setores urbanos do Vale do Ribeira a diferença é pequena; nos 582 setores rurais, alguns com mais de 100 km², ela não é, e o ponto representativo pode cair a dezenas de quilômetros de onde as casas estão.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -484,8 +478,7 @@
       <p>Antes de confiar em qualquer rota, rode <code>native:shortestpathpointtolayer</code> do hospital para os outros dezesseis estabelecimentos e confira que todos foram alcançados. Nesta rede, os 11.624 trechos formam <strong>78 componentes desconexos</strong>: o maior reúne 11.224 trechos e 6.621,3 km, e os outros 77 somam 400 trechos e 231,5 km de ruas que não se ligam a nada. São condomínios, trechos de servidão e erros de digitalização do OSM. Se um hospital caísse numa dessas ilhas, a área de serviço dele sairia com poucos metros e nenhum aviso. Aqui os dezessete estabelecimentos ficam no componente principal, a até 73 metros do vértice mais próximo.</p>
     </div>
 
-    <figure class="ph">captura de tela · a rota mínima de Registro a Iporanga em destaque sobre a malha viária, com a tabela de atributos aberta mostrando o campo cost</figure>
-  </div>
+    <figure class="ph">captura de tela · a rota mínima de Registro a Iporanga em destaque sobre a malha viária, com a tabela de atributos aberta mostrando o campo cost</figure></div>
 </div>
 
 <div class="passo" id="p4">
@@ -541,8 +534,7 @@
       <p>Na área urbana de Registro o corredor engorda a isócrona, porque 1.500 metros a pé são vinte minutos que ninguém andou. Na zona rural de Iguape ele aperta, porque há sítio a 4 km da estrada mais próxima. O número de 145.560 depende dessa escolha tanto quanto do limiar de trinta minutos, e é por isso que ele entra no relatório com a frase "corredor de 1.500 m" ao lado.</p>
     </div>
 
-    <figure class="ph">captura de tela · as três isócronas sobrepostas em tons de vermelho, da mais escura para a mais clara, com os hospitais marcados</figure>
-  </div>
+    <figure class="ph">captura de tela · as três isócronas sobrepostas em tons de vermelho, da mais escura para a mais clara, com os hospitais marcados</figure></div>
 </div>
 
 <div class="passo" id="p6">
@@ -576,8 +568,7 @@
       <p>O buffer deixa de fora <strong>20.878 moradores de Cajati</strong>, que estão a 27,0 minutos de carro e a 37,0 km em linha reta, mais 11.316 de Miracatu e 2.300 em Juquiá, Jacupiranga e Pariquera-Açu: 34.494 pessoas que a rede alcança e o círculo não vê. Na direção contrária, ele inclui <strong>7.669 moradores de Eldorado</strong>, a 27,0 km em linha reta e a 39,8 minutos de carro, porque a estrada contorna a serra por Sete Barras, mais 7.006 espalhados por Iguape, Sete Barras, Jacupiranga, Registro, Juquiá e Pariquera-Açu: 14.675 ao todo. Somando os dois lados, <strong>49.169 pessoas</strong> ficam do lado errado, <strong>33,8%</strong> da população que a rede realmente alcança, e o total esconde isso por compensação parcial.</p>
     </div>
 
-    <figure class="ph">captura de tela · buffer azul tracejado e isócrona vermelha sobrepostos, com Cajati e Eldorado rotulados</figure>
-  </div>
+    <figure class="ph">captura de tela · buffer azul tracejado e isócrona vermelha sobrepostos, com Cajati e Eldorado rotulados</figure></div>
 </div>
 
 <div class="passo" id="p7">
@@ -608,8 +599,7 @@
     <div class="contexto">
       <div class="lbl">Um detalhe da ferramenta</div>
       <p><em>Service area (from layer)</em> devolve a união das áreas de todos os pontos de partida, sem dizer qual ponto alcançou o quê. Se você precisar dessa atribuição, para um 2SFCA por exemplo, rode um ponto por vez ou use a matriz origem-destino. A saída <em>Non-routable features</em> lista os pontos de partida que o algoritmo não conseguiu conectar à rede, e vale sempre conferir que ela saiu vazia.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -654,8 +644,7 @@ convertida em polígono por corredor de 1.500 m, população por ponto de setor.
     <div class="contexto">
       <div class="lbl">Material de apoio</div>
       <p>Os onze passos acima são a versão curta. O módulo <a href="extra-print-layout.html">Preparar o mapa para entrega</a> destrincha cada item do layout de impressão, mostra como gerar uma prancha por município com atlas e guarda a montagem em template. A prancha do projeto final é conferida contra o padrão de entrega que fecha aquele módulo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p9">
@@ -680,8 +669,7 @@ convertida em polígono por corredor de 1.500 m, população por ponto de setor.
     <div class="cuidado">
       <div class="lbl">O que o webmap faz com o seu CRS</div>
       <p>O qgis2web reprojeta tudo para EPSG:3857, a projeção de Mercator usada pelos mapas de fundo da web. Ela não é equivalente, e nenhuma área medida sobre ela é confiável. Publique o webmap para navegação e mantenha os números no PDF, calculados em EPSG:31983. Esta é a última vez no semestre que a tema 2 vem cobrar.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -712,8 +700,7 @@ convertida em polígono por corredor de 1.500 m, população por ponto de setor.
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura do mapa com as isócronas de 30 minutos em cores distintas, mais a tabela de dois cenários com população própria, ganho e cobertura conjunta, e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura do mapa com as isócronas de 30 minutos em cores distintas, mais a tabela de dois cenários com população própria, ganho e cobertura conjunta, e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="contexto">
@@ -810,8 +797,7 @@ convertida em polígono por corredor de 1.500 m, população por ponto de setor.
   <div class="item">
     <div class="k">Aplicado</div>
     <div class="t">Documentação do OSRM e do Valhalla, dois roteadores livres que rodam sobre OpenStreetMap e escalam para análises que o QGIS não aguenta.
-      <span class="src">project-osrm.org · valhalla.github.io · para quem for usar isso no projeto</span></div>
-  </div>
+      <span class="src">project-osrm.org · valhalla.github.io · para quem for usar isso no projeto</span></div></div>
 </div>
 </section>
 

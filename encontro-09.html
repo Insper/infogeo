@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Rondônia</b><span>área de estudo</span></div>
-    <div><b>MapBiomas · INPE</b><span>fontes de referência</span></div>
-  </div>
+    <div><b>MapBiomas · INPE</b><span>fontes de referência</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -89,30 +88,28 @@
 <p>Esta é a primeira aula de raster. Nos sete temas anteriores tudo era ponto, linha e polígono, com uma tabela de atributos do lado. A partir de hoje o dado é uma grade de números sem tabela, sem identidade e sem borda, e quase todo hábito que você criou precisa ser revisto.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana09</span></div>
-  <div class="fonte">Fonte: <b>MapBiomas</b> e <b>IBGE · Malhas Territoriais</b> · <a href="https://brasil.mapbiomas.org/colecoes-mapbiomas/">coleções MapBiomas</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a>. Os dois rasters continuam provisórios: o MapBiomas só entrega recorte por município pela plataforma. O passo 0 do roteiro traz o caminho manual, dos dois jeitos.</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>MapBiomas</b> e <b>IBGE</b> · Malhas Territoriais, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Os dois rasters continuam provisórios: o MapBiomas só entrega recorte por município pela plataforma, e o passo 0 traz o caminho manual. Fonte original: <a href="https://brasil.mapbiomas.org/colecoes-mapbiomas/">coleções MapBiomas</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana09/uso_terra_1985_treino.tif" download>uso_terra_1985_treino.tif</a>
+    <li><div><span class="fn">uso_terra_1985_treino.tif</span>
         <span class="fd">Uso e cobertura da terra em 1985. GeoTIFF de 1 banda, 3.450 × 1.900 células de 30 m, EPSG:31980, NoData 0. Construído para o exercício.</span></div>
         <span class="tp prov">provisório</span></li>
-    <li><div><a class="fn" href="dados/semana09/uso_terra_2023_treino.tif" download>uso_terra_2023_treino.tif</a>
+    <li><div><span class="fn">uso_terra_2023_treino.tif</span>
         <span class="fd">A mesma grade em 2023, com a mesma legenda e sem falhas de cobertura. Construído para o exercício.</span></div>
         <span class="tp prov">provisório</span></li>
-    <li><div><a class="fn" href="dados/semana09/municipios_ro_2022.gpkg" download>municipios_ro_2022.gpkg</a>
+    <li><div><span class="fn">municipios_ro_2022.gpkg</span>
         <span class="fd">Monte Negro (1101401) e Cacaulândia (1100601), em Rondônia, da malha municipal 2022 do IBGE, com o contorno e a área oficiais. Dois polígonos, EPSG:31980.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana09/pontos_validacao_treino.gpkg" download>pontos_validacao_treino.gpkg</a>
+    <li><div><span class="fn">pontos_validacao_treino.gpkg</span>
         <span class="fd">500 pontos com a classe observada em campo e a classe atribuída pelo mapa. É deles que sai a matriz de confusão. Amostra construída para o exercício.</span></div>
         <span class="tp prov">provisório</span></li>
-    <li><div><a class="fn" href="dados/semana09/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Origem, licença, lista de classes e todos os números que o roteiro reproduz.</span></div></li>
   </ul>
   <div class="ft">Pacote misto desde 02/08/2026. Os limites municipais são oficiais, da malha 2022 do IBGE — e vieram com os códigos corrigidos: os códigos que estavam no arquivo antigo eram de Ouro Preto do Oeste e de Rio Crespo, não de Monte Negro e Cacaulândia. Os dois rasters e os 500 pontos de validação continuam construídos para a aula: o MapBiomas só entrega recorte por município pela plataforma, e a amostra de campo não existe em portal nenhum. A legenda, os códigos de classe e as cores seguem o <a href="https://brasil.mapbiomas.org/">MapBiomas</a>, que cobre o Brasil inteiro em 30 metros desde 1985. Como o contorno oficial não é o mesmo do contorno aproximado que estava aqui antes, todas as contagens de célula por município foram refeitas, e os dois rasters foram gerados de novo numa grade maior: a antiga, de 2.800 × 2.800 células, cobria só 83,1% de Monte Negro depois da troca do contorno.</div>
 </div>
 
 <div class="cuidado">
   <div class="lbl">Os dois rasters são construídos para o exercício</div>
-  <p>Só o limite municipal é dado oficial: vem da malha 2022 do IBGE, com a área e o contorno certos de Monte Negro e de Cacaulândia. Os dois GeoTIFF de uso da terra e os 500 pontos de validação foram gerados por <code>dados/semana09/gera_dados_semana09.py</code>. Eles copiam do MapBiomas a resolução de 30 metros, o CRS, os códigos de classe e as cores, e reproduzem o padrão de espinha de peixe da colonização de Rondônia. Os valores de célula não vêm do MapBiomas.</p>
+  <p>Só o limite municipal é dado oficial: vem da malha 2022 do IBGE, com a área e o contorno certos de Monte Negro e de Cacaulândia. Os dois GeoTIFF de uso da terra e os 500 pontos de validação foram construídos para a aula. Eles copiam do MapBiomas a resolução de 30 metros, o CRS, os códigos de classe e as cores, e reproduzem o padrão de espinha de peixe da colonização de Rondônia. Os valores de célula não vêm do MapBiomas.</p>
   <p>A consequência prática: o hectare que você obtiver hoje não é um dado do MapBiomas e não pode ser citado como tal, em trabalho, em relatório ou em rede social. O que é transferível é o procedimento e a ordem de grandeza dos vieses. Para número publicável sobre esses dois municípios, o caminho é o passo 0.</p>
 </div>
 
@@ -365,8 +362,7 @@
     <div class="cuidado">
       <div class="lbl">O que muda quando você troca o raster da aula pelo do MapBiomas</div>
       <p>Tudo, menos o procedimento. A grade do MapBiomas vem em EPSG:4326, com outra origem e outro número de células, e o NoData dele não é nuvem de 1985: é área fora do recorte. Os hectares que você vai obter não serão os do roteiro, e é esse o ponto. Se for citar número em trabalho, cite o do MapBiomas, com a coleção e o ano na frase, e nunca o do arquivo <code>_treino</code>.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p1">
@@ -390,8 +386,7 @@
     <div class="contexto">
       <div class="lbl">Cinco perguntas para todo raster novo</div>
       <p>Qual a resolução? Qual a extensão? Quantas bandas? Qual o tipo de dado? Qual o valor de NoData? Um arquivo que não responde às cinco não deveria entrar na análise. Faça disso um hábito, do mesmo jeito que no tema 2 você passou a perguntar o CRS antes de medir qualquer coisa.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p2">
@@ -432,8 +427,7 @@
       <p>Em 1985 você deve ver uma mancha verde quase contínua, cortada por uma faixa clara leste-oeste e por alguns riscos verticais curtos: a rodovia e as primeiras linhas do projeto de assentamento. Em 2023, os riscos viraram faixas largas que quase se tocam, no padrão de espinha de peixe. Restam a mata ciliar ao longo dos rios e dois blocos de floresta nas pontas da cena.</p>
     </div>
 
-    <figure class="ph">captura de tela · os dois rasters lado a lado com a paleta MapBiomas aplicada e o limite municipal por cima</figure>
-  </div>
+    <figure class="ph">captura de tela · os dois rasters lado a lado com a paleta MapBiomas aplicada e o limite municipal por cima</figure></div>
 </div>
 
 <div class="passo" id="p3">
@@ -495,8 +489,7 @@
     <div class="cuidado">
       <div class="lbl">Não peça a média aqui</div>
       <p>Se você marcar <em>Mean</em> nesta rodada, o QGIS vai calcular a média dos códigos de classe e devolver algo como 9,7. Não existe uso da terra 9,7. Média só faz sentido sobre grade numérica contínua, e a de hoje é categórica: só contagem e soma têm significado.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -540,8 +533,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>Aplique <em>Paletted/Unique values</em> nas duas camadas novas e clique em <em>Classify</em>. Devem aparecer três valores, 1, 2 e 3, e nada mais. Se aparecer um 0 na lista, a opção de NoData para valores sem correspondência não foi marcada.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -572,8 +564,7 @@
       <p>Estilize <code>transicao</code> com <em>Paletted/Unique values</em>, deixando 0 em cinza-claro e 1 em vermelho. O vermelho deve desenhar a espinha de peixe inteira, deixando de fora os rios, as duas cidades, as manchas de floresta remanescente e o buraco de nuvem no oeste, que continua sem dado.</p>
     </div>
 
-    <figure class="ph">captura de tela · camada de transição em vermelho sobre o limite dos dois municípios, com o buraco de nuvem visível a oeste</figure>
-  </div>
+    <figure class="ph">captura de tela · camada de transição em vermelho sobre o limite dos dois municípios, com o buraco de nuvem visível a oeste</figure></div>
 </div>
 
 <div class="passo" id="p6">
@@ -603,8 +594,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>Cacaulândia: <code>tr_count</code> = <strong>2.164.754</strong> e <code>tr_sum</code> = <strong>1.223.499</strong>. Monte Negro: <code>tr_count</code> = <strong>1.866.532</strong> e <code>tr_sum</code> = <strong>863.932</strong>. Repare que o <em>count</em> repete os valores do passo 3: são as células válidas nos dois anos, porque o NoData de 1985 se propagou pela multiplicação.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -657,8 +647,7 @@
     <div class="cuidado">
       <div class="lbl">O resultado</div>
       <p>Sem o mosaico, Cacaulândia converteu <strong>98.687,4 hectares</strong>, ou <strong>50,7%</strong>. São <strong>11.427,5 hectares</strong> e 5,8 pontos percentuais que dependem inteiramente de onde você coloca uma classe cuja acurácia de usuário é 52,0%. Nenhuma célula mudou de valor entre as duas contas.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -687,8 +676,7 @@
       <div class="lbl">A conclusão do roteiro</div>
       <h4>O número tem três partes, e só a primeira sai do software</h4>
       <p>A primeira é a medição: 110.114,9 hectares, reproduzível por qualquer pessoa com os mesmos arquivos. A segunda é a convenção: qual denominador, qual legenda, qual ano de referência, e nenhuma delas está no dado. A terceira é a incerteza: 24,7% de omissão e 22,0% de comissão na pastagem, que ninguém pode remover, só declarar. Um laudo que apresenta a primeira sem as outras duas não está errado, mas o corte esconde exatamente a margem que poderia derrubar a conclusão, e por isso costuma favorecer quem encomendou o laudo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -717,8 +705,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura da tabela de atributos com as colunas <code>conv_ha</code>, <code>frac_obs</code> e <code>frac_mun</code> para os dois municípios, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura da tabela de atributos com as colunas <code>conv_ha</code>, <code>frac_obs</code> e <code>frac_mun</code> para os dois municípios, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 </section>
 
@@ -801,8 +788,7 @@
   <div class="item">
     <div class="k">Aplicado</div>
     <div class="t">INPE, metodologia do PRODES: por que a área mínima de mapeamento é 6,25 hectares e o que isso deixa de fora.
-      <span class="src">obt.inpe.br/prodes</span></div>
-  </div>
+      <span class="src">obt.inpe.br/prodes</span></div></div>
 </div>
 </section>
 

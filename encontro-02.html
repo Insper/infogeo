@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Pantanal</b><span>área de estudo</span></div>
-    <div><b>INPE · IBGE</b><span>fontes</span></div>
-  </div>
+    <div><b>INPE · IBGE</b><span>fontes</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -88,25 +87,23 @@
 <p>Você deveria ter lido o capítulo sobre projeções do <em>How to Lie with Maps</em>. Se não leu, leia as cinco primeiras páginas agora, enquanto a turma se organiza.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana02</span></div>
-  <div class="fonte">Fonte: <b>IBGE · Malhas Territoriais</b> e <b>INPE · Programa Queimadas</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · coleta de 02/08/2026</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>IBGE</b> · Malhas Territoriais e <b>INPE</b> · Programa Queimadas, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana02/cicatriz_teste_pantanal.gpkg" download>cicatriz_teste_pantanal.gpkg</a>
+    <li><div><span class="fn">cicatriz_teste_pantanal.gpkg</span>
         <span class="fd">1 polígono, EPSG:4674. Área geodésica de 303.514,4555 ha. Todos os números do roteiro saem dele.</span></div>
         <span class="tp did">didático</span></li>
-    <li><div><a class="fn" href="dados/semana02/area_queimada_pantanal_aq1km.gpkg" download>area_queimada_pantanal_aq1km.gpkg</a>
+    <li><div><span class="fn">area_queimada_pantanal_aq1km.gpkg</span>
         <span class="fd">3.042 cicatrizes com id, ano, mês e área, do produto Área Queimada AQ1km v6 do INPE, meses de julho a novembro de 2020 e junho a novembro de 2024, recortados pelo bioma Pantanal. Soma de 7.255.548,0 ha somando mês a mês.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana02/municipios_pantanal_2022.gpkg" download>municipios_pantanal_2022.gpkg</a>
+    <li><div><span class="fn">municipios_pantanal_2022.gpkg</span>
         <span class="fd">18 municípios de MS e MT da malha municipal 2022 do IBGE, com código e área oficiais. Serve de recorte no exercício.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana02/bioma_pantanal_2019.gpkg" download>bioma_pantanal_2019.gpkg</a>
+    <li><div><span class="fn">bioma_pantanal_2019.gpkg</span>
         <span class="fd">Contorno oficial do bioma Pantanal, 1 polígono, EPSG:4674. Recortado do arquivo de biomas 1:250.000 do IBGE, baixado em 02/08/2026. Área de 150.961,0 km² em Albers equivalente.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana02/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Descrição de cada arquivo, os números que produz e as fontes oficiais equivalentes.</span></div></li>
   </ul>
-  <div class="ft">GeoPackage, UTF-8, EPSG:4674. O contorno do bioma e a malha municipal vêm do IBGE; as cicatrizes de fogo, do produto AQ1km do INPE, tudo com coleta em 02/08/2026. Os valores conferidos, arquivo por arquivo, estão em <code>dados/semana02/_numeros_oficiais.json</code>. O <code>cicatriz_teste_pantanal.gpkg</code> é didático de propósito: existe para ter área geodésica conhecida, de 303.514,4555 ha.</div>
+  <div class="ft">GeoPackage, UTF-8, EPSG:4674. O contorno do bioma e a malha municipal vêm do IBGE; as cicatrizes de fogo, do produto AQ1km do INPE, tudo com coleta em 02/08/2026. O <code>cicatriz_teste_pantanal.gpkg</code> é didático de propósito: existe para ter área geodésica conhecida, de 303.514,4555 ha.</div>
 </div>
 
 <p>Baixe os cinco arquivos e salve dentro de <code>InfoGeo/tema02_projecoes/dados_brutos/</code>, na estrutura de pastas que você criou no encontro 1. Eles também estão no Blackboard, em um único zip. Antes de seguir, abra cada um dos quatro GeoPackage no QGIS e confirme que todos carregam: o objetivo é garantir que os arquivos chegaram inteiros.</p>
@@ -311,8 +308,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>Você deve estar olhando para um polígono único, com o formato aproximado de um hexágono irregular, na região de Corumbá, no Mato Grosso do Sul. O mapa base deve mostrar a planície pantaneira ao redor.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p2">
@@ -330,8 +326,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
     <div class="contexto">
       <div class="lbl">Duas coisas distintas</div>
       <p>Cada camada tem o seu CRS, que é o sistema em que as coordenadas estão gravadas no arquivo. O projeto tem o seu, que é o sistema em que tudo é desenhado na tela. O QGIS converte de um para o outro ao desenhar. Confundir os dois é a origem de metade dos problemas de projeção que você vai encontrar.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -363,8 +358,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
       <div class="lbl">Pergunta norteadora</div>
       <p class="q">Por que o QGIS calculou isso em vez de avisar que a operação não faz sentido?</p>
       <p>Porque do ponto de vista do programa a operação faz sentido: ele recebeu um polígono com coordenadas numéricas e aplicou a fórmula da área de um polígono. O software não sabe que aqueles números são ângulos. Quem sabe é você.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -392,8 +386,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
       <div class="lbl">O que mudou</div>
       <h4>A função <code>$area</code> tem duas personalidades</h4>
       <p>Com elipsoide definido, ela devolve a área geodésica, medida sobre a superfície curva, na unidade que você escolheu nas propriedades do projeto. Sem elipsoide definido, ela devolve a área plana calculada diretamente sobre as coordenadas da camada, seja lá qual for a unidade delas. A expressão muda de comportamento conforme essa configuração, e nada na tela indica qual dos dois está em uso.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -423,8 +416,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
     <div class="cuidado">
       <div class="lbl">Guarde esta regra</div>
       <p><code>$area</code> respeita o elipsoide e as unidades do projeto. <code>area($geometry)</code> ignora as duas coisas e calcula sempre no plano, na unidade da camada. A segunda só é segura quando a camada já está em um sistema projetado em metros.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p6">
@@ -459,8 +451,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>O valor deve ser <strong>303.289,18</strong> hectares. Agora <code>area($geometry)</code> é seguro, porque a camada está em metros. Compare com a referência geodésica: a diferença é de 225 hectares para menos, ou <strong>−0,074%</strong>. Esse é o preço de projetar, e é pequeno o bastante para quase toda aplicação.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -485,8 +476,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
       <div class="lbl">Pergunta norteadora</div>
       <p class="q">2.394 hectares equivalem a cerca de 3.400 campos de futebol. Em que situação concreta essa diferença muda uma decisão?</p>
       <p>Em uma multa ambiental calculada por hectare, por exemplo, ou em um seguro rural com indenização proporcional à área atingida. E lembre da perícia: se a parte contrária tiver um assistente técnico competente, ele vai refazer a conta e encontrar a diferença.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -514,8 +504,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
     <div class="confira">
       <div class="lbl">Leitura da tabela</div>
       <p>A Albers acerta a área na terceira casa decimal, porque foi construída para isso. O fuso UTM correto erra 0,07%, o que é aceitável na maioria das aplicações. O fuso errado erra dez vezes mais. Nenhum desses erros aparece na tela.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p9">
@@ -550,8 +539,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
       <div class="lbl">A conclusão do roteiro</div>
       <h4>A projeção não se escolhe pelo território. Escolhe-se pela pergunta.</h4>
       <p>Se você vai somar hectares em escala nacional, use Albers e aceite que as distâncias ficarão erradas em alguns por cento. Se vai medir distância, área e forma dentro de uma região que cabe em um fuso, use o UTM daquele fuso. Se a região atravessa fusos e a pergunta é de área, volte para Albers. E em qualquer caso, deixe registrado no relatório qual sistema você usou, porque sem essa informação o número não é auditável.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -580,8 +568,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura de tela da tabela de atributos com os dois campos de área, mais as duas frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura de tela da tabela de atributos com os dois campos de área, mais as duas frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="contexto">
@@ -661,8 +648,7 @@ Salvador, BA  long. -38,501  →  fuso 24</span></pre>
   <div class="item">
     <div class="k">Aplicado</div>
     <div class="t">INPE, metodologia do Programa Queimadas e do TerraBrasilis: como a área queimada é delimitada.
-      <span class="src">terrabrasilis.dpi.inpe.br · leia antes de citar o dado em qualquer trabalho</span></div>
-  </div>
+      <span class="src">terrabrasilis.dpi.inpe.br · leia antes de citar o dado em qualquer trabalho</span></div></div>
 </div>
 </section>
 

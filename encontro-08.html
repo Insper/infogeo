@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>São Paulo</b><span>área de estudo</span></div>
-    <div><b>Infosiga SP · GeoSampa</b><span>fontes</span></div>
-  </div>
+    <div><b>Infosiga SP · GeoSampa</b><span>fontes</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -91,19 +90,17 @@
 <p>Os arquivos deste tema já vêm em <code>EPSG:31983</code>, em metros. Isso não é detalhe de conveniência: os três métodos de hoje recebem um raio como parâmetro, e raio só tem sentido em metros.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana08</span></div>
-  <div class="fonte">Fonte: <b>Infosiga SP · Detran-SP</b>, pelo <a href="https://dadosabertos.sp.gov.br/dataset/eventos-de-sinistro">Portal de Dados Abertos do Estado de São Paulo</a>, e <b>GeoSampa · Prefeitura de São Paulo</b> · coleta de 02/08/2026</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>Infosiga SP</b> · Detran-SP, pelo Portal de Dados Abertos do Estado, e <b>GeoSampa</b>, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://dadosabertos.sp.gov.br/dataset/eventos-de-sinistro">Portal de Dados Abertos do Estado de São Paulo</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana08/sinistros_sp_capital_2025.gpkg" download>sinistros_sp_capital_2025.gpkg</a>
+    <li><div><span class="fn">sinistros_sp_capital_2025.gpkg</span>
         <span class="fd">21.653 sinistros de trânsito com vítima e com coordenada, no município de São Paulo, ano de 2025, com gravidade, tipo de sinistro, turno e contagem de veículos por modo. Ponto, EPSG:31983.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana08/viario_estrutural_sp.gpkg" download>viario_estrutural_sp.gpkg</a>
+    <li><div><span class="fn">viario_estrutural_sp.gpkg</span>
         <span class="fd">266 trechos do viário estrutural do Plano Diretor, Mapa 8, 475,3 km no total, para apoiar a leitura dos agrupamentos. Linha, EPSG:31983.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana08/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Campos, totais, recorte e todos os números conferidos sobre o dado oficial.</span></div></li>
   </ul>
-  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. Os sinistros vêm dos doze CSV mensais de 2025 da série <em>Eventos de Sinistro</em>, filtrados pelo código IBGE 3550308, mantidos só os eventos com pelo menos uma vítima e com latitude e longitude preenchidas — de 42.671 eventos registrados na capital em 2025, 25.617 tiveram vítima e 21.653 desses têm coordenada, o que já é um assunto da aula. O CSV do Infosiga vem em Latin-1 e foi convertido para UTF-8. Os valores conferidos estão em <code>dados/semana08/_numeros_oficiais.json</code>, inclusive os do bloco <code>analise</code>, que traz cada número citado no roteiro abaixo.</div>
+  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. Os sinistros vêm dos doze CSV mensais de 2025 da série <em>Eventos de Sinistro</em>, filtrados pelo código IBGE 3550308, mantidos só os eventos com pelo menos uma vítima e com latitude e longitude preenchidas — de 42.671 eventos registrados na capital em 2025, 25.617 tiveram vítima e 21.653 desses têm coordenada, o que já é um assunto da aula. O CSV do Infosiga vem em Latin-1 e foi convertido para UTF-8.</div>
 </div>
 
 <div class="pense">
@@ -375,8 +372,7 @@
       <p>Um sinistro pode ter mais de uma vítima e mais de um óbito. Ordenar clusters por número de sinistros e ordenar por número de óbitos produz listas diferentes, e você vai ver isso acontecer no passo 8. Decida agora qual dos dois é a sua unidade de decisão.</p>
     </div>
 
-    <figure class="ph">captura de tela · projeto com os 21.582 pontos sobre o viário estrutural, painel Layers e barra de status mostrando EPSG:31983</figure>
-  </div>
+    <figure class="ph">captura de tela · projeto com os 21.582 pontos sobre o viário estrutural, painel Layers e barra de status mostrando EPSG:31983</figure></div>
 </div>
 
 <div class="passo" id="p2">
@@ -425,8 +421,7 @@
     <div class="cuidado">
       <div class="lbl">O limiar de 25% é refém do pico</div>
       <p>O pico do raster de 150 metros cai na Marginal Pinheiros, ao lado da Ponte Eusébio Matoso, e boa parte dele vem das 44 ocorrências gravadas na mesma coordenada que você viu no passo 1. Como o limiar é 25% de um máximo inflado por empilhamento, ele exclui manchas reais. Trocar o limiar por um valor absoluto de densidade muda a contagem sem mudar o dado. Declare qual usou.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -456,8 +451,7 @@
       <p>Nenhum dos três está errado, e a coluna de manchas não é monótona. O raio de 150 metros produz menos manchas que o de 500 porque o pico dele é mais alto, e o limiar de 25% sobe junto. O de 2.000 metros derrete a cidade numa mancha de 415,50 km², um quarto do município. Se o edital pede cinco pontos de obra, o raio de 150 metros é o defensável, e você escreve isso no relatório junto com o limiar usado.</p>
     </div>
 
-    <figure class="ph">captura de tela · três mapas de calor lado a lado, com a mesma simbologia e a mesma extensão, rotulados com o raio de cada um</figure>
-  </div>
+    <figure class="ph">captura de tela · três mapas de calor lado a lado, com a mesma simbologia e a mesma extensão, rotulados com o raio de cada um</figure></div>
 </div>
 
 <div class="passo" id="p4">
@@ -507,8 +501,7 @@
     <div class="contexto">
       <div class="lbl">Ponto central e ponto de borda</div>
       <p>Dos 16.183 sinistros agrupados nesta rodada, 12.602 são pontos centrais e 3.581 são pontos de borda. O QGIS não separa os dois na saída. A distinção importa quando dois clusters ficam próximos: um ponto de borda alcançável por mais de um cluster é atribuído ao primeiro que o encontra, e a atribuição pode variar entre implementações. Com o encadeamento desta rodada isso deixa de ser detalhe, porque a fronteira entre um cluster e o vizinho passa a depender da ordem de leitura do arquivo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -540,8 +533,7 @@
     <div class="contexto">
       <div class="lbl">Por que a escolha inverteu o que se costuma ensinar</div>
       <p>Em base de sinistro de cidade média, com alguns milhares de registros, ε de 300 metros costuma devolver dezenas de clusters compactos e é a recomendação usual. São Paulo em 2025 tem 21.582 sinistros com vítima em 1.521 km², densidade alta o bastante para que 300 metros conectem tudo. A recomendação de valor não sobrevive à mudança de densidade; o teste, sim: rode três raios e descarte os que produzem um cluster maior que a intervenção possível.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p6">
@@ -569,8 +561,7 @@
     <div class="confira">
       <div class="lbl">Critério prático</div>
       <p>Não existindo faixa estável, o critério passa a ser o instrumento: quantos lugares a secretaria consegue tratar. Com cinco obras no orçamento, qualquer MinPts entre 10 e 30 serve, porque todos devolvem mais de cinco candidatos. Registre no relatório que você testou a faixa inteira, e não só o valor escolhido.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -594,8 +585,7 @@
     <div class="cuidado">
       <div class="lbl">Envoltória de cluster pequeno mente a área</div>
       <p>Um cluster de dez pontos alinhados ao longo de um quarteirão devolve uma envoltória fina e comprida, com área quase nula. Isso faz qualquer razão de óbitos por km² explodir. Se você for ranquear por densidade, use um buffer de raio fixo em torno dos pontos, ou informe a área junto com o número de pontos, para que o leitor veja o denominador.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -671,8 +661,7 @@
       <p>Nos cinco clusters do topo, 76,0% dos sinistros envolvem motocicleta e 12,5% envolvem pedestre. Na base inteira, 69,7% e 14,1%. O perfil é quase o mesmo do resto da cidade. O que distingue os cinco pontos é a concentração: qualquer intervenção desenhada para eles serve também para os 72,4% de sinistros espalhados, que não vão aparecer em mapa de cluster nenhum.</p>
     </div>
 
-    <figure class="ph">captura de tela · tabela de atributos da camada prioridade ordenada por n_obitos, com as cinco primeiras linhas selecionadas e destacadas no mapa</figure>
-  </div>
+    <figure class="ph">captura de tela · tabela de atributos da camada prioridade ordenada por n_obitos, com as cinco primeiras linhas selecionadas e destacadas no mapa</figure></div>
 </div>
 
 <div class="passo" id="p9">
@@ -696,8 +685,7 @@
     <div class="cuidado">
       <div class="lbl">Por que os seus números podem diferir em algumas unidades</div>
       <p>O K-means depende da posição inicial dos centros, sorteada a cada execução. Rodar duas vezes pode trocar alguns pontos de setor e mudar os totais em dezenas de unidades. O DBSCAN não tem esse problema: com os mesmos parâmetros, devolve sempre o mesmo resultado. Quando você precisar de reprodutibilidade exata em K-means, registre a semente ou entregue o arquivo de saída junto com o relatório.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -728,8 +716,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma tabela de duas linhas, uma por valor de MinPts, com clusters e ruído, mais a tabela dos cinco pontos e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma tabela de duas linhas, uma por valor de MinPts, com clusters e ruído, mais a tabela dos cinco pontos e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="contexto">
@@ -821,8 +808,7 @@
   <div class="item">
     <div class="k">Ferramenta</div>
     <div class="t">Documentação do QGIS para <em>Heatmap (Kernel Density Estimation)</em>, <em>DBSCAN clustering</em> e <em>K-means clustering</em>.
-      <span class="src">docs.qgis.org · seção Processing algorithms · Vector analysis e Interpolation</span></div>
-  </div>
+      <span class="src">docs.qgis.org · seção Processing algorithms · Vector analysis e Interpolation</span></div></div>
 </div>
 </section>
 

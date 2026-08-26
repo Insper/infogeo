@@ -366,7 +366,8 @@ section.block h2{font-family:var(--serif);font-size:clamp(27px,3.5vw,38px);margi
   padding:14px 22px;border-bottom:1px solid var(--line);background:var(--paper-warm)}
 .baixar .hd b{font-family:var(--serif);font-size:17px;font-weight:600;letter-spacing:-.012em}
 .baixar .hd span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--graphite)}
-.baixar .fonte{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--graphite);
+/* linha única de procedência do pacote */
+.baixar .fonte{background:var(--red-wash);font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--graphite);
   background:var(--paper-deep);padding:10px 22px;border-bottom:1px solid var(--line)}
 .baixar .fonte b{color:var(--ink);font-weight:600}
 .baixar .fonte code{font-size:11.5px;background:transparent;padding:0}
@@ -473,3 +474,9 @@ table.programa td:nth-child(3){color:var(--ink-soft);font-size:14.5px}
   font-size:13.5px;color:var(--graphite);line-height:1.55;max-width:none;text-align:left}
 #disciplina figure.aplic figcaption b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--red);font-weight:600;margin-right:6px}
+
+/* pacote obtido fora do site */
+/* (linha .obter removida: a procedência agora fica só em .fonte) */
+  background:var(--red-wash);border-bottom:1px solid var(--line)}
+.baixar .obter b{font-weight:650;color:var(--red-deep)}
+.baixar span.fn{font-family:var(--mono);font-size:13.5px;color:var(--ink);display:block}

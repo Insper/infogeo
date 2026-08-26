@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>MATOPIBA</b><span>área de estudo</span></div>
-    <div><b>IBGE · PAM 2023</b><span>fontes</span></div>
-  </div>
+    <div><b>IBGE · PAM 2023</b><span>fontes</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -87,26 +86,22 @@
 <p>Esta é a unidade mais densa do semestre. A leitura preparatória sobre autocorrelação espacial não é opcional: quem chega sem ela vai passar a primeira meia hora tentando entender o que é uma matriz de pesos, e a segunda tentando alcançar a turma.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana06</span></div>
-  <div class="fonte">Dado oficial já baixado em <b>02/08/2026</b>: malha municipal de MA, TO, PI e BA do <b>IBGE · Malhas Territoriais 2022</b> e <b>SIDRA · PAM tabela 1612, safra 2023</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://sidra.ibge.gov.br/tabela/1612">SIDRA</a> · <code>python3 dados/baixar_dados_reais.py --semana 6</code></div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>IBGE</b> · Malhas Territoriais e <b>SIDRA</b> · Produção Agrícola Municipal, safra 2023, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://sidra.ibge.gov.br/tabela/1612">SIDRA</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana06/municipios_matopiba_soja_2023.gpkg" download>municipios_matopiba_soja_2023.gpkg</a>
+    <li><div><span class="fn">municipios_matopiba_soja_2023.gpkg</span>
         <span class="fd">997 municípios de MA, TO, PI e BA, polígono, EPSG:4674. Malha oficial de 2022 com a área plantada de soja da PAM 2023 (<code>soja_ha</code>), área em Albers e <code>pct_soja</code> já calculados. É o ponto de chegada dos passos 1 e 2, pronto para conferência.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana06/sidra_pam_soja_2023.csv" download>sidra_pam_soja_2023.csv</a>
+    <li><div><span class="fn">sidra_pam_soja_2023.csv</span>
         <span class="fd">Área plantada, área colhida, produção e rendimento de soja em 2023 nos 997 municípios das quatro UFs. CSV UTF-8, separador vírgula. Chave: cd_mun.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/apoio/municipios_brasil_2022.gpkg" download>apoio/municipios_brasil_2022.gpkg</a>
+    <li><div><span class="fn">apoio/municipios_brasil_2022.gpkg</span>
         <span class="fd">Malha municipal do Brasil inteiro, 5.572 feições, EPSG:4674. É de onde sai o recorte das quatro UFs no passo 1. Arquivo grande, 273 MB; abra pelo painel <em>Browser</em>, sem arrastar.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana06/lisa_referencia.gpkg" download>lisa_referencia.gpkg</a>
+    <li><div><span class="fn">lisa_referencia.gpkg</span>
         <span class="fd">Resultado do LISA com 999 permutações e semente 42, para o passo 7: <code>moran_loc</code>, <code>quadrante</code>, <code>p_sim</code> e <code>lisa</code> nos 997 municípios. Use só depois de calcular o Moran global sozinho.</span></div></li>
-    <li><div><a class="fn" href="dados/semana06/_recalcula_oficial.py" download>_recalcula_oficial.py</a>
-        <span class="fd">Script que gera o arquivo acima e todos os números desta página: contiguidade rainha, Moran global, kNN com k = 5, LISA e as agregações do MAUP. Semente 42.</span></div></li>
-    <li><div><a class="fn" href="dados/semana06/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Origem de cada arquivo, dicionário dos campos e a lista completa dos números que o roteiro reproduz.</span></div></li>
   </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do <a href="https://www.ibge.gov.br/geociencias">IBGE</a> de 2022 e a área plantada vem da tabela 1612 da Produção Agrícola Municipal, safra 2023, unida por <code>CD_MUN</code>. O índice de Moran, o LISA e todas as somas desta página saem desses dois arquivos e podem ser conferidos rodando <code>_recalcula_oficial.py</code>. Os arquivos <code>_treino</code> das versões anteriores continuam na pasta e não são usados por nenhum passo. O <code>lisa_referencia.gpkg</code> não é dado novo: é resultado calculado sobre o oficial, entregue pronto porque o QGIS não faz permutação.</div>
+  <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do <a href="https://www.ibge.gov.br/geociencias">IBGE</a> de 2022 e a área plantada vem da tabela 1612 da Produção Agrícola Municipal, safra 2023, unida por <code>CD_MUN</code>. O índice de Moran, o LISA e todas as somas desta página saem desses dois arquivos. O <code>lisa_referencia.gpkg</code> não é dado novo: é resultado calculado sobre o oficial, entregue pronto porque o QGIS não faz permutação.</div>
 </div>
 
 <div class="pense">
@@ -341,8 +336,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
       <p>Recortar por UF cria efeito de borda. Um município do sudoeste baiano que faz divisa com Minas Gerais perde os vizinhos mineiros e passa a ter a média calculada sobre menos gente; um município do oeste tocantinense perde os vizinhos do Pará. O recorte é o que a pergunta pede, porque o MATOPIBA é definido por essas quatro UFs, e mesmo assim ele distorce a matriz na moldura. Guarde isso para o fechamento.</p>
     </div>
 
-    <figure class="ph">captura de tela · os 997 municípios das quatro UFs recortados da malha nacional, coloridos por SIGLA_UF</figure>
-  </div>
+    <figure class="ph">captura de tela · os 997 municípios das quatro UFs recortados da malha nacional, coloridos por SIGLA_UF</figure></div>
 </div>
 
 <div class="passo" id="p2">
@@ -378,8 +372,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
     <div class="cuidado">
       <div class="lbl">Erro comum</div>
       <p>Se o CSV vier com <code>soja_ha</code> como texto, a junção funciona, o mapa colore e todas as contas seguintes ficam erradas. O sinal é a média aparecer vazia no painel <em>Statistics</em>. Corrija criando um arquivo <code>.csvt</code> ao lado do CSV, ou declarando o tipo na janela de importação. Um segundo sinal: deixar os quatro nulos como nulos faz a média dos vizinhos sair nula em cadeia, e o Moran despenca sem explicação.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -418,8 +411,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
       <div class="lbl">O que acabou de acontecer</div>
       <h4>A padronização por linha estava embutida</h4>
       <p>Pedir a média dos vizinhos é a mesma coisa que montar a matriz de contiguidade, dividir cada linha pela sua soma e multiplicar pelo vetor de valores. O predicado <em>touch</em> implementa a contiguidade rainha: é verdadeiro quando as fronteiras se tocam e os interiores não se cruzam, o que cobre aresta e vértice, e é falso para o próprio município. Em malha municipal brasileira o contato de vértice puro é raro, então a contiguidade torre devolve quase a mesma lista; a diferença entre as duas costuma ficar na terceira casa do índice.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -456,8 +448,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
     <div class="contexto">
       <div class="lbl">Por que não usar desvio-padrão</div>
       <p>A fórmula mais vista nos livros usa valores padronizados, dividindo pelo desvio-padrão. Ela dá o mesmo resultado, e traz um risco: o painel de estatísticas do QGIS e a função <code>stdev()</code> das expressões podem usar o denominador n ou n−1 dependendo do contexto, e a diferença aparece na terceira casa. A razão entre as duas somas dispensa essa escolha.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -478,8 +469,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
     <div class="contexto">
       <div class="lbl">Companheiro opcional deste tema: GeoDa</div>
       <p>O QGIS resolve a operação e mostra a conta, que é o objetivo do roteiro. Para a parte de inferência e para o diagrama de espalhamento, o <a href="https://geodacenter.github.io">GeoDa</a> é mais didático: você monta a matriz W em uma janela, roda as permutações com um botão, vê o histograma da distribuição de referência atualizar, e o gráfico fica ligado ao mapa, de modo que selecionar um ponto no diagrama acende o município correspondente. É software livre, roda em macOS e Windows, e abre GeoPackage direto. Instale antes da aula se quiser acompanhar em paralelo. Ele não substitui o roteiro do QGIS: substitui a parte que o QGIS faz mal.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p6">
@@ -506,8 +496,7 @@ END</pre>
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>794 municípios em baixo-baixo, 101 em alto-alto, 87 em baixo-alto e 15 em alto-baixo. Soma 997. Ainda não há teste nenhum aqui: são só quatro combinações de sinal em torno de uma média de 5.406,93 hectares que 763 municípios não alcançam porque plantam zero.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -539,8 +528,7 @@ END</pre>
       <p>Os 35 municípios alto-alto somam <strong>3.604.565</strong> hectares de soja, <strong>66,9%</strong> de toda a área plantada das quatro UFs, em <strong>14,0%</strong> do território. Estão distribuídos por PI (11), MA (10), BA (9) e TO (5). Os cinco maiores são São Desidério com 493.639 hectares, Formosa do Rio Preto com 470.934, Baixa Grande do Ribeiro com 251.303, Correntina com 216.140 e Barreiras com 215.226. Para um relatório, essa lista de 35 nomes descreve o cinturão inteiro e cabe em uma tabela.</p>
     </div>
 
-    <figure class="ph">captura de tela · mapa LISA com as quatro categorias significativas e o cinza dos não significativos, legenda visível</figure>
-  </div>
+    <figure class="ph">captura de tela · mapa LISA com as quatro categorias significativas e o cinza dos não significativos, legenda visível</figure></div>
 </div>
 
 <div class="passo" id="p8">
@@ -574,8 +562,7 @@ END</pre>
       <div class="lbl">A conclusão do roteiro</div>
       <h4>Um único alto-baixo em 997, e ele é a pergunta certa</h4>
       <p>Regeneração planta 15.103 hectares no médio Parnaíba piauiense, e os seis municípios que fazem divisa com ela plantam zero. Ou é o começo de uma frente nova, com a lavoura saltando do cerrado do sudoeste para o vale do Parnaíba, ou é um caso isolado que não se sustenta. Nenhum índice responde isso. O que o LISA fez foi apontar onde vale gastar o tempo do pesquisador; a resposta em si exige série histórica e informação de campo que não estão nesta tabela.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -615,8 +602,7 @@ END</pre>
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura de tela da tabela com o novo valor do índice, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura de tela da tabela com o novo valor do índice, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="confira">
@@ -701,8 +687,7 @@ END</pre>
   <div class="item">
     <div class="k">Ferramenta</div>
     <div class="t">GeoDa, tutorial de <em>Global Spatial Autocorrelation</em> e <em>Local Spatial Autocorrelation</em>.
-      <span class="src">geodacenter.github.io · abra o mesmo GeoPackage da aula e compare os números</span></div>
-  </div>
+      <span class="src">geodacenter.github.io · abra o mesmo GeoPackage da aula e compare os números</span></div></div>
 </div>
 </section>
 

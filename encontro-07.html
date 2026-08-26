@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Cerrado da Bahia</b><span>área de estudo</span></div>
-    <div><b>INPE · CNES · IBGE</b><span>fontes</span></div>
-  </div>
+    <div><b>INPE · CNES · IBGE</b><span>fontes</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -87,19 +86,17 @@
 <p>A leitura do tema era a nota metodológica do INPE sobre o satélite de referência do Programa Queimadas. São quatro páginas. Se você não leu, leia enquanto a turma se organiza: metade do roteiro de hoje depende de entender por que existe um satélite de referência.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana07</span></div>
-  <div class="fonte">Fonte: <b>INPE · Programa Queimadas</b> e <b>CNES · DATASUS</b> · <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a> · coleta de 02/08/2026</div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>INPE</b> · Programa Queimadas e <b>CNES</b> · DATASUS, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://data.inpe.br/queimadas/dados-abertos/">portal INPE</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana07/focos_oeste_bahia_2023_2024.gpkg" download>focos_oeste_bahia_2023_2024.gpkg</a>
+    <li><div><span class="fn">focos_oeste_bahia_2023_2024.gpkg</span>
         <span class="fd">212.160 focos de calor no Cerrado do oeste da Bahia, junho a novembro de 2023 e de 2024, dezesseis satélites, com potência radiativa, dias sem chuva e risco de fogo. Ponto, EPSG:4674. Dos arquivos anuais <code>focos_br_todos-sats_2023</code> e <code>2024</code> do INPE.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana07/cnes_oeste_bahia_2026.gpkg" download>cnes_oeste_bahia_2026.gpkg</a>
+    <li><div><span class="fn">cnes_oeste_bahia_2026.gpkg</span>
         <span class="fd">1.712 estabelecimentos de saúde ativos em 36 municípios do oeste baiano, com a latitude e a longitude do próprio cadastro. Ponto, EPSG:4674. Da competência 06/2026 da base do CNES.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana07/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Origem, campos, recorte e a lista completa dos números conferidos.</span></div></li>
   </ul>
-  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. O recorte mudou: em vez do MATOPIBA inteiro, que na base real passa de um milhão de focos, o pacote traz o Cerrado do estado da Bahia dentro do mesmo retângulo, que é onde está Formosa do Rio Preto. O CNES não publica nível de geocodificação; o que o arquivo traz é o empilhamento real de estabelecimentos sobre a mesma coordenada, que é o sintoma observável do problema que a aula discute. Os valores conferidos estão em <code>dados/semana07/_numeros_oficiais.json</code>.</div>
+  <div class="ft">Os dois arquivos vêm da fonte oficial, com coleta em 02/08/2026, em GeoPackage e UTF-8. O recorte mudou: em vez do MATOPIBA inteiro, que na base real passa de um milhão de focos, o pacote traz o Cerrado do estado da Bahia dentro do mesmo retângulo, que é onde está Formosa do Rio Preto. O CNES não publica nível de geocodificação; o que o arquivo traz é o empilhamento real de estabelecimentos sobre a mesma coordenada, que é o sintoma observável do problema que a aula discute.</div>
 </div>
 
 <div class="pense">
@@ -340,8 +337,7 @@
       <p>Duzentos e doze mil pontos sobrepostos formam uma mancha sólida, e é impossível ler qualquer coisa nela. Não tente. O passo 2 corta o arquivo para 2.689 pontos, e é sobre esse recorte que a aula inteira trabalha. Enquanto isso, baixe a opacidade da camada para 20% em <em>Properties ▸ Symbology</em>, só para conseguir ver o mapa base por baixo.</p>
     </div>
 
-    <figure class="ph">captura de tela · painel Layers com a camada de focos carregada sobre o OpenStreetMap, tabela de atributos aberta mostrando 212.160 feições</figure>
-  </div>
+    <figure class="ph">captura de tela · painel Layers com a camada de focos carregada sobre o OpenStreetMap, tabela de atributos aberta mostrando 212.160 feições</figure></div>
 </div>
 
 <div class="passo" id="p2">
@@ -381,8 +377,7 @@
     <div class="cuidado">
       <div class="lbl">Erro comum</div>
       <p>Comparar um número de focos obtido com todos os satélites contra a série histórica do INPE, que é do satélite de referência. O AQUA_M-T responde por <strong>2,78%</strong> dos 212.160 registros do arquivo. Uma diferença de mais de trinta vezes não tem nada a ver com o fogo, tem a ver com quantos sensores olharam. Também é erro somar satélites para "aumentar a amostra": o passo 4 mostra que multiplicar a amostra por 34 desloca o centro médio em 5,4 km, sobre uma nuvem que se espalha por mais de cem. A amostra maior não acrescenta precisão, porque os sensores extras estão revendo os mesmos incêndios, não encontrando incêndios novos.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -417,8 +412,7 @@
     <div class="contexto">
       <div class="lbl">Por que o fuso 23 e não o 22</div>
       <p>Confira a longitude antes de acreditar. Abra a tabela de atributos da camada original e calcule o mínimo e o máximo de <code>$x</code>: o recorte vai de −46,609 a −42,600, e o fuso 23 cobre de −48 a −42. Cabe inteiro, com folga de quase um grau e meio na borda oeste. Se o recorte incluísse o Tocantins, cruzaria para o fuso 22 e a escolha teria que ser outra, com o custo que você mediu no tema 2.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -448,8 +442,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>O centro médio dos 2.689 focos está em <strong>E 513.389,4 / N 8.690.545,0</strong>, em EPSG:31983, o que em graus dá −44,8771 / −11,8453, dentro de Riachão das Neves. Rode o mesmo algoritmo sobre os 92.387 focos de todos os satélites de 2024 e você obtém E 508.165,0 / N 8.689.367,6, a <strong>5,4 km</strong> de distância. Multiplicar a amostra por 34 mexeu o centro em cinco quilômetros, sobre uma nuvem cuja dispersão passa de cem.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -485,8 +478,7 @@
       <p>Depende do que a brigada faz. Se a decisão é onde posicionar equipes para atender o maior número de ocorrências, o centro simples. Se é onde posicionar equipamento pesado para os eventos que ameaçam sair de controle, o ponderado. Vinte e nove quilômetros separam as duas respostas, o que em estrada de terra no oeste baiano é mais de uma hora de deslocamento.</p>
     </div>
 
-    <figure class="ph">captura de tela · mapa com os dois centros marcados, ferramenta de medição mostrando a distância de 28,8 km entre eles</figure>
-  </div>
+    <figure class="ph">captura de tela · mapa com os dois centros marcados, ferramenta de medição mostrando a distância de 28,8 km entre eles</figure></div>
 </div>
 
 <div class="passo" id="p6">
@@ -517,8 +509,7 @@
     <div class="contexto">
       <div class="lbl">O que fazer com esse número</div>
       <p>Sozinho, quase nada: 144 km não é grande nem pequeno sem referência. Ele serve para comparação. A distância padrão de 2023, com 3.218 focos, é de 136.114 m. A dispersão subiu 5,9% de um ano para o outro, enquanto a contagem de focos caiu 16,4%. Menos fogo, espalhado por mais território. As duas afirmações se defendem, porque os dois números foram calculados do mesmo jeito, no mesmo recorte, com o mesmo satélite.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -567,8 +558,7 @@
       <p>Não existe limiar oficial, e a prática defensável é declarar a razão entre os eixos sempre que você citar o azimute. Abaixo de cerca de 1,3 o azimute não sustenta afirmação nenhuma sozinho; acima de 2, a direção começa a valer alguma coisa. O jeito de decidir sem chutar é reamostrar: sorteie metade dos pontos vinte vezes, calcule vinte azimutes e olhe o espalhamento deles. Se os vinte valores cobrirem meio círculo, você tem a sua resposta.</p>
     </div>
 
-    <figure class="ph">captura de tela · Field Calculator aberto sobre focos_aqua_2024_utm, expressão sqrt(mean("dy2")) digitada e a linha Preview mostrando 107943, com a nuvem de focos e o círculo da distância padrão ao fundo</figure>
-  </div>
+    <figure class="ph">captura de tela · Field Calculator aberto sobre focos_aqua_2024_utm, expressão sqrt(mean("dy2")) digitada e a linha Preview mostrando 107943, com a nuvem de focos e o círculo da distância padrão ao fundo</figure></div>
 </div>
 
 <div class="passo" id="p8">
@@ -604,8 +594,7 @@
     <div class="contexto">
       <div class="lbl">Por que a envoltória mal se mexeu</div>
       <p>Porque ela é definida pelos pontos extremos, e basta um foco em cada canto do Cerrado baiano para fixá-la. A envoltória convexa é a medida mais frágil desta aula: um único registro espúrio a duzentos quilômetros do resto muda a área em dezenas de milhares de quilômetros quadrados, e nenhuma das outras três medidas se abala. Quando você quiser extensão robusta, corte os 5% mais distantes do centro antes de calcular, e diga que cortou.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -635,8 +624,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    Uma captura de tela com os dois centros médios sobre o mapa e a medição de distância visível, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.
-  </div>
+    Uma captura de tela com os dois centros médios sobre o mapa e a medição de distância visível, mais as três frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
 </div>
 
 <div class="contexto">
@@ -721,8 +709,7 @@
   <div class="item">
     <div class="k">Aplicado</div>
     <div class="t">Daniel Goldberg, <em>A Geocoding Best Practices Guide</em>: níveis de precisão, taxa de match e o efeito do não-match em estudos de saúde.
-      <span class="src">North American Association of Central Cancer Registries · leitura por capítulo</span></div>
-  </div>
+      <span class="src">North American Association of Central Cancer Registries · leitura por capítulo</span></div></div>
 </div>
 </section>
 

@@ -40,8 +40,7 @@
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Mato Grosso</b><span>área de estudo</span></div>
-    <div><b>APS 1</b><span>lançada hoje</span></div>
-  </div>
+    <div><b>APS 1</b><span>lançada hoje</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -89,24 +88,20 @@
 <p>Crie <code>InfoGeo/tema04_tematico</code> com <code>dados_brutos</code>, <code>dados_tratados</code> e uma pasta nova, <code>estilos</code>, onde você vai gravar os arquivos <code>.qml</code>.</p>
 
 <div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pasta dados/semana04</span></div>
-  <div class="fonte">Dado oficial já baixado em <b>02/08/2026</b>: malha municipal de MT do <b>IBGE · Malhas Territoriais 2022</b> e <b>SIDRA · PAM tabela 1612, safra 2023</b> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://sidra.ibge.gov.br/tabela/1612">SIDRA</a> · <code>python3 dados/baixar_dados_reais.py --semana 4</code></div>
+  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados de <b>IBGE</b> · Malhas Territoriais e <b>SIDRA</b> · Produção Agrícola Municipal, safra 2023, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://sidra.ibge.gov.br/tabela/1612">SIDRA</a>.</div>
   <ul>
-    <li><div><a class="fn" href="dados/semana04/municipios_mt_soja_2023.gpkg" download>municipios_mt_soja_2023.gpkg</a>
+    <li><div><span class="fn">municipios_mt_soja_2023.gpkg</span>
         <span class="fd">141 municípios de Mato Grosso, polígono, EPSG:4674. Malha municipal oficial do IBGE de 2022 com área plantada, área colhida, produção, rendimento da PAM 2023 e população do Censo 2022 já unidos por CD_MUN.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana04/sidra_pam_soja_2023.csv" download>sidra_pam_soja_2023.csv</a>
+    <li><div><span class="fn">sidra_pam_soja_2023.csv</span>
         <span class="fd">Produção Agrícola Municipal 2023, soja em grão, 141 municípios de MT. CSV UTF-8, separador vírgula. Chave: cd_mun.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana04/sidra_pop_censo2022.csv" download>sidra_pop_censo2022.csv</a>
+    <li><div><span class="fn">sidra_pop_censo2022.csv</span>
         <span class="fd">População residente do Censo 2022 por município de MT, tabela 4709 do SIDRA. CSV UTF-8.</span></div>
         <span class="tp real">oficial</span></li>
-    <li><div><a class="fn" href="dados/semana04/_recalcula_oficial.py" download>_recalcula_oficial.py</a>
-        <span class="fd">Script que refaz as quatro classificações com o mesmo algoritmo do QGIS, inclusive o <code>pretty()</code> que o método do desvio padrão aplica, e grava <code>_classes.csv</code>, <code>_conferencia.csv</code> e <code>_numeros_oficiais.json</code>.</span></div></li>
-    <li><div><a class="fn" href="dados/semana04/LEIA-ME.txt" download>LEIA-ME.txt</a>
-        <span class="fd">Dicionário dos campos, as quebras e contagens das quatro classificações e a lista de números que o roteiro reproduz.</span></div></li>
   </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do IBGE de 2022 e os números de soja vêm da Produção Agrícola Municipal de 2023, tabela 1612 do SIDRA, baixada pela API e unida por <code>CD_MUN</code>. A população é a do Censo 2022, tabela 4709. Os arquivos <code>_treino</code> das versões anteriores do roteiro continuam na pasta e não são usados por nenhum passo; o LEIA-ME diz quais são. Todos os valores citados nesta página saem do <code>_recalcula_oficial.py</code>, que você pode rodar para conferir.</div>
+  <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do IBGE de 2022 e os números de soja vêm da Produção Agrícola Municipal de 2023, tabela 1612 do SIDRA, baixada pela API e unida por <code>CD_MUN</code>. A população é a do Censo 2022, tabela 4709.</div>
 </div>
 
 <div class="pense">
@@ -347,8 +342,7 @@
     <div class="contexto">
       <div class="lbl">Antes de estilizar, olhe a distribuição</div>
       <p>No painel de estatísticas, compare a média de 315.076 com a mediana de 151.200. A média é mais que o dobro da mediana, e isso é a assinatura de uma distribuição com cauda longa à direita: poucos municípios muito acima, muitos amontoados perto do zero. Os dez maiores produtores respondem por 33,5% da safra estadual. É exatamente o caso em que a escolha do método de classificação decide o mapa. Faça essa comparação sempre, antes de abrir a aba de simbologia.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p2">
@@ -376,8 +370,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>A legenda mostra as quebras em <strong>448.875 · 897.750 · 1.346.625 · 1.795.500 · 2.244.375</strong>. Na coluna de contagem, ative <em>Count features</em> pelo menu de contexto da legenda: os cinco valores são <strong>109 · 19 · 6 · 6 · 1</strong>. O mapa está quase todo na cor mais clara, e a classe mais escura tem um município só.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p3">
@@ -410,8 +403,7 @@
     <div class="contexto">
       <div class="lbl">Para que serve o arquivo .qml</div>
       <p>O <code>.qml</code> guarda a simbologia completa em XML, separada dos dados: campo, método, quebras, cores, contornos e rótulos. Ele é o que torna um mapa reprodutível por outra pessoa e é o único jeito de auditar depois qual método você usou. Guarde o <code>.qml</code> junto com o resultado, sempre. Isso volta na aula 10, quando a reprodutibilidade vira critério de nota.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p4">
@@ -440,8 +432,7 @@
     <div class="contexto">
       <div class="lbl">Material de apoio</div>
       <p>Este é o primeiro layout do curso, e o roteiro trata dele no mínimo necessário para a comparação. O módulo <a href="extra-print-layout.html">Preparar o mapa para entrega</a> cobre o layout de impressão por inteiro, incluindo legenda filtrada, barra de escala, mapa de detalhe, atlas e template. A APS 1 é a primeira entrega cobrada contra o padrão de entrega que está no fim daquele módulo.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p5">
@@ -473,8 +464,7 @@
     <div class="cuidado">
       <div class="lbl">Erro comum</div>
       <p>Mapear rendimento sem filtrar por área colhida mínima. Sem filtro, o topo de <code>rendimento_kg_ha</code> continua sendo Conquista D&#39;Oeste, mas atrás dela aparecem municípios com poucos milhares de hectares que representam frações de um por cento da safra. No filtro da camada, em <em>Properties ▸ Source ▸ Query Builder</em>, use <code>"area_colhida_ha" &gt; 5000</code>, o que deixa 108 dos 141, e diga isso na legenda.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p6">
@@ -491,8 +481,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>Com quantis e 3 classes, 47 municípios ficam na faixa mais alta, um terço do estado. Com 9 classes, a faixa mais alta cai para 16. O dado não mudou; a fração do estado que a legenda chama de "alta produção" foi de 33,3% para 11,3% porque você mexeu em um número inteiro numa caixa.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p7">
@@ -513,8 +502,7 @@
     <div class="confira">
       <div class="lbl">Confira</div>
       <p>Sob a simulação, <code>YlOrBr</code> continua legível: as cinco classes permanecem ordenadas do claro ao escuro, porque a paleta varia luminosidade e não só matiz. Com arco-íris, as classes do meio e do topo se aproximam e a ordem se perde.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="passo" id="p8">
@@ -552,8 +540,7 @@
       <div class="lbl">A conclusão do roteiro</div>
       <h4>Nenhum dos mapas mentiu, e eles não podem ser todos publicados</h4>
       <p>Você produziu, a partir de um único arquivo, um mapa em que 109 municípios estão na classe mais baixa e outro em que 29 estão. Um em que Sorriso lidera, outro em que Conquista D&#39;Oeste lidera, um terceiro em que Ipiranga do Norte lidera e um quarto em que quem lidera é Santa Rita do Trivelato, com 3.276 habitantes. Cada um é reproduzível e defensável diante da pergunta certa, e cada um sustenta uma manchete que os outros três desmentem. Escolher qual publicar é uma decisão editorial, e ela precisa ser assumida como tal na legenda.</p>
-    </div>
-  </div>
+    </div></div>
 </div>
 </section>
 
@@ -579,8 +566,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    As duas manchetes, a escolha justificada e a crítica, em no máximo dez linhas, mais as duas imagens exportadas. Poste no fórum do tema no Blackboard antes do fim da aula. Este exercício é o aquecimento direto da APS 1.
-  </div>
+    As duas manchetes, a escolha justificada e a crítica, em no máximo dez linhas, mais as duas imagens exportadas. Poste no fórum do tema no Blackboard antes do fim da aula. Este exercício é o aquecimento direto da APS 1.</div>
 </div>
 </section>
 
@@ -666,8 +652,7 @@
   <div class="item">
     <div class="k">Oficial</div>
     <div class="t">IBGE, Produção Agrícola Municipal no SIDRA. O roteiro usou a tabela 1612, de lavouras temporárias; a 5457 reúne todas as culturas. Refaça o roteiro com outra cultura ou outro estado.
-      <span class="src">sidra.ibge.gov.br/tabela/5457 · vale como treino para a APS 1</span></div>
-  </div>
+      <span class="src">sidra.ibge.gov.br/tabela/5457 · vale como treino para a APS 1</span></div></div>
 </div>
 </section>
 
