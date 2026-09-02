@@ -140,33 +140,43 @@
 
 <p>Tudo é feito no QGIS, sem programação. Os passos abaixo mostram a mecânica de cada operação: onde fica a ferramenta, o que preencher em cada campo da janela e como escrever a expressão. O que eles não dizem é qual indicador construir, que corte usar ou que municípios recomendar, porque essa parte é o trabalho.</p>
 
-<p>A sequência também é sua. Se você preferir chegar ao mesmo resultado por outro caminho do QGIS, pode.</p>
+<p>A sequência também é sua. Se você preferir chegar ao mesmo resultado por outro caminho do QGIS, pode. Os passos abaixo são o caminho mais curto, não o único.</p>
 
 <div class="passo">
   <div class="n">1</div>
   <div class="c">
-    <h3>Montar o projeto e carregar os dois arquivos</h3>
+    <h3>Montar as pastas e carregar os dois arquivos</h3>
+
+    <p>Antes de abrir o QGIS, organize o disco. Projeto de GIS guarda caminhos, não arquivos: se você mover ou renomear um dado depois, o projeto abre com a camada quebrada.</p>
+
     <ol>
-      <li>Crie a pasta <code>InfoGeo/aps01</code> com duas subpastas, <code>dados_brutos</code> e <code>dados_tratados</code>. Coloque o CSV, o <code>.csvt</code> de mesmo nome e o GeoPackage do seu estado em <code>dados_brutos</code>.</li>
-      <li>Abra o QGIS, crie um projeto novo e salve como <code>InfoGeo/aps01/projeto.qgz</code>.</li>
-      <li>Arraste <code>municipios_&lt;UF&gt;_2022.gpkg</code> para dentro da janela.</li>
-      <li>Importe a tabela de escolas por <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer</span>, com os parâmetros abaixo.</li>
+      <li>Crie a pasta <code>InfoGeo/aps01</code> e, dentro dela, <code>dados_brutos</code> e <code>dados_tratados</code>.</li>
+      <li>Coloque em <code>dados_brutos</code> os três arquivos do seu estado: o <code>.csv</code>, o <code>.csvt</code> de mesmo nome e o <code>.gpkg</code>. O <code>.csvt</code> não abre no QGIS e não aparece em lugar nenhum da interface; ele só precisa estar ali.</li>
+      <li>Abra o QGIS. Em <span class="caminho">Project <i>▸</i> New</span>, e depois <span class="caminho">Project <i>▸</i> Save As</span>, salve como <code>InfoGeo/aps01/projeto.qgz</code>. Salve de novo, com <code>Ctrl+S</code>, a cada etapa concluída.</li>
+      <li>Arraste <code>municipios_&lt;UF&gt;_2022.gpkg</code> do gerenciador de arquivos para dentro da janela do QGIS. A camada aparece no painel <em>Layers</em>, à esquerda, e o mapa desenha o contorno do estado.</li>
+      <li>Olhe o canto inferior direito da janela: deve estar escrito <code>EPSG:4674</code>. Esse é o sistema de coordenadas que o projeto assumiu da primeira camada carregada.</li>
+      <li>Agora importe a tabela de escolas: <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer…</span>. Abre a janela <em>Data Source Manager</em>, já na aba certa.</li>
     </ol>
 
     <div class="params">
       <div class="hd">Data Source Manager · Delimited Text</div>
       <dl>
-        <dt>File name</dt><dd>escolas_&lt;UF&gt;_2025.csv</dd>
-        <dt>Layer name</dt><dd>escolas</dd>
+        <dt>File name</dt><dd>o botão <em>…</em> à direita abre o navegador de arquivos; aponte para <code>escolas_&lt;UF&gt;_2025.csv</code></dd>
+        <dt>Layer name</dt><dd><code>escolas</code></dd>
         <dt>Encoding</dt><dd>UTF-8</dd>
-        <dt>File format</dt><dd>Custom delimiters · Semicolon</dd>
-        <dt>First record has field names</dt><dd>marcado</dd>
-        <dt>Detect field types</dt><dd>marcado</dd>
-        <dt>Geometry definition</dt><dd>No geometry (attribute only table)</dd>
+        <dt>File format</dt><dd>marque <em>Custom delimiters</em> e, nas caixas que aparecem, deixe só <em>Semicolon</em> marcada</dd>
+        <dt>Record and Fields Options</dt><dd><em>First record has field names</em> e <em>Detect field types</em> marcados</dd>
+        <dt>Geometry Definition</dt><dd><em>No geometry (attribute only table)</em></dd>
       </dl>
     </div>
 
-    <p>A camada entra sem geometria e aparece no painel com o ícone de tabela. Isso é esperado: ela só ganha lugar no mapa depois de cruzar com a malha.</p>
+    <div class="confira">
+      <div class="lbl">Como saber que deu certo</div>
+      <p>A parte de baixo da janela mostra uma prévia da tabela. Os nomes das colunas devem aparecer no cabeçalho, e não como primeira linha de dados. O <code>CO_MUNICIPIO</code> deve mostrar sete dígitos, com o zero à esquerda quando houver.</p>
+      <p>Depois de clicar em <em>Add</em> e <em>Close</em>, a camada <code>escolas</code> entra no painel <em>Layers</em> com um ícone de tabela, diferente do ícone de polígono da malha. Ela não aparece no mapa, e isso está certo: tabela sem geometria não tem onde ser desenhada.</p>
+    </div>
+
+    <p>Para renomear qualquer camada, clique nela no painel <em>Layers</em> e aperte <code>F2</code>. Nomes curtos e descritivos economizam confusão nos passos seguintes, porque você vai terminar a APS com seis ou sete camadas na tela.</p>
   </div>
 </div>
 
@@ -174,15 +184,21 @@
   <div class="n">2</div>
   <div class="c">
     <h3>Conferir a chave dos dois lados antes de qualquer conta</h3>
-    <p>O cruzamento vai casar o código de município da tabela com o da malha. Antes de rodar, olhe os dois campos.</p>
+
+    <p>O cruzamento do passo 5 vai casar o código de município da tabela com o da malha. Cinco minutos aqui evitam refazer tudo depois.</p>
+
     <ol>
-      <li>Abra a tabela de atributos das duas camadas com <code>F6</code> e compare <code>CO_MUNICIPIO</code> (escolas) com <code>CD_MUN</code> (malha). Os dois devem mostrar sete dígitos.</li>
-      <li>Confirme o tipo de cada um em <em>Properties</em>, aba <em>Fields</em>: os dois precisam estar como <code>String</code>. É para isso que serve o arquivo <code>.csvt</code> que veio ao lado do CSV.</li>
+      <li>Clique na camada <code>escolas</code> no painel <em>Layers</em> e aperte <code>F6</code>. Abre a tabela de atributos. O título da janela mostra o total de feições.</li>
+      <li>Localize a coluna <code>CO_MUNICIPIO</code> e confira que os valores têm sete dígitos.</li>
+      <li>Feche a tabela, clique na camada de municípios e aperte <code>F6</code> de novo. Faça a mesma conferência em <code>CD_MUN</code>.</li>
+      <li>Agora o tipo. Clique duas vezes na camada <code>escolas</code> para abrir <em>Layer Properties</em> e vá na aba <em>Fields</em>, na lista à esquerda. A coluna <em>Type</em> mostra o tipo de cada campo.</li>
+      <li><code>CO_MUNICIPIO</code> precisa aparecer como <code>String</code> ou <code>text</code>. Repita na camada de municípios: <code>CD_MUN</code> também deve ser <code>String</code>.</li>
     </ol>
 
     <div class="cuidado">
       <div class="lbl">Se o tipo estiver diferente dos dois lados</div>
-      <p>Junção entre texto e número não casa e não devolve mensagem de erro. Devolve uma coluna inteira de nulos, que parece normal na tabela e só aparece quando o mapa sai vazio. Se <code>CO_MUNICIPIO</code> tiver entrado como <code>Integer</code>, o <code>.csvt</code> não está na mesma pasta do CSV: coloque-o lá e importe a camada de novo.</p>
+      <p>Junção entre texto e número não casa e não devolve mensagem de erro. Devolve uma coluna inteira de nulos, que parece normal na tabela e só aparece quando o mapa sai vazio.</p>
+      <p>Se <code>CO_MUNICIPIO</code> tiver entrado como <code>Integer</code>, o arquivo <code>.csvt</code> não está na mesma pasta do CSV, ou está com nome diferente. Coloque-o lá, remova a camada <code>escolas</code> do projeto com <code>Ctrl+D</code> e importe de novo. O QGIS lê o <code>.csvt</code> no momento da importação, então não adianta corrigir depois.</p>
     </div>
   </div>
 </div>
@@ -191,24 +207,40 @@
   <div class="n">3</div>
   <div class="c">
     <h3>Agregar as escolas por município</h3>
-    <p>A tabela tem uma linha por escola e você precisa de uma linha por município. Quem faz isso é o <em>Statistics by categories</em>, que agrupa pelas categorias de um campo e devolve contagem, soma, média e outras estatísticas do campo de valores.</p>
+
+    <p>A tabela tem uma linha por escola e você precisa de uma linha por município. Quem faz isso é o <em>Statistics by categories</em>: ele agrupa as linhas pelas categorias de um campo e devolve contagem, soma, média, mediana e outras estatísticas do campo de valores.</p>
+
     <ol>
-      <li>Abra a caixa de ferramentas com <code>Ctrl+Alt+T</code> e procure <em>Statistics by categories</em>, de identificador <code>qgis:statisticsbycategories</code>.</li>
+      <li>Abra a caixa de ferramentas com <code>Ctrl+Alt+T</code>, ou por <span class="caminho">Processing <i>▸</i> Toolbox</span>. O painel <em>Processing Toolbox</em> abre à direita.</li>
+      <li>Na caixa de busca no topo do painel, digite <code>statistics by categories</code>. A árvore filtra enquanto você digita.</li>
+      <li>Clique duas vezes no resultado para abrir a janela da ferramenta. O nome completo, <code>qgis:statisticsbycategories</code>, aparece no rodapé da janela.</li>
+      <li>Preencha os campos conforme o quadro abaixo.</li>
+      <li>Clique em <em>Run</em>. A aba <em>Log</em> mostra o andamento e, no fim, o tempo de execução.</li>
+      <li>Feche a janela com <em>Close</em>. A camada nova está no painel <em>Layers</em>.</li>
     </ol>
 
     <div class="params">
       <div class="hd">Statistics by categories</div>
       <dl>
-        <dt>Input vector layer</dt><dd>escolas</dd>
+        <dt>Input vector layer</dt><dd><code>escolas</code>, na lista suspensa</dd>
         <dt>Field to calculate statistics on</dt><dd>o campo cujo total você quer somar</dd>
-        <dt>Field(s) with categories</dt><dd>CO_MUNICIPIO</dd>
-        <dt>Statistics by category</dt><dd>dados_tratados/total_por_municipio.gpkg</dd>
+        <dt>Field(s) with categories</dt><dd>clique no botão <em>…</em> e marque <code>CO_MUNICIPIO</code> na lista</dd>
+        <dt>Statistics by category</dt><dd>clique no <em>…</em>, escolha <em>Save to File…</em> e grave em <code>dados_tratados</code> com um nome que diga o que é</dd>
       </dl>
     </div>
 
-    <p>A saída é uma tabela sem geometria com uma linha por município. Entre as colunas estão <code>count</code>, que é o número de escolas do município, e <code>sum</code>, que é a soma do campo de valores. Abra e confira quantas linhas saíram.</p>
+    <div class="cuidado">
+      <div class="lbl">Não deixe a saída como camada temporária</div>
+      <p>Se você não escolher um arquivo, o QGIS grava o resultado em memória e o nome aparece no painel <em>Layers</em> com um ícone de aviso. Camada temporária some quando o QGIS fecha, e leva junto tudo que foi calculado em cima dela. Grave em arquivo desde a primeira ferramenta.</p>
+    </div>
 
-    <p>Você vai precisar rodar essa ferramenta mais de uma vez: uma sobre todas as escolas, para ter o denominador, e outra sobre o recorte que interessa à pergunta, para ter o numerador. O passo 4 mostra como fazer o recorte.</p>
+    <div class="confira">
+      <div class="lbl">Como saber que deu certo</div>
+      <p>Abra a tabela da camada nova com <code>F6</code>. Ela tem uma linha por município e colunas com nomes de estatística: <code>count</code> é quantas escolas o município tem, <code>sum</code> é a soma do campo de valores, e vêm também <code>mean</code>, <code>median</code>, <code>min</code>, <code>max</code> e outras que você não vai usar.</p>
+      <p>Anote quantas linhas saíram. Esse número volta no passo 5.</p>
+    </div>
+
+    <p>Você vai rodar essa ferramenta mais de uma vez: uma sobre todas as escolas, para ter o denominador, e outra sobre o recorte que interessa à pergunta, para ter o numerador. O passo 4 mostra como fazer o recorte.</p>
   </div>
 </div>
 
@@ -216,12 +248,18 @@
   <div class="n">4</div>
   <div class="c">
     <h3>Recortar a tabela por uma condição</h3>
+
     <p>Para agregar só parte das escolas, filtre a camada antes de rodar a ferramenta. O filtro é uma expressão que fica ativa na camada: o QGIS passa a enxergar apenas as linhas que atendem à condição, e as ferramentas de processamento respeitam esse recorte.</p>
+
     <ol>
-      <li>Clique com o botão direito na camada <code>escolas</code> e escolha <em>Filter</em>.</li>
-      <li>Escreva a condição na caixa <em>Provider specific filter expression</em> e confirme com <em>Test</em>, que mostra quantas linhas sobraram.</li>
-      <li>Rode o <em>Statistics by categories</em> de novo, gravando com outro nome.</li>
-      <li>Depois, volte em <em>Filter</em> e apague a expressão para restaurar a camada inteira.</li>
+      <li>Clique na camada <code>escolas</code> e aperte <code>Ctrl+F</code>, ou clique com o botão direito e escolha <em>Filter…</em>. Abre a janela <em>Query Builder</em>.</li>
+      <li>A lista <em>Fields</em>, à esquerda, tem os nomes das colunas. Clique duas vezes num nome para inserir na expressão, já com as aspas corretas.</li>
+      <li>Para ver que valores um campo assume, selecione-o e clique em <em>All</em>, embaixo da lista <em>Values</em>. Útil para conferir se <code>LOCALIZACAO</code> usa 1 e 2, por exemplo.</li>
+      <li>Escreva a condição na caixa <em>Provider specific filter expression</em>, embaixo.</li>
+      <li>Clique em <em>Test</em>. Aparece uma mensagem com quantas linhas atendem à condição. Se der zero, a expressão está errada, e ainda dá tempo de corrigir.</li>
+      <li>Confirme com <em>OK</em>.</li>
+      <li>Com o filtro ativo, rode o <em>Statistics by categories</em> de novo, gravando com outro nome de arquivo.</li>
+      <li>Depois, volte em <code>Ctrl+F</code>, clique em <em>Clear</em> e confirme com <em>OK</em>. O funil desaparece e a camada volta inteira.</li>
     </ol>
 
     <p>A sintaxe das expressões é a mesma do tema 3:</p>
@@ -232,9 +270,14 @@
 "ESGOTO_ADEQ" = 0 AND "QT_MAT_BAS" &gt; 0   <span class="cm">-- duas condições</span>
 "NO_MUNICIPIO" LIKE 'Santa%'             <span class="cm">-- texto entre aspas simples</span></pre>
 
+    <div class="confira">
+      <div class="lbl">Como saber que o filtro está ativo</div>
+      <p>No painel <em>Layers</em>, a camada filtrada ganha um ícone de funil ao lado do nome. É o único aviso que o QGIS dá, e ele é fácil de não ver. Enquanto o funil estiver ali, toda ferramenta que você rodar usa só o recorte, e é por isso que o último item da lista manda limpá-lo.</p>
+    </div>
+
     <div class="contexto">
       <div class="lbl">O recorte muda o número de linhas da saída</div>
-      <p>Município que não tem nenhuma escola na condição filtrada simplesmente não aparece na tabela agregada. Ele não vira zero: ele some. Repare em quantas linhas cada agregação devolveu, porque essa diferença volta na Pergunta 3.</p>
+      <p>Município que não tem nenhuma escola na condição filtrada simplesmente não aparece na tabela agregada. Ele não vira zero: ele some. Compare o número de linhas dessa agregação com o da anterior, porque essa diferença volta na Pergunta 3.</p>
     </div>
   </div>
 </div>
@@ -243,32 +286,37 @@
   <div class="n">5</div>
   <div class="c">
     <h3>Cruzar as tabelas com a malha</h3>
-    <p>Agora as tabelas agregadas ganham geometria. O <em>Join attributes by field value</em> copia colunas de uma tabela para outra usando um campo em comum.</p>
+
+    <p>Agora as tabelas agregadas ganham geometria. O <em>Join attributes by field value</em> copia colunas de uma tabela para outra usando um campo em comum. Você vai rodar duas vezes, uma para cada agregação, encadeando: a saída do primeiro cruzamento é a entrada do segundo.</p>
+
     <ol>
-      <li>Na caixa de ferramentas, procure <em>Join attributes by field value</em>, de identificador <code>native:joinattributestable</code>.</li>
+      <li>Na caixa de busca do <em>Processing Toolbox</em>, digite <code>join attributes by field value</code> e abra a ferramenta com duplo clique.</li>
     </ol>
 
     <div class="params">
       <div class="hd">Join attributes by field value</div>
       <dl>
-        <dt>Input layer</dt><dd>municipios_&lt;UF&gt;_2022</dd>
-        <dt>Table field</dt><dd>CD_MUN</dd>
+        <dt>Input layer</dt><dd>a malha de municípios, no primeiro cruzamento; a saída do primeiro, no segundo</dd>
+        <dt>Table field</dt><dd><code>CD_MUN</code></dd>
         <dt>Input layer 2</dt><dd>a tabela agregada do passo 3</dd>
-        <dt>Table field 2</dt><dd>CO_MUNICIPIO</dd>
-        <dt>Layer 2 fields to copy</dt><dd>count, sum</dd>
-        <dt>Join type</dt><dd>Take attributes of the first matching feature only (one-to-one)</dd>
+        <dt>Table field 2</dt><dd><code>CO_MUNICIPIO</code></dd>
+        <dt>Layer 2 fields to copy</dt><dd>clique no <em>…</em> e marque só <code>count</code> e <code>sum</code>. Deixar em branco copia as quinze colunas da agregação inteira</dd>
+        <dt>Join type</dt><dd><em>Take attributes of the first matching feature only (one-to-one)</em></dd>
         <dt>Discard records which could not be joined</dt><dd>desmarcado</dd>
-        <dt>Joined field prefix</dt><dd>um prefixo curto que identifique a origem, como <code>TOT_</code></dd>
+        <dt>Joined field prefix</dt><dd>um prefixo curto que identifique a origem, como <code>TOT_</code> no primeiro e outro no segundo</dd>
+        <dt>Joined layer</dt><dd>grave em arquivo, em <code>dados_tratados</code></dd>
       </dl>
     </div>
 
-    <p>O prefixo importa. Você vai cruzar duas tabelas agregadas com a mesma malha, e as duas trazem colunas chamadas <code>count</code> e <code>sum</code>. Sem prefixos diferentes, a segunda sobrescreve a primeira ou entra com nome duplicado.</p>
+    <p>O prefixo importa. As duas tabelas agregadas trazem colunas com o mesmo nome, <code>count</code> e <code>sum</code>. Sem prefixos diferentes, a segunda sobrescreve a primeira ou entra com nome duplicado, e depois você não sabe qual é qual.</p>
 
-    <p>Deixe <em>Discard records which could not be joined</em> desmarcado nos dois cruzamentos. Municípios sem correspondência precisam continuar na camada, com nulo na coluna, para que você possa contá-los.</p>
+    <p>Deixe <em>Discard records which could not be joined</em> desmarcado nos dois cruzamentos. Município sem correspondência precisa continuar na camada, com nulo na coluna, para que você possa contá-lo e decidir o que fazer com ele.</p>
 
-    <div class="cuidado">
-      <div class="lbl">Confira o casamento antes de seguir</div>
-      <p>Abra a tabela da camada cruzada, clique no cabeçalho da coluna nova para ordenar e veja quantas linhas ficaram nulas. No cruzamento com a agregação de todas as escolas, o casamento deve ser total. Se não for, pare no passo 2 antes de calcular qualquer coisa.</p>
+    <div class="confira">
+      <div class="lbl">Como saber que deu certo</div>
+      <p>A aba <em>Log</em> da janela da ferramenta escreve, ao terminar, uma linha do tipo <code>N feature(s) from input layer were successfully matched</code>. Leia essa linha antes de fechar a janela: é a conferência mais barata da APS inteira.</p>
+      <p>No cruzamento com a agregação de todas as escolas, todas as feições devem ter sido unidas. Se sobrar alguma, volte ao passo 2 antes de calcular qualquer coisa.</p>
+      <p>Se já tiver fechado a janela, dá para conferir na tabela: abra com <code>F6</code>, clique no cabeçalho da coluna nova para ordenar e veja se aparecem linhas com <code>NULL</code>.</p>
     </div>
   </div>
 </div>
@@ -277,25 +325,31 @@
   <div class="n">6</div>
   <div class="c">
     <h3>Construir o indicador com o Field Calculator</h3>
+
     <p>Campo calculado é uma coluna nova cujo conteúdo vem de uma expressão sobre as colunas que já existem. É onde o indicador nasce.</p>
+
     <ol>
       <li>Abra a tabela de atributos da camada cruzada com <code>F6</code>.</li>
-      <li>Clique no ícone do ábaco, <em>Open Field Calculator</em>, ou use <code>Ctrl+I</code>.</li>
-      <li>Deixe <em>Create a new field</em> marcado, dê um nome ao campo e escolha o tipo. Percentual e razão pedem <em>Decimal number (real)</em>; contagem pede <em>Whole number (integer)</em>.</li>
-      <li>Escreva a expressão na caixa grande. O painel do meio lista funções e o da direita mostra os campos disponíveis, com duplo clique para inserir.</li>
-      <li>A prévia no rodapé da janela mostra o resultado para a primeira feição. Use-a para conferir antes de aplicar.</li>
-      <li>Confirme com <em>OK</em>. A camada entra em edição: salve com <code>Ctrl+S</code> ou pelo ícone do lápis.</li>
+      <li>Na barra de ícones da tabela, clique no ábaco, cujo nome ao passar o mouse é <em>Open Field Calculator</em>. Com a tabela em foco, o atalho é <code>Ctrl+I</code>.</li>
+      <li>A camada entra automaticamente em modo de edição, e o ícone de lápis fica pressionado. Ela vai continuar assim até você salvar.</li>
+      <li>Preencha o alto da janela conforme o quadro abaixo e escreva a expressão na caixa grande.</li>
+      <li>Confirme com <em>OK</em>. A coluna nova aparece no fim da tabela.</li>
+      <li>Salve as alterações: clique no ícone de disquete da barra da tabela, <em>Save Edits</em>, ou aperte <code>Ctrl+S</code>.</li>
+      <li>Saia do modo de edição clicando no lápis. Se ele continuar pressionado, o cálculo ainda não está gravado no arquivo.</li>
     </ol>
 
     <div class="params">
-      <div class="hd">Field Calculator · campos da janela</div>
+      <div class="hd">Field Calculator · o que preencher no alto da janela</div>
       <dl>
-        <dt>Create a new field</dt><dd>marcado</dd>
-        <dt>Output field name</dt><dd>até dez caracteres, sem acento e sem espaço</dd>
-        <dt>Output field type</dt><dd>Decimal number (real) para percentual e razão</dd>
-        <dt>Output field length / Precision</dt><dd>10 e 2 servem para percentual</dd>
+        <dt>Create a new field</dt><dd>marcado. A opção de baixo, <em>Update existing field</em>, sobrescreve uma coluna que já existe</dd>
+        <dt>Output field name</dt><dd>até dez caracteres, sem acento e sem espaço. GeoPackage aceita mais, mas nomes curtos evitam problema ao exportar</dd>
+        <dt>Output field type</dt><dd><em>Decimal number (real)</em> para percentual e razão; <em>Whole number (integer)</em> só para contagem</dd>
+        <dt>Output field length</dt><dd>10</dd>
+        <dt>Precision</dt><dd>2, para duas casas decimais</dd>
       </dl>
     </div>
+
+    <p>A parte de baixo da janela tem três colunas. À esquerda, a caixa onde você escreve a expressão. No meio, a lista de funções, com busca no topo e um grupo <em>Fields and Values</em> com os campos da camada, que entram na expressão com duplo clique. À direita, a ajuda da função selecionada.</p>
 
     <p>A sintaxe é a mesma dos temas 3 e 4:</p>
 
@@ -306,10 +360,15 @@ round(100.0 * "SEM_count" / "TOT_count", 1)   <span class="cm">-- uma casa</span
 if("SEM_count" IS NULL, 0, "SEM_count")  <span class="cm">-- trata o nulo</span>
 "SEM_sum" / ("AREA_KM2" / 100)           <span class="cm">-- parênteses mudam a ordem</span></pre>
 
+    <div class="confira">
+      <div class="lbl">Leia a prévia antes de clicar em OK</div>
+      <p>Embaixo da caixa de expressão aparece <em>Preview</em>, com o resultado calculado para a primeira feição da camada. Se sair <code>NULL</code>, algum campo da expressão está vazio nessa feição. Se sair uma mensagem em vermelho, a expressão tem erro de sintaxe, e o texto diz onde.</p>
+    </div>
+
     <div class="cuidado">
       <div class="lbl">O tipo do campo de saída trunca o resultado</div>
       <p>A expressão do QGIS calcula em número real, mas o valor é gravado no tipo que você escolheu em <em>Output field type</em>. Se o campo for <em>Whole number (integer)</em>, a fração desaparece na gravação: 3 escolas em 8 viram <code>38</code>, 3 em 7 viram <code>43</code>, e 1 em 300 vira <code>0</code>. O mapa fica com uma classe inteira de zeros que não existe no dado.</p>
-      <p>Para percentual e razão, escolha <em>Decimal number (real)</em>. A prévia no rodapé mostra o valor da expressão, que já vem com decimais mesmo quando o campo está errado, então confira o tipo na parte de cima da janela e não só a prévia.</p>
+      <p>A prévia mostra o valor da expressão, que já vem com decimais mesmo quando o tipo do campo está errado. Confira o tipo na parte de cima da janela, e não só a prévia.</p>
     </div>
 
     <div class="contexto">
@@ -322,13 +381,22 @@ if("SEM_count" IS NULL, 0, "SEM_count")  <span class="cm">-- trata o nulo</span>
 <div class="passo">
   <div class="n">7</div>
   <div class="c">
-    <h3>Ordenar, ler o topo e levar os dez para a planilha</h3>
+    <h3>Ordenar, ler o topo e levar as listas para o documento</h3>
+
     <ol>
-      <li>Na tabela de atributos, clique no cabeçalho da coluna do indicador. Um clique ordena crescente, dois cliques ordenam decrescente.</li>
-      <li>Para copiar as dez primeiras linhas, selecione-as com <code>Shift</code>, use <code>Ctrl+C</code> e cole no Word ou no Excel. Vai junto o cabeçalho das colunas.</li>
-      <li>Se preferir gravar o recorte, use <span class="caminho">botão direito na camada <i>▸</i> Export <i>▸</i> Save Selected Features As</span>, no formato CSV.</li>
+      <li>Na tabela de atributos, clique no cabeçalho da coluna do indicador. Um clique ordena crescente; clique de novo para decrescente. A setinha no cabeçalho indica o sentido.</li>
+      <li>Clique no número da primeira linha, à esquerda, segure <code>Shift</code> e clique no número da décima. As dez ficam destacadas em amarelo, na tabela e no mapa.</li>
+      <li><code>Ctrl+C</code> copia as linhas selecionadas com o cabeçalho das colunas. Cole direto no Word ou no Excel.</li>
+      <li>Se preferir gravar em arquivo, feche a tabela e vá em <span class="caminho">botão direito na camada <i>▸</i> Export <i>▸</i> Save Selected Features As…</span>, escolhendo <em>Comma Separated Value</em> como formato.</li>
+      <li>Para limpar a seleção antes do próximo critério, use <code>Ctrl+Shift+A</code>.</li>
     </ol>
-    <p>Repita para cada critério que a Pergunta 1 e a Pergunta 2 pedem, gravando cada lista com um nome que identifique o critério.</p>
+
+    <div class="confira">
+      <div class="lbl">Um detalhe que confunde</div>
+      <p>No canto inferior esquerdo da tabela há uma lista suspensa que costuma estar em <em>Show All Features</em>. Se ela estiver em <em>Show Selected Features</em>, você vê só o que está selecionado e pode achar que perdeu dados. Deixe em <em>Show All Features</em>.</p>
+    </div>
+
+    <p>Repita para cada critério que a Pergunta 1 e a Pergunta 2 pedem, guardando cada lista com um nome que identifique o critério. Você vai precisar das três lado a lado para comparar.</p>
   </div>
 </div>
 
@@ -336,13 +404,17 @@ if("SEM_count" IS NULL, 0, "SEM_count")  <span class="cm">-- trata o nulo</span>
   <div class="n">8</div>
   <div class="c">
     <h3>Somar a área dos municípios escolhidos</h3>
+
     <p>Somar área em coordenadas geográficas não dá resultado em quilômetro quadrado, porque grau não é unidade de comprimento. Antes de medir, o dado precisa estar num sistema projetado adequado para área, como você viu no tema 2.</p>
+
     <ol>
-      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e, em <em>Measurements</em>, defina o elipsoide e a unidade de área como <em>Square kilometers</em>. É essa configuração que o <code>$area</code> vai usar.</li>
-      <li>Selecione no mapa ou na tabela os municípios que você vai recomendar.</li>
-      <li>Rode <em>Reproject layer</em>, de identificador <code>native:reprojectlayer</code>, escolhendo o CRS de destino. Para usar só a seleção, abra o menu ao lado do seletor de <em>Input layer</em> e marque <em>Selected features only</em>.</li>
+      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e, no bloco <em>Measurements</em>, escolha o elipsoide e deixe <em>Area units</em> em <em>Square kilometers</em>. É essa configuração que o <code>$area</code> vai usar.</li>
+      <li>Selecione os municípios que você vai recomendar. Na tabela, com <code>Ctrl</code> ou <code>Shift</code> nos números das linhas; ou por expressão, com <code>Ctrl+F3</code>, que abre <em>Select Features by Expression</em>.</li>
+      <li>Vá em <span class="caminho">Vector <i>▸</i> Data Management Tools <i>▸</i> Reproject layer…</span>.</li>
+      <li>Em <em>Input layer</em>, escolha a camada. Para usar só a seleção, clique no ícone à direita da lista suspensa e marque <em>Selected features only</em>.</li>
+      <li>Em <em>Target CRS</em>, escolha o sistema projetado adequado para medir área. Grave a saída em arquivo e clique em <em>Run</em>.</li>
       <li>Na camada reprojetada, abra o Field Calculator e crie um campo do tipo <em>Decimal number (real)</em> com a expressão <code>$area</code>.</li>
-      <li>Abra o painel <em>Statistics</em> em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>, escolha a camada e o campo, e leia a soma.</li>
+      <li>Abra o painel de estatísticas em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>. No alto do painel, escolha a camada e o campo. Leia a linha <em>Sum</em>.</li>
     </ol>
 
     <div class="cuidado">
@@ -358,13 +430,21 @@ if("SEM_count" IS NULL, 0, "SEM_count")  <span class="cm">-- trata o nulo</span>
   <div class="n">9</div>
   <div class="c">
     <h3>Montar o coroplético</h3>
+
     <ol>
-      <li>Abra <em>Properties</em> da camada, aba <em>Symbology</em>, e troque o modo de <em>Single Symbol</em> para <em>Graduated</em>.</li>
-      <li>Em <em>Value</em>, escolha o campo do indicador. Em <em>Color ramp</em>, uma rampa sequencial.</li>
-      <li>Escolha o <em>Mode</em> e o número de classes, e clique em <em>Classify</em>.</li>
-      <li>Para definir as faixas você mesmo, use o modo <em>Manual</em> e edite o limite superior de cada classe com duplo clique na coluna <em>Values</em>.</li>
-      <li>Edite o texto de cada faixa na coluna <em>Legend</em>. É esse texto que sai na legenda do mapa, e ele deve dizer o que a cor significa.</li>
+      <li>Clique duas vezes na camada no painel <em>Layers</em> para abrir <em>Layer Properties</em>, e vá na aba <em>Symbology</em>, a segunda da lista à esquerda.</li>
+      <li>Na lista suspensa do topo, troque <em>Single Symbol</em> por <em>Graduated</em>. A janela muda inteira.</li>
+      <li>Em <em>Value</em>, escolha o campo do indicador. Em <em>Color ramp</em>, uma rampa sequencial: cor clara para valor baixo, cor escura para valor alto.</li>
+      <li>Escolha o <em>Mode</em> e o número de <em>Classes</em>, e clique em <em>Classify</em>, embaixo da lista. As faixas aparecem na tabela do meio.</li>
+      <li>Para definir as faixas você mesmo, troque o <em>Mode</em> para <em>Manual</em> e clique duas vezes num valor da coluna <em>Values</em> para editar o limite. O limite superior de uma classe é o inferior da seguinte.</li>
+      <li>Clique duas vezes no texto da coluna <em>Legend</em> para reescrevê-lo. É esse texto que sai na legenda do mapa, e ele deve dizer o que a cor significa, não repetir o intervalo numérico bruto.</li>
+      <li>Confirme com <em>Apply</em> para ver no mapa sem fechar a janela, e depois <em>OK</em>.</li>
     </ol>
+
+    <div class="confira">
+      <div class="lbl">Antes de exportar</div>
+      <p>Olhe o mapa e a legenda juntos. Se uma faixa não aparece em nenhum município, ela não deveria estar na legenda. Se metade do estado está na mesma cor, o corte não está separando nada, e vale trocar o modo ou o número de classes.</p>
+    </div>
 
     <div class="contexto">
       <div class="lbl">Quando a classificação automática colapsa</div>
