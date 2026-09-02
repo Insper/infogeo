@@ -312,14 +312,24 @@ footer.site .sig{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;te
   .resposta{background:#fff;color:#000;border:1.5pt solid #000;border-left:4pt solid #A80404}
   .resposta p,.resposta .big{color:#000}
   .resposta .lbl{color:#A80404}
-  .passo > .n{background:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .passo{display:block;padding:18pt 0}
+  .passo > .n{
+    background:#000;display:inline-block;width:24pt;height:24pt;line-height:24pt;text-align:center;
+    font-size:11pt;border-radius:12pt;margin:0 0 8pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact
+  }
+  .passo > .c{display:block}
+  pre.expr{font-size:8.5pt;line-height:1.45;white-space:pre-wrap;overflow-x:visible;padding:10pt 12pt}
+  .params dd,.params dt{font-size:9.5pt}
   .caminho{background:#eee;color:#000;border:1px solid #999}
   .caminho i{color:#A80404}
   .exercicio .hd{background:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   section.part{page-break-inside:auto;padding-top:22pt}
-  .passo,.conceito,.pense,.confira,.cuidado,.exercicio,figure{page-break-inside:avoid}
+  .conceito,.pense,.confira,.cuidado,.exercicio,figure,.params{page-break-inside:avoid}
+  .passo > .n{page-break-after:avoid}
   h2,h3,.partmark{page-break-after:avoid}
   a{color:#000;border:0}
+  code,kbd,.caminho{white-space:normal;word-break:break-word;overflow-wrap:anywhere}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 

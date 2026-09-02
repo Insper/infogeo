@@ -89,6 +89,9 @@
     <li><div><span class="fn">escolas_&lt;UF&gt;_2025.csv</span>
         <span class="fd">Uma linha por escola em funcionamento. UTF-8, separador ponto e vírgula.</span></div>
         <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">escolas_&lt;UF&gt;_2025.csvt</span>
+        <span class="fd">Arquivo auxiliar de uma linha que declara o tipo de cada coluna do CSV. Precisa ficar na mesma pasta, com o mesmo nome.</span></div>
+        <span class="tp real">oficial</span></li>
     <li><div><span class="fn">municipios_&lt;UF&gt;_2022.gpkg</span>
         <span class="fd">Camada <code>municipios</code>, EPSG:4674, com código, nome e área oficial em km².</span></div>
         <span class="tp real">oficial</span></li>
@@ -135,26 +138,239 @@
   <h2 class="pt" style="margin:0">Caminho no QGIS</h2>
 </div>
 
-<p>Tudo é feito no QGIS, sem programação. As operações abaixo são as que você já usou nos temas 1 a 4, e a sequência é sua. Não há caminho único.</p>
+<p>Tudo é feito no QGIS, sem programação. Os passos abaixo mostram a mecânica de cada operação: onde fica a ferramenta, o que preencher em cada campo da janela e como escrever a expressão. O que eles não dizem é qual indicador construir, que corte usar ou que municípios recomendar, porque essa parte é o trabalho.</p>
 
-<table>
-  <thead><tr><th style="width:34%">Operação</th><th>Onde ela aparece</th></tr></thead>
-  <tbody>
-    <tr><td>Importar tabela sem geometria</td><td><span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer</span>, com <em>No geometry</em></td></tr>
-    <tr><td>Contar e somar por categoria</td><td><span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector analysis <i>▸</i> Statistics by categories</span></td></tr>
-    <tr><td>Filtrar escolas por condição</td><td>Botão direito na camada, <em>Filter</em>, ou seleção por expressão</td></tr>
-    <tr><td>Cruzar tabela com a malha</td><td><span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector general <i>▸</i> Join attributes by field value</span></td></tr>
-    <tr><td>Construir indicador</td><td>Field Calculator, na tabela de atributos</td></tr>
-    <tr><td>Ordenar e ler o topo</td><td>Clique no cabeçalho da coluna, na tabela de atributos</td></tr>
-    <tr><td>Medir área somada</td><td>Reprojetar para um sistema equivalente e usar o painel de estatísticas</td></tr>
-    <tr><td>Classificar o mapa</td><td><em>Properties</em>, aba <em>Symbology</em>, modo <em>Graduated</em></td></tr>
-  </tbody>
-</table>
+<p>A sequência também é sua. Se você preferir chegar ao mesmo resultado por outro caminho do QGIS, pode.</p>
 
-<div class="cuidado">
-  <div class="lbl">Dois pontos de conferência</div>
-  <p>Depois de cruzar as tabelas, confira quantos municípios receberam valor antes de calcular qualquer coisa. Junção que não casa não produz mensagem de erro: produz uma coluna de nulos que parece normal até o mapa sair errado. Aqui o casamento deve ser total, e é isso que você está verificando.</p>
-  <p>Nem todo município tem escola sem esgotamento adequado, então a segunda agregação tem menos linhas que a malha. Decidir o que fazer com quem ficou de fora é parte da Pergunta 3, e a decisão precisa estar escrita.</p>
+<div class="passo">
+  <div class="n">1</div>
+  <div class="c">
+    <h3>Montar o projeto e carregar os dois arquivos</h3>
+    <ol>
+      <li>Crie a pasta <code>InfoGeo/aps01</code> com duas subpastas, <code>dados_brutos</code> e <code>dados_tratados</code>. Coloque o CSV, o <code>.csvt</code> de mesmo nome e o GeoPackage do seu estado em <code>dados_brutos</code>.</li>
+      <li>Abra o QGIS, crie um projeto novo e salve como <code>InfoGeo/aps01/projeto.qgz</code>.</li>
+      <li>Arraste <code>municipios_&lt;UF&gt;_2022.gpkg</code> para dentro da janela.</li>
+      <li>Importe a tabela de escolas por <span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer</span>, com os parâmetros abaixo.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Data Source Manager · Delimited Text</div>
+      <dl>
+        <dt>File name</dt><dd>escolas_&lt;UF&gt;_2025.csv</dd>
+        <dt>Layer name</dt><dd>escolas</dd>
+        <dt>Encoding</dt><dd>UTF-8</dd>
+        <dt>File format</dt><dd>Custom delimiters · Semicolon</dd>
+        <dt>First record has field names</dt><dd>marcado</dd>
+        <dt>Detect field types</dt><dd>marcado</dd>
+        <dt>Geometry definition</dt><dd>No geometry (attribute only table)</dd>
+      </dl>
+    </div>
+
+    <p>A camada entra sem geometria e aparece no painel com o ícone de tabela. Isso é esperado: ela só ganha lugar no mapa depois de cruzar com a malha.</p>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">2</div>
+  <div class="c">
+    <h3>Conferir a chave dos dois lados antes de qualquer conta</h3>
+    <p>O cruzamento vai casar o código de município da tabela com o da malha. Antes de rodar, olhe os dois campos.</p>
+    <ol>
+      <li>Abra a tabela de atributos das duas camadas com <code>F6</code> e compare <code>CO_MUNICIPIO</code> (escolas) com <code>CD_MUN</code> (malha). Os dois devem mostrar sete dígitos.</li>
+      <li>Confirme o tipo de cada um em <em>Properties</em>, aba <em>Fields</em>: os dois precisam estar como <code>String</code>. É para isso que serve o arquivo <code>.csvt</code> que veio ao lado do CSV.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Se o tipo estiver diferente dos dois lados</div>
+      <p>Junção entre texto e número não casa e não devolve mensagem de erro. Devolve uma coluna inteira de nulos, que parece normal na tabela e só aparece quando o mapa sai vazio. Se <code>CO_MUNICIPIO</code> tiver entrado como <code>Integer</code>, o <code>.csvt</code> não está na mesma pasta do CSV: coloque-o lá e importe a camada de novo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">3</div>
+  <div class="c">
+    <h3>Agregar as escolas por município</h3>
+    <p>A tabela tem uma linha por escola e você precisa de uma linha por município. Quem faz isso é o <em>Statistics by categories</em>, que agrupa pelas categorias de um campo e devolve contagem, soma, média e outras estatísticas do campo de valores.</p>
+    <ol>
+      <li>Abra a caixa de ferramentas com <code>Ctrl+Alt+T</code> e procure <em>Statistics by categories</em>, de identificador <code>qgis:statisticsbycategories</code>.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Statistics by categories</div>
+      <dl>
+        <dt>Input vector layer</dt><dd>escolas</dd>
+        <dt>Field to calculate statistics on</dt><dd>o campo cujo total você quer somar</dd>
+        <dt>Field(s) with categories</dt><dd>CO_MUNICIPIO</dd>
+        <dt>Statistics by category</dt><dd>dados_tratados/total_por_municipio.gpkg</dd>
+      </dl>
+    </div>
+
+    <p>A saída é uma tabela sem geometria com uma linha por município. Entre as colunas estão <code>count</code>, que é o número de escolas do município, e <code>sum</code>, que é a soma do campo de valores. Abra e confira quantas linhas saíram.</p>
+
+    <p>Você vai precisar rodar essa ferramenta mais de uma vez: uma sobre todas as escolas, para ter o denominador, e outra sobre o recorte que interessa à pergunta, para ter o numerador. O passo 4 mostra como fazer o recorte.</p>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">4</div>
+  <div class="c">
+    <h3>Recortar a tabela por uma condição</h3>
+    <p>Para agregar só parte das escolas, filtre a camada antes de rodar a ferramenta. O filtro é uma expressão que fica ativa na camada: o QGIS passa a enxergar apenas as linhas que atendem à condição, e as ferramentas de processamento respeitam esse recorte.</p>
+    <ol>
+      <li>Clique com o botão direito na camada <code>escolas</code> e escolha <em>Filter</em>.</li>
+      <li>Escreva a condição na caixa <em>Provider specific filter expression</em> e confirme com <em>Test</em>, que mostra quantas linhas sobraram.</li>
+      <li>Rode o <em>Statistics by categories</em> de novo, gravando com outro nome.</li>
+      <li>Depois, volte em <em>Filter</em> e apague a expressão para restaurar a camada inteira.</li>
+    </ol>
+
+    <p>A sintaxe das expressões é a mesma do tema 3:</p>
+
+<pre class="expr">"ESGOTO_ADEQ" = 0                        <span class="cm">-- número sem aspas</span>
+"LOCALIZACAO" = 2                        <span class="cm">-- código: ver o LEIA-ME</span>
+"DEPENDENCIA" IN (2, 3)                  <span class="cm">-- lista de valores</span>
+"ESGOTO_ADEQ" = 0 AND "QT_MAT_BAS" &gt; 0   <span class="cm">-- duas condições</span>
+"NO_MUNICIPIO" LIKE 'Santa%'             <span class="cm">-- texto entre aspas simples</span></pre>
+
+    <div class="contexto">
+      <div class="lbl">O recorte muda o número de linhas da saída</div>
+      <p>Município que não tem nenhuma escola na condição filtrada simplesmente não aparece na tabela agregada. Ele não vira zero: ele some. Repare em quantas linhas cada agregação devolveu, porque essa diferença volta na Pergunta 3.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">5</div>
+  <div class="c">
+    <h3>Cruzar as tabelas com a malha</h3>
+    <p>Agora as tabelas agregadas ganham geometria. O <em>Join attributes by field value</em> copia colunas de uma tabela para outra usando um campo em comum.</p>
+    <ol>
+      <li>Na caixa de ferramentas, procure <em>Join attributes by field value</em>, de identificador <code>native:joinattributestable</code>.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Join attributes by field value</div>
+      <dl>
+        <dt>Input layer</dt><dd>municipios_&lt;UF&gt;_2022</dd>
+        <dt>Table field</dt><dd>CD_MUN</dd>
+        <dt>Input layer 2</dt><dd>a tabela agregada do passo 3</dd>
+        <dt>Table field 2</dt><dd>CO_MUNICIPIO</dd>
+        <dt>Layer 2 fields to copy</dt><dd>count, sum</dd>
+        <dt>Join type</dt><dd>Take attributes of the first matching feature only (one-to-one)</dd>
+        <dt>Discard records which could not be joined</dt><dd>desmarcado</dd>
+        <dt>Joined field prefix</dt><dd>um prefixo curto que identifique a origem, como <code>TOT_</code></dd>
+      </dl>
+    </div>
+
+    <p>O prefixo importa. Você vai cruzar duas tabelas agregadas com a mesma malha, e as duas trazem colunas chamadas <code>count</code> e <code>sum</code>. Sem prefixos diferentes, a segunda sobrescreve a primeira ou entra com nome duplicado.</p>
+
+    <p>Deixe <em>Discard records which could not be joined</em> desmarcado nos dois cruzamentos. Municípios sem correspondência precisam continuar na camada, com nulo na coluna, para que você possa contá-los.</p>
+
+    <div class="cuidado">
+      <div class="lbl">Confira o casamento antes de seguir</div>
+      <p>Abra a tabela da camada cruzada, clique no cabeçalho da coluna nova para ordenar e veja quantas linhas ficaram nulas. No cruzamento com a agregação de todas as escolas, o casamento deve ser total. Se não for, pare no passo 2 antes de calcular qualquer coisa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">6</div>
+  <div class="c">
+    <h3>Construir o indicador com o Field Calculator</h3>
+    <p>Campo calculado é uma coluna nova cujo conteúdo vem de uma expressão sobre as colunas que já existem. É onde o indicador nasce.</p>
+    <ol>
+      <li>Abra a tabela de atributos da camada cruzada com <code>F6</code>.</li>
+      <li>Clique no ícone do ábaco, <em>Open Field Calculator</em>, ou use <code>Ctrl+I</code>.</li>
+      <li>Deixe <em>Create a new field</em> marcado, dê um nome ao campo e escolha o tipo. Percentual e razão pedem <em>Decimal number (real)</em>; contagem pede <em>Whole number (integer)</em>.</li>
+      <li>Escreva a expressão na caixa grande. O painel do meio lista funções e o da direita mostra os campos disponíveis, com duplo clique para inserir.</li>
+      <li>A prévia no rodapé da janela mostra o resultado para a primeira feição. Use-a para conferir antes de aplicar.</li>
+      <li>Confirme com <em>OK</em>. A camada entra em edição: salve com <code>Ctrl+S</code> ou pelo ícone do lápis.</li>
+    </ol>
+
+    <div class="params">
+      <div class="hd">Field Calculator · campos da janela</div>
+      <dl>
+        <dt>Create a new field</dt><dd>marcado</dd>
+        <dt>Output field name</dt><dd>até dez caracteres, sem acento e sem espaço</dd>
+        <dt>Output field type</dt><dd>Decimal number (real) para percentual e razão</dd>
+        <dt>Output field length / Precision</dt><dd>10 e 2 servem para percentual</dd>
+      </dl>
+    </div>
+
+    <p>A sintaxe é a mesma dos temas 3 e 4:</p>
+
+<pre class="expr">"TOT_count"                              <span class="cm">-- campo entre aspas duplas</span>
+"SEM_count" / "TOT_count"                <span class="cm">-- razão entre colunas</span>
+100.0 * "SEM_count" / "TOT_count"        <span class="cm">-- percentual</span>
+round(100.0 * "SEM_count" / "TOT_count", 1)   <span class="cm">-- uma casa</span>
+if("SEM_count" IS NULL, 0, "SEM_count")  <span class="cm">-- trata o nulo</span>
+"SEM_sum" / ("AREA_KM2" / 100)           <span class="cm">-- parênteses mudam a ordem</span></pre>
+
+    <div class="cuidado">
+      <div class="lbl">O tipo do campo de saída trunca o resultado</div>
+      <p>A expressão do QGIS calcula em número real, mas o valor é gravado no tipo que você escolheu em <em>Output field type</em>. Se o campo for <em>Whole number (integer)</em>, a fração desaparece na gravação: 3 escolas em 8 viram <code>38</code>, 3 em 7 viram <code>43</code>, e 1 em 300 vira <code>0</code>. O mapa fica com uma classe inteira de zeros que não existe no dado.</p>
+      <p>Para percentual e razão, escolha <em>Decimal number (real)</em>. A prévia no rodapé mostra o valor da expressão, que já vem com decimais mesmo quando o campo está errado, então confira o tipo na parte de cima da janela e não só a prévia.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Nulo não é zero, e a diferença é sua para decidir</div>
+      <p>Município que ficou de fora da agregação filtrada chega aqui com nulo. Tratar como zero afirma que ele não tem o problema; deixar como nulo afirma que você não sabe. As duas leituras são defensáveis, e a função <code>if</code> do quadro acima aplica a que você escolher. O que não é defensável é não perceber a diferença. Qualquer que seja a decisão, ela precisa aparecer no texto e na legenda do mapa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">7</div>
+  <div class="c">
+    <h3>Ordenar, ler o topo e levar os dez para a planilha</h3>
+    <ol>
+      <li>Na tabela de atributos, clique no cabeçalho da coluna do indicador. Um clique ordena crescente, dois cliques ordenam decrescente.</li>
+      <li>Para copiar as dez primeiras linhas, selecione-as com <code>Shift</code>, use <code>Ctrl+C</code> e cole no Word ou no Excel. Vai junto o cabeçalho das colunas.</li>
+      <li>Se preferir gravar o recorte, use <span class="caminho">botão direito na camada <i>▸</i> Export <i>▸</i> Save Selected Features As</span>, no formato CSV.</li>
+    </ol>
+    <p>Repita para cada critério que a Pergunta 1 e a Pergunta 2 pedem, gravando cada lista com um nome que identifique o critério.</p>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">8</div>
+  <div class="c">
+    <h3>Somar a área dos municípios escolhidos</h3>
+    <p>Somar área em coordenadas geográficas não dá resultado em quilômetro quadrado, porque grau não é unidade de comprimento. Antes de medir, o dado precisa estar num sistema projetado adequado para área, como você viu no tema 2.</p>
+    <ol>
+      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e, em <em>Measurements</em>, defina o elipsoide e a unidade de área como <em>Square kilometers</em>. É essa configuração que o <code>$area</code> vai usar.</li>
+      <li>Selecione no mapa ou na tabela os municípios que você vai recomendar.</li>
+      <li>Rode <em>Reproject layer</em>, de identificador <code>native:reprojectlayer</code>, escolhendo o CRS de destino. Para usar só a seleção, abra o menu ao lado do seletor de <em>Input layer</em> e marque <em>Selected features only</em>.</li>
+      <li>Na camada reprojetada, abra o Field Calculator e crie um campo do tipo <em>Decimal number (real)</em> com a expressão <code>$area</code>.</li>
+      <li>Abra o painel <em>Statistics</em> em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>, escolha a camada e o campo, e leia a soma.</li>
+    </ol>
+
+    <div class="cuidado">
+      <div class="lbl">Duas funções de área que não devolvem a mesma coisa</div>
+      <p><code>$area</code> mede sobre o elipsoide e converte para a unidade definida nas propriedades do projeto. <code>area($geometry)</code> ignora essa configuração e devolve o número bruto na unidade do CRS da camada, que em coordenadas geográficas é grau quadrado. Confira a unidade antes de anotar o resultado.</p>
+    </div>
+
+    <p>A camada traz também <code>AREA_KM2</code>, que é a área oficial publicada pelo IBGE. Comparar o seu número com o oficial é uma boa conferência, e a Pergunta 3 pede que você declare em que sistema mediu.</p>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="n">9</div>
+  <div class="c">
+    <h3>Montar o coroplético</h3>
+    <ol>
+      <li>Abra <em>Properties</em> da camada, aba <em>Symbology</em>, e troque o modo de <em>Single Symbol</em> para <em>Graduated</em>.</li>
+      <li>Em <em>Value</em>, escolha o campo do indicador. Em <em>Color ramp</em>, uma rampa sequencial.</li>
+      <li>Escolha o <em>Mode</em> e o número de classes, e clique em <em>Classify</em>.</li>
+      <li>Para definir as faixas você mesmo, use o modo <em>Manual</em> e edite o limite superior de cada classe com duplo clique na coluna <em>Values</em>.</li>
+      <li>Edite o texto de cada faixa na coluna <em>Legend</em>. É esse texto que sai na legenda do mapa, e ele deve dizer o que a cor significa.</li>
+    </ol>
+
+    <div class="contexto">
+      <div class="lbl">Quando a classificação automática colapsa</div>
+      <p>Se boa parte dos municípios tiver o mesmo valor, os quantis podem devolver várias classes com o mesmo limite, do tipo <code>0 – 0</code>. Não é defeito do QGIS: é o que acontece quando um quinto da distribuição não cabe em cinco partes iguais. Nesse caso, separe esses municípios numa classe própria e defina o resto no modo <em>Manual</em>.</p>
+    </div>
+  </div>
 </div>
 
 <p>O mapa da Pergunta 1 é um coroplético e deve seguir o <a href="extra-print-layout.html">padrão de entrega da disciplina</a>: escala, orientação, legenda editada, fonte com data de coleta, sistema de coordenadas e autoria.</p>
