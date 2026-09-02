@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APS 1 · Infraestrutura escolar — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="aps-01.html" class="here">APS 1</a></li>
+  </ul>
+</div></div>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">APS 1 · escopo dos temas 1 a 4</div>
+  <h1>A secretaria tem dinheiro para reformar poucas escolas. Em <em>quais municípios</em> começar?</h1>
+  <p class="sub">Você recebe o Censo Escolar de um estado e a malha municipal do IBGE, e devolve um diagnóstico com dez municípios prioritários. A parte difícil não é o QGIS.</p>
+  <div class="facts">
+    <div><b>10% da nota</b><span>uma das três APS</span></div>
+    <div><b>Individual</b><span>fora de sala</span></div>
+    <div><b>Censo Escolar 2025</b><span>INEP e IBGE</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta APS</h6>
+  <ol>
+    <li><a href="#estado">Seu estado</a></li>
+    <li><a href="#caso">O caso</a></li>
+    <li><a href="#dados">Dados</a></li>
+    <li><a href="#perguntas">O que responder</a></li>
+    <li><a href="#caminho">Caminho no QGIS</a></li>
+    <li><a href="#entrega">O que entregar</a></li>
+    <li><a href="#correcao">Como será corrigido</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="estado">
+<div class="partmark">
+  <div class="pn">Passo zero</div>
+  <h2 class="pt" style="margin:0">Seu estado</h2>
+</div>
+
+<p>Cada aluno trabalha um estado, definido pelo próprio mês de nascimento.</p>
+
+<table>
+  <thead><tr><th style="width:30%">Você nasceu em</th><th style="width:22%">Seu estado</th><th>Seus arquivos</th></tr></thead>
+  <tbody>
+    <tr><td>Janeiro, fevereiro ou março</td><td><strong>Pará</strong></td><td class="tmono">escolas_PA_2025.csv · municipios_PA_2022.gpkg</td></tr>
+    <tr><td>Abril, maio ou junho</td><td><strong>Maranhão</strong></td><td class="tmono">escolas_MA_2025.csv · municipios_MA_2022.gpkg</td></tr>
+    <tr><td>Julho, agosto ou setembro</td><td><strong>Goiás</strong></td><td class="tmono">escolas_GO_2025.csv · municipios_GO_2022.gpkg</td></tr>
+    <tr><td>Outubro, novembro ou dezembro</td><td><strong>Santa Catarina</strong></td><td class="tmono">escolas_SC_2025.csv · municipios_SC_2022.gpkg</td></tr>
+  </tbody>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Entrega com o estado errado recebe zero</div>
+  <p>A correção compara município a município com o estado sorteado. Uma entrega feita com outro estado não tem como ser corrigida.</p>
+</div>
+</section>
+
+<section class="part" id="caso">
+<h2>O caso</h2>
+
+<p>Você assessora a Secretaria Estadual de Educação. Existe verba para reformar a instalação sanitária de um número limitado de escolas, e a secretaria decidiu concentrar o esforço em dez municípios, para não pulverizar equipe e licitação. Cabe a você dizer quais dez, e defender a escolha diante de um secretário que vai perguntar por que não outros.</p>
+
+<p>O dado é o Censo Escolar do INEP, uma linha por escola, com a informação de esgotamento sanitário de cada uma. A malha municipal do IBGE dá a geometria. Não existe uma resposta única, e a nota não depende de você acertar uma lista secreta: depende de o critério estar explícito, coerente com o dado e defensável.</p>
+</section>
+
+<section class="part" id="dados">
+<h2>Dados</h2>
+
+<div class="baixar">
+  <div class="hd"><b>Pacote do seu estado</b><span>pacote no Blackboard</span></div>
+  <div class="fonte">Dados do <b>INEP</b> · Censo Escolar 2025 e do <b>IBGE</b> · Malhas Territoriais 2022, baixados em <b>01/09/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina.</div>
+  <ul>
+    <li><div><span class="fn">escolas_&lt;UF&gt;_2025.csv</span>
+        <span class="fd">Uma linha por escola em funcionamento. UTF-8, separador ponto e vírgula.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">municipios_&lt;UF&gt;_2022.gpkg</span>
+        <span class="fd">Camada <code>municipios</code>, EPSG:4674, com código, nome e área oficial em km².</span></div>
+        <span class="tp real">oficial</span></li>
+  </ul>
+  <div class="ft">As colunas do CSV são <code>CO_ESCOLA</code>, <code>NO_ESCOLA</code>, <code>CO_MUNICIPIO</code>, <code>NO_MUNICIPIO</code>, <code>DEPENDENCIA</code>, <code>LOCALIZACAO</code>, <code>QT_MAT_BAS</code> com as matrículas na educação básica, e cinco indicadores de infraestrutura que valem 0 ou 1: <code>ESGOTO_ADEQ</code>, <code>AGUA_ADEQ</code>, <code>ENERGIA_ADEQ</code>, <code>INTERNET</code> e <code>INTERNET_ALUNOS</code>. Adequado, em esgotamento, é rede pública ou fossa séptica.</div>
+</div>
+</section>
+
+<section class="part" id="perguntas">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">O trabalho</div>
+  <h2 class="pt" style="margin:0">O que responder</h2>
+</div>
+
+<p class="lede">São três perguntas. Cada uma exige um número, um mapa ou uma tabela que a sustente, e um parágrafo de argumento. O parágrafo vale mais que o número.</p>
+
+<h2>Pergunta 1 · Quais dez municípios priorizar?</h2>
+
+<p>Agregue as escolas por município, cruze com a malha e mapeie onde está o problema. Depois construa <strong>duas</strong> listas de dez: a dos municípios com maior percentual de escolas sem esgotamento adequado, e a dos municípios com maior número absoluto dessas escolas.</p>
+
+<p>Compare as duas listas e escolha uma para a recomendação. Explique por que a outra foi descartada, e o que a sua escolha deixa de fora.</p>
+
+<div class="pense">
+  <div class="lbl">Onde está a dificuldade</div>
+  <p>Antes de escrever, olhe o tamanho dos municípios que apareceram no topo de cada lista. Um percentual calculado sobre poucas escolas se comporta de um jeito específico, e vale entender esse comportamento antes de recomendar qualquer coisa a um secretário.</p>
+</div>
+
+<h2>Pergunta 2 · A prioridade muda se o critério for matrículas?</h2>
+
+<p>Refaça o indicador usando matrículas afetadas em vez de número de escolas, e monte a terceira lista de dez. Compare com as duas anteriores.</p>
+
+<p>Responda: quantos municípios aparecem em mais de uma lista, e por que uma escola rural pequena e uma escola urbana grande pesam diferente em cada critério. Feche dizendo qual dos três critérios você levaria à secretaria, agora que viu os três.</p>
+
+<h2>Pergunta 3 · Que tamanho tem a sua recomendação, e o que ela não enxerga?</h2>
+
+<p>Some a área dos dez municípios que você recomendou e diga que fração do estado isso representa. Some também as matrículas totais desses municípios. Declare o sistema de coordenadas em que a área foi medida e por que ele serve para somar área.</p>
+
+<p>Em seguida, três informações que o leitor precisa para confiar no seu número: quantos municípios da malha ficaram sem correspondência no cruzamento, quantos municípios do estado não têm nenhuma escola sem esgotamento adequado e como você os tratou no mapa, e o que o Censo Escolar não informa sobre a condição real das instalações.</p>
+</section>
+
+<section class="part" id="caminho">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Apoio</div>
+  <h2 class="pt" style="margin:0">Caminho no QGIS</h2>
+</div>
+
+<p>Tudo é feito no QGIS, sem programação. As operações abaixo são as que você já usou nos temas 1 a 4, e a sequência é sua. Não há caminho único.</p>
+
+<table>
+  <thead><tr><th style="width:34%">Operação</th><th>Onde ela aparece</th></tr></thead>
+  <tbody>
+    <tr><td>Importar tabela sem geometria</td><td><span class="caminho">Layer <i>▸</i> Add Layer <i>▸</i> Add Delimited Text Layer</span>, com <em>No geometry</em></td></tr>
+    <tr><td>Contar e somar por categoria</td><td><span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector analysis <i>▸</i> Statistics by categories</span></td></tr>
+    <tr><td>Filtrar escolas por condição</td><td>Botão direito na camada, <em>Filter</em>, ou seleção por expressão</td></tr>
+    <tr><td>Cruzar tabela com a malha</td><td><span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector general <i>▸</i> Join attributes by field value</span></td></tr>
+    <tr><td>Construir indicador</td><td>Field Calculator, na tabela de atributos</td></tr>
+    <tr><td>Ordenar e ler o topo</td><td>Clique no cabeçalho da coluna, na tabela de atributos</td></tr>
+    <tr><td>Medir área somada</td><td>Reprojetar para um sistema equivalente e usar o painel de estatísticas</td></tr>
+    <tr><td>Classificar o mapa</td><td><em>Properties</em>, aba <em>Symbology</em>, modo <em>Graduated</em></td></tr>
+  </tbody>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Dois pontos de conferência</div>
+  <p>Depois de cruzar as tabelas, confira quantos municípios receberam valor antes de calcular qualquer coisa. Junção que não casa não produz mensagem de erro: produz uma coluna de nulos que parece normal até o mapa sair errado. Aqui o casamento deve ser total, e é isso que você está verificando.</p>
+  <p>Nem todo município tem escola sem esgotamento adequado, então a segunda agregação tem menos linhas que a malha. Decidir o que fazer com quem ficou de fora é parte da Pergunta 3, e a decisão precisa estar escrita.</p>
+</div>
+
+<p>O mapa da Pergunta 1 é um coroplético e deve seguir o <a href="extra-print-layout.html">padrão de entrega da disciplina</a>: escala, orientação, legenda editada, fonte com data de coleta, sistema de coordenadas e autoria.</p>
+</section>
+
+<section class="part" id="entrega">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Entrega</div>
+  <h2 class="pt" style="margin:0">O que entregar</h2>
+</div>
+
+<p>Três arquivos, pelo Blackboard, com nome em minúsculas, sem acento e sem espaço.</p>
+
+<table>
+  <thead><tr><th style="width:34%">Arquivo</th><th>Conteúdo</th></tr></thead>
+  <tbody>
+    <tr><td class="tmono">infogeo_aps01_&lt;sobrenome&gt;_&lt;uf&gt;.docx</td><td>O documento, no máximo quatro páginas</td></tr>
+    <tr><td class="tmono">infogeo_aps01_&lt;sobrenome&gt;_&lt;uf&gt;.pdf</td><td>O coroplético em PDF vetorial, no padrão de entrega</td></tr>
+    <tr><td class="tmono">infogeo_aps01_&lt;sobrenome&gt;_&lt;uf&gt;.qgz</td><td>O projeto do QGIS, que abra sem camada quebrada</td></tr>
+  </tbody>
+</table>
+
+<h3>O documento</h3>
+
+<p>Quatro páginas, no máximo, na seguinte ordem.</p>
+
+<ol>
+  <li><strong>Identificação</strong>: nome, curso, mês de nascimento e estado. Duas linhas.</li>
+  <li><strong>Recomendação</strong>: a lista final de dez municípios e o critério que a produziu, em um parágrafo. Esta seção vem primeiro de propósito: é o que o secretário lê.</li>
+  <li><strong>Pergunta 1</strong>: o mapa, as duas listas de dez e o argumento da escolha.</li>
+  <li><strong>Pergunta 2</strong>: a terceira lista, a comparação entre as três e a decisão final de critério.</li>
+  <li><strong>Pergunta 3</strong>: área e matrículas cobertas, sistema de coordenadas usado, e as três informações de confiabilidade pedidas.</li>
+  <li><strong>Limitações</strong>: o que o seu número não sustenta. Meia página.</li>
+  <li><strong>Fontes</strong>: base, órgão, ano e data de coleta.</li>
+</ol>
+
+<div class="contexto">
+  <div class="lbl">Sobre o limite de páginas</div>
+  <p>Quatro páginas é pouco de propósito. Diagnóstico territorial que não cabe em quatro páginas não é lido por quem decide. Tabela longa vai para anexo e não conta no limite; texto conta.</p>
+</div>
+</section>
+
+<section class="part" id="correcao">
+<h2>Como será corrigido</h2>
+
+<table>
+  <thead><tr><th style="width:14%">Peso</th><th style="width:30%">O que se avalia</th><th>O que separa nota alta de nota baixa</th></tr></thead>
+  <tbody>
+    <tr><td class="num">30%</td><td><strong>Execução</strong></td><td>Agregação, cruzamento e indicadores corretos; taxa de casamento verificada; área medida em sistema adequado</td></tr>
+    <tr><td class="num">30%</td><td><strong>Argumento</strong></td><td>O critério de prioridade está explícito e defendido contra as alternativas que você mesmo produziu</td></tr>
+    <tr><td class="num">20%</td><td><strong>Mapa</strong></td><td>Classificação justificada e elementos obrigatórios presentes, conforme o padrão de entrega</td></tr>
+    <tr><td class="num">20%</td><td><strong>Limitações</strong></td><td>Reconhece o que o dado não sustenta, sem transformar isso em desculpa genérica</td></tr>
+  </tbody>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">O erro que mais custa nota</div>
+  <p>Entregar a lista certa sem dizer por que aquele critério. Uma recomendação sem argumento perde os 30% de argumento inteiros, enquanto uma paleta mal escolhida custa fração dos 20% do mapa. Escolha onde investir o seu tempo.</p>
+</div>
+
+<div class="limites">
+  <div class="lbl">Regras</div>
+  <ul>
+    <li>Individual. Discutir método com colegas é esperado; entregar texto ou mapa de outra pessoa não é.</li>
+    <li>Tudo no QGIS. Não use Python nem R.</li>
+    <li>Prazo e política de atraso no Blackboard.</li>
+  </ul>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-04.html"><span class="k">Tema que fecha o escopo</span><span class="t">Este mapa está me convencendo ou me enganando?</span></a>
+  <a href="extra-print-layout.html" class="r"><span class="k">Padrão do mapa</span><span class="t">Preparar o mapa para entrega</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b>
+  Atividade Prática Supervisionada 1</div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

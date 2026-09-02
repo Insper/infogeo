@@ -3,3 +3,8 @@ dados/
 *.gpkg
 *.tif
 *.zip
+
+# fontes dos diagramas: ficam no repositorio de trabalho, nao no site publicado
+*.py
+__pycache__/
+mapas_conceituais/

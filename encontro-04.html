@@ -35,12 +35,12 @@
 <header class="cover"><div class="wrap">
   <div class="tag">Tema 4 · Unidade teórica 04 · ODS 2 e 10</div>
   <h1>Este mapa está me convencendo ou <em>me enganando</em>?</h1>
-  <p class="sub">Um vetor com 141 números e quatro métodos de classificação legítimos, disponíveis no mesmo menu. O primeiro coloca 109 municípios na classe mais baixa. O segundo coloca 29. Os dois mapas são honestos e sustentam manchetes opostas.</p>
+  <p class="sub">Uma coluna de 141 números e quatro métodos de classificação no mesmo menu do QGIS. Trocar o método muda de 109 para 29 o número de municípios na classe mais baixa, sem alterar um único dado, e o leitor não tem como perceber a troca olhando o mapa.</p>
   <div class="facts">
     <div><b>120 min</b><span>duração</span></div>
     <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
     <div><b>Mato Grosso</b><span>área de estudo</span></div>
-    <div><b>APS 1</b><span>lançada hoje</span></div></div>
+    <div><b>141 municípios</b><span>PAM 2023 · IBGE</span></div></div>
 </div></header>
 
 <div class="wrap"><div class="shell">
@@ -53,12 +53,12 @@
     <div class="grp">Parte 1 · teoria</div>
     <li><a href="#bertin">As variáveis visuais</a></li>
     <li><a href="#coropletico">O pressuposto do coroplético</a></li>
-    <li><a href="#denominador">Contagem, taxa, densidade</a></li>
+    <li><a href="#denominador">Contagem, taxa e densidade</a></li>
     <li><a href="#classificacao">Os quatro métodos</a></li>
     <li><a href="#classes">Quantas classes</a></li>
     <li><a href="#paleta">Paleta e acessibilidade</a></li>
     <li><a href="#alternativas">Símbolo proporcional e cartograma</a></li>
-    <li><a href="#maup">MAUP, formalizado</a></li>
+    <li><a href="#maup">Escala e zoneamento</a></li>
     <div class="grp">Parte 2 · roteiro</div>
     <li><a href="#p1">1. Carregar e conferir</a></li>
     <li><a href="#p2">2. O primeiro coroplético</a></li>
@@ -83,7 +83,7 @@
   <h2 class="pt" style="margin:0">Preparação e dados</h2>
 </div>
 
-<p>A leitura era o capítulo do <em>How to Lie with Maps</em> sobre mapas de dados. Guarde uma ideia de lá para esta aula: a maior parte dos mapas enganosos não nasce de má-fé, nasce de configurações padrão aceitas sem exame.</p>
+<p>A leitura de preparação era o capítulo do <em>How to Lie with Maps</em> sobre mapas de dados. Se você não leu, abra agora e procure uma coisa só: quantas decisões o autor lista entre a tabela e o mapa impresso. São mais do que parece, e o software toma quase todas por conta própria quando você aceita o que já vem preenchido.</p>
 
 <p>Crie <code>InfoGeo/tema04_tematico</code> com <code>dados_brutos</code>, <code>dados_tratados</code> e uma pasta nova, <code>estilos</code>, onde você vai gravar os arquivos <code>.qml</code>.</p>
 
@@ -106,7 +106,7 @@
 
 <div class="pense">
   <div class="lbl">A pergunta do tema</div>
-  <p class="q">Duas assessorias de imprensa recebem o mesmo arquivo de produção agrícola. Uma publica um mapa em que quase o estado inteiro é soja. A outra publica um mapa em que só dois municípios aparecem. Nenhuma das duas alterou um único número. Qual das duas mentiu?</p>
+  <p class="q">Duas assessorias de imprensa recebem o mesmo arquivo de produção agrícola de Mato Grosso. Uma publica um mapa em que a soja aparece em quase todo o estado. A outra publica um mapa em que a cor forte cobre um município só. Nenhuma das duas alterou um único número do arquivo. Qual delas mentiu?</p>
 </div>
 </section>
 
@@ -118,15 +118,15 @@
 </div>
 
 <section class="part" id="bertin">
-<p class="lede">Até aqui você produziu números. A partir de hoje você produz imagens, e imagem convence antes de o leitor conferir. Esta aula é sobre as decisões que o software toma por você quando você aperta <em>Classify</em>, e sobre como escolher cada uma delas de propósito.</p>
+<p class="lede">Nos três temas anteriores o produto do trabalho era um número: uma área em hectares, um percentual de domicílios, uma contagem de setores. A partir daqui o produto é uma imagem, e uma imagem chega ao leitor inteira, antes de qualquer conferência. Entre a coluna de números e o mapa impresso existem cinco decisões, e todas já chegam preenchidas na janela de simbologia: o denominador, o método de corte, o número de classes, a paleta e o tipo de símbolo. Antes de tratar de cada uma, dois fundamentos: como o olho lê uma marca gráfica, e o que um mapa coroplético afirma sem dizer.</p>
 
 <h2>As variáveis visuais de Bertin</h2>
 
-<p>Em 1967, o cartógrafo francês Jacques Bertin publicou <em>Sémiologie graphique</em> e fez algo que ninguém tinha feito: catalogar exaustivamente as maneiras pelas quais uma marca no papel pode variar. São sete, e cada uma comunica um tipo diferente de informação.</p>
+<p>Em 1967, o cartógrafo francês Jacques Bertin publicou <em>Sémiologie graphique</em> e catalogou de forma sistemática as maneiras pelas quais uma marca no papel pode variar. São sete, e cada uma comunica um tipo diferente de informação.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d04-bertin.svg" alt="As sete variáveis visuais de Bertin em colunas, cada uma com cinco níveis, marcadas conforme carreguem ou não ordem: posição, tamanho e valor ordenam; granulação ordena mal; cor, orientação e forma não ordenam.">
-  <figcaption><b>Figura 1</b> Passe o olho pela linha de baixo. Só posição, tamanho e valor permitem que o leitor diga qual símbolo representa mais. Matiz não tem ordem natural: ninguém sabe se azul é mais ou menos que verde sem consultar a legenda, e a maior parte dos leitores não consulta.</figcaption>
+  <figcaption><b>Figura 1</b> Passe o olho pela linha de baixo. Só posição, tamanho e valor permitem que o leitor diga qual símbolo representa mais. Matiz não tem ordem natural: não há como saber se azul é mais ou menos que verde sem voltar à legenda a cada símbolo.</figcaption>
 </figure>
 
 <div class="conceito">
@@ -138,24 +138,24 @@
 <div class="pense">
   <div class="lbl">Pergunta norteadora</div>
   <p class="q">Por que o mapa de calor em arco-íris, do azul ao vermelho, é tão popular se matiz não ordena?</p>
-  <p>Porque parece bonito, porque muitos softwares oferecem como padrão e porque há uma convenção aprendida, do azul-frio ao vermelho-quente, que funciona para temperatura e não para mais nada. Fora desse domínio, o leitor precisa da legenda a cada símbolo, e o meio do arco-íris cria fronteiras visuais em lugares onde o dado não tem fronteira nenhuma.</p>
+  <p>Em parte por hábito de software: a rampa arco-íris foi padrão em ferramentas científicas por décadas e virou o que a maioria das pessoas reconhece como "mapa de calor". Em parte porque existe uma convenção aprendida, do azul-frio ao vermelho-quente, que de fato funciona para temperatura, e só para ela. Fora desse domínio o problema é duplo: o leitor não consegue ordenar as cores sem a legenda, e as transições bruscas do arco-íris, principalmente a passagem para o verde, criam fronteiras visuais em pontos onde o dado é contínuo e não tem fronteira nenhuma.</p>
 </div>
 </section>
 
 <section class="part" id="coropletico">
-<h2>O pressuposto oculto do mapa coroplético</h2>
+<h2>O pressuposto do mapa coroplético</h2>
 
-<p>Coroplético é o mapa em que cada unidade territorial recebe uma cor conforme o valor de um atributo. É o mapa mais comum do mundo e o que mais engana, por um motivo estrutural: ele pinta a unidade inteira de uma cor só.</p>
+<p>Coroplético é o mapa em que cada unidade territorial recebe uma cor conforme o valor de um atributo. É o formato mais usado em redação de jornal e em relatório de prefeitura, e o que exige mais cuidado, por um motivo que está na sua própria construção: ele pinta a unidade inteira de uma cor só.</p>
 
 <div class="conceito">
   <div class="lbl">Definição</div>
   <h4>O pressuposto de homogeneidade interna</h4>
-  <p>Ao preencher um polígono com uma cor única, o mapa afirma que o fenômeno se distribui de maneira uniforme dentro dele. Quase nunca é o caso. Aripuanã tem 24.678 km² e 10.731 hectares colhidos de soja, quatro décimos de um por cento do seu território, e o mapa pinta o território inteiro. O leitor atribui importância proporcional à área pintada, e a área do polígono não guarda relação com o valor mapeado.</p>
+  <p>Ao preencher um polígono com uma cor única, o mapa afirma que o fenômeno se distribui de maneira uniforme dentro dele. Quase nunca é o caso: a lavoura ocupa uma fração do município, a falta de esgoto se concentra em algumas quadras do setor, o desmatamento acontece na borda da propriedade. O dado chegou agregado porque a unidade administrativa é o nível em que ele foi coletado, e o mapa devolve essa agregação ao leitor como se fosse a geografia do fenômeno. A informação sobre onde, dentro da unidade, a coisa acontece não está escondida no arquivo: ela nunca foi registrada.</p>
 </div>
 
-<p>Some a isso a distorção de tamanho. Os dez municípios mais extensos ocupam <strong>25,2%</strong> do território de Mato Grosso e respondem por <strong>7,9%</strong> da produção de soja. Os trinta menores ocupam <strong>3,5%</strong> do território, produzem <strong>2,0%</strong> e abrigam <strong>13,5%</strong> da população. Colniza, o maior município do estado com 27.960 km², não colheu um hectare de soja em 2023 e ocupa 3% da tela. Em um coroplético, os grandes dominam a retina e os pequenos praticamente somem.</p>
+<p>Some-se a isso a distorção de tamanho. Num coroplético, o peso que cada unidade tem na retina é dado pela área que ela ocupa na tela, e a área é a única variável do mapa que você não escolheu: ela vem da malha, desenhada por razões administrativas que nada têm a ver com a sua pergunta. Municípios extensos e pouco povoados dominam a imagem; municípios pequenos e densos, onde costuma estar a população, quase desaparecem. O leitor lê área pintada como quantidade, e a área do polígono não guarda relação nenhuma com o valor mapeado.</p>
 
-<p>Esse é o caso brasileiro em forma extrema. Em qualquer mapa temático nacional, a Amazônia ocupa quase metade da tela com municípios do tamanho de Portugal, e o Sudeste, onde vivem 42% dos brasileiros, cabe em um canto. Em um coroplético de qualquer variável social brasileira, o que mais salta aos olhos costuma ser o desenho da malha municipal, não a variável.</p>
+<p>No Brasil isso aparece em forma extrema. Em qualquer mapa temático nacional, a Amazônia ocupa quase metade da tela com municípios do tamanho de Portugal, e o Sudeste, onde vivem 42% dos brasileiros, cabe em um canto. É comum que o padrão mais visível num coroplético de variável social brasileira seja o desenho da malha municipal, e não a variável mapeada. No passo 2 você vai medir esse efeito no estado desta aula.</p>
 
 <div class="cuidado">
   <div class="lbl">Erro comum</div>
@@ -164,24 +164,26 @@
 </section>
 
 <section class="part" id="denominador">
-<h2>Contagem, taxa e densidade: o mesmo dado, quatro rankings</h2>
+<h2>Contagem, taxa, densidade e per capita</h2>
 
-<p>Uma contagem é um número absoluto: toneladas produzidas. Uma taxa divide por algo que mede esforço ou exposição: quilos por hectare colhido. Uma densidade divide por área: toneladas por quilômetro quadrado de município. Cada uma responde a uma pergunta legítima e diferente.</p>
+<p>Uma contagem é um número absoluto: toneladas produzidas, domicílios sem esgotamento adequado. Dividir a contagem por outra grandeza produz uma medida nova, e aquilo pelo que você divide é o denominador. Uma taxa divide pela exposição, ou seja, por aquilo que teve a chance de gerar o fenômeno: quilos colhidos por hectare plantado. Uma densidade divide pela área da unidade territorial. Um valor per capita divide pela população residente. Os quatro são cálculos corretos sobre o mesmo arquivo, e cada um responde a uma pergunta diferente.</p>
+
+<p>A escolha do denominador é, portanto, a escolha da pergunta, e acontece antes de qualquer decisão sobre cor. Há um ponto que só aparece quando você olha o extremo do ranking: razão com denominador pequeno é instável. Um município de dois mil habitantes que registre um único homicídio no ano aparece com cinquenta ocorrências por cem mil habitantes, bem acima da média nacional, e no ano seguinte volta a zero sem que nada tenha mudado na cidade. O mesmo acontece com rendimento agrícola calculado sobre poucos hectares. Por isso todo mapa de taxa precisa de um limiar mínimo de exposição, declarado na legenda junto com quantas unidades ficaram de fora por causa dele.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d04-denominador.svg" alt="Quatro rankings dos seis maiores municípios segundo quatro denominadores: toneladas, kg por hectare, toneladas por km² e toneladas por habitante. O primeiro colocado é diferente nos quatro.">
-  <figcaption><b>Figura 2</b> Quatro perguntas sobre o mesmo arquivo, quatro campeões diferentes. Sorriso é 1º em toneladas, 3º em tonelada por quilômetro quadrado, 37º em rendimento e 56º em tonelada por habitante. Nenhum desses quatro números é falso, e a escolha de qual publicar é editorial, ainda que costume ser apresentada como técnica.</figcaption>
+  <figcaption><b>Figura 2</b> Quatro perguntas sobre o mesmo arquivo, quatro primeiros colocados diferentes. Sorriso é 1º em toneladas, 3º em tonelada por quilômetro quadrado, 37º em rendimento e 56º em tonelada por habitante. Os quatro rankings estão corretos, e quem escolhe qual deles vira mapa está escolhendo o que o mapa vai afirmar.</figcaption>
 </figure>
 
 <table>
   <thead><tr><th style="width:20%">Forma</th><th style="width:30%">Responde</th><th>Quando engana</th></tr></thead>
   <tbody>
-    <tr><td><strong>Contagem</strong><br><code>quantidade_t</code></td><td>Onde está o volume, onde vai o caminhão, onde entra o imposto</td><td>Municípios grandes ganham por serem grandes. Vira um mapa da malha.</td></tr>
-    <tr><td><strong>Taxa</strong><br><code>rendimento_kg_ha</code></td><td>Quão eficiente é a lavoura naquele lugar</td><td>Conquista D&#39;Oeste lidera o rendimento com 4.200 kg/ha e 10.636 hectares colhidos, 0,09% da área colhida do estado. Sempre filtre por um mínimo de exposição.</td></tr>
-    <tr><td><strong>Densidade</strong><br><code>quantidade_t / AREA_KM2</code></td><td>Quão intensamente o território está sendo usado</td><td>Depende inteiramente do recorte territorial, que é arbitrário. É o MAUP entrando pela porta dos fundos.</td></tr>
-    <tr><td><strong>Per capita</strong><br><code>quantidade_t / pop_residente</code></td><td>Quanto da atividade existe por pessoa</td><td>Denominadores pequenos explodem a razão. Santa Rita do Trivelato lidera com 197,1 toneladas por habitante porque tem 3.276 habitantes.</td></tr>
+    <tr><td><strong>Contagem</strong><br>o valor bruto</td><td>Onde está o volume, onde vai o caminhão, onde entra o imposto</td><td>Unidades grandes ganham por serem grandes. Em coroplético, vira um mapa da malha territorial.</td></tr>
+    <tr><td><strong>Taxa</strong><br>dividida pela exposição</td><td>Quão eficiente é a atividade naquele lugar</td><td>Quem tem pouca exposição ocupa o topo com facilidade. Sem limiar mínimo, o ranking é dominado por casos que não representam nada do total.</td></tr>
+    <tr><td><strong>Densidade</strong><br>dividida pela área</td><td>Quão intensamente o território está sendo usado</td><td>Depende do recorte territorial, que é uma convenção administrativa. É por aqui que o MAUP entra num mapa que parecia inocente.</td></tr>
+    <tr><td><strong>Per capita</strong><br>dividida pela população</td><td>Quanto da atividade existe por pessoa</td><td>Denominador pequeno explode a razão: uma unidade com poucos milhares de habitantes lidera qualquer ranking per capita de atividade econômica.</td></tr>
   </tbody>
-  <caption>Regra prática: contagem responde "quanto", taxa responde "quão bem", densidade responde "quão intensamente". Publicar contagem em coroplético é quase sempre o erro.</caption>
+  <caption>Contagem pergunta quanto; taxa, quão bem; densidade, quão intensamente; per capita, quanto cabe a cada habitante. O coroplético serve bem às três últimas e mal à primeira, porque contagem é grandeza absoluta e a cor não é ponderada pelo tamanho do polígono que a recebe.</caption>
 </table>
 
 <div class="pense">
@@ -194,11 +196,11 @@
 <section class="part" id="classificacao">
 <h2>Quatro métodos de classificação</h2>
 
-<p>Para transformar 141 números contínuos em cinco cores, é preciso decidir onde cortar. O QGIS oferece essa decisão em um menu suspenso, sem nenhuma explicação, e com um item já pré-selecionado.</p>
+<p>Para transformar uma coluna de números contínuos em cinco cores, é preciso decidir onde cortar. Todo SIG oferece essa decisão em um menu suspenso, sem nenhuma explicação ao lado, e com um item já pré-selecionado. Os quatro métodos abaixo estão em qualquer um deles, com nomes praticamente iguais.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d04-classificacao.svg" alt="A mesma distribuição de produção de soja em 141 municípios cortada por intervalos iguais, quantis, quebras naturais de Jenks e desvio padrão, com a contagem de municípios em cada classe.">
-  <figcaption><b>Figura 3</b> O mesmo vetor de 141 números, quatro vezes. Intervalos iguais colocam 109 municípios na classe mais baixa; quantis colocam 29. A classe mais alta reúne 5,1% da produção pelo primeiro método, porque só Sorriso cabe nela, e 65,2% pelo segundo. Os quatro mapas correspondentes parecem falar de estados diferentes.</figcaption>
+  <figcaption><b>Figura 3</b> A mesma coluna de 141 números, cortada de quatro maneiras. Intervalos iguais colocam 109 municípios na classe mais baixa; quantis colocam 29. A classe mais alta reúne 5,1% da produção pelo primeiro método, porque só Sorriso cabe nela, e 65,2% pelo segundo, que abriga 28 municípios. Nenhuma dessas quatro legendas informa ao leitor qual dos cortes foi usado.</figcaption>
 </figure>
 
 <table>
@@ -207,15 +209,14 @@
     <tr><td><strong>Intervalos iguais</strong></td><td>Divide a amplitude em faixas de mesma largura</td><td>Com dado assimétrico, quase tudo cai na primeira classe. O mapa vira "só dois lugares importam".</td></tr>
     <tr><td><strong>Quantis</strong></td><td>Mesmo número de unidades em cada classe</td><td>O mapa fica visualmente equilibrado e some com a assimetria. Vira "está em toda parte".</td></tr>
     <tr><td><strong>Quebras naturais (Jenks)</strong></td><td>Minimiza a variância dentro das classes</td><td>Respeita agrupamentos que existem no dado. É o padrão razoável, e é instável: muda quando você acrescenta uma feição.</td></tr>
-    <tr><td><strong>Desvio padrão</strong></td><td>Faixas medidas em desvios em torno da média</td><td>Só faz sentido com distribuição aproximadamente simétrica. Com dado assimétrico, esvazia classes e nem respeita o número que você pediu.</td></tr>
+    <tr><td><strong>Desvio padrão</strong></td><td>Faixas medidas em desvios em torno da média</td><td>Só faz sentido com distribuição aproximadamente simétrica. Com dado assimétrico esvazia as classes de cima, e o número de faixas que sai pode não ser o que você pediu.</td></tr>
   </tbody>
-  <caption>O menu traz ainda <em>Pretty Breaks</em>, que corta em números redondos: honesto para leitura rápida, e ignora completamente a forma da distribuição.</caption>
+  <caption>O menu traz ainda <em>Pretty Breaks</em>, que corta em números redondos: cômodo para leitura rápida, e indiferente à forma da distribuição.</caption>
 </table>
 
-<div class="cuidado">
-  <div class="lbl">Comportamento verificado no QGIS 4.2.0</div>
-  <p>Peça cinco classes pelo método do desvio padrão e você recebe <strong>seis</strong>. O QGIS aplica o algoritmo <code>pretty()</code> do R sobre o escore padronizado, e o número de intervalos redondos que cabem no intervalo dos dados nem sempre é o que você pediu. Neste arquivo, a primeira quebra cai exatamente sobre a média, em 315.076 toneladas, e as seguintes ficam a um desvio padrão de distância uma da outra.</p>
-</div>
+<p>Existe um critério para escolher entre eles, e ele não é estatístico: é a pergunta que o mapa vai responder. Quando o mapa vai ser comparado com outro, de outro ano ou de outro estado, as quebras precisam ser as mesmas nos dois, o que exige um método fixo e declarado, na prática intervalos iguais ou faixas definidas à mão. Quebras naturais servem ao caso oposto, do mapa único em que a pergunta é onde estão os agrupamentos que já existem no dado. E quando a pergunta é de posição relativa, do tipo "quem está no quinto superior do estado", quantis respondem exatamente isso, ao preço de apagar a magnitude.</p>
+
+<p>Vale insistir nesse preço, porque ele é a origem da confusão mais cara desta aula: quantil produz uma escala ordinal, intervalo igual produz uma escala cardinal, e as duas legendas saem com a mesma aparência, uma sequência de faixas numéricas em ordem crescente. Um leitor que interprete a classe alta de um mapa de quantis como "produz muito" está lendo uma posição de ranking como se fosse uma quantidade. Sem a informação do método, ele não tem como saber que fez isso.</p>
 
 <div class="pense">
   <div class="lbl">Pergunta norteadora</div>
@@ -227,24 +228,24 @@
 <section class="part" id="classes">
 <h2>Quantas classes</h2>
 
-<p>O olho humano distingue com segurança de cinco a sete níveis de intensidade em uma sequência de cores impressa. Menos que quatro joga fora informação; mais que sete produz uma legenda que ninguém consulta e classes que ninguém separa.</p>
+<p>O olho humano distingue com segurança de cinco a sete níveis de intensidade em uma sequência de cores impressa. O limite não é do mapa, é da percepção: para o leitor separar duas classes vizinhas sem colocá-las lado a lado, a diferença de luminosidade entre elas precisa ser grande, e com mais de sete degraus na mesma rampa ela deixa de ser. Abaixo de quatro classes acontece o problema oposto, e informação que existe no dado é jogada fora antes de chegar à tela.</p>
 
-<p>A escolha do número interage com o método. Com quantis e três classes, um terço do estado fica na classe alta. Com quantis e nove classes, a mesma área se fragmenta e a mensagem de "está em toda parte" enfraquece. Você vai medir isso no passo 6.</p>
+<p>O número de classes interage com o método, e o efeito é mais forte com quantis, porque neles a contagem por classe é fixada de saída: com três classes, um terço das unidades cai na faixa mais alta por construção; com nove, esse terço se fragmenta e a impressão de que o fenômeno "está em toda parte" enfraquece. O dado é o mesmo nos dois casos. Você vai medir essa diferença no passo 6.</p>
 
 <div class="contexto">
   <div class="lbl">Regra de bancada</div>
-  <p>Cinco classes, método declarado na legenda, e a distribuição do dado disponível para quem quiser conferir. Se você precisa de mais de sete classes para a mensagem funcionar, o problema provavelmente não é o número de classes: é o coroplético.</p>
+  <p>Cinco classes, método declarado na legenda, e a distribuição do dado disponível para quem quiser conferir. Se você precisa de mais de sete classes para a mensagem funcionar, reveja antes o instrumento: costuma ser sinal de que a variável pede símbolo proporcional, e não coroplético.</p>
 </div>
 </section>
 
 <section class="part" id="paleta">
 <h2>Paleta e acessibilidade</h2>
 
-<p>Existem três famílias de paleta, e usar a errada quebra o mapa antes de qualquer discussão sobre classificação.</p>
+<p>A paleta vem depois do método na janela e antes dele na leitura: o leitor vê a cor primeiro. Existem três famílias, e escolher a família errada compromete a leitura mesmo que as quebras estejam corretas.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d04-paleta.svg" alt="Quatro paletas de cinco classes mostradas em visão normal e em simulação de deuteranopia: sequencial YlOrBr, divergente RdYlBu, qualitativa Set2 e arco-íris.">
-  <figcaption><b>Figura 4</b> A coluna da direita simula deuteranopia, que afeta cerca de 8% dos homens. As duas paletas de cima continuam ordenáveis. Na Set2, a terceira e a quarta categorias quase se juntam; no arco-íris, verde e vermelho param no mesmo tom. O seletor de paletas do QGIS não avisa qual é segura.</figcaption>
+  <figcaption><b>Figura 4</b> A coluna da direita simula deuteranopia, que afeta cerca de 8% dos homens. As duas paletas de cima continuam ordenáveis, porque variam luminosidade e não só matiz. Na Set2, a terceira e a quarta categorias quase se juntam; no arco-íris, verde e vermelho param no mesmo tom de cinza. Nenhum seletor de paletas avisa qual delas sobrevive à simulação.</figcaption>
 </figure>
 
 <table>
@@ -266,9 +267,9 @@
 <section class="part" id="alternativas">
 <h2>Símbolo proporcional e cartograma</h2>
 
-<p>Quando a variável é uma contagem, o coroplético é o instrumento errado, e há duas alternativas.</p>
+<p>Se a variável é uma contagem, e você não quer transformá-la em taxa, o coroplético é o instrumento errado. Há duas alternativas, com preços diferentes.</p>
 
-<p>O <strong>símbolo proporcional</strong> põe um círculo sobre cada unidade, com área proporcional ao valor. Resolve o problema do tamanho do polígono e cria outro: círculos grandes cobrem os vizinhos, e o olho estima área de círculo com viés sistemático para menos. No QGIS, use <em>Size assistant</em> com <em>Scale method: Surface</em>, que dimensiona por área e não por raio.</p>
+<p>O <strong>símbolo proporcional</strong> põe um círculo sobre cada unidade, com área proporcional ao valor, e desliga o tamanho do polígono da leitura. Cria dois problemas próprios: círculos grandes cobrem os vizinhos em regiões densas, e o olho subestima diferença de área de círculo de forma sistemática, o que achata a impressão de contraste. Cuidado com a armadilha aritmética: se o software dimensiona o raio pelo valor, uma unidade com o dobro da produção ganha um círculo com quatro vezes a área, e o mapa exagera a diferença por um fator de dois. O que precisa ser proporcional ao valor é a área do círculo.</p>
 
 <p>O <strong>cartograma</strong> deforma os polígonos até que a área de cada um fique proporcional ao valor. Resolve por completo o problema do tamanho e destrói o reconhecimento geográfico: fica bom para uma audiência que conhece o território de cor, e ruim para todas as outras. Não vem no QGIS de fábrica; depende de plugin.</p>
 
@@ -284,9 +285,9 @@
 </section>
 
 <section class="part" id="maup">
-<h2>MAUP, agora com os dois efeitos separados</h2>
+<h2>MAUP: escala e zoneamento</h2>
 
-<p>Na aula 3 o problema apareceu como observação: o percentual de domicílios sem esgoto ia de 0% a 100% por setor de São Paulo e virava um número só, 4,56%, por município. Agora ele ganha nome, mecanismo e duas partes.</p>
+<p>No tema 3 o problema apareceu como observação: o percentual de domicílios sem esgotamento adequado ia de 0% a 100% de um setor censitário para outro em São Paulo e virava um número só, 4,56%, quando agregado por município. Agora ele ganha nome e mecanismo, e se separa em duas partes que costumam ser confundidas uma com a outra.</p>
 
 <div class="conceito">
   <div class="lbl">Definição</div>
@@ -302,7 +303,7 @@
 <div class="pense">
   <div class="lbl">Pergunta norteadora</div>
   <p class="q">Uma consultoria apresenta uma correlação de 0,45 entre produção agrícola e população em Mato Grosso. O que você pergunta antes de qualquer outra coisa?</p>
-  <p>Em que unidade territorial a correlação foi calculada. Com os 141 municípios, a mesma conta devolve −0,06. Agregar unidades tende a aumentar a correlação, porque a agregação suaviza a variância interna, mas não é uma escada: com 24 unidades a correlação cai para −0,09 antes de subir. Uma correlação sem a unidade declarada é um número sem denominador.</p>
+  <p>Em que unidade territorial a correlação foi calculada. Com os 141 municípios, a mesma conta devolve −0,06. Agregar unidades tende a aumentar a correlação, porque a agregação suaviza a variância interna de cada grupo e deixa só a variação entre grupos, mas não é uma escada regular: com 24 unidades a correlação cai para −0,09 antes de subir. Uma correlação publicada sem a unidade territorial em que foi calculada não pode ser verificada nem comparada com nenhuma outra.</p>
 </div>
 
 <div class="pense">
@@ -314,7 +315,7 @@
 <!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
 <div class="partmark" style="margin-top:70px">
   <div class="pn">Parte 2 · roteiro</div>
-  <h2 class="pt" style="margin:0">Quatro mapas honestos do mesmo dado</h2>
+  <h2 class="pt" style="margin:0">Quatro mapas do mesmo dado, no QGIS</h2>
   <div class="pd">45 min</div>
 </div>
 
@@ -329,7 +330,7 @@
       <li>Projeto novo, salvo como <code>InfoGeo/tema04_tematico/projeto.qgz</code>.</li>
       <li>Arraste <code>municipios_mt_soja_2023.gpkg</code>.</li>
       <li>Em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span>, defina o elipsoide como <em>GRS 1980</em> e a unidade de área como <em>Quilômetros quadrados</em>.</li>
-      <li>Abra o painel de estatísticas em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span> e passe pelos campos.</li>
+      <li>Abra o painel de estatísticas em <span class="caminho">View <i>▸</i> Panels <i>▸</i> Statistics</span>. Ele tem dois seletores no topo: escolha a camada de municípios no primeiro e o campo no segundo. O painel recalcula a cada troca de campo. Passe por <code>AREA_KM2</code>, <code>pop_residente</code>, <code>area_colhida_ha</code> e <code>quantidade_t</code>.</li>
     </ol>
 
     <div class="confira">
@@ -337,11 +338,9 @@
       <p>141 feições. <code>AREA_KM2</code> soma <strong>903.208</strong>, <code>pop_residente</code> soma <strong>3.658.649</strong>, <code>area_colhida_ha</code> soma <strong>11.981.285</strong> e <code>quantidade_t</code> soma <strong>44.425.783</strong>. O máximo de <code>quantidade_t</code> é <strong>2.244.375</strong>, em Sorriso, e a média é <strong>315.076</strong>. Treze municípios têm <code>quantidade_t</code> igual a zero, entre eles Colniza, o maior do estado em área.</p>
     </div>
 
-    <figure class="ph">captura de tela · malha de 141 municípios de Mato Grosso carregada, com o painel de estatísticas aberto no campo quantidade_t</figure>
-
     <div class="contexto">
       <div class="lbl">Antes de estilizar, olhe a distribuição</div>
-      <p>No painel de estatísticas, compare a média de 315.076 com a mediana de 151.200. A média é mais que o dobro da mediana, e isso é a assinatura de uma distribuição com cauda longa à direita: poucos municípios muito acima, muitos amontoados perto do zero. Os dez maiores produtores respondem por 33,5% da safra estadual. É exatamente o caso em que a escolha do método de classificação decide o mapa. Faça essa comparação sempre, antes de abrir a aba de simbologia.</p>
+      <p>Ainda no painel, com <code>quantidade_t</code> selecionado, compare a média de 315.076 com a mediana de 151.200. A média é 2,08 vezes a mediana, e isso é a assinatura de uma distribuição com cauda longa à direita: poucos municípios muito acima, muitos amontoados perto do zero. Os dez maiores produtores respondem por 33,5% da safra estadual, e o desvio padrão, 420.433, é maior que a própria média. É exatamente o caso em que a escolha do método de classificação decide o mapa. Faça essa comparação sempre, antes de abrir a aba de simbologia.</p>
     </div></div>
 </div>
 
@@ -369,15 +368,20 @@
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>A legenda mostra as quebras em <strong>448.875 · 897.750 · 1.346.625 · 1.795.500 · 2.244.375</strong>. Na coluna de contagem, ative <em>Count features</em> pelo menu de contexto da legenda: os cinco valores são <strong>109 · 19 · 6 · 6 · 1</strong>. O mapa está quase todo na cor mais clara, e a classe mais escura tem um município só.</p>
+      <p>A legenda mostra as quebras em <strong>448.875 · 897.750 · 1.346.625 · 1.795.500 · 2.244.375</strong>. Para ver quantos municípios caem em cada faixa, clique com o botão direito na camada, no painel de camadas, e marque <em>Show Feature Count</em>: os números aparecem entre colchetes ao lado de cada classe e são <strong>109 · 19 · 6 · 6 · 1</strong>. O mapa está quase todo na cor mais clara, e a classe mais escura tem um município só.</p>
+    </div>
+
+    <div class="contexto">
+      <div class="lbl">Olhe o tamanho dos polígonos, não só a cor</div>
+      <p>Com o mapa aberto, ordene a tabela de atributos por <code>AREA_KM2</code> decrescente e confira estas contas. Os dez municípios mais extensos ocupam <strong>25,2%</strong> do território de Mato Grosso e respondem por <strong>7,9%</strong> da produção de soja. Os trinta menores ocupam <strong>3,5%</strong> do território, produzem <strong>2,0%</strong> e abrigam <strong>13,5%</strong> da população. Colniza, o maior município do estado com 27.960 km², sozinho ocupa 3% da tela e não colheu um hectare de soja em 2023. Aripuanã, o terceiro maior com 24.678 km², colheu 10.731 hectares, quatro décimos de um por cento do próprio território, e o mapa pinta o território inteiro. Esse é o pressuposto de homogeneidade interna acontecendo na sua tela.</p>
     </div></div>
 </div>
 
 <div class="passo" id="p3">
   <div class="n">3</div>
   <div class="c">
-    <h3>Quatro classificações, e um arquivo de estilo para cada</h3>
-    <p>Agora você vai fabricar as quatro versões do mesmo mapa sem tocar em um único número.</p>
+    <h3>Quatro classificações e um arquivo .qml para cada</h3>
+    <p>Agora você vai produzir as quatro versões do mesmo mapa sem alterar um único valor da tabela.</p>
     <ol>
       <li>Com o estilo de intervalos iguais aplicado, vá em <em>Properties</em>, aba <em>Symbology</em>, botão <em>Style</em> no rodapé da janela, <em>Save Style</em>, e grave <code>estilos/mt_soja_intervalos_iguais.qml</code>.</li>
       <li>Duplique a camada três vezes: botão direito, <em>Duplicate Layer</em>. Renomeie as cópias para <em>quantis</em>, <em>jenks</em> e <em>desvio</em>.</li>
@@ -392,46 +396,56 @@
         <tr class="hi"><td>Natural Breaks (Jenks)</td><td>200.912 · 528.477 · 960.000 · 1.675.562 · 2.244.375</td><td class="num">83 · 31 · 15 · 11 · 1</td></tr>
         <tr><td>Standard Deviation</td><td>315.076 · 735.509 · 1.155.942 · 1.576.375 · 1.996.807 · 2.244.375</td><td class="num">99 · 20 · 13 · 7 · 1 · 1</td></tr>
       </tbody>
-      <caption>Cinco classes pedidas em todos os casos. O desvio padrão devolveu seis, com a primeira quebra sobre a média. Média 315.076 toneladas, desvio padrão populacional 420.433, valor máximo a 4,59 desvios da média.</caption>
+      <caption>Cinco classes pedidas em todos os casos. Média 315.076 toneladas, desvio padrão populacional 420.433, valor máximo a 4,59 desvios da média.</caption>
     </table>
+
+    <div class="cuidado">
+      <div class="lbl">Comportamento verificado no QGIS 4.2.0</div>
+      <p>Peça cinco classes pelo método do desvio padrão e você recebe <strong>seis</strong>. O QGIS aplica o algoritmo <code>pretty()</code> do R sobre o escore padronizado, e o número de intervalos redondos que cabem na amplitude dos dados nem sempre é o que você pediu. Neste arquivo a primeira quebra cai exatamente sobre a média, em 315.076 toneladas, e as seguintes ficam a um desvio padrão de distância uma da outra. Não é defeito, e é mais um motivo para o número de classes ir escrito na legenda: aqui ele nem coincide com o que foi pedido na janela.</p>
+    </div>
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>Ative <em>Count features</em> em cada camada e compare com a coluna da direita. Se a sua contagem de Jenks vier diferente, confirme que <em>Classes</em> está em 5 e que nenhuma feição foi filtrada. A classe mais alta reúne 5,1% da produção estadual pelos intervalos iguais, 65,2% pelos quantis e outra vez 5,1% por Jenks. Repare no que está por trás desses 5,1%: em três dos quatro métodos a classe mais escura contém um único município, Sorriso, e é dele que vem toda a tinta.</p>
+      <p>Marque <em>Show Feature Count</em> em cada camada e compare com a coluna da direita. Se a sua contagem de Jenks vier diferente, confirme que <em>Classes</em> está em 5 e que nenhuma feição foi filtrada. A classe mais alta reúne 5,1% da produção estadual pelos intervalos iguais, 65,2% pelos quantis e outra vez 5,1% por Jenks. Repare no que está por trás desses 5,1%: em três dos quatro métodos a classe mais escura contém um único município, Sorriso, de modo que a cor mais forte do mapa descreve um município e mais nada.</p>
     </div>
 
     <div class="contexto">
       <div class="lbl">Para que serve o arquivo .qml</div>
-      <p>O <code>.qml</code> guarda a simbologia completa em XML, separada dos dados: campo, método, quebras, cores, contornos e rótulos. Ele é o que torna um mapa reprodutível por outra pessoa e é o único jeito de auditar depois qual método você usou. Guarde o <code>.qml</code> junto com o resultado, sempre. Isso volta na aula 10, quando a reprodutibilidade vira critério de nota.</p>
+      <p>O <code>.qml</code> guarda a simbologia completa em XML, separada dos dados: campo, método, quebras, cores, contornos e rótulos. É o que permite outra pessoa reabrir o seu mapa exatamente como você o deixou, e é onde alguém vai conferir, meses depois, qual método você usou de fato. Guarde o <code>.qml</code> junto com o resultado, sempre. O assunto volta no tema 10, quando a reprodutibilidade entra nos critérios de correção.</p>
     </div></div>
 </div>
 
 <div class="passo" id="p4">
   <div class="n">4</div>
   <div class="c">
-    <h3>Os quatro lado a lado, no primeiro layout do curso</h3>
-    <p>Colocar as quatro versões no mesmo layout é o jeito mais rápido de mostrar quanto da mensagem vem do método, porque o leitor compara sem depender da memória.</p>
+    <h3>Os quatro mapas lado a lado, no layout de impressão</h3>
+    <p>Uma comparação feita de memória, alternando entre camadas na tela, não convence ninguém e nem sempre convence você. Colocar as quatro versões na mesma folha resolve isso: o leitor vê as diferenças de uma vez, com o mesmo enquadramento e a mesma escala nas quatro.</p>
     <ol>
-      <li>Vá em <span class="caminho">Project <i>▸</i> New Print Layout</span> e chame de <em>quatro classificacoes</em>.</li>
-      <li>Antes de inserir os mapas, crie quatro temas. No painel de camadas, deixe visível só a camada de intervalos iguais e use o botão de temas, <em>Add Theme</em>, com o nome <em>t_iguais</em>. Repita para os outros três.</li>
-      <li>No layout, use <span class="caminho">Add Item <i>▸</i> Add Map</span> e desenhe o primeiro retângulo no quadrante superior esquerdo.</li>
-      <li>Com o mapa selecionado, no painel <em>Item Properties</em>, marque <em>Follow map theme</em> e escolha <em>t_iguais</em>. Trave a escala em <em>Lock layers</em>.</li>
-      <li>Repita para os outros três quadrantes, cada um com o seu tema.</li>
-      <li>Insira quatro rótulos com <span class="caminho">Add Item <i>▸</i> Add Label</span>, um por mapa, com o nome do método e a contagem por classe.</li>
-      <li>Acrescente uma barra de escala e uma seta de norte, que valem para os quatro, e um rótulo de fonte no rodapé.</li>
-      <li>Exporte com <span class="caminho">Layout <i>▸</i> Export as Image</span>, em 300 dpi.</li>
+      <li>Antes de abrir o layout, transforme cada versão em um tema de mapa. No painel <em>Layers</em>, deixe visível só a camada de intervalos iguais, clique no botão <em>Manage Map Themes</em>, o primeiro da barra do painel, e escolha <em>Add Theme…</em>. Dê o nome <em>t_iguais</em>.</li>
+      <li>Repita para as outras três, com os nomes <em>t_quantis</em>, <em>t_jenks</em> e <em>t_desvio</em>, deixando em cada caso apenas a camada correspondente visível.</li>
+      <li>Vá em <span class="caminho">Project <i>▸</i> New Print Layout</span> e dê o nome <em>quatro classificacoes</em>.</li>
+      <li>Em <span class="caminho">Layout <i>▸</i> Page Properties</span>, escolha A4 e orientação <em>Landscape</em>.</li>
+      <li>Use <span class="caminho">Add Item <i>▸</i> Add Map</span> e desenhe o primeiro retângulo no quadrante superior esquerdo, com cerca de 13 cm de largura. Com o item selecionado, no painel <em>Item Properties</em>, marque <em>Follow map theme</em> e escolha <em>t_iguais</em>.</li>
+      <li>Ainda em <em>Item Properties</em>, use <em>Set Map Extent to Match Main Canvas Extent</em> para enquadrar o estado inteiro e depois <strong>anote o número que aparece no campo <em>Scale</em></strong>. É esse valor que você vai repetir nos outros três.</li>
+      <li>Repita os dois passos anteriores nos outros três quadrantes, cada um com o seu tema, e digite à mão em <em>Scale</em> o mesmo valor anotado. Marque <em>Lock layers</em> nos quatro, para que ligar ou desligar camadas no projeto não mexa mais no layout.</li>
+      <li>Insira quatro rótulos com <span class="caminho">Add Item <i>▸</i> Add Label</span>, um acima de cada mapa, com o nome do método e a contagem por classe.</li>
+      <li>Acrescente uma barra de escala e uma seta de norte, que valem para os quatro por estarem todos na mesma escala, e um rótulo de fonte no rodapé: IBGE, malha municipal 2022 e PAM 2023.</li>
+      <li>Exporte com <span class="caminho">Layout <i>▸</i> Export as Image</span>, em 300 dpi, para <code>quatro_classificacoes.png</code>.</li>
     </ol>
 
-    <figure class="ph">captura de tela · layout com quatro mapas de Mato Grosso lado a lado, um por método de classificação, com rótulos e barra de escala</figure>
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>Os quatro campos <em>Scale</em> mostram o mesmo número, e o contorno de Mato Grosso ocupa a mesma posição nos quatro quadros. Se um dos mapas estiver deslocado, é sinal de que você moveu o canvas depois de definir a extensão: volte ao item, redefina a extensão e digite a escala de novo.</p>
+    </div>
 
     <div class="cuidado">
-      <div class="lbl">Cuidado com a escala</div>
-      <p>Se os quatro mapas não estiverem na mesma escala e no mesmo enquadramento, a comparação perde valor. Defina a escala numericamente em <em>Item Properties</em>, com o mesmo valor nos quatro, e o mesmo centro. Comparação lado a lado com escalas diferentes é outro jeito clássico de enganar.</p>
+      <div class="lbl">Erro comum</div>
+      <p>Deixar cada mapa com a escala que saiu do desenho do retângulo. Basta um dos quatro estar em escala diferente para a comparação virar outra coisa: o leitor atribui à classificação uma diferença de tamanho que veio do enquadramento. Comparação lado a lado com escalas distintas é um dos jeitos mais antigos de enganar com mapa, e o mais difícil de perceber, porque nada na peça denuncia.</p>
     </div>
 
     <div class="contexto">
       <div class="lbl">Material de apoio</div>
-      <p>Este é o primeiro layout do curso, e o roteiro trata dele no mínimo necessário para a comparação. O módulo <a href="extra-print-layout.html">Preparar o mapa para entrega</a> cobre o layout de impressão por inteiro, incluindo legenda filtrada, barra de escala, mapa de detalhe, atlas e template. A APS 1 é a primeira entrega cobrada contra o padrão de entrega que está no fim daquele módulo.</p>
+      <p>Este é o primeiro layout do curso, e o roteiro usa dele só o necessário para a comparação. O módulo <a href="extra-print-layout.html">Preparar o mapa para entrega</a> cobre o layout de impressão por inteiro, incluindo legenda filtrada, barra de escala, mapa de detalhe, atlas e template. O padrão de entrega que fecha aquele módulo é o mesmo contra o qual a APS 1 será corrigida.</p>
     </div></div>
 </div>
 
@@ -440,30 +454,41 @@
   <div class="c">
     <h3>A mesma variável em contagem e em rendimento</h3>
     <ol>
-      <li>Duplique de novo a camada e chame de <em>rendimento</em>.</li>
+      <li>Duplique de novo a camada de municípios e chame a cópia de <em>rendimento</em>.</li>
+      <li>Antes de estilizar, aplique o limiar de exposição. Em <span class="caminho">Properties <i>▸</i> Source <i>▸</i> Query Builder</span>, escreva o filtro abaixo e clique <em>OK</em>. A camada passa a se comportar como se tivesse 108 feições.</li>
+    </ol>
+
+<pre class="expr">"area_colhida_ha" &gt; 5000   <span class="cm">-- deixa 108 dos 141 municípios</span></pre>
+
+    <ol start="3">
       <li>Em <em>Symbology</em>, troque o campo <em>Value</em> de <code>quantidade_t</code> para <code>rendimento_kg_ha</code>, com <em>Mode</em> em <em>Quantile</em> e 5 classes.</li>
       <li>Coloque as duas camadas lado a lado no layout e compare o norte do estado.</li>
     </ol>
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>No mapa de contagem, o topo é <strong>Sorriso</strong>, com 2.244.375 toneladas. No de rendimento, entre os 108 municípios com mais de 5.000 hectares colhidos, o topo é <strong>Conquista D&#39;Oeste</strong>, com 4.200 kg/ha, e Sorriso cai para o <strong>37º lugar</strong>. Trocar o denominador reordenou o estado.</p>
-    </div>
-
-    <ol start="4">
-      <li>Crie um terceiro campo, no Field Calculator, com nome <code>T_POR_KM2</code>, decimal com precisão 2:</li>
-    </ol>
-
-<pre class="expr">"quantidade_t" / "AREA_KM2"</pre>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>O máximo de <code>T_POR_KM2</code> é <strong>252,05</strong>, em <strong>Ipiranga do Norte</strong>, que é o 15º em toneladas e tem 3.422 km². Sorriso, o campeão em volume, fica em terceiro nesta lista, com 241,50. Crie ainda <code>T_POR_HAB</code>, com <code>"quantidade_t" / "pop_residente"</code>: o topo é <strong>Santa Rita do Trivelato</strong>, com 197,12 toneladas por habitante e 3.276 moradores. Você tem agora quatro mapas com quatro vencedores diferentes, todos calculados corretamente a partir do mesmo arquivo.</p>
+      <p>No mapa de contagem, o topo é <strong>Sorriso</strong>, com 2.244.375 toneladas. No de rendimento, entre os 108 municípios que restaram, o topo é <strong>Conquista D&#39;Oeste</strong>, com 4.200 kg/ha, e Sorriso, com 3.750 kg/ha, aparece em <strong>37º</strong>. Trocar o denominador mudou a ordem do estado inteiro, e nenhum valor da tabela foi tocado.</p>
     </div>
 
     <div class="cuidado">
       <div class="lbl">Erro comum</div>
-      <p>Mapear rendimento sem filtrar por área colhida mínima. Sem filtro, o topo de <code>rendimento_kg_ha</code> continua sendo Conquista D&#39;Oeste, mas atrás dela aparecem municípios com poucos milhares de hectares que representam frações de um por cento da safra. No filtro da camada, em <em>Properties ▸ Source ▸ Query Builder</em>, use <code>"area_colhida_ha" &gt; 5000</code>, o que deixa 108 dos 141, e diga isso na legenda.</p>
+      <p>Mapear rendimento sem o limiar de exposição. Sem o filtro, entram na conta os 13 municípios que não colheram um hectare de soja em 2023: eles têm <code>rendimento_kg_ha</code> igual a zero e o mapa os pinta como se fossem lavouras improdutivas, quando na verdade não há lavoura ali. Entram também municípios com poucos milhares de hectares, que representam frações de um por cento da safra. Conquista D&#39;Oeste, aliás, lidera nos dois casos, mas com 10.636 hectares colhidos, 0,09% da área colhida do estado: mesmo com filtro, o primeiro colocado de um mapa de taxa merece um olhar na exposição antes de virar manchete. Qualquer que seja o limiar escolhido, ele vai escrito na legenda, junto com quantos municípios ficaram de fora.</p>
+    </div>
+
+    <ol start="5">
+      <li>Volte à camada de contagem, entre em modo de edição com <code>Ctrl+E</code> e abra o Field Calculator com <code>Ctrl+I</code>. Marque <em>Create a new field</em>, nome <code>T_POR_KM2</code>, tipo <em>Decimal number (real)</em>, comprimento 10 e precisão 2, com a expressão abaixo.</li>
+    </ol>
+
+<pre class="expr">"quantidade_t" / "AREA_KM2"   <span class="cm">-- densidade: toneladas por km² de município</span></pre>
+
+    <ol start="6">
+      <li>Crie do mesmo modo <code>T_POR_HAB</code>, também real com precisão 2, usando <code>"quantidade_t" / "pop_residente"</code>. Salve as edições e desligue o modo de edição.</li>
+      <li>Aplique simbologia graduada em cada um dos dois campos novos e ordene a tabela por eles para ler o topo.</li>
+    </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>O máximo de <code>T_POR_KM2</code> é <strong>252,05</strong>, em <strong>Ipiranga do Norte</strong>, que é o 15º em toneladas e tem 3.422 km². Sorriso, o primeiro em volume, fica em terceiro nesta lista, com 241,50. O máximo de <code>T_POR_HAB</code> é <strong>197,12</strong>, em <strong>Santa Rita do Trivelato</strong>, que tem 3.276 moradores, e Sorriso cai para o 56º. Quatro mapas, quatro primeiros colocados, todos calculados corretamente a partir do mesmo arquivo.</p>
     </div></div>
 </div>
 
@@ -480,14 +505,14 @@
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>Com quantis e 3 classes, 47 municípios ficam na faixa mais alta, um terço do estado. Com 9 classes, a faixa mais alta cai para 16. O dado não mudou; a fração do estado que a legenda chama de "alta produção" foi de 33,3% para 11,3% porque você mexeu em um número inteiro numa caixa.</p>
+      <p>Com quantis e 3 classes, 47 municípios ficam na faixa mais alta, um terço do estado. Com 9 classes, a faixa mais alta cai para 16. O dado não mudou: a fração do estado que a legenda chama de "alta produção" foi de 33,3% para 11,3%, e a única coisa alterada foi o valor da caixa <em>Classes</em>. Repare no limite inferior da faixa mais alta: com três classes ele está em 267.772 toneladas e com nove salta para 816.000. Um município que tenha produzido 500 mil toneladas aparece na categoria mais alta do primeiro mapa e na penúltima do segundo, sem que nada tenha acontecido com ele.</p>
     </div></div>
 </div>
 
 <div class="passo" id="p7">
   <div class="n">7</div>
   <div class="c">
-    <h3>Paleta, e o teste de daltonismo</h3>
+    <h3>Paleta e teste de daltonismo</h3>
     <ol>
       <li>Na camada de Jenks, abra o seletor <em>Color ramp</em> e escolha <em>Create New Color Ramp ▸ Catalog: ColorBrewer</em>.</li>
       <li>Selecione <code>YlOrBr</code> com 5 classes. Aplique.</li>
@@ -496,8 +521,6 @@
       <li>Teste a acessibilidade em <span class="caminho">View <i>▸</i> Preview Mode <i>▸</i> Simulate color blindness (Deuteranopia)</span>.</li>
       <li>Compare o mapa com <code>YlOrBr</code> e com uma paleta arco-íris qualquer sob o modo de simulação. Depois volte para <em>Normal</em>.</li>
     </ol>
-
-    <figure class="ph">captura de tela · o mesmo mapa em YlOrBr e sob o modo de simulação de deuteranopia, lado a lado</figure>
 
     <div class="confira">
       <div class="lbl">Confira</div>
@@ -508,9 +531,9 @@
 <div class="passo" id="p8">
   <div class="n">8</div>
   <div class="c">
-    <h3>Símbolo proporcional, para a contagem</h3>
+    <h3>Símbolo proporcional para a contagem</h3>
     <ol>
-      <li>Gere os pontos das sedes a partir da própria malha: na caixa de ferramentas, rode <code>Centroids</code>, de identificador <code>native:centroids</code>, sobre a camada de municípios, com <em>Create centroid for each part</em> desmarcado, gravando em <code>dados_tratados/sedes_mt.gpkg</code>. Coloque no topo da pilha.</li>
+      <li>Gere um ponto por município a partir da própria malha. Abra a caixa de ferramentas com <code>Ctrl+Alt+T</code>, procure <code>Centroids</code>, de identificador <code>native:centroids</code>, e rode sobre a camada de municípios com <em>Create centroid for each part</em> desmarcado, gravando em <code>dados_tratados/centroides_mt.gpkg</code>. Coloque a camada no topo da pilha. Atenção ao que esse ponto é: o centro geométrico do polígono, e não a sede municipal, que costuma ficar longe dele. Para símbolo proporcional o centro geométrico serve, porque o círculo representa o município inteiro; num mapa de acesso a serviço, não serviria, e a diferença precisa aparecer na legenda.</li>
       <li>Em <em>Symbology</em>, escolha <em>Single Symbol</em>, marcador simples, círculo, preenchimento com 60% de opacidade e contorno escuro fino.</li>
       <li>Clique no botão de dado definido ao lado de <em>Size</em> e escolha <em>Assistant</em>.</li>
       <li>Preencha conforme abaixo.</li>
@@ -527,19 +550,24 @@
     </div>
 
     <ol start="5">
-      <li>Deixe a camada de municípios abaixo, em cinza claro, servindo apenas de referência geográfica.</li>
-      <li>No layout, monte a comparação final: o coroplético de contagem de um lado, o símbolo proporcional do outro.</li>
+      <li>Deixe a camada de municípios abaixo, com preenchimento cinza claro e contorno branco fino, servindo apenas de referência geográfica.</li>
+      <li>Abra um layout novo, chame de <em>contagem</em>, e monte a comparação final em dois mapas na mesma escala: o coroplético de <code>quantidade_t</code> em intervalos iguais de um lado, o símbolo proporcional do outro. Exporte em 300 dpi.</li>
     </ol>
+
+    <div class="confira">
+      <div class="lbl">Confira</div>
+      <p>No coroplético, o noroeste do estado, onde ficam Colniza, Juína e Aripuanã, ocupa boa parte da tela. No mapa de símbolos, o maior círculo está sobre Sorriso e os círculos grandes se concentram numa faixa central que vai de Sapezal a Querência, enquanto os três municípios do noroeste aparecem sem círculo ou com um círculo mínimo. É a mesma coluna de dados nos dois mapas.</p>
+    </div>
 
     <div class="cuidado">
       <div class="lbl">Por que Surface e não Radius</div>
-      <p>Se o QGIS dimensionar o raio pelo valor, um município com o dobro da produção ganha um círculo com quatro vezes a área. <em>Scale method: Surface</em> dimensiona a área, que é o que o olho lê. Ainda assim, o leitor subestima diferenças de área de círculo; considere rotular os cinco maiores.</p>
+      <p>É a armadilha aritmética da teoria, agora em forma de campo preenchido. Com <em>Scale method</em> em <em>Radius</em>, o QGIS dimensiona o raio pelo valor, e um município com o dobro da produção ganha um círculo com quatro vezes a área: o mapa exagera a diferença por um fator de dois. <em>Surface</em> dimensiona a área, que é o que o olho lê. Mesmo assim, o leitor subestima diferenças de área de círculo, então vale rotular os cinco maiores com o valor em toneladas.</p>
     </div>
 
     <div class="conceito">
       <div class="lbl">A conclusão do roteiro</div>
-      <h4>Nenhum dos mapas mentiu, e eles não podem ser todos publicados</h4>
-      <p>Você produziu, a partir de um único arquivo, um mapa em que 109 municípios estão na classe mais baixa e outro em que 29 estão. Um em que Sorriso lidera, outro em que Conquista D&#39;Oeste lidera, um terceiro em que Ipiranga do Norte lidera e um quarto em que quem lidera é Santa Rita do Trivelato, com 3.276 habitantes. Cada um é reproduzível e defensável diante da pergunta certa, e cada um sustenta uma manchete que os outros três desmentem. Escolher qual publicar é uma decisão editorial, e ela precisa ser assumida como tal na legenda.</p>
+      <h4>Quatro primeiros colocados: Sorriso, Conquista D&#39;Oeste, Ipiranga do Norte e Santa Rita do Trivelato</h4>
+      <p>De um único arquivo, sem que nenhum valor fosse alterado, saíram um mapa com 109 municípios na classe mais baixa e outro com 29, mais quatro rankings com quatro primeiros colocados distintos, um deles um município de 3.276 habitantes. Cada uma dessas peças é reproduzível pelo <code>.qml</code> que você gravou e defensável diante de uma pergunta específica, e cada uma sustenta uma manchete que as outras desmentem. A escolha de qual publicar é editorial, e vai declarada na legenda: campo, denominador, método, número de classes e, quando houver, o limiar de exposição.</p>
     </div></div>
 </div>
 </section>
@@ -566,7 +594,7 @@
   </div>
   <div class="entrega">
     <b>Entrega</b>
-    As duas manchetes, a escolha justificada e a crítica, em no máximo dez linhas, mais as duas imagens exportadas. Poste no fórum do tema no Blackboard antes do fim da aula. Este exercício é o aquecimento direto da APS 1.</div>
+    As duas manchetes, a escolha justificada e a crítica, em no máximo dez linhas, mais as duas imagens exportadas. Poste no fórum do tema no Blackboard antes do fim da aula. É a mesma justificativa de decisão que a APS 1 vai cobrar, em escala menor.</div>
 </div>
 </section>
 
@@ -582,7 +610,7 @@
   <div class="lbl">A resposta do tema</div>
   <p class="big">Nenhuma das duas mentiu. Uma usou quantis e a outra usou intervalos iguais, e as duas omitiram esse detalhe da legenda.</p>
   <p>Com quantis, 28 dos 141 municípios caem na classe mais alta e ela reúne 65,2% da produção do estado. Com intervalos iguais, a classe mais alta tem um município, Sorriso, e 5,1% da produção. Os dois mapas saem do mesmo arquivo, em dois cliques no mesmo menu, e o leitor não tem como distinguir sem a legenda completa.</p>
-  <p>Mentira em cartografia raramente é dado falso. É escolha não declarada. A partir de hoje, todo mapa seu carrega na legenda o campo, o método, o número de classes e o denominador, do mesmo jeito que carrega o CRS desde a tema 2.</p>
+  <p>Mentira em cartografia raramente é dado falso. É escolha não declarada. A partir de hoje, todo mapa seu carrega na legenda o campo, o método, o número de classes e o denominador, do mesmo jeito que carrega o CRS desde o tema 2.</p>
 </div>
 
 <h2>O que discutir com a turma</h2>
@@ -590,7 +618,7 @@
 <div class="pense">
   <div class="lbl">Discussão</div>
   <p class="q">Se toda escolha de classificação é retórica, qualquer mapa vale o mesmo?</p>
-  <p>Não. Há escolhas piores que outras diante de uma pergunta específica: paleta divergente para variável que só cresce é pior, coroplético de contagem é pior, nove classes em mapa de imprensa é pior. O que não existe é uma escolha neutra, e chamar o padrão do software de neutro é a forma mais comum de não escolher.</p>
+  <p>Não. Diante de uma pergunta específica há escolhas claramente piores: paleta divergente numa variável que só cresce inventa um ponto de virada onde o dado não tem nenhum, e coroplético de contagem devolve, na prática, um mapa do tamanho dos municípios. O que não existe é escolha neutra. Aceitar o que já vinha preenchido na janela também é escolher, com o agravante de que quem aceita não fica sabendo o que escolheu, e por isso não tem como justificar depois.</p>
 </div>
 
 <div class="pense">
@@ -606,18 +634,19 @@
 
 <div class="conceito">
   <div class="lbl">Lançamento</div>
-  <h4>APS 1 · o mapa que você assina</h4>
-  <p>A primeira atividade prática supervisionada é lançada hoje e vale um terço dos 30% das APS. Você vai escolher uma base pública brasileira, formular uma pergunta no formato das dez do semestre, produzir um mapa temático que a responda e escrever uma nota curta defendendo cada decisão: denominador, método de classificação, número de classes, paleta e recorte territorial. A nota também precisa dizer qual conclusão o seu mapa não autoriza. O enunciado completo, os critérios de correção e o prazo estão no Blackboard.</p>
+  <h4>APS 1 · onde começar a reforma sanitária das escolas</h4>
+  <p>A primeira atividade prática supervisionada é lançada hoje e vale 10% da nota final. Cada aluno recebe um estado, sorteado pelo mês de nascimento, e cruza o Censo Escolar 2025 do INEP com a malha municipal do IBGE para entregar dez municípios prioritários. O trabalho de QGIS é o dos temas 1 a 4; a parte que pesa na correção é escrever por qual denominador a prioridade foi medida e por que essa escolha, e não a outra, sustenta a lista. A entrega são três arquivos: um documento de até seis páginas, o projeto <code>.qgz</code> com caminhos relativos e o coroplético em PDF vetorial no padrão de entrega. O enunciado completo, com o roteiro em onze passos e a tabela de pesos da correção, está em <a href="aps-01.html">APS 1 · Onde começar a reforma sanitária das escolas</a>.</p>
 </div>
 
 <div class="limites">
   <div class="lbl">O que esta aula não resolveu</div>
   <ul>
-    <li>Você comparou métodos de classificação sem nenhum critério objetivo para escolher entre eles. Existem medidas de qualidade de classificação, como a razão de ajuste de variância, e nenhuma resolve a questão, porque a pergunta é retórica antes de ser estatística.</li>
+    <li>Você comparou métodos de classificação sem nenhum critério objetivo para escolher entre eles. Existem medidas de qualidade de classificação, como a razão de ajuste de variância, que dizem qual corte separa melhor os agrupamentos do dado. Nenhuma delas responde qual corte serve à pergunta que o mapa vai responder, e essa é a decisão que sobrou para você.</li>
     <li>O cartograma foi discutido e não foi produzido. Depende de plugin e de tempo que esta aula não tem.</li>
-    <li>Nada aqui trata de rotulagem, hierarquia tipográfica ou composição da página. Os elementos de layout apareceram pela primeira vez no passo 4 e voltam com rigor na aula 10.</li>
-    <li>A PAM é uma estimativa municipal, produzida por levantamento junto a informantes locais, e não uma medição de lavoura. Rendimentos redondos como 3.600 e 3.900 kg/ha aparecem em dezenas de municípios porque o informante arredonda. Isso não invalida o mapa, mas recomenda desconfiar das casas decimais do rendimento.</li>
-    <li>O MAUP foi demonstrado e não foi corrigido, porque não há correção conhecida. O que se pode fazer é declarar a unidade e, quando possível, mostrar o resultado em mais de uma escala. A aula 6 volta ao assunto com a matriz de vizinhança.</li>
+    <li>Nada aqui trata de rotulagem, hierarquia tipográfica ou composição da página. Os elementos de layout apareceram pela primeira vez no passo 4, no mínimo necessário para a comparação, e voltam com rigor no tema 10.</li>
+    <li>A PAM é uma estimativa municipal, produzida por levantamento junto a informantes locais, e não uma medição de lavoura. Valores redondos de rendimento se repetem porque o informante arredonda: 3.600 kg/ha aparece em 18 municípios e 3.750 em 12. Isso não invalida o mapa, e invalida comparar dois municípios vizinhos por uma diferença de dezenas de quilos por hectare.</li>
+    <li>O MAUP foi demonstrado e não foi corrigido, porque não há correção conhecida. O que se pode fazer é declarar a unidade e, quando possível, mostrar o resultado em mais de uma escala. O tema 6 volta ao assunto com a matriz de vizinhança.</li>
+    <li>Os 13 municípios sem lavoura de soja atravessaram todos os mapas desta aula com o valor zero, e zero em produção e zero em rendimento são coisas diferentes: o primeiro é uma medida, o segundo é a ausência do que seria medido. Nenhum passo aqui separou essas unidades numa classe própria, que é o tratamento correto quando a legenda vai a público.</li>
   </ul>
 </div>
 </section>
@@ -651,7 +680,7 @@
   </div>
   <div class="item">
     <div class="k">Oficial</div>
-    <div class="t">IBGE, Produção Agrícola Municipal no SIDRA. O roteiro usou a tabela 1612, de lavouras temporárias; a 5457 reúne todas as culturas. Refaça o roteiro com outra cultura ou outro estado.
+    <div class="t">IBGE, Produção Agrícola Municipal no SIDRA. A tabela 1612 traz as lavouras temporárias, que é de onde saiu a soja desta aula; a 5457 reúne todas as culturas. Refaça os passos com outra cultura ou outro estado.
       <span class="src">sidra.ibge.gov.br/tabela/5457 · vale como treino para a APS 1</span></div></div>
 </div>
 </section>
