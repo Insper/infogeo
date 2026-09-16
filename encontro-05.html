@@ -109,7 +109,7 @@
         <span class="fd">10.240 perímetros de zona da Lei 18.177/2024, Mapa 1, EPSG:31983. É o mapa de perímetros da revisão, não o zoneamento consolidado da cidade inteira.</span></div>
         <span class="tp real">oficial</span></li>
   </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026. Tudo em GeoPackage e UTF-8. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e as camadas do GeoSampa em EPSG:31983, então reprojete antes de cruzar. O download pela interface do mapa do GeoSampa vem em Shapefile com texto em Latin-1; o WFS já devolve UTF-8. A conversão deste pacote está feita, mas se você baixar de novo pela interface, refaça-a antes de qualquer coisa.</div>
+  <div class="ft">Pacote oficial desde 02/08/2026. Tudo em GeoPackage e UTF-8. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e as camadas do GeoSampa em EPSG:31983, então reprojete antes de cruzar. O GeoSampa entrega Shapefile com texto em Latin-1, tanto pela interface do mapa quanto pelo WFS; só o GeoJSON do WFS vem em UTF-8. A conversão deste pacote está feita, e o passo 0 explica como refazê-la se você baixar de novo.</div>
 </div>
 
 <div class="pense">
@@ -310,30 +310,63 @@
   <div class="n">0</div>
   <div class="c">
     <h3>Baixar as camadas direto do GeoSampa</h3>
-    <p>Os arquivos do pacote já vêm prontos. Este passo é para você saber de onde eles saíram e conseguir refazer o download sozinho, com a camada atualizada, sem depender do pacote. São dois caminhos: o serviço WFS, que é o que foi usado aqui, e a interface do mapa, para quando o WFS estiver fora do ar.</p>
+    <p>Os arquivos do pacote já vêm prontos. Este passo é para você saber de onde eles saíram e conseguir refazer o download sozinho, com a camada atualizada, sem depender do pacote.</p>
 
-    <p><b>Caminho A · pelo WFS, que é um endereço de internet e devolve o arquivo direto</b></p>
+    <div class="conceito">
+      <div class="lbl">Antes dos links: WMS e WFS</div>
+      <p>O GeoSampa publica os dados por dois serviços diferentes, e o endereço de ambos começa com <code>wms.geosampa...</code>, o que confunde. Eles não fazem a mesma coisa.</p>
+      <p><strong>WMS</strong>, de <em>Web Map Service</em>, devolve <strong>imagem</strong>. Você pede uma área e uma escala, e o servidor desenha o mapa lá, com a simbologia que o órgão escolheu, e manda de volta um PNG. É rápido e leve, e serve para usar o dado como fundo. O que chega é figura: não tem tabela de atributos, não dá para filtrar, medir área, cruzar com outra camada nem calcular campo. Zoom demais e a imagem pixeliza, porque não existe geometria por trás, só pixel.</p>
+      <p><strong>WFS</strong>, de <em>Web Feature Service</em>, devolve <strong>feição</strong>. Você pede uma camada e o servidor manda a geometria de cada polígono ou ponto, com os atributos, no formato que você escolher. O que chega é dado de verdade: o QGIS desenha do jeito que você mandar, e todas as operações desta aula funcionam. Em compensação é mais pesado, porque vem tudo.</p>
+      <p>A regra prática: <strong>WMS para olhar, WFS para analisar</strong>. O mapa base OpenStreetMap que você usa desde o tema 1 é o mesmo raciocínio do WMS, e é por isso que você nunca abriu a tabela de atributos dele. Nesta aula você precisa medir e cruzar, então tudo vem por WFS.</p>
+      <p>Os dois são padrões abertos do Open Geospatial Consortium, não invenção da prefeitura. Qualquer órgão que publique WFS responde ao mesmo tipo de endereço, o que quer dizer que o que você aprende aqui serve para o IBGE, o INPE, a ANA e os portais de outras capitais.</p>
+    </div>
+
+    <p><b>Caminho A · pelo WFS, clicando nos links</b></p>
+
+    <p>Cada link abaixo pede uma camada ao servidor e devolve um arquivo GeoJSON, que o QGIS abre direto, sem descompactar nada. Clique, salve em <code>InfoGeo/tema05_sobreposicao/dados_brutos/</code> e arraste o arquivo para dentro do QGIS.</p>
+
+    <table>
+      <thead><tr><th style="width:44%">Camada</th><th style="width:14%">Feições</th><th>Download</th></tr></thead>
+      <tbody>
+        <tr><td>ZEIS 1, Mapa 4 do Plano Diretor</td><td>1.401</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:pde2014_v_zeis_04_map&amp;outputFormat=application/json">baixar · 2,3 MB</a></td></tr>
+        <tr><td>ZEIS 2, 3, 4 e 5, Mapa 4A</td><td>1.170</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:pde2014_v_zeis_04a_map&amp;outputFormat=application/json">baixar · 1,1 MB</a></td></tr>
+        <tr><td>Estações de metrô em operação</td><td>94</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:estacao_metro&amp;outputFormat=application/json">baixar · 44 kB</a></td></tr>
+        <tr><td>Estações de trem metropolitano, CPTM</td><td>109</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:estacao_trem&amp;outputFormat=application/json">baixar · 51 kB</a></td></tr>
+        <tr><td>Distritos do município</td><td>96</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:distrito_municipal&amp;outputFormat=application/json">baixar · 4,7 MB</a></td></tr>
+        <tr><td>Eixos de Estruturação da Transformação Urbana, Mapa 3</td><td>4.818</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:pde2014_v_eetr_03_map&amp;outputFormat=application/json">baixar · 4,0 MB</a></td></tr>
+        <tr><td>Perímetros de zona, Lei 18.177/2024, Mapa 1</td><td>10.240</td>
+            <td><a href="https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=geoportal:perimetro_zona_lei_18177_24&amp;outputFormat=application/json">baixar · 21 MB</a></td></tr>
+      </tbody>
+    </table>
+
+    <p>Repare no que o link é por dentro. Ele não é um endereço de arquivo guardado numa pasta do servidor: é uma <strong>pergunta</strong>, e cada pedaço depois do <code>?</code> é um parâmetro dela.</p>
+
+<pre class="expr">https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs   <span class="cm">-- endereco do servico</span>
+  ?service=WFS                       <span class="cm">-- qual servico, WFS e nao WMS</span>
+  &amp;version=2.0.0                     <span class="cm">-- versao do padrao</span>
+  &amp;request=GetFeature                <span class="cm">-- o que quero: as feicoes</span>
+  &amp;typeNames=geoportal:estacao_metro <span class="cm">-- qual camada</span>
+  &amp;outputFormat=application/json     <span class="cm">-- em que formato devolver</span></pre>
+
+    <p>Trocar o <code>typeNames</code> troca a camada, e é assim que você baixa qualquer outra coisa do GeoSampa. Para descobrir o nome de uma camada que não está na tabela acima, peça o catálogo ao servidor com <code>?service=WFS&amp;version=2.0.0&amp;request=GetCapabilities</code>: ele devolve a lista inteira, em XML, com o nome e a descrição de cada uma.</p>
+
+    <div class="cuidado">
+      <div class="lbl">Por que GeoJSON e não Shapefile</div>
+      <p>O mesmo serviço aceita <code>outputFormat=SHAPE-ZIP</code> e devolve um Shapefile compactado. Evite, e o motivo é concreto: o Shapefile que esse servidor devolve chega com o texto em <strong>ISO-8859-1</strong>, que o QGIS lê como UTF-8 e transforma <em>Mauá</em> em <code>MAU?</code>; chega sem o código EPSG, mesmo trazendo o sistema certo, então o QGIS marca a camada como CRS personalizado e o código não aparece na barra de status; e trunca todo nome de coluna em dez caracteres, de modo que <code>nm_estacao_metro_trem</code> vira <code>nm_estacao</code>. O GeoJSON não tem nenhum dos três problemas: é UTF-8 por definição do formato, declara <code>EPSG:31983</code> e mantém o nome inteiro das colunas.</p>
+      <p>Se ainda assim você precisar usar um Shapefile de outra origem, os dois primeiros problemas têm conserto no QGIS: a codificação em <span class="caminho">Properties <i>▸</i> Source <i>▸</i> Data source encoding</span>, e o sistema de coordenadas em <span class="caminho">botão direito na camada <i>▸</i> Set CRS of Layer(s)</span>, com <code>Ctrl+Shift+C</code>. O nome truncado não tem conserto: a informação se perdeu na gravação.</p>
+    </div>
+
+    <p>Depois de baixar, você ainda precisa juntar o que a aula usa como uma camada só:</p>
     <ol>
-      <li>Abra o navegador e cole o endereço abaixo, trocando <code>NOME_DA_CAMADA</code> pelo nome da camada que você quer. Ele devolve um Shapefile compactado, em <code>EPSG:31983</code>, com o texto em UTF-8.</li>
-    </ol>
-
-<pre class="expr">https://wms.geosampa.prefeitura.sp.gov.br/geoserver/geoportal/wfs?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;typeNames=NOME_DA_CAMADA&amp;outputFormat=SHAPE-ZIP</pre>
-
-    <ol start="2">
-      <li>Use estes nomes de camada, um por download, e salve cada zip em <code>InfoGeo/tema05_sobreposicao/dados_brutos/</code>:
-        <ul>
-          <li><code>geoportal:pde2014_v_zeis_04_map</code> — ZEIS 1, Mapa 4 do Plano Diretor</li>
-          <li><code>geoportal:pde2014_v_zeis_04a_map</code> — ZEIS 2, 3, 4 e 5, Mapa 4A</li>
-          <li><code>geoportal:estacao_metro</code> — estações de metrô em operação</li>
-          <li><code>geoportal:estacao_trem</code> — estações de trem metropolitano, CPTM</li>
-          <li><code>geoportal:distrito_municipal</code> — os 96 distritos do município</li>
-          <li><code>geoportal:pde2014_v_eetr_03_map</code> — Eixos de Estruturação da Transformação Urbana, Mapa 3</li>
-          <li><code>geoportal:perimetro_zona_lei_18177_24</code> — perímetros de zona da Lei 18.177/2024, Mapa 1</li>
-        </ul>
-      </li>
-      <li>Descompacte cada zip. Arraste o <code>.shp</code> para dentro do QGIS.</li>
-      <li>Junte as duas camadas de ZEIS em uma só com <span class="caminho">Vector <i>▸</i> Data Management Tools <i>▸</i> Merge Vector Layers</span>, e junte metrô e trem do mesmo jeito, acrescentando antes um campo <code>modo</code> em cada uma.</li>
-      <li>Exporte cada resultado com <span class="caminho">Export <i>▸</i> Save Features As</span>, formato <em>GeoPackage</em>, <em>Encoding</em> em <code>UTF-8</code>, CRS <code>EPSG:31983</code>, dentro de <code>dados_tratados/</code>.</li>
+      <li>Junte as duas camadas de ZEIS com <span class="caminho">Vector <i>▸</i> Data Management Tools <i>▸</i> Merge Vector Layers</span>, com <em>Destination CRS</em> em <code>EPSG:31983</code>.</li>
+      <li>Junte metrô e trem do mesmo jeito. Antes, crie em cada uma um campo <code>modo</code> de texto, com a expressão <code>'metro'</code> numa e <code>'trem'</code> na outra, senão depois da junção não dá para saber qual estação é de quê.</li>
+      <li>Exporte cada resultado com <span class="caminho">botão direito na camada <i>▸</i> Export <i>▸</i> Save Features As</span>, formato <em>GeoPackage</em>, <em>Encoding</em> em <code>UTF-8</code>, CRS <code>EPSG:31983</code>, dentro de <code>dados_tratados/</code>.</li>
     </ol>
 
     <p><b>Caminho B · pela interface do mapa, quando o WFS não responder</b></p>
@@ -350,16 +383,17 @@
       </li>
       <li>Em <em>Formato</em>, escolha <strong>Shapefile</strong>. Em <em>Sistema de coordenadas</em>, deixe <strong>SIRGAS 2000 / UTM 23S</strong>, que é o EPSG:31983.</li>
       <li>Clique <em>Baixar</em> e salve em <code>InfoGeo/tema05_sobreposicao/dados_brutos/</code>, com o nome que o portal sugerir.</li>
-      <li>O Shapefile do portal vem com o texto em Latin-1. Antes de exportar, abra <em>Properties</em>, aba <em>Source</em>, e troque <em>Data source encoding</em> para <code>ISO-8859-1</code>. Só então exporte para GeoPackage em UTF-8, como no caminho A.</li>
+      <li>Esse Shapefile também vem em Latin-1. Antes de exportar, abra <em>Properties</em>, aba <em>Source</em>, e troque <em>Data source encoding</em> para <code>ISO-8859-1</code>. Só então exporte para GeoPackage em UTF-8.</li>
     </ol>
 
-    <div class="cuidado">
-      <div class="lbl">Erro comum</div>
-      <p>Se você exportar para GeoPackage sem corrigir a codificação, <em>Paraisópolis</em> fica gravado com caracteres quebrados em definitivo. Confira sempre um nome com acento na tabela de atributos antes de salvar.</p>
+    <div class="confira">
+      <div class="lbl">Como saber que a codificação está certa</div>
+      <p>Abra a tabela de atributos e procure um nome com acento: <em>Mauá</em> na camada de trem, <em>Paraisópolis</em> ou <em>Anhangabaú</em> nas de zoneamento. Se aparecer <code>MAU?</code> ou <code>Paraisop?lis</code>, a codificação está errada. Corrija antes de exportar: depois de gravado em GeoPackage, o caractere quebrado é definitivo.</p>
     </div>
 
     <p><b>Os setores censitários não vêm do GeoSampa</b></p>
-    <p>O arquivo <code>setores_sp_capital_2022.gpkg</code> é o único do pacote que vem do IBGE, e você precisa dele no passo 8. Baixe a malha de setores do Censo 2022 pelo <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">portal de geociências</a>, filtre por <code>CD_MUN = '3550308'</code> e junte os agregados por setor pela chave <code>CD_SETOR</code>. Ele chega em EPSG:4674, não em 31983: reprojete antes de cruzar com qualquer coisa desta aula.</p></div>
+    <p>O arquivo <code>setores_sp_capital_2022.gpkg</code> é o único do pacote que vem do IBGE, e você precisa dele no passo 8. Baixe a malha de setores do Censo 2022 pelo <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/">portal de geociências</a>, filtre por <code>CD_MUN = '3550308'</code> e junte os agregados por setor pela chave <code>CD_SETOR</code>. Ele chega em EPSG:4674, não em 31983: reprojete antes de cruzar geometria com qualquer coisa desta aula.</p></div>
+
 </div>
 
 <div class="passo">
@@ -379,7 +413,7 @@
       <p>Você deve estar olhando para o município inteiro, de Perus a Parelheiros. As estações desenham treze linhas de metrô e de trem, reconhecíveis pelo traçado. Os perímetros de ZEIS aparecem por toda a mancha urbana, miúdos e numerosos na periferia leste e sul, e concentrados em blocos grandes em Heliópolis, em Paraisópolis e ao longo do Tietê.</p>
     </div>
 
-    <figure class="ph">captura de tela · janela do QGIS com as três camadas carregadas sobre o OpenStreetMap, painel Layers visível à esquerda</figure></div>
+</div>
 </div>
 
 <div class="passo" id="p2">
@@ -410,7 +444,7 @@
   <div class="c">
     <h3>Achar as geometrias inválidas e corrigir</h3>
     <ol>
-      <li>Com <code>zeis</code> selecionada, abra o <em>Field Calculator</em> e crie o campo <code>area_ha</code>, decimal com precisão 4, com a expressão abaixo.</li>
+      <li>Com <code>zeis</code> selecionada, abra o <em>Field Calculator</em>. O campo <code>area_ha</code> já existe nessa camada, herdado da fonte, então marque <em>Update existing field</em> e escolha <code>area_ha</code> na lista, em vez de <em>Create a new field</em>. A expressão é a de baixo.</li>
     </ol>
 
 <pre class="expr">area($geometry) / 10000   <span class="cm">-- a camada já está em metros, então isto é seguro</span></pre>
@@ -427,11 +461,10 @@
       <p><em>Check Validity</em> devolve 2.560 feições válidas e <strong>11 inválidas</strong>. Sete trazem <em>Self-intersection</em>, duas, <em>Ring self-intersection</em>, e duas, <em>Too few points in geometry component</em>. Todas são ZEIS 1, e vão do perímetro C089, de 0,1533 hectare, ao L086, de 245,6351. A soma de área antes da correção é <strong>18.058,7046</strong> hectares e depois é <strong>18.058,7228</strong>. A correção mexeu em 0,0182 hectare, em um perímetro só.</p>
     </div>
 
-    <figure class="ph">captura de tela · saída do Check Validity, com os onze pontos de erro em vermelho sobre os perímetros defeituosos</figure>
-
     <div class="cuidado">
       <div class="lbl">Por que isso vem primeiro, mesmo com a soma quase igual</div>
-      <p>A área quase não mudou e mesmo assim o passo é obrigatório, porque o estrago da geometria inválida não está na soma: está na sobreposição. Rode o passo 6 com <code>zeis</code> em vez de <code>zeis_ok</code> e o GEOS levanta exceção em dois perímetros, o C089 e o C091. O QGIS descarta os dois e registra o aviso no <em>Log Messages</em>; a saída vem com 450 feições e 946,0337 hectares em vez de 451 e 946,1870. São 0,1533 hectare de diferença porque os dois que quebraram são minúsculos. Se tivesse sido o L086, seriam duas ordens de grandeza a mais, e nada na tela avisaria.</p>
+      <p>A área quase não mudou e mesmo assim o passo é obrigatório, porque o estrago da geometria inválida não está na soma: está na sobreposição. Rode o passo 6 com <code>zeis</code> em vez de <code>zeis_ok</code> e a ferramenta não roda: o QGIS para na feição 52 com <code>Feature (52) from "zeis" has invalid geometry</code>, e sugere trocar a opção de filtragem de inválidos. Troque, mande ignorar, e aí quem reclama é a biblioteca de geometria: o GEOS levanta <code>TopologyException: unable to assign free hole to a shell</code> e a execução morre do mesmo jeito, agora com uma mensagem que não diz o que fazer.</p>
+      <p>Os dois caminhos terminam sem resultado nenhum. A soma quase igual é o que torna a armadilha sorrateira: o arquivo parece perfeito enquanto você só mede, e só quebra quando você cruza.</p>
     </div></div>
 </div>
 
@@ -484,7 +517,7 @@
       <p>Uma feição multiparte com <strong>104 partes</strong>, somando <strong>18.540,6005</strong> hectares. A diferença para os 22.921,8964 do passo anterior é de <strong>4.381,2958</strong> hectares, ou 19,11% do total. Essa é a área que estava sendo contada duas vezes. Repare também nas 104 partes: 203 estações produzem apenas 104 manchas separadas, porque 124 delas têm outra estação a menos de 1.200 metros. A mediana da distância entre uma estação e a vizinha mais próxima é de 1.028 metros.</p>
     </div>
 
-    <figure class="ph">captura de tela · os 203 buffers antes e as 104 manchas depois do dissolve, lado a lado</figure></div>
+</div>
 </div>
 
 <div class="passo" id="p6">
@@ -560,37 +593,58 @@
   <div class="n">8</div>
   <div class="c">
     <h3>Junção espacial e estimativa de população</h3>
-    <p>O arquivo de distritos do GeoSampa não traz densidade. Você vai produzi-la a partir dos setores censitários do IBGE, e o caminho é o do tema 3: junção por atributo, depois agregação.</p>
+    <p>O arquivo de distritos do GeoSampa não traz densidade. Você vai produzi-la a partir dos setores censitários do IBGE, e o caminho é o do tema 3: agregar por categoria, depois cruzar por atributo.</p>
+
+    <p><b>Primeiro, a população por distrito</b></p>
     <ol>
       <li>Arraste <code>setores_sp_capital_2022.gpkg</code> para o projeto. São 27.301 setores, em EPSG:4674. A variável <code>v0001</code> é a população residente.</li>
-      <li>Os dois últimos dígitos de <code>CD_DIST</code> são o código do distrito na malha do GeoSampa. Na camada de setores, crie o campo <code>cd_dist</code>, inteiro, com a expressão abaixo.</li>
+      <li>Os dois últimos dígitos de <code>CD_DIST</code> são o código do distrito na malha do GeoSampa. Na camada de setores, crie o campo <code>cd_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão abaixo.</li>
     </ol>
 
 <pre class="expr">to_int(right("CD_DIST", 2))   <span class="cm">-- 355030801 vira 1, que é o cd_distrito de Água Rasa</span></pre>
 
     <ol start="3">
-      <li>Rode <code>native:aggregate</code>, que está em <span class="caminho">Processing <i>▸</i> Toolbox <i>▸</i> Vector geometry <i>▸</i> Aggregate</span>, sobre os setores: em <em>Group by expression</em> use <code>"cd_dist"</code> e agregue <code>v0001</code> por <em>sum</em>, com o nome <code>pop</code>.</li>
-      <li>Rode <code>native:joinattributestable</code> para levar <code>pop</code> para a camada <code>distritos</code>, casando <code>cd_distrito</code> com <code>cd_dist</code>. Confirme que os 96 distritos receberam valor e que a soma de <code>pop</code> dá <strong>11.451.999</strong>, a população do município no Censo 2022.</li>
-      <li>Na camada de distritos, crie <code>dens_hab_ha</code>, decimal com precisão 4:</li>
+      <li>Rode <code>qgis:statisticsbycategories</code>, o <em>Statistics by categories</em> do tema 3, sobre os setores: <em>Field to calculate statistics on</em> é <code>v0001</code>, <em>Field(s) with categories</em> é <code>cd_dist</code>. A saída tem 96 linhas, e a coluna <code>sum</code> é a população do distrito.</li>
     </ol>
 
-<pre class="expr">"pop" / (area($geometry) / 10000)   <span class="cm">-- habitantes por hectare</span></pre>
+    <div class="cuidado">
+      <div class="lbl">Por que não o Aggregate</div>
+      <p>Existe uma ferramenta chamada <em>Aggregate</em>, em <span class="caminho">Vector geometry <i>▸</i> Aggregate</span>, que faz a mesma soma. Ela também funde a geometria dos setores de cada grupo, e é aí que ela morre: três dos 27.301 setores têm geometria inválida, e a ferramenta para com <code>Feature has invalid geometry</code> sem produzir nada. Aqui você não precisa da geometria dos setores, só do número. O <em>Statistics by categories</em> ignora geometria por construção, roda em segundos e não tropeça nos três setores quebrados.</p>
+    </div>
 
-    <ol start="6">
-      <li>Agora cruze as duas camadas com <code>native:intersection</code>: <em>Input layer</em> é <code>zeis_600</code>, <em>Overlay layer</em> é <code>distritos</code>, e em <em>Overlay fields to keep</em> deixe <code>distrito</code> e <code>dens_hab_ha</code>. A interseção parte os fragmentos que cruzam divisa de distrito, o que a junção por localização não faria.</li>
+    <p><b>Depois, a densidade</b></p>
+    <ol start="4">
+      <li>A camada de distritos tem uma geometria inválida, o distrito de Lajeado, e ela trava a interseção lá na frente. Rode <em>Fix Geometries</em> sobre <code>distritos</code> agora, salvando como <code>distritos_ok</code>, do mesmo jeito que você fez com as ZEIS no passo 3.</li>
+      <li>Em <code>distritos_ok</code>, crie o campo <code>cd_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão <code>to_int("cd_distrito")</code>.</li>
+      <li>Rode <code>native:joinattributestable</code> para levar a coluna <code>sum</code> da tabela agregada para <code>distritos_ok</code>, casando <code>cd_dist</code> com <code>cd_dist</code>. Ponha <code>POP_</code> em <em>Joined field prefix</em>, para a coluna chegar como <code>POP_sum</code>.</li>
+      <li>Confirme que os 96 distritos receberam valor e que a soma de <code>POP_sum</code> dá <strong>11.451.999</strong>, a população do município no Censo 2022.</li>
+      <li>Na camada resultante, crie <code>dens_hab_ha</code>, decimal com precisão 4:</li>
+    </ol>
+
+<pre class="expr">"POP_sum" / (area($geometry) / 10000)   <span class="cm">-- habitantes por hectare</span></pre>
+
+    <div class="cuidado">
+      <div class="lbl">O passo 5 não é burocracia: sem ele a junção casa zero</div>
+      <p>Em <code>distritos_sp.gpkg</code> o campo <code>cd_distrito</code> é <strong>texto</strong>, e vale <code>'1'</code> para Água Rasa. Na tabela agregada, <code>cd_dist</code> é <strong>número inteiro</strong>, e vale <code>1</code>. Cruzar os dois direto devolve <strong>0 de 96</strong> distritos casados, sem nenhuma mensagem de erro: você fica com 96 nulos e uma densidade que não existe.</p>
+      <p>Também não adianta tentar pelo outro lado, criando a chave como texto com <code>right("CD_DIST", 2)</code>: isso devolve <code>'01'</code>, com o zero à esquerda, e <code>'01'</code> não é igual a <code>'1'</code>. Por isso a chave vira inteiro dos dois lados, que é a forma em que os dois códigos coincidem.</p>
+    </div>
+
+    <p><b>Por fim, o cruzamento</b></p>
+    <ol start="9">
+      <li>Cruze as duas camadas com <code>native:intersection</code>: <em>Input layer</em> é <code>zeis_600</code>, <em>Overlay layer</em> é <code>distritos_ok</code>, e em <em>Overlay fields to keep</em> deixe <code>distrito</code> e <code>dens_hab_ha</code>. A interseção parte os fragmentos que cruzam divisa de distrito, o que a junção por localização não faria.</li>
       <li>Recalcule <code>area_ha</code> na saída e crie o campo <code>pop_pot</code>, decimal com precisão 1:</li>
     </ol>
 
 <pre class="expr">"area_ha" * "dens_hab_ha"   <span class="cm">-- hectares vezes habitantes por hectare</span></pre>
 
-    <ol start="8">
+    <ol start="11">
       <li>Leia a soma de <code>pop_pot</code> no painel <em>Statistics</em>.</li>
       <li>Para a tabela por distrito, rode <code>native:dissolve</code> sobre essa camada usando <em>Dissolve field(s)</em> = <code>distrito</code>, e recalcule <code>area_ha</code> na saída. Como o dissolve funde geometria, a área continua correta.</li>
     </ol>
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>Soma de <code>pop_pot</code>: <strong>114.220</strong> habitantes. O dissolve por distrito devolve <strong>58 feições</strong>, ou seja, 58 dos 96 distritos têm ZEIS dentro do raio de 600 metros. A soma de <code>area_ha</code> depois da interseção com os distritos dá 946,1569, e não 946,1870: os 0,03 hectare que sumiram são lascas de perímetro que caem fora da malha de distritos, sobre a divisa do município.</p>
+      <p>A interseção com os distritos devolve <strong>480 feições</strong>, mais que as 451 do passo 6, porque os fragmentos que cruzam divisa de distrito foram partidos. Soma de <code>pop_pot</code>: <strong>114.220</strong> habitantes. O dissolve por distrito devolve <strong>58 feições</strong>, ou seja, 58 dos 96 distritos têm ZEIS dentro do raio de 600 metros. A soma de <code>area_ha</code> depois da interseção com os distritos dá 946,1569, e não 946,1870: os 0,03 hectare que sumiram são lascas de perímetro que caem fora da malha de distritos, sobre a divisa do município.</p>
     </div>
 
     <table>
@@ -620,7 +674,7 @@
       <p>Sapopemba, Jardim Helena, Itaquera, Ermelino Matarazzo. A lista dos distritos com mais ZEIS perto de estação é uma lista de periferia leste, não de centro. Isso é efeito da linha 3-vermelha e dos ramais da CPTM, que atravessam justamente a área onde está o estoque de ZEIS 1. O Brás e a Sé aparecem, e aparecem com um sexto do terreno de Sapopemba.</p>
     </div>
 
-    <figure class="ph">captura de tela · tabela de atributos da camada final com as colunas area_ha, distrito, dens_hab_ha e pop_pot</figure></div>
+</div>
 </div>
 
 <div class="passo" id="p9">

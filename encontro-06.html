@@ -336,7 +336,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
       <p>Recortar por UF cria efeito de borda. Um município do sudoeste baiano que faz divisa com Minas Gerais perde os vizinhos mineiros e passa a ter a média calculada sobre menos gente; um município do oeste tocantinense perde os vizinhos do Pará. O recorte é o que a pergunta pede, porque o MATOPIBA é definido por essas quatro UFs, e mesmo assim ele distorce a matriz na moldura. Guarde isso para o fechamento.</p>
     </div>
 
-    <figure class="ph">captura de tela · os 997 municípios das quatro UFs recortados da malha nacional, coloridos por SIGLA_UF</figure></div>
+</div>
 </div>
 
 <div class="passo" id="p2">
@@ -443,8 +443,6 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
       <p>Soma de <code>dxdlag</code>: <strong>288.020.977.646</strong>. Soma de <code>dx2</code>: <strong>884.527.748.445</strong>. A razão é <strong>I = 0,325621</strong>, repetida em todas as linhas do campo <code>moran</code>. Se o seu valor bater na quarta casa mas não na sexta, a causa quase sempre é o tratamento dos quatro nulos do passo 2.</p>
     </div>
 
-    <figure class="ph">captura de tela · tabela de atributos com as colunas soja_ha, soja_ha_count, soja_ha_mean, dxdlag, dx2 e moran</figure>
-
     <div class="contexto">
       <div class="lbl">Por que não usar desvio-padrão</div>
       <p>A fórmula mais vista nos livros usa valores padronizados, dividindo pelo desvio-padrão. Ela dá o mesmo resultado, e traz um risco: o painel de estatísticas do QGIS e a função <code>stdev()</code> das expressões podem usar o denominador n ou n−1 dependendo do contexto, e a diferença aparece na terceira casa. A razão entre as duas somas dispensa essa escolha.</p>
@@ -528,7 +526,7 @@ END</pre>
       <p>Os 35 municípios alto-alto somam <strong>3.604.565</strong> hectares de soja, <strong>66,9%</strong> de toda a área plantada das quatro UFs, em <strong>14,0%</strong> do território. Estão distribuídos por PI (11), MA (10), BA (9) e TO (5). Os cinco maiores são São Desidério com 493.639 hectares, Formosa do Rio Preto com 470.934, Baixa Grande do Ribeiro com 251.303, Correntina com 216.140 e Barreiras com 215.226. Para um relatório, essa lista de 35 nomes descreve o cinturão inteiro e cabe em uma tabela.</p>
     </div>
 
-    <figure class="ph">captura de tela · mapa LISA com as quatro categorias significativas e o cinza dos não significativos, legenda visível</figure></div>
+</div>
 </div>
 
 <div class="passo" id="p8">
