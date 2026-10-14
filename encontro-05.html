@@ -598,13 +598,19 @@
     <p><b>Primeiro, a população por distrito</b></p>
     <ol>
       <li>Arraste <code>setores_sp_capital_2022.gpkg</code> para o projeto. São 27.301 setores, em EPSG:4674. A variável <code>v0001</code> é a população residente.</li>
-      <li>Os dois últimos dígitos de <code>CD_DIST</code> são o código do distrito na malha do GeoSampa. Na camada de setores, crie o campo <code>cd_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão abaixo.</li>
+      <li>Os dois últimos dígitos de <code>CD_DIST</code> são o código do distrito na malha do GeoSampa. Na camada de setores, crie o campo <code>cod_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão abaixo. Repare no nome: <code>cod_dist</code>, e não <code>cd_dist</code>, pelo motivo do quadro logo adiante.</li>
     </ol>
 
 <pre class="expr">to_int(right("CD_DIST", 2))   <span class="cm">-- 355030801 vira 1, que é o cd_distrito de Água Rasa</span></pre>
 
+    <div class="cuidado">
+      <div class="lbl">Não chame o campo de cd_dist</div>
+      <p>A camada de setores já tem um campo chamado <code>CD_DIST</code>, em maiúsculas. Enquanto o resultado fica em camada temporária, dá tudo certo. Na hora de gravar em GeoPackage, o QGIS para com <code>Cannot create field cd_dist. A field with the same name already exists</code>, porque o formato não distingue maiúscula de minúscula em nome de campo. Um nome que não colide, como <code>cod_dist</code>, resolve.</p>
+      <p>Vale a regra geral: antes de criar campo, olhe a lista de campos que já existem. Nome repetido dá erro na gravação ou, pior, sobrescreve o campo antigo sem avisar.</p>
+    </div>
+
     <ol start="3">
-      <li>Rode <code>qgis:statisticsbycategories</code>, o <em>Statistics by categories</em> do tema 3, sobre os setores: <em>Field to calculate statistics on</em> é <code>v0001</code>, <em>Field(s) with categories</em> é <code>cd_dist</code>. A saída tem 96 linhas, e a coluna <code>sum</code> é a população do distrito.</li>
+      <li>Rode <code>qgis:statisticsbycategories</code>, o <em>Statistics by categories</em> do tema 3, sobre os setores: <em>Field to calculate statistics on</em> é <code>v0001</code>, <em>Field(s) with categories</em> é <code>cod_dist</code>. A saída tem 96 linhas, e a coluna <code>sum</code> é a população do distrito.</li>
     </ol>
 
     <div class="cuidado">
@@ -615,8 +621,8 @@
     <p><b>Depois, a densidade</b></p>
     <ol start="4">
       <li>A camada de distritos tem uma geometria inválida, o distrito de Lajeado, e ela trava a interseção lá na frente. Rode <em>Fix Geometries</em> sobre <code>distritos</code> agora, salvando como <code>distritos_ok</code>, do mesmo jeito que você fez com as ZEIS no passo 3.</li>
-      <li>Em <code>distritos_ok</code>, crie o campo <code>cd_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão <code>to_int("cd_distrito")</code>.</li>
-      <li>Rode <code>native:joinattributestable</code> para levar a coluna <code>sum</code> da tabela agregada para <code>distritos_ok</code>, casando <code>cd_dist</code> com <code>cd_dist</code>. Ponha <code>POP_</code> em <em>Joined field prefix</em>, para a coluna chegar como <code>POP_sum</code>.</li>
+      <li>Em <code>distritos_ok</code>, crie o campo <code>cod_dist</code>, do tipo <em>Whole number (integer)</em>, com a expressão <code>to_int("cd_distrito")</code>.</li>
+      <li>Rode <code>native:joinattributestable</code> para levar a coluna <code>sum</code> da tabela agregada para <code>distritos_ok</code>, casando <code>cod_dist</code> com <code>cod_dist</code>. Ponha <code>POP_</code> em <em>Joined field prefix</em>, para a coluna chegar como <code>POP_sum</code>.</li>
       <li>Confirme que os 96 distritos receberam valor e que a soma de <code>POP_sum</code> dá <strong>11.451.999</strong>, a população do município no Censo 2022.</li>
       <li>Na camada resultante, crie <code>dens_hab_ha</code>, decimal com precisão 4:</li>
     </ol>
@@ -625,7 +631,7 @@
 
     <div class="cuidado">
       <div class="lbl">O passo 5 não é burocracia: sem ele a junção casa zero</div>
-      <p>Em <code>distritos_sp.gpkg</code> o campo <code>cd_distrito</code> é <strong>texto</strong>, e vale <code>'1'</code> para Água Rasa. Na tabela agregada, <code>cd_dist</code> é <strong>número inteiro</strong>, e vale <code>1</code>. Cruzar os dois direto devolve <strong>0 de 96</strong> distritos casados, sem nenhuma mensagem de erro: você fica com 96 nulos e uma densidade que não existe.</p>
+      <p>Em <code>distritos_sp.gpkg</code> o campo <code>cd_distrito</code> é <strong>texto</strong>, e vale <code>'1'</code> para Água Rasa. Na tabela agregada, <code>cod_dist</code> é <strong>número inteiro</strong>, e vale <code>1</code>. Cruzar os dois direto devolve <strong>0 de 96</strong> distritos casados, sem nenhuma mensagem de erro: você fica com 96 nulos e uma densidade que não existe.</p>
       <p>Também não adianta tentar pelo outro lado, criando a chave como texto com <code>right("CD_DIST", 2)</code>: isso devolve <code>'01'</code>, com o zero à esquerda, e <code>'01'</code> não é igual a <code>'1'</code>. Por isso a chave vira inteiro dos dois lados, que é a forma em que os dois códigos coincidem.</p>
     </div>
 
