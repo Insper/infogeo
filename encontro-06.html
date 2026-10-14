@@ -64,11 +64,10 @@
     <li><a href="#p1">1. Abrir os dados</a></li>
     <li><a href="#p2">2. A matriz de vizinhança</a></li>
     <li><a href="#p3">3. O índice de Moran</a></li>
-    <li><a href="#p4">4. O teste de permutação</a></li>
-    <li><a href="#p5">5. Os quatro quadrantes</a></li>
-    <li><a href="#p6">6. O diagrama de Moran</a></li>
-    <li><a href="#p7">7. O mapa LISA</a></li>
-    <li><a href="#p8">8. Ler os outliers espaciais</a></li>
+    <li><a href="#p4">4. Os quatro quadrantes</a></li>
+    <li><a href="#p5">5. O diagrama de Moran</a></li>
+    <li><a href="#p6">6. O mapa LISA</a></li>
+    <li><a href="#p7">7. Ler os outliers espaciais</a></li>
     <div class="grp">Parte 3 e 4</div>
     <li><a href="#exercicio">Exercício</a></li>
     <li><a href="#fechamento">Fechamento</a></li>
@@ -111,7 +110,7 @@
         <span class="fd">Os 997 municípios de MA, TO, PI e BA, polígono, EPSG:4674, com <code>CD_MUN</code>, <code>NM_MUN</code>, <code>SIGLA_UF</code>, <code>AREA_KM2</code> e <code>soja_ha</code>, a área plantada de soja em 2023. O recorte das quatro UFs e a junção com o SIDRA já vêm feitos. É o único arquivo que você abre no passo 1.</span></div>
         <span class="tp real">oficial</span></li>
     <li><div><span class="fn">lisa_referencia.csv</span> <span class="fn">+ .csvt</span>
-        <span class="fd">Resultado do LISA com 999 permutações e semente 42, para o passo 7: <code>moran_loc</code>, <code>quadrante</code>, <code>p_sim</code> e <code>lisa</code> nos 997 municípios, com a chave <code>cd_mun</code>. Use só depois de calcular o Moran global sozinho.</span></div></li>
+        <span class="fd">Resultado do LISA com 999 permutações e semente 42, para o passo 6: <code>moran_loc</code>, <code>quadrante</code>, <code>p_sim</code> e <code>lisa</code> nos 997 municípios, com a chave <code>cd_mun</code>. Use só depois de calcular o Moran global sozinho.</span></div></li>
   </ul>
   <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do <a href="https://www.ibge.gov.br/geociencias">IBGE</a> de 2022 e a área plantada vem da tabela 1612 da Produção Agrícola Municipal, safra 2023, unida por <code>CD_MUN</code>. O índice de Moran e todas as somas desta página saem desse único arquivo. O LEIA-ME do pacote traz o filtro e a junção que o produziram, para quem quiser refazer. O <code>lisa_referencia.csv</code> não é dado novo: é resultado calculado sobre o oficial, entregue pronto porque o QGIS não faz permutação.</div>
 </div>
@@ -166,19 +165,20 @@
 <div class="conceito">
   <div class="lbl">Definição</div>
   <h4>Dependência espacial</h4>
-  <p>O valor observado em uma unidade é influenciado pelo valor das unidades vizinhas. Há um mecanismo de transmissão: o armazém que serve um município serve o do lado, o produtor copia o vizinho que deu certo, a estrada que atende um atende o outro. Retirar a média regional não elimina o padrão, porque o padrão está na relação entre unidades.</p>
+  <p>O que acontece num município <strong>depende do que aconteceu no vizinho</strong>. Existe alguma coisa passando de um para o outro: o armazém que serve um serve o do lado, o produtor copia o vizinho que deu certo, a estrada que atende um atende o outro.</p>
+<p>É o caso de cima na Figura 2. Se o primeiro produtor não tivesse plantado, o segundo talvez nunca plantasse.</p>
 </div>
 
 <div class="conceito">
   <div class="lbl">Definição</div>
   <h4>Heterogeneidade espacial</h4>
-  <p>As unidades pertencem a regimes diferentes, cada um com sua média e sua variância, e dentro de cada regime os valores são independentes. Não há transmissão: há chapadão de um lado e serra do outro. Retirar a média de cada regime faz o padrão desaparecer.</p>
+  <p>Os municípios estão em <strong>terrenos diferentes</strong>, e é o terreno que decide. Não passa nada de um para o outro: há chapadão de um lado e serra do outro, e quem está no chapadão planta porque o chapadão é plano, não porque o vizinho plantou.</p>
+<p>É o caso de baixo na Figura 2. Tire qualquer produtor da história e os outros plantam do mesmo jeito.</p>
 </div>
 
 <figure class="diagrama">
-  <img src="assets/img/d06-dep-het.svg" alt="Quatro mapas em grade. O primeiro mostra um campo suavizado com I igual a 0,87; o segundo mostra o resíduo do mesmo mapa, ainda com 0,87. O terceiro mostra duas metades com médias diferentes e I igual a 0,81; o quarto mostra o resíduo, com I próximo de zero.">
-  <figcaption><b>Figura 2</b> Os dois mapas originais têm índice de Moran alto, e o índice sozinho não distingue um do outro. A diferença aparece no resíduo: a dependência sobrevive ao desconto da média regional, a heterogeneidade evapora. Se você tratar heterogeneidade como dependência, vai modelar contágio onde só existe geologia.</figcaption>
-</figure>
+  <img src="assets/img/d06-dep-het.svg" alt="Duas linhas de três mapas. Na de cima, a soja começa num município e se espalha para os vizinhos ano após ano. Na de baixo, a área de chapada já está demarcada desde o começo e os municípios dentro dela começam a plantar em ordem espalhada. Os dois mapas finais são idênticos.">
+  <figcaption><b>Figura 2</b> Duas histórias diferentes, vinte anos cada, terminando no mesmo mapa. Em cima, um produtor deu certo e o vizinho copiou: a mancha cresce de dentro para fora, e quem está longe do início só planta no fim. Embaixo, a chapada boa já estava demarcada antes de alguém plantar, e os municípios dentro dela começaram em ordem qualquer, sem ninguém influenciar ninguém. No ano 20 os dois mapas são iguais, e o índice de Moran é o mesmo nos dois. Ele mede a mancha, não a causa dela.</figcaption></figure>
 
 <div class="pense">
   <div class="lbl">Pergunta norteadora</div>
@@ -246,6 +246,8 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <p>O índice varia aproximadamente entre −1 e 1. Perto de 1, valores parecidos se agrupam. Perto de −1, valores opostos se alternam, como um tabuleiro de xadrez. Perto de zero, a distribuição no espaço é indiferente ao valor.</p>
 
+<p>Essa conta é o que você vai montar no <a href="#p3">passo 3</a>, coluna por coluna, sobre a soja do MATOPIBA. O resultado é <strong>I = 0,3256</strong>, e é esse número que as próximas duas seções vão interrogar: primeiro se ele poderia ter saído por acaso, depois o que ele esconde.</p>
+
 <div class="cuidado">
   <div class="lbl">O valor esperado não é zero</div>
   <p>Sob a hipótese de ausência de padrão, o valor esperado do índice é <code>E[I] = −1/(n−1)</code>, e não zero. Com os 997 municípios desta aula, E[I] = −0,001004. A diferença é irrelevante para n grande e deixa de ser para n pequeno: com 20 unidades, E[I] = −0,053, e um índice de −0,05 significa exatamente nada.</p>
@@ -255,7 +257,9 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 <section class="part" id="permutacao">
 <h2>Inferência por permutação</h2>
 
-<p>Achar I = 0,3256 não basta. Falta saber se um valor desses poderia ter saído por acaso, e a resposta analítica exige supor normalidade em um dado que quase nunca é normal. A saída é embaralhar.</p>
+<p>Ter o número não basta. <strong>0,3256 é muito ou é pouco?</strong> Sem uma régua, não dá para dizer: talvez qualquer distribuição de soja por 997 municípios produza algo parecido, e o que parece padrão seja só o jeito como os números caíram.</p>
+
+<p>A régua tradicional seria uma tabela estatística, que exige supor que o dado segue uma curva normal. A área plantada de soja não segue: três quartos dos municípios estão em zero e um deles planta quase meio milhão de hectares. A saída é construir a régua com os próprios dados, embaralhando.</p>
 
 <p>O procedimento é direto. Mantenha a geometria e a matriz W paradas. Sorteie uma nova atribuição dos 997 valores de soja aos 997 municípios, ao acaso. Calcule I. Repita 999 vezes. Você obtém uma distribuição de referência construída com os seus próprios dados, sem hipótese sobre a forma da distribuição.</p>
 
@@ -298,7 +302,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <figure class="diagrama">
   <img src="assets/img/d06-moran-scatter.svg" alt="Gráfico de dispersão com 997 pontos, eixo horizontal com a soja padronizada e eixo vertical com a média dos vizinhos padronizada, dividido em quatro quadrantes rotulados alto-alto, baixo-alto, baixo-baixo e alto-baixo, com uma reta de inclinação 0,3256 e cinco municípios identificados.">
-  <figcaption><b>Figura 6</b> Dos 997 municípios, 763 têm soja igual a zero e formam a nuvem grudada no eixo vertical. A reta é puxada por meia dúzia de pontos no extremo direito: São Desidério planta 493.639 hectares, mais de dezesseis desvios-padrão acima da média, e é cercado de vizinhos igualmente grandes. Regeneração, no Piauí, é o único ponto do quadrante alto-baixo com significância. Você desenha esse diagrama dentro do QGIS no <a href="#p6">passo 6</a>.</figcaption>
+  <figcaption><b>Figura 6</b> Dos 997 municípios, 763 têm soja igual a zero e formam a nuvem grudada no eixo vertical. A reta é puxada por meia dúzia de pontos no extremo direito: São Desidério planta 493.639 hectares, mais de dezesseis desvios-padrão acima da média, e é cercado de vizinhos igualmente grandes. Regeneração, no Piauí, é o único ponto do quadrante alto-baixo com significância. Você desenha esse diagrama dentro do QGIS no <a href="#p5">passo 5</a>.</figcaption>
 </figure>
 
 <p>Os quatro quadrantes têm nome e significado.</p>
@@ -348,10 +352,6 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <p>Há um segundo efeito, do mesmo tipo. A área plantada em hectares depende do tamanho do município: um município grande tende a ter mais soja simplesmente por ser grande. Trocando os hectares pela fração da área municipal ocupada por soja, o índice desta aula sobe de 0,3256 para 0,4457. Os dois são positivos e significativos, e medem coisas diferentes: o primeiro fala de onde está a produção, o segundo de onde a paisagem virou lavoura. No topo do segundo está Luís Eduardo Magalhães, com 53,2% do município plantado.</p>
 
-<div class="pense">
-  <div class="lbl">Escopo de prova · unidade teórica 06</div>
-  <p class="q">Dado um índice de Moran e um mapa LISA, a prova pode pedir que você interprete o resultado, identifique qual matriz de vizinhança foi usada e o que mudaria com outra escolha, e aponte se o padrão observado é compatível com dependência, com heterogeneidade ou com artefato da unidade de agregação.</p>
-</div>
 </section>
 
 <!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
@@ -380,21 +380,9 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
     <div class="confira">
       <div class="lbl">Confira</div>
       <p><strong>997 feições</strong>: 417 na Bahia, 224 no Piauí, 217 no Maranhão e 139 no Tocantins. No painel <em>Statistics</em>, com o campo <code>soja_ha</code>: soma <strong>5.390.709</strong> hectares, média <strong>5.406,93</strong>, mediana <strong>zero</strong>, máximo <strong>493.639</strong> em São Desidério. <strong>763 municípios têm zero</strong>, três quartos do recorte.</p>
-      <p>Guarde a média e a mediana. Uma média quase mil vezes maior que a mediana avisa, antes de qualquer conta, que a distribuição é muito torta — e isso vai aparecer de novo no diagrama do passo 6.</p>
+      <p>Guarde a média e a mediana. Uma média quase mil vezes maior que a mediana avisa, antes de qualquer conta, que a distribuição é muito torta — e isso vai aparecer de novo no diagrama do passo 5.</p>
     </div>
 
-    <div class="contexto">
-      <div class="lbl">Como este arquivo foi montado</div>
-      <p>Duas operações que você já fez em temas anteriores. Primeiro, um filtro sobre a malha municipal brasileira de 2022, que tem 5.572 feições:</p>
-      <p><code>"SIGLA_UF" IN ('MA','TO','PI','BA')</code></p>
-      <p>Depois, uma junção por atributo com a tabela 1612 do SIDRA, casando <code>CD_MUN</code> da malha com <code>cd_mun</code> da tabela, para trazer a área plantada. Quatro municípios do litoral baiano não têm linha no SIDRA, porque não há lavoura de soja a declarar: Cairu, Itaju do Colônia, Madre de Deus e São José da Vitória. Eles entraram como zero, que é a leitura correta do dado e precisa estar escrita no relatório.</p>
-      <p>Nada disso é segredo nem atalho: está no LEIA-ME do pacote, com a fonte e a data, e qualquer pessoa refaz. O que a aula precisa do seu tempo é o que vem do passo 2 em diante.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">O que este recorte custa</div>
-      <p>Recortar por UF cria efeito de borda. Um município do sudoeste baiano que faz divisa com Minas Gerais perde os vizinhos mineiros e passa a ter a média calculada sobre menos gente; um município do oeste tocantinense perde os vizinhos do Pará. O recorte é o que a pergunta pede, porque o MATOPIBA é definido por essas quatro UFs, e mesmo assim ele distorce a matriz na moldura. Guarde isso para o fechamento.</p>
-    </div>
   </div>
 </div>
 
@@ -475,23 +463,6 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 <div class="passo" id="p4">
   <div class="n">4</div>
   <div class="c">
-    <h3>O que o número significa, e o teste de permutação</h3>
-    <ol>
-      <li>Calcule o valor esperado sob ausência de padrão: <code>−1/(997−1)</code>, que dá <strong>−0,001004</strong>.</li>
-      <li>Compare com o observado. O índice está 0,327 acima do esperado.</li>
-      <li>Esse p-valor vem calculado no <code>lisa_referencia.csv</code>, que você usa no passo 7. O menor valor da coluna <code>p_sim</code> é 0,001.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>Com 999 permutações e semente 42, o pseudo p-valor do índice global é <strong>0,001</strong>. O maior dos 999 rearranjos aleatórios chegou a <strong>0,1116</strong>, e o desvio-padrão da distribuição de referência é 0,0182: o valor observado está a <strong>17,4 desvios</strong> dela. O padrão não é compatível com distribuição ao acaso da soja pelo território.</p>
-    </div>
-  </div>
-</div>
-
-<div class="passo" id="p5">
-  <div class="n">5</div>
-  <div class="c">
     <h3>Os quatro quadrantes</h3>
     <p>Sem permutação nenhuma, dá para classificar cada município pelo par de sinais. É o diagrama de espalhamento traduzido em mapa.</p>
     <ol>
@@ -507,8 +478,8 @@ END</pre>
 
     <ol start="2">
       <li>Em <em>Properties</em>, aba <em>Symbology</em>, escolha <em>Categorized</em>, campo <code>quadrante</code>, e clique em <em>Classify</em>.</li>
-      <li>Use vermelho escuro para alto-alto, azul escuro para baixo-baixo, vermelho claro para alto-baixo e azul claro para baixo-alto. Guarde essas quatro cores: elas voltam nos passos 6 e 7, e manter a mesma convenção nos três é o que deixa comparar um com o outro.</li>
-      <li>Grave a camada como <code>dados_tratados/matopiba_quad.gpkg</code> com <span class="caminho">botão direito <i>▸</i> Export <i>▸</i> Save Features As</span>. É sobre ela que os passos 6 e 7 trabalham.</li>
+      <li>Use vermelho escuro para alto-alto, azul escuro para baixo-baixo, vermelho claro para alto-baixo e azul claro para baixo-alto. Guarde essas quatro cores: elas voltam nos passos 5 e 6, e manter a mesma convenção nos três é o que deixa comparar um com o outro.</li>
+      <li>Grave a camada como <code>dados_tratados/matopiba_quad.gpkg</code> com <span class="caminho">botão direito <i>▸</i> Export <i>▸</i> Save Features As</span>. É sobre ela que os passos 5 e 6 trabalham.</li>
     </ol>
 
     <div class="confira">
@@ -517,8 +488,8 @@ END</pre>
     </div></div>
 </div>
 
-<div class="passo" id="p6">
-  <div class="n">6</div>
+<div class="passo" id="p5">
+  <div class="n">5</div>
   <div class="c">
     <h3>Desenhar o diagrama de espalhamento de Moran</h3>
     <p>O diagrama da Figura 6 é um gráfico de dispersão, e o QGIS não tem gráfico de dispersão no núcleo. Tem coisa melhor: ele sabe desenhar pontos a partir de coordenadas. Se você usar o valor padronizado como X e a defasagem padronizada como Y, cada município vira um ponto, e a tela do mapa passa a ser o diagrama.</p>
@@ -548,7 +519,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
 
     <ol start="3">
       <li>A camada nova tem os mesmos 997 registros, com os mesmos atributos, e a geometria trocada: cada município está agora na posição do seu par de valores padronizados.</li>
-      <li>Simbolize por <code>quadrante</code>, categorizado, com as mesmas quatro cores do passo 5.</li>
+      <li>Simbolize por <code>quadrante</code>, categorizado, com as mesmas quatro cores do passo 4.</li>
       <li>Botão direito na camada, <em>Zoom to Layer</em>. A tela vira o diagrama.</li>
     </ol>
 
@@ -574,8 +545,8 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
   </div>
 </div>
 
-<div class="passo" id="p7">
-  <div class="n">7</div>
+<div class="passo" id="p6">
+  <div class="n">6</div>
   <div class="c">
     <h3>O mapa LISA</h3>
     <p>Agora entra a significância. Ela exige permutação, que o QGIS não faz, e por isso vem calculada no pacote da aula.</p>
@@ -584,11 +555,11 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
       <li>São 997 linhas com <code>moran_loc</code>, <code>quadrante</code>, <code>p_sim</code> e <code>lisa</code>, calculadas com contiguidade rainha padronizada por linha, 999 permutações e semente 42.</li>
       <li>Rode <code>native:joinattributestable</code> para trazer <code>lisa</code> e <code>p_sim</code> para dentro de <code>matopiba_quad</code>, casando <code>CD_MUN</code> com <code>cd_mun</code>.</li>
       <li>Simbolize por <code>lisa</code>, categorizado, com cinza claro para <em>Não significativo</em>.</li>
-      <li>Compare com o mapa do passo 5. Os quadrantes são os mesmos; o que mudou é que 362 municípios saíram do mapa por não passarem do corte.</li>
+      <li>Compare com o mapa do passo 4. Os quadrantes são os mesmos; o que mudou é que 362 municípios saíram do mapa por não passarem do corte.</li>
     </ol>
 
     <table>
-      <thead><tr><th>Categoria</th><th class="num">Sem teste (passo 5)</th><th class="num">Com p ≤ 0,05</th><th>Onde estão</th></tr></thead>
+      <thead><tr><th>Categoria</th><th class="num">Sem teste (passo 4)</th><th class="num">Com p ≤ 0,05</th><th>Onde estão</th></tr></thead>
       <tbody>
         <tr class="hi"><td>Alto-alto</td><td class="num">101</td><td class="num">35</td><td>Oeste da Bahia, sul do Maranhão, sudoeste do Piauí, leste do Tocantins</td></tr>
         <tr><td>Baixo-baixo</td><td class="num">794</td><td class="num">578</td><td>Litoral e centro do Maranhão, semiárido e Recôncavo baianos, norte do Tocantins</td></tr>
@@ -596,7 +567,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
         <tr><td>Alto-baixo</td><td class="num">15</td><td class="num">1</td><td>Regeneração, no médio Parnaíba piauiense</td></tr>
         <tr><td>Não significativo</td><td class="num">—</td><td class="num">362</td><td>Espalhados</td></tr>
       </tbody>
-      <caption>LISA calculado com contiguidade rainha padronizada por linha, 999 permutações, semente 42. Um terço das classificações do passo 5 não resiste ao teste, e a categoria que mais perde é a alto-alto: de 101 sobram 35.</caption>
+      <caption>LISA calculado com contiguidade rainha padronizada por linha, 999 permutações, semente 42. Um terço das classificações do passo 4 não resiste ao teste, e a categoria que mais perde é a alto-alto: de 101 sobram 35.</caption>
     </table>
 
     <div class="confira">
@@ -607,8 +578,8 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
 </div>
 </div>
 
-<div class="passo" id="p8">
-  <div class="n">8</div>
+<div class="passo" id="p7">
+  <div class="n">7</div>
   <div class="c">
     <h3>Ler os outliers espaciais</h3>
     <p>Os agrupamentos confirmam o que o mapa já mostrava. Os outliers é que dão trabalho, e por isso valem mais.</p>
@@ -710,7 +681,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
   <div class="lbl">O que esta aula não resolveu</div>
   <ul>
     <li>Detecção não é explicação. O índice diz que há padrão e cala sobre a causa. Regressão espacial, que separa o efeito do vizinho do efeito das variáveis locais, fica para além deste curso.</li>
-    <li>O efeito de borda do passo 1 não foi medido. Para saber o tamanho dele seria preciso refazer a conta com uma orla dos estados vizinhos e comparar, e este roteiro não faz isso.</li>
+    <li>O recorte por UF cria efeito de borda, e ele não foi medido. Um município do sudoeste baiano que faz divisa com Minas Gerais perde os vizinhos mineiros, e a média dele sai calculada sobre menos gente. Para saber o tamanho disso seria preciso refazer a conta com uma orla dos estados vizinhos e comparar, e este roteiro não faz isso.</li>
     <li>Com 763 dos 997 municípios em zero hectare, a variável é mais parecida com uma máscara do que com uma medida contínua. Isso empurra a média para 5.406,93 hectares, muito acima da mediana, que é zero, e faz com que "baixo" no diagrama de espalhamento signifique, quase sempre, exatamente zero.</li>
     <li>Todos os testes usaram 999 permutações e semente fixa. Rodar com outra semente muda pseudo p-valores próximos do corte, e portanto muda a lista de municípios significativos nas bordas.</li>
     <li>A variável é área plantada de um ano. Dependência espacial em dado de estoque e em dado de fluxo são coisas diferentes, e a expansão do MATOPIBA é um processo de vinte anos que uma safra não captura.</li>
@@ -733,7 +704,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
   <div class="item">
     <div class="k">Referência</div>
     <div class="t">Luc Anselin, <em>Local Indicators of Spatial Association — LISA</em>, Geographical Analysis, 1995.
-      <span class="src">o artigo que criou o método que você usou no passo 7</span></div>
+      <span class="src">o artigo que criou o método que você usou no passo 6</span></div>
   </div>
   <div class="item">
     <div class="k">Referência</div>
