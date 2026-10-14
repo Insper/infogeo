@@ -109,6 +109,9 @@
     <li><div><span class="fn">matopiba_soja.gpkg</span>
         <span class="fd">Os 997 municípios de MA, TO, PI e BA, polígono, EPSG:4674, com <code>CD_MUN</code>, <code>NM_MUN</code>, <code>SIGLA_UF</code>, <code>AREA_KM2</code> e <code>soja_ha</code>, a área plantada de soja em 2023. O recorte das quatro UFs e a junção com o SIDRA já vêm feitos. É o único arquivo que você abre no passo 1.</span></div>
         <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">diagrama_eixos.gpkg</span>
+        <span class="fd">Três linhas de referência para o diagrama do passo 5: os dois eixos da média e a reta com a inclinação do índice. Já vêm com a simbologia pronta.</span></div>
+        <span class="tp real">apoio</span></li>
     <li><div><span class="fn">lisa_referencia.csv</span> <span class="fn">+ .csvt</span>
         <span class="fd">Resultado do LISA com 999 permutações e semente 42, para o passo 6: <code>moran_loc</code>, <code>quadrante</code>, <code>p_sim</code> e <code>lisa</code> nos 997 municípios, com a chave <code>cd_mun</code>. Use só depois de calcular o Moran global sozinho.</span></div></li>
   </ul>
@@ -529,12 +532,15 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
       <p>Clique num ponto com a ferramenta <em>Identify Features</em>, em <code>Ctrl+Shift+I</code>, e o QGIS abre os atributos do município. É assim que você liga o gráfico ao território.</p>
     </div>
 
-    <p>Para ver a inclinação, acrescente os eixos e a reta:</p>
     <ol start="6">
-      <li>Crie uma camada temporária de linhas em <span class="caminho">Layer <i>▸</i> Create Layer <i>▸</i> New Temporary Scratch Layer</span>, tipo <em>LineString</em>, CRS <code>EPSG:4674</code>.</li>
-      <li>Com a camada em edição, desenhe três linhas: uma horizontal de (−1, 0) a (17, 0), uma vertical de (0, −1) a (0, 7), e a reta de (0, 0) a (17; 17 × 0,325621), ou seja (17; 5,5356).</li>
-      <li>Deixe as duas primeiras cinza tracejado e a terceira vermelha.</li>
+      <li>Arraste <code>diagrama_eixos.gpkg</code> para o projeto e deixe a camada acima dos pontos. São três linhas de referência, e elas já vêm com a simbologia pronta: duas cinza tracejadas e uma vermelha.</li>
     </ol>
+
+    <div class="contexto">
+      <div class="lbl">O que são essas três linhas</div>
+      <p>Traçá-las com o mouse seria impossível de acertar, então elas vêm prontas no pacote. As duas cinza marcam o zero de cada eixo, que no valor padronizado é a média: a vertical em <code>zx = 0</code> e a horizontal em <code>zlag = 0</code>.</p>
+      <p>A vermelha vai da origem até o ponto (17; 5,5356), e 5,5356 é 17 × 0,325621. Em outras palavras: ela foi desenhada com a inclinação do índice que você calculou no passo 3. Se o seu I tivesse dado outro número, essa reta estaria em outro ângulo.</p>
+    </div>
 
     <div class="conceito">
       <div class="lbl">Como se lê o diagrama</div>
