@@ -50,6 +50,7 @@
   <ol>
     <div class="grp">Antes</div>
     <li><a href="#antes">Preparação e dados</a></li>
+    <li><a href="#matopiba">Que lugar é o MATOPIBA</a></li>
     <div class="grp">Parte 1 · teoria</div>
     <li><a href="#dois">Dois fenômenos, um mapa</a></li>
     <li><a href="#w">A matriz de vizinhança</a></li>
@@ -86,6 +87,25 @@
 
 <p>Esta é a unidade mais densa do semestre. A leitura preparatória sobre autocorrelação espacial não é opcional: quem chega sem ela vai passar a primeira meia hora tentando entender o que é uma matriz de pesos, e a segunda tentando alcançar a turma.</p>
 
+<h2 id="matopiba">Antes de tudo: que lugar é esse</h2>
+
+<p><strong>MATOPIBA</strong> é a junção das siglas de quatro estados: <strong>MA</strong>ranhão, <strong>TO</strong>cantins, <strong>PI</strong>auí e <strong>BA</strong>hia. Não é região do IBGE nem unidade administrativa. É um recorte criado pelo <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/decreto/d8447.htm">Decreto 8.447, de 2015</a>, para orientar política agrícola federal numa faixa específica de cerrado.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d06-matopiba-loc.svg" alt="Mapa do Brasil com Maranhão, Piauí, Tocantins e Bahia destacados em vermelho, formando uma faixa contínua no centro-norte e nordeste do país.">
+  <figcaption><b>Figura 1</b> Os quatro estados somam 1.423.591 km², um sexto do território brasileiro, e 997 municípios. O que interessa aqui não é o estado inteiro: é o cerrado de chapada que corta os quatro, onde a soja entrou.</figcaption>
+</figure>
+
+<p>A região é conhecida como a última fronteira agrícola do cerrado. Até os anos 1980 era pecuária extensiva e cerrado nativo; o solo é ácido e pobre, e a lavoura só se tornou viável com correção por calcário e cultivares adaptadas ao clima quente. A partir dos anos 1990 a soja avançou sobre os chapadões, primeiro no oeste da Bahia, depois no sul do Maranhão, no sudoeste do Piauí e no leste do Tocantins.</p>
+
+<p>Hoje são <strong>5.390.709 hectares</strong> de soja plantada nos 997 municípios, concentrados de um jeito bem desigual: <strong>763 deles plantam zero</strong>, e um só, São Desidério, na Bahia, planta 493.639 hectares. Essa desigualdade é o assunto da aula.</p>
+
+<div class="contexto">
+  <div class="lbl">Por que esse caso serve para aprender autocorrelação</div>
+  <p>A soja do MATOPIBA forma uma mancha visível no mapa, e a mancha tem duas explicações concorrentes. Pode ser contágio entre vizinhos, com armazém, revenda de insumo e informação se espalhando de um município para o do lado. Ou pode ser apenas o chapadão: solo profundo e relevo plano ocorrendo juntos no mesmo pedaço de território, sem ninguém influenciar ninguém.</p>
+  <p>As duas produzem mapas parecidos e pedem respostas de política pública opostas. Medir a mancha é o que você aprende hoje; separar as duas causas é o que a aula vai mostrar que não dá para fazer só com um índice.</p>
+</div>
+
 <div class="baixar">
   <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
   <div class="fonte">Dados de <b>IBGE</b> · Malhas Territoriais e <b>SIDRA</b> · Produção Agrícola Municipal, safra 2023, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html">portal IBGE</a> · <a href="https://sidra.ibge.gov.br/tabela/1612">SIDRA</a>.</div>
@@ -104,6 +124,37 @@
   </ul>
   <div class="ft">Pacote oficial desde 02/08/2026. A malha municipal é a do <a href="https://www.ibge.gov.br/geociencias">IBGE</a> de 2022 e a área plantada vem da tabela 1612 da Produção Agrícola Municipal, safra 2023, unida por <code>CD_MUN</code>. O índice de Moran e todas as somas desta página saem da malha mais o CSV da PAM. O <code>lisa_referencia.csv</code> não é dado novo: é resultado calculado sobre o oficial, entregue pronto porque o QGIS não faz permutação.</div>
 </div>
+
+<h2>Como é a tabela que você vai usar</h2>
+
+<p>Depois do passo 2 a tabela de atributos fica assim. Uma linha por município, e a coluna <code>soja_ha</code> é a variável da aula inteira. Estas são as primeiras linhas, na ordem em que o QGIS abre, por código do IBGE:</p>
+
+<table>
+  <thead><tr><th>CD_MUN</th><th>NM_MUN</th><th>SIGLA_UF</th><th class="num">AREA_KM2</th><th class="num">soja_ha</th></tr></thead>
+  <tbody>
+    <tr><td class="tmono">1700251</td><td>Abreulândia</td><td>TO</td><td class="num">1.906,3</td><td class="num">12.207</td></tr>
+    <tr><td class="tmono">1700301</td><td>Aguiarnópolis</td><td>TO</td><td class="num">236,8</td><td class="num">0</td></tr>
+    <tr><td class="tmono">1700350</td><td>Aliança do Tocantins</td><td>TO</td><td class="num">1.581,0</td><td class="num">9.387</td></tr>
+    <tr><td class="tmono">1700400</td><td>Almas</td><td>TO</td><td class="num">4.007,2</td><td class="num">13.227</td></tr>
+    <tr><td class="tmono">1700707</td><td>Alvorada</td><td>TO</td><td class="num">1.207,2</td><td class="num">29.879</td></tr>
+    <tr><td class="tmono">1701002</td><td>Ananás</td><td>TO</td><td class="num">1.581,1</td><td class="num">10</td></tr>
+  </tbody>
+</table>
+
+<p>E estas são as cinco maiores áreas plantadas do recorte, que vão aparecer em todos os resultados da aula:</p>
+
+<table>
+  <thead><tr><th>CD_MUN</th><th>NM_MUN</th><th>SIGLA_UF</th><th class="num">AREA_KM2</th><th class="num">soja_ha</th></tr></thead>
+  <tbody>
+    <tr><td class="tmono">2928901</td><td>São Desidério</td><td>BA</td><td class="num">15.156,7</td><td class="num">493.639</td></tr>
+    <tr><td class="tmono">2911105</td><td>Formosa do Rio Preto</td><td>BA</td><td class="num">15.634,3</td><td class="num">470.934</td></tr>
+    <tr><td class="tmono">2201150</td><td>Baixa Grande do Ribeiro</td><td>PI</td><td class="num">7.808,9</td><td class="num">251.303</td></tr>
+    <tr><td class="tmono">2909307</td><td>Correntina</td><td>BA</td><td class="num">11.504,3</td><td class="num">216.140</td></tr>
+    <tr><td class="tmono">2903201</td><td>Barreiras</td><td>BA</td><td class="num">8.051,3</td><td class="num">215.226</td></tr>
+  </tbody>
+</table>
+
+<p>Quatro colunas de identificação e uma de medida. Repare em <code>CD_MUN</code>: são sete dígitos <em>de texto</em>, não um número, e é essa coluna que liga a malha à tabela do SIDRA. Repare também em Aguiarnópolis, com zero: é a situação de três quartos do recorte, e ela domina quase tudo que vem depois.</p>
 
 <div class="pense">
   <div class="lbl">A pergunta do tema</div>
@@ -135,7 +186,7 @@
 
 <figure class="diagrama">
   <img src="assets/img/d06-dep-het.svg" alt="Quatro mapas em grade. O primeiro mostra um campo suavizado com I igual a 0,87; o segundo mostra o resíduo do mesmo mapa, ainda com 0,87. O terceiro mostra duas metades com médias diferentes e I igual a 0,81; o quarto mostra o resíduo, com I próximo de zero.">
-  <figcaption><b>Figura 1</b> Os dois mapas originais têm índice de Moran alto, e o índice sozinho não distingue um do outro. A diferença aparece no resíduo: a dependência sobrevive ao desconto da média regional, a heterogeneidade evapora. Se você tratar heterogeneidade como dependência, vai modelar contágio onde só existe geologia.</figcaption>
+  <figcaption><b>Figura 2</b> Os dois mapas originais têm índice de Moran alto, e o índice sozinho não distingue um do outro. A diferença aparece no resíduo: a dependência sobrevive ao desconto da média regional, a heterogeneidade evapora. Se você tratar heterogeneidade como dependência, vai modelar contágio onde só existe geologia.</figcaption>
 </figure>
 
 <div class="pense">
@@ -165,7 +216,7 @@
 
 <figure class="diagrama">
   <img src="assets/img/d06-w.svg" alt="Três painéis com a mesma malha irregular de catorze municípios e o mesmo município central destacado. No primeiro, oito vizinhos pela regra da rainha; no segundo, cinco pela regra da torre; no terceiro, cinco pelos centroides mais próximos, incluindo um município que não faz divisa.">
-  <figcaption><b>Figura 2</b> O município i é o mesmo nos três painéis. Pela rainha tem 8 vizinhos, pela torre 5, e pelos 5 mais próximos ganha um vizinho que não faz divisa com ele. Cada uma dessas listas produz um índice de Moran diferente sobre exatamente os mesmos dados.</figcaption>
+  <figcaption><b>Figura 3</b> O município i é o mesmo nos três painéis. Pela rainha tem 8 vizinhos, pela torre 5, e pelos 5 mais próximos ganha um vizinho que não faz divisa com ele. Cada uma dessas listas produz um índice de Moran diferente sobre exatamente os mesmos dados.</figcaption>
 </figure>
 
 <p>Depois de decidir quem é vizinho, falta decidir o peso. A prática dominante é a padronização por linha: cada linha da matriz é dividida pela sua soma, de modo que os pesos de cada município somem 1. Um município com 12 vizinhos dá peso 1/12 a cada um; um com 2 vizinhos dá 1/2. O efeito é que a matriz passa a calcular médias em vez de somas, e nenhum município influencia mais que outro só por ter muita divisa.</p>
@@ -217,9 +268,23 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <p>O procedimento é direto. Mantenha a geometria e a matriz W paradas. Sorteie uma nova atribuição dos 997 valores de soja aos 997 municípios, ao acaso. Calcule I. Repita 999 vezes. Você obtém uma distribuição de referência construída com os seus próprios dados, sem hipótese sobre a forma da distribuição.</p>
 
+<p>Vale ver isso acontecendo. Na animação abaixo o exemplo é menor, 25 unidades em vez de 997, para caber na tela, mas o procedimento é exatamente o mesmo.</p>
+
+<figure class="diagrama">
+  <img src="assets/img/d06-permutacao-anim.svg" alt="Animação em que uma grade de 25 unidades com valores agrupados num canto, de índice 0,74, é embaralhada quatro vezes, com índices de menos 0,17, menos 0,28, menos 0,04 e 0,00, enquanto cada sorteio aparece como um ponto no histograma de 400 sorteios ao lado, todos muito à esquerda da linha vermelha do valor observado.">
+  <figcaption><b>Figura 4</b> À esquerda, sempre os mesmos 25 valores: o que muda é qual unidade recebe qual valor. O mapa real tem os valores altos grudados num canto e índice 0,74. Os sorteios espalham os mesmos valores e o índice cai para perto de zero, às vezes negativo. À direita, os 400 sorteios formam a distribuição de referência, e o maior deles chega a 0,34. O observado, 0,74, não aparece nem na cauda: está fora do alcance do acaso.</figcaption>
+</figure>
+
+<div class="conceito">
+  <div class="lbl">O que o embaralhamento está perguntando</div>
+  <p>Imagine recortar os 997 números de soja, jogar todos num saco, sacudir e devolver um para cada município ao acaso. O território não mudou, a lista de vizinhos não mudou, a soma de soja não mudou. A única coisa que mudou foi <em>quem ficou com qual número</em>.</p>
+  <p>Se depois do embaralhamento o índice continuasse alto, o agrupamento que você vê no mapa seria uma coincidência que acontece sozinha. Como ele desaba para perto de zero em todos os 999 sorteios, a posição dos números no território não é indiferente: eles estavam arrumados.</p>
+  <p>É um teste que não supõe nada sobre a forma da distribuição dos dados, e é por isso que funciona aqui, com 763 municípios em zero e uma cauda enorme. Nenhum teste baseado em curva normal sobreviveria a um dado desses.</p>
+</div>
+
 <figure class="diagrama">
   <img src="assets/img/d06-permutacao.svg" alt="Histograma dos 999 valores do índice de Moran obtidos por rearranjo aleatório, concentrados em torno de zero e nenhum passando de 0,112, com uma linha vertical vermelha marcando o valor observado de 0,3256.">
-  <figcaption><b>Figura 3</b> A distribuição de referência fica em torno de E[I] = −0,0010 e o maior dos 999 sorteios chega a 0,1116. O valor observado, 0,3256, está a 17,4 desvios-padrão dessa distribuição, fora do alcance do acaso por uma margem larga. O pseudo p-valor é 0,001, que é o menor número possível com 999 permutações.</figcaption>
+  <figcaption><b>Figura 5</b> A distribuição de referência fica em torno de E[I] = −0,0010 e o maior dos 999 sorteios chega a 0,1116. O valor observado, 0,3256, está a 17,4 desvios-padrão dessa distribuição, fora do alcance do acaso por uma margem larga. O pseudo p-valor é 0,001, que é o menor número possível com 999 permutações.</figcaption>
 </figure>
 
 <div class="conceito">
@@ -242,7 +307,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <figure class="diagrama">
   <img src="assets/img/d06-moran-scatter.svg" alt="Gráfico de dispersão com 997 pontos, eixo horizontal com a soja padronizada e eixo vertical com a média dos vizinhos padronizada, dividido em quatro quadrantes rotulados alto-alto, baixo-alto, baixo-baixo e alto-baixo, com uma reta de inclinação 0,3256 e cinco municípios identificados.">
-  <figcaption><b>Figura 4</b> Dos 997 municípios, 763 têm soja igual a zero e formam a nuvem grudada no eixo vertical. A reta é puxada por meia dúzia de pontos no extremo direito: São Desidério planta 493.639 hectares, mais de dezesseis desvios-padrão acima da média, e é cercado de vizinhos igualmente grandes. Regeneração, no Piauí, é o único ponto do quadrante alto-baixo com significância. Você desenha esse diagrama dentro do QGIS no <a href="#p7">passo 7</a>.</figcaption>
+  <figcaption><b>Figura 6</b> Dos 997 municípios, 763 têm soja igual a zero e formam a nuvem grudada no eixo vertical. A reta é puxada por meia dúzia de pontos no extremo direito: São Desidério planta 493.639 hectares, mais de dezesseis desvios-padrão acima da média, e é cercado de vizinhos igualmente grandes. Regeneração, no Piauí, é o único ponto do quadrante alto-baixo com significância. Você desenha esse diagrama dentro do QGIS no <a href="#p7">passo 7</a>.</figcaption>
 </figure>
 
 <p>Os quatro quadrantes têm nome e significado.</p>
@@ -287,7 +352,7 @@ resultado   : uma correlação entre o que você tem e o que os seus vizinhos t�
 
 <figure class="diagrama">
   <img src="assets/img/d06-maup.svg" alt="Três mapas do MATOPIBA com a mesma área plantada de soja agregada em 997, 100 e 34 unidades, com índice de Moran de 0,3256, 0,3477 e 0,3794 respectivamente.">
-  <figcaption><b>Figura 5</b> A soja é a mesma nos três mapas, 5.390.709 hectares. Agrupando os 997 municípios em 34 blocos, o índice sobe de 0,3256 para 0,3794. Não há regra: a agregação pode subir ou descer o índice conforme o quanto ela junta municípios parecidos ou diferentes. O que não se pode é comparar dois índices calculados sobre recortes diferentes.</figcaption>
+  <figcaption><b>Figura 7</b> A soja é a mesma nos três mapas, 5.390.709 hectares. Agrupando os 997 municípios em 34 blocos, o índice sobe de 0,3256 para 0,3794. Não há regra: a agregação pode subir ou descer o índice conforme o quanto ela junta municípios parecidos ou diferentes. O que não se pode é comparar dois índices calculados sobre recortes diferentes.</figcaption>
 </figure>
 
 <p>Há um segundo efeito, do mesmo tipo. A área plantada em hectares depende do tamanho do município: um município grande tende a ter mais soja simplesmente por ser grande. Trocando os hectares pela fração da área municipal ocupada por soja, o índice desta aula sobe de 0,3256 para 0,4457. Os dois são positivos e significativos, e medem coisas diferentes: o primeiro fala de onde está a produção, o segundo de onde a paisagem virou lavoura. No topo do segundo está Luís Eduardo Magalhães, com 53,2% do município plantado.</p>
@@ -503,7 +568,7 @@ END</pre>
   <div class="n">7</div>
   <div class="c">
     <h3>Desenhar o diagrama de espalhamento de Moran</h3>
-    <p>O diagrama da Figura 4 é um gráfico de dispersão, e o QGIS não tem gráfico de dispersão no núcleo. Tem coisa melhor: ele sabe desenhar pontos a partir de coordenadas. Se você usar o valor padronizado como X e a defasagem padronizada como Y, cada município vira um ponto, e a tela do mapa passa a ser o diagrama.</p>
+    <p>O diagrama da Figura 6 é um gráfico de dispersão, e o QGIS não tem gráfico de dispersão no núcleo. Tem coisa melhor: ele sabe desenhar pontos a partir de coordenadas. Se você usar o valor padronizado como X e a defasagem padronizada como Y, cada município vira um ponto, e a tela do mapa passa a ser o diagrama.</p>
 
     <ol>
       <li>Em <code>matopiba_quad</code>, crie dois campos decimais com precisão 6:</li>
@@ -537,7 +602,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
     <div class="confira">
       <div class="lbl">O que você deve estar vendo</div>
       <p>Uma nuvem densa colada no canto inferior esquerdo e uma cauda que se estica para a direita. O ponto mais à direita, em <code>zx</code> 16,38, é São Desidério: planta 493.639 hectares, mais de dezesseis desvios-padrão acima da média. O eixo horizontal vai de −0,18 a 16,38 e o vertical de −0,18 a 6,68, e essa assimetria é a própria distribuição da soja.</p>
-      <p>Passe o mouse sobre um ponto com a ferramenta <em>Identify Features</em>, em <code>Ctrl+Shift+I</code>, e o QGIS mostra o município. É assim que você liga o gráfico ao território.</p>
+      <p>Clique num ponto com a ferramenta <em>Identify Features</em>, em <code>Ctrl+Shift+I</code>, e o QGIS abre os atributos do município. É assim que você liga o gráfico ao território.</p>
     </div>
 
     <p>Para ver a inclinação, acrescente os eixos e a reta:</p>
@@ -641,6 +706,7 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
       <li>Rode <code>native:reprojectlayer</code> sobre os centroides, de <code>EPSG:4674</code> para <code>ESRI:102033</code>, e salve como <code>matopiba_cen.gpkg</code>. Sem isso a distância sai em graus, e grau de longitude não vale a mesma coisa em Barreirinhas e em Carinhanha. É o mesmo problema de CRS que a aula 2 tratou.</li>
       <li>A camada reprojetada precisa estar no projeto com o nome exato <code>matopiba_cen</code>, porque a expressão procura a camada por esse nome. Renomeie com <code>F2</code> se o QGIS tiver dado outro.</li>
       <li>Nela, crie o campo <code>lag_knn5</code>, decimal, com a expressão abaixo.</li>
+      <li>Refaça os campos <code>dxdlag</code> e <code>dx2</code> usando <code>lag_knn5</code> no lugar de <code>soja_ha_mean</code>, e calcule o novo índice com <code>sum("dxdlag") / sum("dx2")</code>.</li>
     </ol>
 
 <pre class="expr">array_mean(
@@ -655,9 +721,6 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
       <p>Filtrar o município pelo código não funciona aqui: dentro do <code>overlay_nearest</code> a variável <code>@parent</code> não existe, e o filtro sai vazio. O resultado é uma coluna inteira de nulos, sem mensagem de erro, que é o pior tipo de falha.</p>
     </div>
 
-    <ol start="4">
-      <li>Refaça os campos <code>dxdlag</code> e <code>dx2</code> usando <code>lag_knn5</code> no lugar de <code>soja_ha_mean</code>, e calcule o novo índice com <code>sum("dxdlag") / sum("dx2")</code>.</li>
-    </ol>
     <p>Depois responda, em três frases:</p>
     <ol type="a">
       <li>O índice subiu ou desceu em relação a 0,325621? De quanto, em pontos e em porcentagem?</li>
@@ -688,26 +751,6 @@ zlag = ("soja_ha_mean" - mean("soja_ha")) / stdev("soja_ha")</pre>
   <div class="lbl">A resposta do tema</div>
   <p class="big">Depende, e dá para medir o quanto. O índice de Moran da soja no MATOPIBA é 0,3256, com pseudo p de 0,001, e 35 municípios alto-alto concentram 66,9% da área plantada em 14,0% do território.</p>
   <p>O que o número não diz é por quê. Ele mede que o padrão existe, não que o vizinho causou o vizinho. Separar o contágio entre produtores da aptidão comum do chapadão exige modelo, dado de solo e série temporal. Nesta aula você aprendeu a detectar, a testar e a desconfiar, nessa ordem.</p>
-</div>
-
-<h2>O que discutir com a turma</h2>
-<p>Três perguntas para os últimos minutos, com a resposta em aberto.</p>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">Trocando a matriz de vizinhança, o índice varia de 0,3256 a 0,3571. A conclusão resiste à troca, ou isso foi sorte?</p>
-  <p>A variação de 9,7% entre duas definições bem diferentes de vizinhança é pequena diante de um valor a 17 desvios da distribuição de referência, e nesse sentido a conclusão resiste. Nada garante que uma terceira definição, como banda de distância de 150 quilômetros, se comporte igual. Resistência à troca de premissa se demonstra caso a caso, e a demonstração cabe em uma tabela de três linhas que quase nenhum artigo publica.</p>
-</div>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">Se o cinturão da soja aparece como agrupamento alto-alto e a ele corresponde desmatamento de cerrado, o LISA serve para fiscalização ambiental?</p>
-  <p>Serve para priorizar onde olhar, e não serve como prova. Um município classificado alto-alto não cometeu infração alguma pelo fato de estar nessa categoria. A distância entre um indicador exploratório e um ato administrativo é grande, e é ocupada por vistoria, notificação e contraditório. Vale perguntar à turma de Direito o que acontece quando um órgão pula essa distância.</p>
-</div>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">O índice vai de 0,3256 para 0,4457 quando você troca hectares plantados pela fração da área do município ocupada por soja. Qual dos dois números você levaria para uma reunião do Ministério da Agricultura, e qual levaria para uma do Ministério do Meio Ambiente?</p>
 </div>
 
 <div class="limites">
