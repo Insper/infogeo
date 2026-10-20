@@ -8,3 +8,7 @@ dados/
 *.py
 __pycache__/
 mapas_conceituais/
+
+# ferramentas locais
+.serena/
+CLAUDE.md

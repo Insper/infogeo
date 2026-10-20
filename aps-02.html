@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APS 2 · Autocorrelação espacial no GeoDa — InfoGeo Insper</title>
+<link rel="stylesheet" href="assets/curso.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html"><span class="sq"></span> INFOGEO · Insper</a>
+  <ul class="topnav">
+    <li><a href="index.html">Curso</a></li>
+    <li><a href="index.html#arco">As 10 perguntas</a></li>
+    <li><a href="index.html#avaliacao">Avaliação</a></li>
+    <li><a href="index.html#dados">Dados</a></li>
+    <li><a href="aps-02.html" class="here">APS 2</a></li>
+  </ul>
+</div></div>
+
+<header class="cover"><div class="wrap">
+  <div class="tag">APS 2 · escopo dos temas 5 e 6</div>
+  <h1>O mapa mostra uma mancha. Ela é <em>real</em>, e o que fazer com quem está fora dela?</h1>
+  <p class="sub">Cada aluno recebe um recorte do Brasil e uma variável que importa. O trabalho é medir o agrupamento, testar se ele resiste ao acaso e, principalmente, explicar os municípios que não se encaixam.</p>
+  <div class="facts">
+    <div><b>10% da nota</b><span>uma das três APS</span></div>
+    <div><b>Individual</b><span>fora de sala</span></div>
+    <div><b>GeoDa</b><span>IBGE · Censo 2022, PIB e PPM</span></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="shell">
+
+<aside class="toc">
+  <h6>Nesta APS</h6>
+  <ol>
+    <li><a href="#problema">Seu problema</a></li>
+    <li><a href="#p1">1 · Amazônia Legal</a></li>
+    <li><a href="#p2">2 · Nordeste</a></li>
+    <li><a href="#p3">3 · Sudeste</a></li>
+    <li><a href="#p4">4 · Sul</a></li>
+    <li><a href="#dados">Os dados</a></li>
+    <li><a href="#perguntas">O que responder</a></li>
+    <li><a href="#caminho">Caminho no GeoDa</a></li>
+    <li><a href="#entrega">O que entregar</a></li>
+    <li><a href="#correcao">Como será corrigido</a></li>
+  </ol>
+</aside>
+
+<main class="body">
+
+<section class="part" id="problema">
+<div class="partmark">
+  <div class="pn">Passo zero</div>
+  <h2 class="pt" style="margin:0">Seu problema</h2>
+</div>
+
+<p>Cada aluno trabalha um recorte do país e uma variável, definidos pelo próprio mês de nascimento.</p>
+
+<table>
+  <thead><tr><th style="width:26%">Você nasceu em</th><th style="width:26%">Seu recorte</th><th>Sua variável</th></tr></thead>
+  <tbody>
+    <tr><td>Janeiro, fevereiro ou março</td><td><strong>Amazônia Legal</strong><br><span class="tmono">amazonia.gpkg</span></td><td>PIB per capita — <span class="tmono">log_pibpc</span></td></tr>
+    <tr><td>Abril, maio ou junho</td><td><strong>Nordeste</strong><br><span class="tmono">nordeste.gpkg</span></td><td>Taxa de analfabetismo — <span class="tmono">analfab</span></td></tr>
+    <tr><td>Julho, agosto ou setembro</td><td><strong>Sudeste</strong><br><span class="tmono">sudeste.gpkg</span></td><td>Densidade populacional — <span class="tmono">log_dens</span></td></tr>
+    <tr><td>Outubro, novembro ou dezembro</td><td><strong>Sul</strong><br><span class="tmono">sul.gpkg</span></td><td>Envelhecimento — <span class="tmono">pct_65</span></td></tr>
+  </tbody>
+</table>
+
+<div class="cuidado">
+  <div class="lbl">Entrega com o recorte errado recebe zero</div>
+  <p>A correção compara município a município com o recorte que cabe a você. Uma entrega feita com outro arquivo não tem como ser corrigida.</p>
+</div>
+
+<p>Os quatro problemas têm a mesma estrutura e o mesmo peso. Mudam a região, a variável e, principalmente, o que os outliers significam. Leia só o seu, mas saiba que existem os outros: a última pergunta pede que você compare.</p>
+</section>
+
+<section class="part" id="p1">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Problema 1 · janeiro a março</div>
+  <h2 class="pt" style="margin:0">A floresta tem ilhas de riqueza. De onde elas vêm?</h2>
+</div>
+
+<p>A Amazônia Legal tem 591 municípios nos oito estados que a compõem fora do Maranhão. A economia dela não é homogênea: há um cinturão do agronegócio no norte do Mato Grosso, cidades grandes no Pará, e no meio da floresta alguns municípios com PIB per capita que destoa de tudo em volta.</p>
+
+<p>Esses pontos fora da curva quase sempre têm nome e sobrenome: uma mina, uma refinaria, uma usina, um campo de gás. É o que a literatura econômica chama de <strong>economia de enclave</strong> — a riqueza é produzida ali, mas circula pouco no território em volta, e o município vizinho não fica mais rico por fazer divisa com ela.</p>
+
+<div class="pense">
+  <div class="lbl">A pergunta do problema</div>
+  <p class="q">O PIB per capita na Amazônia forma agrupamentos, ou é uma colcha de retalhos de enclaves isolados?</p>
+  <p>E para os municípios que aparecem como alto-baixo: o que exatamente está produzindo aquela riqueza, e por que ela não transbordou para os vizinhos em nenhuma medida detectável?</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Por que a variável vem em logaritmo</div>
+  <p>O PIB per capita bruto varia de R$ 5 mil a mais de R$ 400 mil entre esses municípios, e uma distribuição tão torta distorce qualquer medida baseada em desvios da média. O arquivo traz as duas colunas: <code>pib_pc</code>, em reais, para você citar valores no relatório, e <code>log_pibpc</code>, o logaritmo na base 10, que é a coluna da análise.</p>
+  <p>Um valor de 4,74 em <code>log_pibpc</code> significa 10<sup>4,74</sup>, ou cerca de R$ 55 mil por habitante.</p>
+</div>
+</section>
+
+<section class="part" id="p2">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Problema 2 · abril a junho</div>
+  <h2 class="pt" style="margin:0">O analfabetismo tem geografia. Onde ela se rompe?</h2>
+</div>
+
+<p>São 1.794 municípios nos nove estados do Nordeste. A taxa de analfabetismo entre pessoas de 15 anos ou mais, medida pelo Censo 2022, vai de 3,5% a 34,7% — uma diferença de dez vezes dentro da mesma região.</p>
+
+<p>O padrão macro é conhecido: o sertão concentra as taxas altas, o litoral e as capitais concentram as baixas. O que a leitura macro esconde são os municípios que quebram o padrão. Um município com taxa muito abaixo da vizinhança, no meio do sertão, é um indício de política pública que funcionou, ou de uma cidade-polo que concentra escola e emprego. Essas são as perguntas que uma secretaria estadual de educação precisa responder antes de decidir onde investir.</p>
+
+<div class="pense">
+  <div class="lbl">A pergunta do problema</div>
+  <p class="q">Existe um cinturão de analfabetismo no Nordeste, e quais municípios escapam dele?</p>
+  <p>Para os baixo-alto: o que esses municípios têm que os vizinhos não têm? E para os alto-baixo, a pergunta incômoda: por que um município ficou para trás cercado de vizinhos que avançaram?</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Leia o sinal da variável com cuidado</div>
+  <p>Aqui valor <strong>alto é ruim</strong>. Um agrupamento alto-alto é uma região de analfabetismo persistente, e um baixo-baixo é uma região que resolveu o problema. Isso inverte a leitura usual dos mapas LISA e é fácil de errar no relatório.</p>
+  <p>O arquivo traz <code>tx_alfab</code>, a taxa de alfabetização publicada pelo IBGE, e <code>analfab</code>, que é simplesmente 100 menos ela. Use <code>analfab</code>.</p>
+</div>
+</section>
+
+<section class="part" id="p3">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Problema 3 · julho a setembro</div>
+  <h2 class="pt" style="margin:0">Onde o Sudeste é cidade, e onde é cidade sozinha?</h2>
+</div>
+
+<p>São 1.668 municípios em Minas Gerais, Espírito Santo, Rio de Janeiro e São Paulo. A densidade populacional vai de menos de dois habitantes por quilômetro quadrado a mais de treze mil.</p>
+
+<p>O agrupamento óbvio é a mancha metropolitana: São Paulo, Rio, Belo Horizonte e Vitória, cada uma com um anel de municípios igualmente densos. O caso interessante é outro. No interior de Minas há cidades grandes cercadas de vazio demográfico — as chamadas <strong>capitais regionais</strong>, que concentram hospital, universidade e comércio para um raio de centenas de quilômetros. Elas aparecem no LISA como alto-baixo, e entender por que elas existem onde existem é entender como o Brasil se urbanizou.</p>
+
+<div class="pense">
+  <div class="lbl">A pergunta do problema</div>
+  <p class="q">O Sudeste é uma mancha urbana contínua ou um arquipélago?</p>
+  <p>Para os alto-baixo: que papel esses municípios cumprem na rede urbana, e o que aconteceria com a região em volta se eles não existissem? Para os baixo-alto, o contrário: por que um município ficou vazio no meio de uma área densa?</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Por que a variável vem em logaritmo</div>
+  <p>Densidade é uma das variáveis mais tortas que existem: entre o município menos e o mais denso do Sudeste há quatro ordens de grandeza. O arquivo traz <code>dens_hab</code>, em habitantes por quilômetro quadrado, para citar no relatório, e <code>log_dens</code>, o logaritmo na base 10, que é a coluna da análise.</p>
+  <p>Um valor de 2,24 em <code>log_dens</code> significa 10<sup>2,24</sup>, ou cerca de 174 habitantes por km².</p>
+</div>
+</section>
+
+<section class="part" id="p4">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Problema 4 · outubro a dezembro</div>
+  <h2 class="pt" style="margin:0">O Sul envelheceu primeiro. Quem está segurando os jovens?</h2>
+</div>
+
+<p>São 1.191 municípios no Paraná, em Santa Catarina e no Rio Grande do Sul. A fração da população com 65 anos ou mais, no Censo 2022, vai de 5,3% a 30,1%.</p>
+
+<p>A região Sul atravessou a transição demográfica antes do resto do país, e a serra gaúcha é hoje uma das áreas mais envelhecidas do Brasil. Isso tem consequências diretas e mensuráveis: demanda por saúde, arrecadação municipal, oferta de mão de obra, sustentabilidade da previdência local. Um município com 30% da população acima de 65 anos é um município com um problema fiscal no horizonte.</p>
+
+<p>O contraste aparece nos polos regionais. Cidades que oferecem universidade e emprego retêm e atraem jovens, e aparecem como ilhas de população mais nova dentro de regiões envelhecidas.</p>
+
+<div class="pense">
+  <div class="lbl">A pergunta do problema</div>
+  <p class="q">O envelhecimento do Sul é um fenômeno regional ou municipal?</p>
+  <p>Para os baixo-alto: o que esses municípios oferecem que segura os jovens? E para os alto-baixo, o caso mais curioso da sua lista: por que uma capital aparece entre eles?</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">O que a variável é e o que ela não é</div>
+  <p>O arquivo traz <code>pop_65</code>, o número absoluto de pessoas com 65 anos ou mais, <code>pop_2022</code>, a população total, e <code>pct_65</code>, a razão entre as duas em porcentagem. Use <code>pct_65</code>.</p>
+  <p>Uma fração alta pode vir de duas histórias opostas: muita gente velha, ou pouca gente jovem porque os jovens foram embora. O dado de um ano só não separa as duas, e é bom dizer isso no relatório.</p>
+</div>
+</section>
+
+<section class="part" id="dados">
+<h2>Os dados</h2>
+
+<div class="baixar">
+  <div class="hd"><b>Pacote da APS 2</b><span>no Blackboard</span></div>
+  <div class="fonte">Tudo do <b>IBGE</b>: malhas municipais de 2022, Censo Demográfico 2022, Produto Interno Bruto dos Municípios e Produção da Pecuária Municipal. Baixados em <b>20/10/2026</b>. Fonte original: <a href="https://sidra.ibge.gov.br">SIDRA</a> e <a href="https://servicodados.ibge.gov.br/api/docs/malhas">API de malhas</a>.</div>
+  <ul>
+    <li><div><span class="fn">amazonia.gpkg</span>
+        <span class="fd">591 municípios de AC, AP, AM, MT, PA, RO, RR e TO. Campos: <code>CD_MUN</code>, <code>NM_MUN</code>, <code>SIGLA_UF</code>, <code>id_mun</code>, <code>AREA_KM2</code>, <code>pop_2022</code>, <code>pib_pc</code>, <code>log_pibpc</code>.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">nordeste.gpkg</span>
+        <span class="fd">1.794 municípios dos nove estados do Nordeste. Campos de identificação mais <code>tx_alfab</code> e <code>analfab</code>.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">sudeste.gpkg</span>
+        <span class="fd">1.668 municípios de MG, ES, RJ e SP. Campos de identificação mais <code>dens_hab</code> e <code>log_dens</code>.</span></div>
+        <span class="tp real">oficial</span></li>
+    <li><div><span class="fn">sul.gpkg</span>
+        <span class="fd">1.191 municípios de PR, SC e RS. Campos de identificação mais <code>pop_65</code> e <code>pct_65</code>.</span></div>
+        <span class="tp real">oficial</span></li>
+  </ul>
+  <div class="ft">Todos em <code>EPSG:4674</code>, polígono, com <code>id_mun</code> inteiro pronto para ser o <em>ID Variable</em> da matriz de pesos. O LEIA-ME do pacote traz, para cada arquivo, a tabela do SIDRA de origem e a conta que produziu cada coluna.</div>
+</div>
+
+<p>Abra só o arquivo do seu trimestre. Os quatro têm a mesma estrutura de campos, de propósito: o roteiro do <a href="encontro-06.html">tema 6</a> funciona igual nos quatro.</p>
+</section>
+
+<section class="part" id="perguntas">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">O trabalho</div>
+  <h2 class="pt" style="margin:0">O que responder</h2>
+</div>
+
+<p class="lede">São cinco perguntas. Cada uma exige um número, um mapa ou uma tabela que a sustente, e um parágrafo de argumento. O parágrafo vale mais que o número.</p>
+
+<h2>Pergunta 1 · O padrão existe?</h2>
+
+<p>Construa a matriz de contiguidade rainha, calcule o índice de Moran global da sua variável e rode o teste de permutação com 999 sorteios.</p>
+
+<p>Informe o índice, o pseudo p-valor, o número de permutações e a semente. Diga em uma frase o que esse número significa para a sua região, em português, sem jargão.</p>
+
+<div class="pense">
+  <div class="lbl">Onde está a dificuldade</div>
+  <p>Antes de escrever, olhe o diagrama de espalhamento. Seu índice é sustentado pela nuvem inteira ou por meia dúzia de pontos no extremo? Selecione os pontos extremos no diagrama e veja onde eles caem no mapa. Essa observação muda o que se pode afirmar.</p>
+</div>
+
+<h2>Pergunta 2 · Onde está o agrupamento?</h2>
+
+<p>Rode o LISA com as mesmas 999 permutações. Apresente o mapa de agrupamentos e responda, com números:</p>
+
+<ol type="a">
+  <li>Quantos municípios em cada uma das quatro categorias, e quantos não significativos.</li>
+  <li>Onde ficam, no território, os alto-alto. Nomeie a região em português — "oeste da Bahia", "serra gaúcha", "periferia da Grande São Paulo" — e não apenas liste códigos.</li>
+  <li>Que fração da população da sua região mora nos municípios alto-alto. Use a coluna <code>pop_2022</code>.</li>
+</ol>
+
+<h2>Pergunta 3 · Os outliers espaciais</h2>
+
+<p>Esta é a pergunta central da APS, e a que tem mais peso na correção.</p>
+
+<p>Isole os municípios <strong>alto-baixo</strong> e <strong>baixo-alto</strong> significativos. Monte uma tabela com nome, UF, valor da variável, média dos vizinhos e pseudo p-valor.</p>
+
+<p>Depois escolha <strong>dois</strong> deles, um de cada tipo, e investigue. Para cada um, escreva um parágrafo respondendo:</p>
+
+<ol type="a">
+  <li>O que é esse município? Quantos habitantes tem, do que vive, onde fica.</li>
+  <li>Por que ele destoa da vizinhança? Procure a explicação concreta — uma mina, uma universidade, uma usina, uma rodovia, um relevo, uma política municipal. Cite a fonte do que você afirmar.</li>
+  <li>Esse município é um problema a resolver ou um modelo a copiar? A resposta depende da variável, e precisa estar explícita.</li>
+</ol>
+
+<div class="contexto">
+  <p>A quantidade de outliers varia bastante entre os quatro recortes: um deles tem mais de vinte baixo-alto, outro tem dois. Se o seu recorte tiver poucos, isso não é defeito do seu trabalho — registre o número na tabela e diga, em uma frase, o que a escassez indica sobre a forma como o fenômeno se espalha ali.</p>
+</div>
+
+<div class="cuidado">
+  <div class="lbl">O que não vale como resposta</div>
+  <p>"É um outlier espacial porque tem valor alto e vizinhos baixos" é a definição da categoria, não uma explicação. A pergunta é <em>por que</em> o valor é alto ali e baixo em volta, e isso exige sair do GeoDa e descobrir o que existe naquele município.</p>
+</div>
+
+<h2>Pergunta 4 · O resultado depende da sua escolha?</h2>
+
+<p>Refaça o índice de Moran global com uma segunda matriz de vizinhança: <strong>k = 6 vizinhos mais próximos</strong>. Monte uma tabela de duas linhas comparando as duas matrizes: índice, pseudo p-valor e número de ligações.</p>
+
+<p>Responda: a conclusão da Pergunta 1 muda? E a lista de outliers da Pergunta 3 — ela é a mesma com as duas matrizes? Se mudou, diga quais municípios entraram e quais saíram.</p>
+
+<h2>Pergunta 5 · O que o índice não vê</h2>
+
+<p>Em um parágrafo de cinco a oito linhas, aponte três limites do que você acabou de fazer. Pelo menos um deles tem que ser específico da <em>sua</em> variável e do <em>seu</em> recorte, não um limite genérico da técnica.</p>
+
+<p>Alguns fios para puxar, sem obrigação de usar: o recorte por região corta vizinhos na moldura; o município é uma unidade política de tamanho arbitrário, e a sua região tem municípios de 17 km² e de 159 mil km²; a variável é de um ano só; e detectar um padrão não explica a causa dele.</p>
+</section>
+
+<section class="part" id="caminho">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Apoio</div>
+  <h2 class="pt" style="margin:0">Caminho no GeoDa</h2>
+</div>
+
+<p>É o mesmo roteiro do <a href="encontro-06.html">tema 6</a>, com a sua variável no lugar de <code>soja_ha</code>. A sequência, em resumo:</p>
+
+<table>
+  <thead><tr><th style="width:38%">O que fazer</th><th>Onde</th></tr></thead>
+  <tbody>
+    <tr><td>Abrir o arquivo</td><td><span class="caminho">File <i>▸</i> escolher GeoPackage</span>, ou arrastar para <em>Drop files here</em></td></tr>
+    <tr><td>Ver o mapa antes de medir</td><td>ícone <em>Map</em>, <em>Natural Breaks Map</em>, 5 categorias</td></tr>
+    <tr><td>Matriz de vizinhança</td><td><span class="caminho">Tools <i>▸</i> Weights Manager <i>▸</i> Create</span>, ID <code>id_mun</code>, <em>Queen contiguity</em>, ordem 1</td></tr>
+    <tr><td>Matriz alternativa</td><td>mesma janela, aba <em>Distance Weight</em>, <em>K-Nearest neighbors</em> com 6</td></tr>
+    <tr><td>Moran global e diagrama</td><td><span class="caminho">Space <i>▸</i> Univariate Moran's I</span></td></tr>
+    <tr><td>Teste de permutação</td><td>botão direito no diagrama, <em>Randomization</em> <i>▸</i> <em>999 Permutations</em></td></tr>
+    <tr><td>LISA</td><td><span class="caminho">Space <i>▸</i> Univariate Local Moran's I</span>, marcando as três janelas</td></tr>
+    <tr><td>Salvar o resultado na tabela</td><td>com o <em>Cluster Map</em> na frente, <span class="caminho">Options <i>▸</i> Save Results</span></td></tr>
+    <tr><td>Isolar os outliers</td><td>botão direito no cabeçalho de <code>LISA_CL</code>, <em>Selection Tool</em></td></tr>
+  </tbody>
+</table>
+
+<div class="confira">
+  <div class="lbl">Dois pontos de conferência</div>
+  <p>Ao criar a matriz de pesos, o painel do <em>Weights Manager</em> mostra o número de observações, o mínimo e o máximo de vizinhos e a porcentagem de células não nulas. Confira que o número de observações bate com o número de municípios do seu recorte, e que nenhum município ficou com zero vizinhos.</p>
+  <p>Ao rodar a permutação, confira que o número de sorteios é 999 e anote a semente. Sem esses dois números o seu resultado não é reproduzível, e a Pergunta 1 pede os dois.</p>
+</div>
+
+<div class="cuidado">
+  <div class="lbl">Se o GeoDa avisar que há município sem vizinho</div>
+  <p>Dois recortes têm exatamente um município ilhado, que não encosta em nenhum outro: <strong>Fernando de Noronha</strong>, no Nordeste, e <strong>Ilhabela</strong>, no Sudeste. Contiguidade não alcança quem está no mar, e o GeoDa avisa isso ao criar a matriz.</p>
+  <p>Não é defeito do arquivo nem erro seu. É o aviso correto, e o que se faz com ele é uma decisão sua que precisa estar escrita: deixar o município de fora da análise, ou trocar para a matriz de k vizinhos mais próximos, que sempre encontra vizinhos. Repare que na Pergunta 4 você vai usar k = 6 de qualquer jeito, e lá a ilha deixa de ser ilha. Vale comparar o que acontece com ela nas duas matrizes.</p>
+</div>
+
+<div class="contexto">
+  <div class="lbl">Para exportar mapas e tabelas</div>
+  <p>No GeoDa, qualquer janela de mapa ou gráfico exporta por <span class="caminho">File <i>▸</i> Save Image As</span>. A tabela de atributos, depois do <em>Save Results</em>, exporta por <span class="caminho">File <i>▸</i> Save As</span> em CSV, que abre no Excel.</p>
+  <p>Mapa de agrupamento LISA não precisa de escala nem de norte: ele não é um mapa de localização, é um resultado estatístico projetado no território. Precisa de legenda legível, título que diga a variável e o ano, e a nota de rodapé com matriz, permutações e semente.</p>
+</div>
+</section>
+
+<section class="part" id="entrega">
+<div class="partmark" style="margin-top:56px">
+  <div class="pn">Entrega</div>
+  <h2 class="pt" style="margin:0">O que entregar</h2>
+</div>
+
+<p>Um documento em PDF, no máximo <strong>seis páginas</strong>, pelo Blackboard, com nome de arquivo em minúsculas, sem acento e sem espaço.</p>
+
+<h3>O documento</h3>
+<ul>
+  <li>Identificação: seu nome, seu mês de nascimento e o recorte que ele determinou.</li>
+  <li>As cinco respostas, na ordem, cada uma com o número, a figura ou a tabela que a sustenta, e o parágrafo de argumento.</li>
+  <li>O mapa de agrupamentos LISA, legível, com a nota de matriz, permutações e semente.</li>
+  <li>O diagrama de espalhamento de Moran.</li>
+  <li>A tabela completa dos outliers espaciais.</li>
+  <li>As fontes que você consultou para explicar os dois municípios da Pergunta 3.</li>
+</ul>
+
+<p>Estimativa de tempo: três a quatro horas, sendo que a maior parte não é de software. É de procurar o que existe nos dois municípios que você escolheu.</p>
+</section>
+
+<section class="part" id="correcao">
+<h2>Como será corrigido</h2>
+
+<table>
+  <thead><tr><th style="width:62%">Critério</th><th class="num">Peso</th></tr></thead>
+  <tbody>
+    <tr><td>Índice global, teste de permutação e mapa LISA corretos, com matriz, permutações e semente declaradas</td><td class="num">25</td></tr>
+    <tr><td>Leitura do agrupamento: onde fica, quanta gente mora nele, nomeado em português</td><td class="num">15</td></tr>
+    <tr><td>Outliers espaciais: tabela completa e os dois parágrafos de investigação, com fonte</td><td class="num">35</td></tr>
+    <tr><td>Comparação entre as duas matrizes de vizinhança</td><td class="num">15</td></tr>
+    <tr><td>Os três limites, sendo um específico do seu caso</td><td class="num">10</td></tr>
+  </tbody>
+</table>
+
+<div class="limites">
+  <div class="lbl">O que pesa contra</div>
+  <ul>
+    <li>Entrega com o recorte errado: zero.</li>
+    <li>Mapa LISA sem a nota de matriz, permutações e semente: o resultado não é reproduzível, e isso custa metade do primeiro critério.</li>
+    <li>Explicar outlier repetindo a definição da categoria em vez de investigar o município.</li>
+    <li>Tratar um município alto-alto como culpado de alguma coisa. A categoria descreve uma vizinhança, não uma conduta.</li>
+    <li>Prazo e política de atraso no Blackboard.</li>
+  </ul>
+</div>
+</section>
+
+<nav class="nextprev">
+  <a href="encontro-06.html"><span class="k">Tema que fecha o escopo</span><span class="t">O que acontece num município depende do vizinho?</span></a>
+  <a href="aps-01.html" class="r"><span class="k">A APS anterior</span><span class="t">Em quais municípios começar?</span></a>
+</nav>
+
+</main>
+</div></div>
+
+<footer class="site"><div class="wrap">
+  <div><b>Informação Georreferenciada · Insper</b>
+  Atividade Prática Supervisionada 2</div>
+  <div class="sig">Prof. Dr. André Filipe de Moraes Batista</div>
+</div></footer>
+
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.remove('on'));
+  const i=secs.indexOf(e.target); if(i>-1) links[i].classList.add('on');
+}})},{rootMargin:'-90px 0px -70% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
