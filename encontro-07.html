@@ -473,12 +473,17 @@
       <dl>
         <dt>Point layer</dt><dd>focos_aqua, com o filtro de 2024 ativo</dd>
         <dt>Radius</dt><dd>25.000 metros</dd>
-        <dt>Output raster size</dt><dd>Pixel size X e Y em 1.000 metros</dd>
+        <dt>Output raster size</dt><dd><strong>Pixel size X e Pixel size Y em 1.000</strong>. O campo vem preenchido com 0,1 e precisa ser trocado</dd>
         <dt>Weight from field</dt><dd>vazio</dd>
         <dt>Kernel shape</dt><dd>Quartic</dd>
         <dt>Output value scaling</dt><dd>Raw</dd>
         <dt>Heatmap</dt><dd>densidade_focos_2024.tif</dd>
       </dl>
+    </div>
+
+    <div class="cuidado">
+      <div class="lbl">O campo que precisa ser trocado antes de rodar</div>
+      <p>Dentro de <em>Output raster size</em>, <em>Pixel size X</em> e <em>Pixel size Y</em> vêm com <strong>0,1</strong>. Como a camada está em metros, isso pede um raster de dez centímetros de resolução sobre um território de 427 por 461 quilômetros, ou seja, 24 trilhões de células. O algoritmo não consegue criar o arquivo e devolve <code>Could not create destination layer</code> em alguns centésimos de segundo. Escreva <strong>1.000</strong> nos dois campos, que é o tamanho de pixel coerente com o sensor: o foco de calor já é um quadrado de 1 km de lado, e não há informação abaixo dessa escala. Com 1.000 o raster sai com 477 por 511 células e roda instantaneamente.</p>
     </div>
 
     <ol start="4">
@@ -517,7 +522,7 @@
     <ol>
       <li>Rode <em>Mean coordinate(s)</em> sobre <code>cnes</code>, com <em>Weight field</em> e <em>Unique ID field</em> vazios. Saída: <code>centro_cnes.gpkg</code>. Dê a ele uma estrela azul.</li>
       <li>Rode outra vez, agora com <em>Weight field</em> em <code>n_unidades</code>. Saída: <code>centro_cnes_pond.gpkg</code>.</li>
-      <li>Rode o <em>Heatmap</em> sobre <code>cnes</code>, com os mesmos 25.000 m de raio e 1.000 m de pixel, e desta vez com <em>Weight from field</em> em <code>n_unidades</code>. Saída: <code>densidade_cnes.tif</code>.</li>
+      <li>Rode o <em>Heatmap</em> sobre <code>cnes</code>, com os mesmos 25.000 m de raio e 1.000 m de pixel — confira o <em>Pixel size</em> de novo antes de rodar — e desta vez com <em>Weight from field</em> em <code>n_unidades</code>. Saída: <code>densidade_cnes.tif</code>.</li>
       <li>Simbolize o raster como no passo anterior e procure o pixel mais alto.</li>
     </ol>
 
