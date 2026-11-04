@@ -106,11 +106,11 @@
 <section class="part" id="dados">
 <h2>De onde vêm os dados</h2>
 
-<p class="lede">Antes de medir qualquer coisa, saiba o que cada linha do arquivo representa. Boa parte dos erros de análise espacial não está na conta: está em achar que a linha significa uma coisa quando ela significa outra.</p>
+<p class="lede">Antes de medir qualquer coisa, saiba o que cada linha do arquivo representa. Boa parte dos erros de análise espacial não está na conta: está em supor que a linha representa algo diferente do que de fato representa.</p>
 
 <h3>Os focos de calor</h3>
 
-<p>Um <strong>foco de calor</strong> não é um incêndio. É um pixel de imagem de satélite em que o sensor detectou temperatura acima do esperado para aquele lugar e aquela hora. O pixel do sensor que usamos tem cerca de um quilômetro de lado, então um foco é um quadrado de 1 km² onde alguma coisa estava quente. Um incêndio grande ocupa vários pixels e vira vários focos; uma queimada pequena dentro de um pixel vira um foco só; um incêndio embaixo de nuvem não vira foco nenhum.</p>
+<p>Um <strong>foco de calor</strong> não é um incêndio. É um pixel de imagem de satélite em que o sensor detectou temperatura acima do esperado para aquele lugar e aquela hora. O pixel do sensor que usamos tem cerca de um quilômetro de lado, então um foco é um quadrado de 1 km² onde houve emissão térmica acima do limiar do sensor. Um incêndio grande ocupa vários pixels e vira vários focos; uma queimada pequena dentro de um pixel vira um foco só; um incêndio embaixo de nuvem não vira foco nenhum.</p>
 
 <p>O INPE processa essas detecções desde 1998 e publica no Programa Queimadas, com atualização a cada poucas horas. O arquivo bruto para o nosso recorte traz dezesseis sensores diferentes e 212.160 registros. Um incêndio que dura seis horas aparece como foco no NOAA-20 de manhã, no AQUA à tarde e no GOES-16 a cada dez minutos: somar tudo conta o mesmo fogo dezenas de vezes.</p>
 
@@ -157,11 +157,11 @@
 
 <h3>A malha municipal</h3>
 
-<p>Os 46 polígonos de <code>municipios</code> vêm das malhas territoriais do IBGE, na qualidade intermediária, e servem de pano de fundo. Eles não entram em conta nenhuma hoje, mas sem eles os pontos ficam boiando no vazio e ninguém reconhece o território.</p>
+<p>Os 46 polígonos de <code>municipios</code> vêm das malhas territoriais do IBGE, na qualidade intermediária, e servem de referência visual. Eles não entram em nenhum cálculo desta aula, mas sem eles os pontos aparecem sem contorno territorial e o mapa se torna ilegível.</p>
 
 <div class="contexto">
   <div class="lbl">O que foi feito antes de chegar a você</div>
-  <p>Quatro coisas. Dos 212.160 focos de todos os satélites ficaram os 5.907 do AQUA_M-T. As três camadas foram reprojetadas de EPSG:4674 para EPSG:31983, porque média de coordenada em graus é média de ângulo e não dá um centro. Os estabelecimentos que dividiam a mesma coordenada foram reunidos em um ponto só, com a contagem guardada em <code>n_unidades</code>. E foi conferido que nenhum registro ficou sem geometria. Nenhum valor de atributo foi alterado e nenhum estabelecimento foi descartado: os 1.712 continuam todos representados.</p>
+  <p>Quatro procedimentos. Dos 212.160 focos de todos os satélites ficaram os 5.907 do AQUA_M-T. As três camadas foram reprojetadas de EPSG:4674 para EPSG:31983, porque média de coordenada em graus é média de ângulo e não dá um centro. Os estabelecimentos que dividiam a mesma coordenada foram reunidos em um ponto só, com a contagem guardada em <code>n_unidades</code>. E foi conferido que nenhum registro ficou sem geometria. Nenhum valor de atributo foi alterado e nenhum estabelecimento foi descartado: os 1.712 continuam todos representados.</p>
 </div>
 </section>
 
@@ -220,7 +220,7 @@
 
 <div class="contexto">
   <div class="lbl">Por que a camada tem 1.660 pontos e não 1.712</div>
-  <p>Porque o mapa de densidade que você faz no passo 5 derreteria com as pilhas. Treze cadastros sobre a mesma coordenada viram um pico treze vezes mais alto que o do vizinho, e o mapa passa a mostrar a geografia do cadastro em vez da geografia da rede. A saída não é apagar os registros: os 77 foram reunidos nos 25 pontos que de fato existem, e a contagem foi guardada em <code>n_unidades</code>. Assim o ponto conta como treze onde deve contar como treze, e o pico volta ao tamanho certo. O passo 6 usa essa coluna como peso.</p>
+  <p>Porque o mapa de densidade do passo 5 seria distorcido pelas coordenadas repetidas. Treze cadastros sobre a mesma coordenada produzem um pico treze vezes mais alto que o do vizinho, e o mapa passa a representar a geografia do cadastro em lugar da geografia da rede. A solução não é excluir os registros: os 77 foram reunidos nos 25 pontos que de fato existem e a contagem foi preservada na coluna <code>n_unidades</code>. Cada ponto passa a representar o número correto de estabelecimentos, e o passo 6 usa essa coluna como peso.</p>
 </div>
 
 <div class="conceito">
@@ -269,29 +269,29 @@
 <div class="pense">
   <div class="lbl">Pergunta norteadora</div>
   <p class="q">O centro médio de uma nuvem de pontos precisa cair sobre algum ponto observado?</p>
-  <p>Não, e em geral não cai. O centro médio dos focos de 2024 cai em Riachão das Neves, a 3,2 km do foco mais próximo, sobre uma área que não queimou. É uma síntese estatística, não um lugar. Confundir as duas coisas produz frases como "o epicentro das queimadas é Riachão das Neves", que é erro de interpretação, não de cálculo.</p>
+  <p>Não, e em geral não cai. O centro médio dos focos de 2024 cai em Riachão das Neves, a 3,2 km do foco mais próximo, sobre uma área que não queimou. É uma síntese estatística, não um lugar identificável no território. Tratar uma como a outra produz afirmações do tipo "o epicentro das queimadas é Riachão das Neves", que é erro de interpretação, não de cálculo.</p>
 </div>
 </section>
 
 <section class="part" id="densidade">
 <h2>A superfície de densidade</h2>
 
-<p>O centro médio resume a nuvem inteira em um ponto, e um ponto não tem como mostrar que existem dois aglomerados separados, ou um vazio no meio. Para isso serve a outra ferramenta de hoje, que faz o movimento oposto: em vez de reduzir a nuvem a um ponto, espalha a nuvem sobre uma superfície contínua.</p>
+<p>O centro médio resume a distribuição inteira em um ponto, e um ponto não é capaz de revelar que existem dois aglomerados separados ou uma área de baixa densidade entre eles. A segunda ferramenta desta aula faz o movimento inverso: em vez de reduzir a nuvem a um ponto, distribui a informação dos pontos sobre uma superfície contínua.</p>
 
 <div class="conceito">
   <div class="lbl">Definição</div>
   <h4>Estimativa de densidade por kernel</h4>
-  <p>Troque cada ponto por um montinho de altura decrescente, que vale o máximo bem em cima do ponto e chega a zero a uma distância fixa, chamada <strong>raio</strong> ou largura de banda. Some todos os montinhos. O resultado é uma superfície contínua, gravada como imagem: onde os pontos se amontoam os montinhos se empilham e a superfície sobe; onde há um ponto isolado ela mal se levanta. É o que todo mundo chama de mapa de calor, ou KDE, de <em>kernel density estimation</em>.</p>
+  <p>Sobre cada ponto é aplicada uma função de peso, o <strong>kernel</strong>, que assume valor máximo na posição do ponto e decresce até zero a uma distância fixa, chamada <strong>raio</strong> ou largura de banda. A superfície final é a soma dessas funções em cada posição do território, gravada como imagem. Onde os pontos se concentram, as contribuições se somam e a superfície se eleva; onde há um ponto isolado, a elevação é pequena. É o procedimento conhecido como mapa de calor, ou KDE, de <em>kernel density estimation</em>.</p>
 </div>
 
-<p>O raio não vem do dado. É escolha de quem faz o mapa, do mesmo tipo que o raio de 600 metros do tema 5, e muda o resultado o quanto quiser: pequeno demais, a superfície vira uma coleção de espinhos, um por aglomerado; grande demais, tudo vira uma mancha só e some qualquer estrutura. A honestidade mínima é declarar o raio junto com o mapa, do mesmo jeito que se declara o CRS.</p>
+<p>O raio não vem do dado. É uma escolha do analista, do mesmo tipo que o raio de 600 metros do tema 5, e altera o resultado de forma substancial: um raio pequeno demais produz picos isolados, um sobre cada aglomerado de pontos; um raio grande demais funde tudo em uma única mancha contínua e elimina a estrutura interna do fenômeno. O raio deve ser declarado junto com o mapa, da mesma forma que se declara o sistema de coordenadas.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d07-kde-raio.svg" alt="Três painéis com a mesma nuvem de 380 pontos e três raios de kernel diferentes: superfície granulada, superfície com a forma do fenômeno e superfície achatada em mancha única. Em todos, a estrela do centro médio fica longe do triângulo do pico de densidade.">
-  <figcaption><b>Figura 4</b> A mesma nuvem com três raios. Repare onde fica a estrela do centro médio: longe do pico de densidade nos três painéis. O centro é o ponto de equilíbrio da nuvem, não o lugar mais cheio, e as duas coisas só coincidem quando a nuvem tem um aglomerado só, bem no meio.</figcaption>
+  <figcaption><b>Figura 4</b> A mesma nuvem com três raios. Repare onde fica a estrela do centro médio: longe do pico de densidade nos três painéis. O centro é o ponto de equilíbrio da distribuição, não a área de maior concentração, e as duas posições só coincidem quando há um único aglomerado, situado no meio da nuvem.</figcaption>
 </figure>
 
-<p>Essa diferença entre o centro e o pico é a razão de as duas ferramentas aparecerem juntas nesta aula. Uma responde "em torno de que ponto a nuvem se equilibra"; a outra, "onde ela é mais densa". No roteiro as duas respostas vão ficar a mais de cem quilômetros uma da outra, nas duas nuvens, e nenhuma das duas está errada.</p>
+<p>Essa diferença entre o centro e o pico explica por que as duas ferramentas aparecem juntas nesta aula. A primeira responde em torno de que ponto a distribuição se equilibra; a segunda, onde ela é mais densa. No roteiro, as duas respostas ficarão a mais de cem quilômetros uma da outra, nas duas nuvens analisadas, e ambas estarão corretas.</p>
 
 <figure class="diagrama">
   <img src="assets/img/d07-csr.svg" alt="Três painéis com 160 pontos cada: padrão agrupado, padrão aleatório e padrão regular.">
@@ -333,7 +333,7 @@
 
     <div class="contexto">
       <div class="lbl">Olhe o mapa antes de medir</div>
-      <p>Os focos não cobrem o recorte de maneira uniforme: há adensamentos visíveis e áreas quase vazias, e eles não formam uma mancha única. Guarde essa impressão e, se quiser, anote em que parte do mapa você apostaria que fica o lugar mais crítico. Em quatro passos você vai ter números para confirmar ou desmentir o palpite, e vale saber de antemão o que o olho achava.</p>
+      <p>Os focos não cobrem o recorte de maneira uniforme: há adensamentos visíveis e áreas quase sem registro, e eles não formam uma mancha contínua. Registre essa primeira impressão e anote em que parte do mapa você situaria a área mais crítica. Em quatro passos haverá números para confirmá-la ou corrigi-la, e convém saber de antemão o que a leitura visual sugeria.</p>
     </div>
 </div>
 </div>
@@ -371,7 +371,7 @@
 
     <div class="contexto">
       <div class="lbl">Segure a conclusão</div>
-      <p>É tentador escrever que "o fogo migrou para oeste em 2024". Antes disso faltam duas coisas: saber se 22,9 km é muito para uma nuvem desse tamanho, que é o passo 4; e separar as três explicações possíveis, que são o fogo mudar de lugar, o satélite detectar diferente e a amostra de um ano ser menor que a do outro. O passo 4 resolve a primeira. A segunda não se resolve com este arquivo.</p>
+      <p>É tentador escrever que "o fogo migrou para oeste em 2024". Antes disso faltam duas verificações: saber se 22,9 km é muito para uma nuvem desse tamanho, que é o passo 4; e separar as três explicações possíveis, que são o fogo mudar de lugar, o satélite detectar diferente e a amostra de um ano ser menor que a do outro. O passo 4 resolve a primeira. A segunda não se resolve com este arquivo.</p>
     </div></div>
 </div>
 
@@ -443,17 +443,17 @@
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>A distância padrão é de <strong>144.181 m</strong> em 2024 e <strong>136.114 m</strong> em 2023, ou 144,2 e 136,1 km. Os dois círculos aparecem quase sobrepostos na tela. Agora dá para ler o passo 2: o deslocamento de 22,9 km entre os dois centros é <strong>16% da dispersão</strong> da própria nuvem. É pouco para sustentar sozinho uma afirmação sobre o fogo ter mudado de lugar — quem disser que migrou precisa explicar por que uma migração real caberia dentro de um sexto do raio da nuvem.</p>
+      <p>A distância padrão é de <strong>144.181 m</strong> em 2024 e <strong>136.114 m</strong> em 2023, ou 144,2 e 136,1 km. Os dois círculos aparecem quase sobrepostos na tela. Com essa referência, o resultado do passo 2 pode ser lido: o deslocamento de 22,9 km entre os dois centros é <strong>16% da dispersão</strong> da própria nuvem. É pouco para sustentar sozinho uma afirmação sobre o fogo ter mudado de lugar — quem disser que migrou precisa explicar por que uma migração real caberia dentro de um sexto do raio da nuvem.</p>
     </div>
 
     <div class="contexto">
-      <div class="lbl">O que a distância padrão diz sozinha</div>
-      <p>Comparada entre os dois anos, alguma coisa: a dispersão subiu 5,9% enquanto a contagem de focos caiu 16,4%. Menos fogo, espalhado por mais território. As duas afirmações se defendem porque os dois números saíram do mesmo cálculo, no mesmo recorte, com o mesmo satélite. Fora de comparação, 144 km não é grande nem pequeno.</p>
+      <div class="lbl">O que a distância padrão diz isoladamente</div>
+      <p>Comparada entre os dois anos, bastante: a dispersão subiu 5,9% enquanto a contagem de focos caiu 16,4%. Menos fogo, espalhado por mais território. As duas afirmações se defendem porque os dois números saíram do mesmo cálculo, no mesmo recorte, com o mesmo satélite. Fora de comparação, 144 km não é grande nem pequeno.</p>
     </div>
 
     <div class="cuidado">
-      <div class="lbl">O campo que estraga o resultado em silêncio</div>
-      <p><em>Output geometry type</em> vem em <em>Polygon</em> por padrão, mas se você deixar <em>Point</em> o algoritmo roda, não reclama e grava polígonos dentro de uma camada declarada como ponto. A tela fica em branco e a simbologia oferece opções de ponto para uma geometria que é área. Se o círculo não aparecer, confira esse campo antes de qualquer outra coisa.</p>
+      <div class="lbl">O campo que faz o resultado falhar sem aviso</div>
+      <p><em>Output geometry type</em> vem em <em>Polygon</em> por padrão, mas se for deixado em <em>Point</em> o algoritmo é executado sem emitir aviso e grava polígonos dentro de uma camada declarada como ponto. O resultado não aparece na tela e a simbologia passa a oferecer opções de ponto para uma geometria de área. Se o círculo não for desenhado, verifique esse campo antes de qualquer outra hipótese.</p>
     </div></div>
 </div>
 
@@ -461,9 +461,9 @@
   <div class="n">5</div>
   <div class="c">
     <h3>O mapa de densidade</h3>
-    <p>Até aqui a nuvem de 2024 virou um ponto e um círculo. Agora ela vira uma superfície. O resultado é um raster, não um vetor: uma imagem em que cada pixel guarda a densidade estimada naquele lugar.</p>
+    <p>Até aqui a nuvem de 2024 foi resumida a um ponto e a um círculo. Agora ela será representada como superfície. O resultado é um raster, não um vetor: uma imagem em que cada pixel armazena a densidade estimada naquela posição.</p>
     <ol>
-      <li>Selecione <code>focos_aqua</code> e aplique o filtro <code>"ano" = 2024</code> em <em>Filter</em>, para trabalhar com um ano só.</li>
+      <li>Selecione <code>focos_aqua</code> e aplique o filtro <code>"ano" = 2024</code> em <em>Filter</em>, para trabalhar com um único ano.</li>
       <li>Na <em>Toolbox</em>, procure <em>Heatmap (Kernel Density Estimation)</em>, de id <code>native:heatmapkerneldensityestimation</code>.</li>
       <li>Preencha conforme a tabela e rode.</li>
     </ol>
@@ -489,23 +489,23 @@
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>O valor máximo do raster é <strong>83,1</strong>, e o pixel mais alto fica em E 524.228 / N 8.795.662, dentro de <strong>Santa Rita de Cássia</strong>. O centro médio de 2024 está a <strong>105,7 km</strong> dali. A superfície não tem um núcleo só: além de Santa Rita de Cássia, aparecem dois outros de porte parecido, um em Formosa do Rio Preto, a oeste, com 70,5, e um em Muquém do São Francisco, a leste, com 68,5. Clicando sobre o centro médio você lê <strong>15,6</strong>, que é 19% do pico. O ponto que resume a nuvem inteira caiu numa parte vazia do mapa, entre os núcleos.</p>
+      <p>O valor máximo do raster é <strong>83,1</strong>, e o pixel mais alto fica em E 524.228 / N 8.795.662, em <strong>Santa Rita de Cássia</strong>. O centro médio de 2024 está a <strong>105,7 km</strong> dali. A superfície não apresenta um núcleo único: além de Santa Rita de Cássia, aparecem dois outros de porte parecido, um em Formosa do Rio Preto, a oeste, com 70,5, e um em Muquém do São Francisco, a leste, com 68,5. Clicando sobre o centro médio você lê <strong>15,6</strong>, que é 19% do pico. O ponto que resume a nuvem inteira situa-se numa área de baixa densidade, entre os núcleos.</p>
     </div>
 
     <div class="contexto">
       <div class="lbl">O que significa o número 83,1</div>
-      <p>Com <em>Raw</em> e kernel <em>Quartic</em>, cada foco contribui com até 1 bem em cima dele e com zero a partir dos 25 km, decrescendo no meio. O valor de um pixel é a soma dessas contribuições, então 83,1 quer dizer, grosso modo, "o equivalente a 83 focos concentrados aqui". É um número comparável entre dois mapas feitos com o mesmo raio e o mesmo pixel, e incomparável com qualquer outro. A opção <em>Scaled</em> divide tudo pelo volume do kernel e devolve focos por metro quadrado: no nosso caso, um máximo de 0,000000127, mais rigoroso como unidade e ilegível como mapa.</p>
+      <p>Com <em>Raw</em> e kernel <em>Quartic</em>, cada foco contribui com até 1 bem em cima dele e com zero a partir dos 25 km, decrescendo no meio. O valor de um pixel é a soma dessas contribuições, então 83,1 corresponde, aproximadamente, ao equivalente a 83 focos concentrados naquele ponto. É um número comparável entre dois mapas feitos com o mesmo raio e o mesmo pixel, e incomparável com qualquer outro. A opção <em>Scaled</em> divide tudo pelo volume do kernel e devolve focos por metro quadrado: no nosso caso, um máximo de 0,000000127, mais rigoroso como unidade e ilegível como mapa.</p>
     </div>
 
     <div class="cuidado">
       <div class="lbl">Mude o raio e veja</div>
-      <p>Rode de novo com <em>Radius</em> em 60.000 metros, sem apagar o primeiro, e depois com 8.000. Com 60 km os núcleos se fundem, o máximo sobe para 197,7 e <strong>o pico muda de município</strong>: sai de Santa Rita de Cássia e vai para Formosa do Rio Preto. Com 8 km a superfície vira um salpicado e o máximo cai para 46,3. Nenhuma das três está errada e nenhuma é a verdadeira: o raio é uma afirmação sua sobre em que escala o fenômeno deve ser lido, e aqui ele decide qual município você vai nomear no relatório. Declare-o sempre, junto com o tamanho do pixel. E não confunda isto com o <em>Heatmap</em> da aba <em>Symbology</em>, que é só um efeito de desenho e muda sozinho conforme você dá zoom.</p>
+      <p>Execute o algoritmo mais duas vezes, sem apagar o primeiro resultado: uma com <em>Radius</em> em 60.000 metros e outra com 8.000. Com 60 km os núcleos se fundem, o máximo sobe para 197,7 e <strong>o pico muda de município</strong>, de Santa Rita de Cássia para Formosa do Rio Preto. Com 8 km a superfície se fragmenta em picos isolados e o máximo cai para 46,3. Nenhuma das três superfícies está errada e nenhuma é a correta: o raio expressa uma decisão sua sobre a escala em que o fenômeno deve ser lido, e neste caso determina qual município será nomeado no relatório. Declare-o sempre, junto com o tamanho do pixel. Note ainda que este procedimento não se confunde com o renderizador <em>Heatmap</em> da aba <em>Symbology</em>, que é apenas um efeito de exibição e se recalcula a cada mudança de escala.</p>
     </div>
 
     <div class="pense">
       <div class="lbl">Pergunta norteadora</div>
       <p class="q">Por que o centro médio não caiu sobre o pico de densidade, se os dois saíram dos mesmos 2.689 pontos?</p>
-      <p>Porque respondem a perguntas diferentes. O centro é o ponto de equilíbrio: se a nuvem fosse uma placa de papelão, ela se equilibraria na ponta de um lápis ali. Com dois adensamentos separados, o ponto de equilíbrio cai no vão entre eles, onde não há quase nada. O pico de densidade é o lugar mais cheio, e lugar mais cheio só coincide com ponto de equilíbrio quando existe um aglomerado só. Relatar o centro médio como "a região crítica" é o erro mais comum desta aula inteira.</p>
+      <p>Porque as duas medidas respondem a perguntas diferentes. O centro médio é o ponto de equilíbrio da distribuição, o mesmo conceito do centro de massa de uma lâmina homogênea com o formato da nuvem. Quando existem dois ou mais adensamentos separados, esse ponto de equilíbrio se situa na região intermediária entre eles, onde a densidade é baixa. O pico do KDE indica a área de maior concentração, e as duas posições só coincidem quando há um único aglomerado. Apresentar o centro médio como "a região crítica" é o erro de interpretação mais frequente nesta unidade.</p>
     </div></div>
 </div>
 
@@ -533,12 +533,12 @@
 
     <div class="confira">
       <div class="lbl">Confira</div>
-      <p>Os dois centros do cadastro ficam a <strong>1.020 metros</strong> um do outro, sobre uma distância padrão de 157.254 m: <strong>0,6%</strong>. Ponderar por <code>n_unidades</code> praticamente não mexe no centro — e, de quebra, o centro ponderado é exatamente o que sairia dos 1.712 estabelecimentos originais, um por um. Já o pico de densidade está a <strong>111,7 km</strong> do centro, em Barreiras, com valor máximo de 323,7. De novo o centro caiu longe do lugar mais cheio.</p>
+      <p>Os dois centros do cadastro ficam a <strong>1.020 metros</strong> um do outro, sobre uma distância padrão de 157.254 m: <strong>0,6%</strong>. Ponderar por <code>n_unidades</code> praticamente não desloca o centro, e o resultado ponderado é exatamente o que se obteria com os 1.712 estabelecimentos tomados um a um. O pico de densidade, por sua vez, está a <strong>111,7 km</strong> do centro, em Barreiras, com valor máximo de 323,7. Repete-se aqui o resultado do passo anterior: o centro não coincide com a área de maior concentração.</p>
     </div>
 
     <div class="contexto">
       <div class="lbl">Duas perguntas, respostas que não se encontram</div>
-      <p>No fim do roteiro você tem seis pontos no mapa sobre o mesmo pedaço da Bahia. O centro do fogo em Riachão das Neves, o pico do fogo em Santa Rita de Cássia, o centro da rede de saúde em Tabocas do Brejo Velho, o pico da rede em Barreiras. Se alguém pedir "o centro do oeste baiano", a pergunta não está completa: centro de quê, e centro no sentido de equilíbrio ou no sentido de concentração. Cada um desses quatro pontos responde a uma pergunta diferente, e a maior parte do trabalho de quem faz análise espacial é escolher qual delas interessa antes de calcular.</p>
+      <p>Ao fim do roteiro há quatro posições de referência sobre o mesmo território: o centro dos focos em Riachão das Neves, o pico dos focos em Santa Rita de Cássia, o centro da rede de saúde em Tabocas do Brejo Velho e o pico da rede em Barreiras. Um pedido como "indique o centro do oeste baiano" é, portanto, incompleto: é preciso especificar o centro de qual fenômeno e em qual sentido, de equilíbrio ou de concentração. Cada uma dessas quatro posições responde a uma pergunta distinta, e definir qual delas interessa, antes de calcular, é parte central do trabalho de análise espacial.</p>
     </div></div>
 </div>
 </section>
@@ -554,7 +554,7 @@
 <div class="resposta">
   <div class="lbl">A resposta do tema</div>
   <p class="big">A lista vira padrão em duas etapas, e as duas erram. A geocodificação decide quais endereços entram no mapa e com que precisão; o resumo decide o que o mapa afirma. E o resumo não é um só: o centro médio e a superfície de densidade saem dos mesmos pontos e apontam para lugares a cem quilômetros de distância.</p>
-  <p>No cadastro de hoje, 77 dos 1.712 estabelecimentos dividem 25 coordenadas, e o defeito se concentra nos municípios pequenos: 8,1% de pontos empilhados nos que têm menos de 40 unidades, contra 1,4% nos quatro maiores. Esse empilhamento quase não mexe no centro médio, 0,6% da dispersão, e estragaria o mapa de densidade, que foi por isso que o pacote chegou com os pontos reunidos e a contagem guardada como peso. Do outro lado, trocar o peso de nenhum para a energia liberada moveu o centro dos focos em 28,8 km, e isso não é defeito de dado nenhum: é a pergunta mudando. O deslocamento que o dado impõe e o deslocamento que a sua escolha impõe são coisas diferentes, e só o segundo você controla.</p>
+  <p>No cadastro de hoje, 77 dos 1.712 estabelecimentos dividem 25 coordenadas, e o defeito se concentra nos municípios pequenos: 8,1% de pontos empilhados nos que têm menos de 40 unidades, contra 1,4% nos quatro maiores. Esse empilhamento desloca o centro médio em apenas 0,6% da dispersão, mas comprometeria o mapa de densidade, razão pela qual o pacote foi entregue com os pontos reunidos e a contagem preservada como peso. Em contrapartida, substituir a média simples pela média ponderada pela energia liberada deslocou o centro dos focos em 28,8 km, e isso não decorre de defeito algum no dado: decorre da mudança de pergunta. O deslocamento imposto pelo dado e o deslocamento imposto pela escolha do analista são de naturezas distintas, e apenas o segundo está sob seu controle.</p>
 </div>
 </section>
 
