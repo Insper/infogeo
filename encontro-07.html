@@ -463,15 +463,16 @@
     <h3>O mapa de densidade</h3>
     <p>Até aqui a nuvem de 2024 foi resumida a um ponto e a um círculo. Agora ela será representada como superfície. O resultado é um raster, não um vetor: uma imagem em que cada pixel armazena a densidade estimada naquela posição.</p>
     <ol>
-      <li>Selecione <code>focos_aqua</code> e aplique o filtro <code>"ano" = 2024</code> em <em>Filter</em>, para trabalhar com um único ano.</li>
-      <li>Na <em>Toolbox</em>, procure <em>Heatmap (Kernel Density Estimation)</em>, de id <code>native:heatmapkerneldensityestimation</code>.</li>
+      <li>Na <em>Toolbox</em>, procure <em>Extract by expression</em>, de id <code>native:extractbyexpression</code>. Entrada: <code>focos_aqua</code>. Expressão: <code>"ano" = 2024</code>. Saída: <code>focos_2024.gpkg</code>. Rode.</li>
+      <li>Confirme que a camada nova tem <strong>2.689</strong> feições.</li>
+      <li>Procure <em>Heatmap (Kernel Density Estimation)</em>, de id <code>native:heatmapkerneldensityestimation</code>.</li>
       <li>Preencha conforme a tabela e rode.</li>
     </ol>
 
     <div class="params">
       <div class="hd">Heatmap (Kernel Density Estimation)</div>
       <dl>
-        <dt>Point layer</dt><dd>focos_aqua, com o filtro de 2024 ativo</dd>
+        <dt>Point layer</dt><dd>focos_2024</dd>
         <dt>Radius</dt><dd>25.000 metros</dd>
         <dt>Output raster size</dt><dd><strong>Pixel size X e Pixel size Y em 1.000</strong>. O campo vem preenchido com 0,1 e precisa ser trocado</dd>
         <dt>Weight from field</dt><dd>vazio</dd>
@@ -482,8 +483,10 @@
     </div>
 
     <div class="cuidado">
-      <div class="lbl">O campo que precisa ser trocado antes de rodar</div>
-      <p>Dentro de <em>Output raster size</em>, <em>Pixel size X</em> e <em>Pixel size Y</em> vêm com <strong>0,1</strong>. Como a camada está em metros, isso pede um raster de dez centímetros de resolução sobre um território de 427 por 461 quilômetros, ou seja, 24 trilhões de células. O algoritmo não consegue criar o arquivo e devolve <code>Could not create destination layer</code> em alguns centésimos de segundo. Escreva <strong>1.000</strong> nos dois campos, que é o tamanho de pixel coerente com o sensor: o foco de calor já é um quadrado de 1 km de lado, e não há informação abaixo dessa escala. Com 1.000 o raster sai com 477 por 511 células e roda instantaneamente.</p>
+      <div class="lbl">Duas causas para a mesma mensagem de erro</div>
+      <p>Se o algoritmo falhar em alguns centésimos de segundo com <code>Could not create destination layer</code>, há duas explicações possíveis e as duas são de preenchimento, não de dado.</p>
+      <p>A primeira é o tamanho do pixel. Dentro de <em>Output raster size</em>, <em>Pixel size X</em> e <em>Pixel size Y</em> vêm com <strong>0,1</strong>. Como a camada está em metros, isso pede um raster de dez centímetros de resolução sobre um território de 427 por 461 quilômetros: 24 trilhões de células, que nenhum computador aloca. Escreva <strong>1.000</strong> nos dois campos, que é a resolução coerente com o sensor, já que o foco de calor é um quadrado de 1 km de lado. Com 1.000 o raster sai com 479 por 513 células.</p>
+      <p>A segunda é a camada de entrada ter extensão desconhecida, o que acontece quando se aplica um filtro pela janela <em>Filter</em> e o QGIS não recalcula a contagem. O algoritmo precisa da extensão para dimensionar o raster e falha sem ela. É por isso que o passo 1 acima usa <em>Extract by expression</em> em vez do filtro: a camada extraída é um arquivo novo, com extensão sempre definida. Se você usou o filtro mesmo assim e caiu nesse erro, reabra <em>Filter</em>, clique <em>OK</em> de novo e rode outra vez.</p>
     </div>
 
     <ol start="4">
@@ -518,11 +521,11 @@
   <div class="n">6</div>
   <div class="c">
     <h3>A outra nuvem</h3>
-    <p>Mesmo território, mesmas duas ferramentas, outra pergunta: onde está o centro da rede de saúde, e onde ela é mais densa. Limpe antes o filtro de ano da camada de focos.</p>
+    <p>Mesmo território, mesmas duas ferramentas, outra pergunta: onde está o centro da rede de saúde, e onde ela é mais densa.</p>
     <ol>
       <li>Rode <em>Mean coordinate(s)</em> sobre <code>cnes</code>, com <em>Weight field</em> e <em>Unique ID field</em> vazios. Saída: <code>centro_cnes.gpkg</code>. Dê a ele uma estrela azul.</li>
       <li>Rode outra vez, agora com <em>Weight field</em> em <code>n_unidades</code>. Saída: <code>centro_cnes_pond.gpkg</code>.</li>
-      <li>Rode o <em>Heatmap</em> sobre <code>cnes</code>, com os mesmos 25.000 m de raio e 1.000 m de pixel — confira o <em>Pixel size</em> de novo antes de rodar — e desta vez com <em>Weight from field</em> em <code>n_unidades</code>. Saída: <code>densidade_cnes.tif</code>.</li>
+      <li>Rode o <em>Heatmap</em> sobre <code>cnes</code>, com os mesmos 25.000 m de raio e 1.000 m de pixel, e desta vez com <em>Weight from field</em> em <code>n_unidades</code>. Saída: <code>densidade_cnes.tif</code>.</li>
       <li>Simbolize o raster como no passo anterior e procure o pixel mais alto.</li>
     </ol>
 
