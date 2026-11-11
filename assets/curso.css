@@ -405,6 +405,31 @@ figure.diagrama figcaption{max-width:none;margin-top:16px;padding-top:14px;borde
 figure.print{margin:30px 0;max-width:none}
 figure.print img{border:1px solid var(--line);box-shadow:0 1px 0 var(--line)}
 
+/* três mapas lado a lado, para escolha entre A, B e C */
+figure.mapas{margin:30px 0;max-width:none;background:var(--paper-warm);
+  border:1px solid var(--line);padding:22px 22px 16px}
+figure.mapas .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+figure.mapas .tri img{border:1px solid var(--line);background:#fff;width:100%;height:auto;margin:0}
+figure.mapas figcaption{max-width:none;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:900px){figure.mapas .tri{grid-template-columns:1fr;gap:20px}}
+@media print{
+  figure.mapas{page-break-inside:avoid;padding:8pt 0;border:0;background:none}
+  figure.mapas .tri{display:block}
+  figure.mapas .tri::after{content:"";display:block;clear:both}
+  figure.mapas .tri img{float:left;width:31.5%;margin:0 2.7% 0 0;page-break-inside:avoid}
+  figure.mapas .tri img:last-child{margin-right:0}
+  figure.mapas figcaption{clear:both}
+}
+
+/* situação-problema da avaliação */
+.situacao{margin:46px 0 0;padding:20px 24px;background:var(--paper-deep);border-left:4px solid var(--ink)}
+.situacao .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--graphite);margin-bottom:8px}
+.situacao h3{margin:0 0 10px;font-size:20px}
+.situacao p:last-child{margin-bottom:0}
+.perguntas{counter-reset:pg;margin:22px 0 0}
+.perguntas li{margin:0 0 14px}
+
 /* itens da trilha: todos navegáveis */
 .rail .rl{display:none}
 

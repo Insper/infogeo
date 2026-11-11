@@ -33,12 +33,12 @@
 </div></nav>
 
 <header class="cover"><div class="wrap">
-  <div class="tag">Tema 10 · Unidade teórica 10 · ODS 3, 9 e 11</div>
+  <div class="tag">Tema 10 · Conteúdo complementar · Unidade teórica 10 · ODS 3, 9 e 11</div>
   <h1>Quanta gente chega ao hospital <em>em trinta minutos</em>?</h1>
   <p class="sub">Pela rede viária, 145.560 pessoas. Por um círculo de 30 quilômetros, 125.741. A diferença de vinte mil no total esconde 49.169 pessoas classificadas do lado errado. Último tema de conteúdo, com a parte final dedicada à comunicação cartográfica do resultado.</p>
   <div class="facts">
-    <div><b>120 min</b><span>duração</span></div>
-    <div><b>40 / 45 / 15 / 20</b><span>teoria / roteiro / exercício / fechamento</span></div>
+    <div><b>Complementar</b><span>apoio ao projeto final</span></div>
+    <div><b>Só teoria</b><span>sem roteiro em sala</span></div>
     <div><b>Vale do Ribeira</b><span>área de estudo</span></div>
     <div><b>CNES · OSM · IBGE</b><span>fontes de referência</span></div></div>
 </div></header>
@@ -46,11 +46,9 @@
 <div class="wrap"><div class="shell">
 
 <aside class="toc">
-  <h6>Nesta aula</h6>
+  <h6>Nesta página</h6>
   <ol>
-    <div class="grp">Antes</div>
-    <li><a href="#antes">Preparação e dados</a></li>
-    <div class="grp">Parte 1 · teoria</div>
+    <div class="grp">Teoria</div>
     <li><a href="#grafo">O espaço como grafo</a></li>
     <li><a href="#dijkstra">Caminho mínimo e Dijkstra</a></li>
     <li><a href="#isocrona">Matriz origem-destino e isócrona</a></li>
@@ -58,69 +56,24 @@
     <li><a href="#acessibilidade">Acessibilidade, e o 2SFCA</a></li>
     <li><a href="#comunicacao">O mapa como argumento</a></li>
     <li><a href="#reprodutibilidade">Reprodutibilidade</a></li>
-    <div class="grp">Parte 2 · roteiro</div>
-    <li><a href="#p1">1. Carregar e conferir a rede</a></li>
-    <li><a href="#p1b">2. A impedância, campo por campo</a></li>
-    <li><a href="#p2">3. A resposta ingênua</a></li>
-    <li><a href="#p3">4. Rota mínima até Iporanga</a></li>
-    <li><a href="#p4">5. As três isócronas</a></li>
-    <li><a href="#p6">6. Círculo contra isócrona</a></li>
-    <li><a href="#p7">7. Todas as unidades de uma vez</a></li>
-    <li><a href="#p8">8. O layout defensável</a></li>
-    <li><a href="#p9">9. O webmap</a></li>
-    <div class="grp">Parte 3 e 4</div>
-    <li><a href="#exercicio">Exercício</a></li>
-    <li><a href="#fechamento">Fechamento</a></li>
-    <li><a href="#leituras">Leituras</a></li>
+    <div class="grp">Leituras</div>
+    <li><a href="#leituras">Para aprofundar</a></li>
   </ol>
 </aside>
 
 <main class="body">
 
-<section class="part" id="antes">
-<div class="partmark">
-  <div class="pn">Antes de começar</div>
-  <h2 class="pt" style="margin:0">Preparação e dados</h2>
-</div>
-
-<p>Você deveria ter lido a seção do artigo de Luo e Wang de 2003 que apresenta o método de dois estágios. São quatro páginas e uma fórmula. Se não leu, leia o resumo e a figura 1 agora.</p>
-
-<p>Esta é a décima pergunta e a última aula de conteúdo. Ela tem duas metades: a primeira mede acesso pela rede real, e a segunda trata de como esse número vira uma peça que alguém com poder de decisão consegue ler em dez segundos.</p>
-
-<div class="baixar">
-  <div class="hd"><b>Dados desta aula</b><span>pacote no Blackboard</span></div>
-  <div class="fonte">Dados de <b>OpenStreetMap</b> · Overpass API, <b>CNES</b> · DATASUS e <b>IBGE</b> · Censo 2022, baixados em <b>02/08/2026</b> e disponíveis no <b>Blackboard</b>, na pasta da disciplina. Fonte original: <a href="https://overpass-api.de/api/interpreter">Overpass</a> · <a href="https://cnes.datasus.gov.br/pages/downloads/arquivosBaseDados.jsp">base de dados do CNES</a> · <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/26565-malhas-de-setores-censitarios-divisoes-intramunicipais.html">portal IBGE</a>.</div>
-  <ul>
-    <li><div><span class="fn">setores_vale_2022.gpkg</span>
-        <span class="fd">1.005 setores censitários dos quinze municípios do Vale do Ribeira, polígono, EPSG:4674, com população nas variáveis v0001 a v0007 do Censo 2022. É este o recorte que o roteiro usa.</span></div>
-        <span class="tp real">oficial</span></li>
-    <li><div><span class="fn">malha_viaria_vale_osm.gpkg</span>
-        <span class="fd">11.624 trechos de linha, 6.852,760 km, com os campos do próprio OSM: <code>tipo</code> (a chave <code>highway</code>), <code>maxspeed</code>, <code>oneway</code>, <code>surface</code>, <code>nome</code>, <code>ref</code> e <code>comp_m</code>. Recortados pelos quinze municípios. EPSG:31983. Do OpenStreetMap pela Overpass API.</span></div>
-        <span class="tp real">oficial</span></li>
-    <li><div><span class="fn">hospitais_vale_cnes_2026.gpkg</span>
-        <span class="fd">17 unidades hospitalares e de urgência ativas em 14 dos quinze municípios: 4 hospitais gerais, 4 prontos-socorros gerais, 8 prontos atendimentos e 1 unidade mista, distinguidos pelo campo <code>tipo</code>. Cananéia não tem nenhuma. Ponto, EPSG:31983, coordenada do próprio cadastro do CNES. Não há campo de leitos nem de horário de funcionamento.</span></div>
-        <span class="tp real">oficial</span></li>
-    <li><div><span class="fn">municipios_vale_2022.gpkg</span>
-        <span class="fd">15 polígonos municipais da malha 2022 do IBGE, com código e área oficiais, 13.288,0 km² no total. EPSG:31983.</span></div>
-        <span class="tp real">oficial</span></li>
-    <li><div><span class="fn">setores_sp_capital_2022.gpkg</span>
-        <span class="fd">27.301 setores censitários do município de São Paulo, polígono, EPSG:4674. Fica no pacote para quem quiser repetir a análise na capital.</span></div>
-        <span class="tp real">oficial</span></li>
-  </ul>
-  <div class="ft">Pacote oficial desde 02/08/2026, em GeoPackage e UTF-8. A malha viária veio da Overpass API com uma consulta por retângulo, depois recortada pelos limites municipais; ela inclui de rodovia a rua residencial, porque área de serviço em rede exige conectividade. Os hospitais vieram da competência 06/2026 da base do CNES, com a latitude e a longitude do próprio cadastro. Atenção ao CRS: os setores do IBGE vêm em EPSG:4674 e o resto do pacote em EPSG:31983, então reprojete antes de cruzar. Com a rede real os hospitais não caem sobre um nó: rode <code>native:snapgeometries</code> antes da área de serviço, ou o cálculo falha.</div>
-</div>
-
-<div class="pense">
-  <div class="lbl">A pergunta do tema</div>
-  <p class="q">Uma secretaria estadual precisa decidir onde abrir a próxima porta de urgência 24 horas no Vale do Ribeira. O consultor entrega um mapa com círculos de 30 quilômetros em volta dos hospitais existentes. Quanto esse mapa está errado, e o erro é para mais ou para menos?</p>
+<section class="part" id="complementar">
+<div class="contexto">
+  <div class="lbl">Conteúdo complementar</div>
+  <p>Este tema não foi trabalhado em sala. A página reúne só a parte teórica, como material de apoio para os grupos cujo projeto final envolva redes viárias, tempo de deslocamento ou acesso a equipamentos. O roteiro no QGIS, o exercício e o pacote de dados foram retirados.</p>
 </div>
 </section>
 
-<!-- ══════════════ PARTE 1 · TEORIA ══════════════ -->
-<div class="partmark" style="margin-top:70px">
-  <div class="pn">Parte 1 · teoria</div>
+<!-- ══════════════ TEORIA ══════════════ -->
+<div class="partmark" style="margin-top:40px">
+  <div class="pn">Teoria</div>
   <h2 class="pt" style="margin:0">Redes, acessibilidade e comunicação cartográfica</h2>
-  <div class="pd">40 min</div>
 </div>
 
 <section class="part" id="grafo">
@@ -177,7 +130,7 @@
   <caption>A área de serviço nasce como conjunto de linhas, não como polígono. Transformá-la em área exige uma decisão adicional, e essa decisão tem consequência sobre o número final.</caption>
 </table>
 
-<p>Essa última frase merece atenção. O algoritmo devolve os trechos de via alcançados. Para dizer "quantas pessoas moram dentro", é preciso virar polígono, e há três caminhos usuais: envoltória convexa, que sempre exagera; envoltória côncava, que depende de um parâmetro arbitrário; e corredor, que é um buffer em torno das vias alcançadas. No roteiro de hoje usamos o corredor de 1.500 metros, porque no Vale do Ribeira a ocupação segue a estrada. Em uma cidade densa a escolha seria outra, e o número mudaria.</p>
+<p>Essa última frase merece atenção. O algoritmo devolve os trechos de via alcançados. Para dizer "quantas pessoas moram dentro", é preciso virar polígono, e há três caminhos usuais: envoltória convexa, que sempre exagera; envoltória côncava, que depende de um parâmetro arbitrário; e corredor, que é um buffer em torno das vias alcançadas. No exemplo do Vale do Ribeira, o corredor considerado é o de 1.500 metros, porque ali a ocupação segue a estrada. Em uma cidade densa a escolha seria outra, e o número mudaria.</p>
 </section>
 
 <section class="part" id="euclidiana">
@@ -217,7 +170,7 @@
 
 <div class="cuidado">
   <div class="lbl">Capacidade aqui é uma porta, e não deveria ser</div>
-  <p>O 2SFCA pede capacidade: leitos, médicos por turno, consultas ofertadas por mês. O extrato do CNES deste pacote não tem nenhum desses campos, e contar cada estabelecimento como uma unidade trata o Hospital Regional de Registro e um pronto atendimento municipal como equivalentes, o que eles não são. A contagem de leitos existe na base do CNES, em outro arquivo da mesma competência, e é ela que deveria entrar aqui. Faça a conta com o que existe, e escreva na legenda que a capacidade foi contada em portas.</p>
+  <p>O 2SFCA pede capacidade: leitos, médicos por turno, consultas ofertadas por mês. O extrato do CNES usado no exemplo não tem nenhum desses campos, e contar cada estabelecimento como uma unidade trata o Hospital Regional de Registro e um pronto atendimento municipal como equivalentes, o que eles não são. A contagem de leitos existe na base do CNES, em outro arquivo da mesma competência, e é ela que deveria entrar aqui. Faça a conta com o que existe, e escreva na legenda que a capacidade foi contada em portas.</p>
 </div>
 
 <div class="pense">
@@ -291,492 +244,18 @@
 
 <div class="cuidado">
   <div class="lbl">O caso do QuickOSM</div>
-  <p>Baixar a malha viária pelo plugin QuickOSM é rápido e funciona bem, e é o que você faria em um projeto real; a nota do passo 1 diz como instalá-lo. Mas a consulta de hoje devolve um resultado diferente da consulta de amanhã, porque o OpenStreetMap é editado continuamente. Se o seu relatório cita um número de rede, o download precisa ser guardado como arquivo, com data, e distribuído junto com o relatório. É por isso que o roteiro de hoje usa um arquivo fixo: para que os números sejam reproduzíveis daqui a dois anos.</p>
+  <p>Baixar a malha viária pelo plugin QuickOSM é rápido e funciona bem, e é o que você faria em um projeto real. Mas a consulta de hoje devolve um resultado diferente da consulta de amanhã, porque o OpenStreetMap é editado continuamente. Se o seu relatório cita um número de rede, o download precisa ser guardado como arquivo, com data, e distribuído junto com o relatório. É por isso que uma análise que precisa ser refeita depois parte de um arquivo fixo e datado: para que os números sejam reproduzíveis daqui a dois anos.</p>
 </div>
 
-<div class="pense">
-  <div class="lbl">Escopo de prova · unidade teórica 10</div>
-  <p class="q">Dada uma análise de acesso a um equipamento, a prova pode pedir que você identifique se a medida usada foi euclidiana ou de rede e estime a direção e a ordem de grandeza do erro; que descreva a diferença entre distância, área de serviço e acessibilidade, e diga qual delas responde a uma pergunta concreta; ou que audite uma peça cartográfica, apontando o que falta para ela ser defensável e o que deveria sair da legenda.</p>
-</div>
-</section>
-
-<!-- ══════════════ PARTE 2 · ROTEIRO ══════════════ -->
-<div class="partmark" style="margin-top:70px">
-  <div class="pn">Parte 2 · roteiro</div>
-  <h2 class="pt" style="margin:0">Medindo o acesso no Vale do Ribeira</h2>
-  <div class="pd">45 min</div>
-</div>
-
-<section class="part" id="p1">
-<p class="lede">Os números abaixo foram conferidos no QGIS 4.2.0. Um deles depende de uma unidade que quase todo mundo erra na primeira vez, e o passo 4 avisa qual é.</p>
-
-<div class="passo">
-  <div class="n">1</div>
-  <div class="c">
-    <h3>Carregar as camadas e conferir a rede</h3>
-    <ol>
-      <li>Crie a pasta <code>InfoGeo/tema10_redes</code> e salve um projeto novo.</li>
-      <li>Vá em <span class="caminho">Project <i>▸</i> Properties <i>▸</i> General</span> e marque <em>Save paths</em> como <em>relative</em>.</li>
-      <li>Ainda em <em>Properties</em>, defina o CRS do projeto como <code>EPSG:31983 — SIRGAS 2000 / UTM zone 23S</code>, e o elipsoide como <em>GRS 1980</em>.</li>
-      <li>Arraste as quatro camadas do pacote para dentro da janela. Reprojete <code>setores_vale_2022</code> para <code>EPSG:31983</code> com <code>native:reprojectlayer</code> e salve como <code>dados_tratados/setores_31983.gpkg</code>: ela vem em EPSG:4674 e o resto do pacote está em UTM.</li>
-      <li>Abra a tabela de atributos de <code>malha_viaria</code> e leia os campos que existem: <code>tipo</code>, <code>maxspeed</code>, <code>oneway</code>, <code>surface</code>, <code>nome</code>, <code>ref</code> e <code>comp_m</code>. Não há campo de tempo nem de velocidade pronta.</li>
-      <li>Use <span class="caminho">Vector <i>▸</i> Analysis Tools <i>▸</i> Basic Statistics for Fields</span> sobre <code>comp_m</code> para somar o comprimento da rede.</li>
-      <li>Clique com o botão direito em <code>maxspeed</code>, no cabeçalho da tabela, e use <em>Sort</em> para ver quantas linhas estão em branco. Ou filtre por <code>"maxspeed" IS NULL</code> e leia o total.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>São <strong>11.624 feições</strong> de linha, somando <strong>6.852,760 km</strong>. O campo <code>maxspeed</code> está preenchido em <strong>728</strong> delas, <strong>6,3%</strong> do total, e vazio nas outras 10.896. O campo <code>oneway</code> traz <code>yes</code> em 1.964 trechos, <code>no</code> em 1.379, <code>reversible</code> em 1 e vem vazio em 8.280. <code>hospitais</code> tem <strong>17 pontos</strong> em 14 dos 15 municípios, e o campo que os distingue é <code>tipo</code>: 4 hospitais gerais, 4 prontos-socorros gerais, 8 prontos atendimentos e 1 unidade mista. <code>setores</code> tem <strong>1.005 polígonos</strong> e <strong>277.852</strong> habitantes na soma de <code>v0001</code>.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">Os campos que você esperava não existem</div>
-      <p>O CNES não publica "porta 24 horas" nem contagem de leitos no cadastro de estabelecimento: o que há é <code>tipo</code>, a natureza da unidade. Leito está em outro arquivo da mesma competência da base, e não veio neste recorte. O OpenStreetMap não publica tempo de percurso nem velocidade praticada: publica <code>maxspeed</code>, quando alguém digitou, e <code>highway</code>, aqui renomeado para <code>tipo</code>. Os dois casos são o mesmo problema: o campo que a análise pede não existe, e a saída é construí-lo a partir do que existe, dizendo como. É o que o passo 2 faz.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">O CRS do projeto: uma pegadinha que ficou na 3.x</div>
-      <p>Até a série 3.x, os algoritmos de rede mediam o comprimento dos arcos no CRS do projeto. Bastava o projeto ficar em EPSG:4674 para os comprimentos saírem em graus e os tempos errarem por um fator de cem mil, sem nenhuma mensagem. O QGIS 4.2 corrigiu esse comportamento: o resultado sai igual com o projeto em EPSG:31983 ou em EPSG:4674, conferido nesta rede. Mantenha o projeto em EPSG:31983 mesmo assim, porque a ferramenta de medição e as áreas desta aula continuam dependendo dessa escolha, e porque quem abrir o projeto numa 3.x herda o problema antigo.</p>
-    </div>
-
-    <div class="contexto">
-      <div class="lbl">De onde veio este arquivo</div>
-      <p>De uma consulta à Overpass API por retângulo, em 02/08/2026, com chave <code>highway</code> e os valores <code>motorway</code>, <code>trunk</code>, <code>primary</code>, <code>secondary</code>, <code>tertiary</code>, <code>unclassified</code> e <code>residential</code>, mais os respectivos <code>_link</code>, recortada pelos quinze municípios. O roteiro inteiro roda com o arquivo do pacote, e repetir a consulta hoje devolveria outro arquivo, porque o OSM é editado continuamente. É por isso que o pacote traz o download congelado.</p>
-      <p>Para extrair a malha de outra cidade, o caminho é o plugin QuickOSM, que não vem instalado: vá em <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins <i>▸</i> All</span>, busque <code>QuickOSM</code> e clique <em>Install Plugin</em>, com internet. Ele passa a aparecer em <span class="caminho">Vector <i>▸</i> QuickOSM <i>▸</i> QuickOSM</span>. Guarde o resultado como arquivo, com a data no nome.</p>
-      <p>Rua residencial entra na consulta porque análise de rede exige conectividade: sem ela, o hospital fica ilhado do resto da malha. O preço é o volume: 7.304 dos 11.624 trechos são <code>residential</code>, e eles somam 2.069,2 km. As rodovias, somadas, dão 1.110,7 km.</p>
-    </div></div>
-</div>
-
-<div class="passo" id="p1b">
-  <div class="n">2</div>
-  <div class="c">
-    <h3>Construir a impedância a partir do que o OSM tem</h3>
-    <p>A rede não traz tempo. Traz comprimento, classe de via e, em 6,3% dos trechos, velocidade máxima. O algoritmo do QGIS aceita um campo de velocidade em km/h e calcula o tempo sozinho, então basta produzir esse campo.</p>
-    <ol>
-      <li>Abra o <em>Field Calculator</em> em <code>malha_viaria</code> e crie um campo inteiro chamado <code>vel_kmh</code> com a expressão abaixo.</li>
-    </ol>
-
-<pre class="expr">coalesce(
-  to_int("maxspeed"),                       <span class="cm">-- 1º: o que o OSM declara</span>
-  map_get(map(                              <span class="cm">-- 2º: referência por classe de via</span>
-    'motorway',100, 'motorway_link',60,
-    'trunk',80,     'trunk_link',50,
-    'primary',70,   'primary_link',45,
-    'secondary',60, 'secondary_link',40,
-    'tertiary',50,  'tertiary_link',35,
-    'unclassified',40,
-    'residential',30), "tipo"),
-  40)                                       <span class="cm">-- 3º: rede de segurança, se o tipo for novo</span></pre>
-
-    <p>O <code>to_int</code> da primeira linha existe porque <code>maxspeed</code> é texto no OSM, e às vezes vem como <code>50 mph</code> ou <code>BR:urban</code>, que não viram número: nesses casos ele devolve nulo e o <code>coalesce</code> passa para a linha seguinte. Neste arquivo os 728 valores preenchidos são todos números limpos, de 20 a 110 km/h, então a primeira linha resolve todos os 728.</p>
-
-    <ol start="2">
-      <li>Crie também <code>tempo_min</code>, decimal, só para poder inspecionar a tabela. O QGIS não vai usar este campo, mas você vai.</li>
-    </ol>
-
-<pre class="expr">"comp_m" / 1000.0 / "vel_kmh" * 60</pre>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>Nenhum <code>vel_kmh</code> pode ficar nulo. A velocidade média da rede, ponderada pelo comprimento, é de <strong>39,5 km/h</strong>, e percorrer os 6.852,8 km inteiros levaria 173,6 horas. Se você obteve algo perto de 60 km/h, provavelmente o <code>coalesce</code> caiu no valor de segurança em muitos trechos, e vale conferir os valores distintos de <code>tipo</code>.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">Onde o <code>maxspeed</code> está e onde não está</div>
-      <p>Ele está preenchido em todos os 419 trechos de <code>motorway</code>, em 91 dos 310 de <code>primary</code> e em 53 dos 7.304 de <code>residential</code>. Ou seja: existe justamente onde a velocidade é mais previsível e falta justamente onde ela varia mais. A tabela de referência que você acabou de digitar carrega, portanto, quase todo o peso do resultado, e não é dado: é uma hipótese sua, com nome e valores que precisam aparecer no relatório. Trocar 30 por 40 km/h em rua residencial move todas as isócronas.</p>
-    </div>
-
-    <div class="contexto">
-      <div class="lbl">O que ficou de fora da impedância</div>
-      <p>O campo <code>surface</code> diz que 869 trechos são <code>unpaved</code> e outros dezenas são de terra, areia ou pedra. Em estrada vicinal de terra no Vale do Ribeira, 40 km/h é otimismo em dia de chuva. Rampa, curva, travessia de balsa e parada de pedágio também não entram. Cada um desses seria um fator a mais na conta, e todos empurram o tempo para cima, nunca para baixo.</p>
-    </div></div>
-</div>
-
-<div class="passo" id="p2">
-  <div class="n">3</div>
-  <div class="c">
-    <h3>A resposta ingênua: o círculo de 30 quilômetros</h3>
-    <p>Trinta minutos a 60 km/h dão trinta quilômetros. É assim que o cálculo é feito na maior parte dos relatórios, e vale fazer primeiro para ter contra o que comparar.</p>
-    <ol>
-      <li>Selecione o Hospital Regional de Registro, que é a referência regional de urgência. O filtro é <code>"cnes" = '9556095'</code>; os outros três estabelecimentos de Registro ficam de fora por enquanto.</li>
-      <li>Rode <span class="caminho">Vector <i>▸</i> Geoprocessing Tools <i>▸</i> Buffer</span>.</li>
-    </ol>
-
-    <div class="params">
-      <div class="hd">Buffer</div>
-      <dl>
-        <dt>Input layer</dt><dd>hospitais <em>(apenas feições selecionadas)</em></dd>
-        <dt>Distance</dt><dd>30000 metros</dd>
-        <dt>Segments</dt><dd>20</dd>
-        <dt>Dissolve result</dt><dd>marcado</dd>
-        <dt>Buffered</dt><dd>dados_tratados/buffer_30km.gpkg</dd>
-      </dl>
-    </div>
-
-    <ol start="3">
-      <li>Gere os pontos representativos dos setores com <code>native:pointonsurface</code> sobre <code>setores_31983</code>. Salve como <code>dados_tratados/setores_ponto.gpkg</code>. Use este algoritmo, e não <code>native:centroids</code>: setor em forma de C ou de ilha tem centroide fora do próprio polígono.</li>
-      <li>Rode <code>native:extractbylocation</code> com <em>Extract features from</em> = <code>setores_ponto</code>, predicado <em>are within</em>, e <em>By comparing to</em> = <code>buffer_30km</code>.</li>
-      <li>Some a coluna <code>v0001</code> do resultado com <em>Basic Statistics for Fields</em>.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p><strong>125.741 pessoas</strong> em <strong>299 setores</strong>, ou 45,3% dos 277.852 habitantes da região. Guarde esse número.</p>
-    </div>
-
-    <div class="contexto">
-      <div class="lbl">Contar por um ponto do setor é uma simplificação</div>
-      <p>Um setor que fica metade dentro e metade fora conta inteiro ou não conta nada, dependendo de onde cai o seu centroide. A alternativa é a ponderação por área, que reparte a população proporcionalmente à área interseccionada, e que embute a hipótese de que a população se distribui uniformemente dentro do setor. Nenhuma das duas é correta; as duas precisam ser declaradas. Nos setores urbanos do Vale do Ribeira a diferença é pequena; nos 582 setores rurais, alguns com mais de 100 km², ela não é, e o ponto representativo pode cair a dezenas de quilômetros de onde as casas estão.</p>
-    </div></div>
-</div>
-
-<div class="passo" id="p3">
-  <div class="n">4</div>
-  <div class="c">
-    <h3>A rota mínima até Iporanga</h3>
-    <p>Antes das isócronas, uma rota só, para ver o algoritmo funcionando e calibrar a intuição sobre o tamanho do desvio.</p>
-    <ol>
-      <li>Na <em>Processing Toolbox</em>, procure <code>native:shortestpathpointtopoint</code>, que aparece como <em>Shortest path (point to point)</em>.</li>
-    </ol>
-
-    <div class="params">
-      <div class="hd">Shortest path (point to point)</div>
-      <dl>
-        <dt>Vector layer representing network</dt><dd>malha_viaria</dd>
-        <dt>Path type to calculate</dt><dd>Fastest</dd>
-        <dt>Start point</dt><dd>clique sobre o Hospital Regional de Registro</dd>
-        <dt>End point</dt><dd>clique sobre o pronto atendimento de Iporanga</dd>
-        <dt>Direction field</dt><dd>oneway</dd>
-        <dt>Value for forward direction</dt><dd>yes</dd>
-        <dt>Value for backward direction</dt><dd>-1</dd>
-        <dt>Value for both directions</dt><dd>no</dd>
-        <dt>Default direction</dt><dd>Both directions</dd>
-        <dt>Speed field</dt><dd>vel_kmh</dd>
-        <dt>Default speed (km/h)</dt><dd>40</dd>
-        <dt>Topology tolerance</dt><dd>1 metro</dd>
-      </dl>
-    </div>
-
-    <ol start="2">
-      <li>Abra a tabela de atributos da rota. Ela tem um campo <code>cost</code>.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>O campo <code>cost</code> vale <strong>1,8303</strong>. A unidade é <strong>hora</strong>, então são <strong>109,8 minutos</strong>, ou uma hora e cinquenta. O comprimento da rota é de <strong>117,7 km</strong>, e a distância em linha reta entre os dois pontos é de <strong>77,1 km</strong>.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">Guarde esta unidade</div>
-      <p>Com <em>Fastest</em>, o custo do QGIS está em horas. Com <em>Shortest</em>, está em metros. Quem digita 30 esperando trinta minutos recebe trinta horas de área de serviço, o que no Vale do Ribeira significa a rede inteira. É o erro mais comum desta aula e ele não gera nenhuma mensagem.</p>
-    </div>
-
-    <p>O índice de desvio é 117,7 dividido por 77,1, ou <strong>1,53</strong>. Mas o número que importa é outro: quem estimasse o tempo pela reta a 60 km/h chegaria a 77,1 minutos. O tempo modelado é 109,8. A estimativa ingênua erra <strong>32,7 minutos</strong>, quase um terço do tempo de viagem, e erra sempre para menos.</p>
-
-    <div class="contexto">
-      <div class="lbl">O grafo não é uma peça só</div>
-      <p>Antes de confiar em qualquer rota, rode <code>native:shortestpathpointtolayer</code> do hospital para os outros dezesseis estabelecimentos e confira que todos foram alcançados. Nesta rede, os 11.624 trechos formam <strong>78 componentes desconexos</strong>: o maior reúne 11.224 trechos e 6.621,3 km, e os outros 77 somam 400 trechos e 231,5 km de ruas que não se ligam a nada. São condomínios, trechos de servidão e erros de digitalização do OSM. Se um hospital caísse numa dessas ilhas, a área de serviço dele sairia com poucos metros e nenhum aviso. Aqui os dezessete estabelecimentos ficam no componente principal, a até 73 metros do vértice mais próximo.</p>
-    </div>
-
-</div>
-</div>
-
-<div class="passo" id="p4">
-  <div class="n">5</div>
-  <div class="c">
-    <h3>As três isócronas: 15, 30 e 60 minutos</h3>
-    <ol>
-      <li>Procure <code>native:serviceareafrompoint</code>, que aparece como <em>Service area (from point)</em>.</li>
-      <li>Preencha igual ao passo 4 no que diz respeito a rede, direção e velocidade, e acrescente o custo.</li>
-    </ol>
-
-    <div class="params">
-      <div class="hd">Service area (from point)</div>
-      <dl>
-        <dt>Vector layer representing network</dt><dd>malha_viaria</dd>
-        <dt>Path type to calculate</dt><dd>Fastest</dd>
-        <dt>Start point</dt><dd>o Hospital Regional de Registro</dd>
-        <dt>Direction field</dt><dd>oneway</dd>
-        <dt>Value for forward / backward / both</dt><dd>yes / -1 / no</dd>
-        <dt>Speed field</dt><dd>vel_kmh</dd>
-        <dt>Topology tolerance</dt><dd>1 metro</dd>
-        <dt>Travel cost</dt><dd>0.25 <em>(quinze minutos, em horas)</em></dd>
-        <dt>Include upper/lower bound points</dt><dd>desmarcado</dd>
-        <dt>Service area (lines)</dt><dd>dados_tratados/sa_15min.gpkg</dd>
-      </dl>
-    </div>
-
-    <ol start="3">
-      <li>O resultado é um conjunto de linhas, não um polígono. Transforme em área com <span class="caminho">Vector <i>▸</i> Geoprocessing Tools <i>▸</i> Buffer</span>, usando distância <strong>1500</strong> metros, <em>Segments</em> 12 e <em>Dissolve result</em> marcado. Salve como <code>dados_tratados/iso_15min.gpkg</code>.</li>
-      <li>Rode <code>native:extractbylocation</code> sobre <code>setores_ponto</code>, predicado <em>are within</em>, comparando com <code>iso_15min</code>, e some <code>v0001</code>.</li>
-      <li>Repita as três etapas anteriores com <em>Travel cost</em> igual a <strong>0.5</strong> e a <strong>1</strong>, gerando <code>iso_30min</code> e <code>iso_60min</code>.</li>
-      <li>Monte a tabela de faixas.</li>
-    </ol>
-
-    <table>
-      <thead><tr><th>Faixa</th><th class="num">Custo</th><th class="num">Rede alcançada</th><th class="num">Setores</th><th class="num">População</th><th class="num">Da região</th></tr></thead>
-      <tbody>
-        <tr><td>Até 15 minutos</td><td class="num">0,25 h</td><td class="num">556,6 km</td><td class="num">120</td><td class="num">58.171</td><td class="num">20,9%</td></tr>
-        <tr class="hi"><td>Até 30 minutos</td><td class="num">0,50 h</td><td class="num">1.992,7 km</td><td class="num">322</td><td class="num">145.560</td><td class="num">52,4%</td></tr>
-        <tr><td>Até 60 minutos</td><td class="num">1,00 h</td><td class="num">4.729,6 km</td><td class="num">623</td><td class="num">231.626</td><td class="num">83,4%</td></tr>
-        <tr><td>Acima de 60 minutos</td><td class="num">—</td><td class="num">—</td><td class="num">382</td><td class="num">46.226</td><td class="num">16,6%</td></tr>
-      </tbody>
-      <caption>A partir do Hospital Regional de Registro, com corredor de 1.500 m em torno das vias alcançadas. As faixas são cumulativas, exceto a última.</caption>
-    </table>
-
-    <div class="confira">
-      <div class="lbl">A resposta bruta</div>
-      <p><strong>145.560 pessoas</strong> chegam ao Hospital Regional de Registro em trinta minutos. E <strong>46.226</strong> estão a mais de uma hora, concentradas em Ilha Comprida, com 13.182, Barra do Turvo, com 6.280, Itariri, com 6.008, e no litoral de Iguape, com 5.954. Iporanga inteira, 4.046 pessoas, está nessa faixa.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">Onde o corredor de 1.500 metros aperta e onde afrouxa</div>
-      <p>Na área urbana de Registro o corredor engorda a isócrona, porque 1.500 metros a pé são vinte minutos que ninguém andou. Na zona rural de Iguape ele aperta, porque há sítio a 4 km da estrada mais próxima. O número de 145.560 depende dessa escolha tanto quanto do limiar de trinta minutos, e é por isso que ele entra no relatório com a frase "corredor de 1.500 m" ao lado.</p>
-    </div>
-
-</div>
-</div>
-
-<div class="passo" id="p6">
-  <div class="n">6</div>
-  <div class="c">
-    <h3>O círculo contra a isócrona, lado a lado</h3>
-    <p>Agora a comparação que responde à pergunta do tema.</p>
-    <ol>
-      <li>Deixe visíveis <code>buffer_30km</code>, com preenchimento vazio e contorno azul tracejado, e <code>iso_30min</code>, com preenchimento vermelho a 35% de opacidade.</li>
-      <li>Rode <code>native:extractbylocation</code> duas vezes sobre <code>setores_ponto</code>: uma com predicado <em>are within</em> contra o buffer, outra contra a isócrona.</li>
-      <li>Para achar quem diverge, use <span class="caminho">Vector <i>▸</i> Geoprocessing Tools <i>▸</i> Difference</span> entre os dois resultados, nas duas ordens.</li>
-    </ol>
-
-    <table>
-      <thead><tr><th>Medida</th><th class="num">Setores</th><th class="num">População</th><th>O que ela afirma</th></tr></thead>
-      <tbody>
-        <tr><td>Isócrona de 30 min pela rede</td><td class="num">322</td><td class="num">145.560</td><td>Chegam de carro em meia hora</td></tr>
-        <tr><td>Buffer de 30 km em linha reta</td><td class="num">299</td><td class="num">125.741</td><td>Estão a 30 km de distância aérea</td></tr>
-        <tr class="hi"><td>Diferença líquida</td><td class="num">−23</td><td class="num">−19.819</td><td>O que aparece no resumo executivo</td></tr>
-      </tbody>
-      <caption>Uma diferença de 13,6% no total. Parece pouco, e é aqui que a maioria dos relatórios encerra a discussão.</caption>
-    </table>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>A isócrona pega <strong>322 setores e 145.560 pessoas</strong>; o buffer, <strong>299 e 125.741</strong>. As duas operações de <em>Difference</em> devolvem <strong>78 setores</strong> só na isócrona, com 34.494 pessoas, e <strong>55 setores</strong> só no buffer, com 14.675. A soma 34.494 + 14.675 é o número que interessa.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">Onde o erro realmente está</div>
-      <p>O buffer deixa de fora <strong>20.878 moradores de Cajati</strong>, que estão a 27,0 minutos de carro e a 37,0 km em linha reta, mais 11.316 de Miracatu e 2.300 em Juquiá, Jacupiranga e Pariquera-Açu: 34.494 pessoas que a rede alcança e o círculo não vê. Na direção contrária, ele inclui <strong>7.669 moradores de Eldorado</strong>, a 27,0 km em linha reta e a 39,8 minutos de carro, porque a estrada contorna a serra por Sete Barras, mais 7.006 espalhados por Iguape, Sete Barras, Jacupiranga, Registro, Juquiá e Pariquera-Açu: 14.675 ao todo. Somando os dois lados, <strong>49.169 pessoas</strong> ficam do lado errado, <strong>33,8%</strong> da população que a rede realmente alcança, e o total esconde isso por compensação parcial.</p>
-    </div>
-
-</div>
-</div>
-
-<div class="passo" id="p7">
-  <div class="n">7</div>
-  <div class="c">
-    <h3>Todas as unidades de uma vez</h3>
-    <p>São 17 estabelecimentos, e nem todos são a mesma coisa. Como o CNES deste pacote não diz horário de funcionamento, o campo <code>tipo</code> é o que há: <em>Hospital geral</em> e <em>Pronto socorro geral</em> são as oito unidades que a natureza do cadastro associa a atendimento de urgência com retaguarda; as outras nove são prontos atendimentos e uma unidade mista.</p>
-    <ol>
-      <li>Procure <code>native:serviceareafromlayer</code>, que aparece como <em>Service area (from layer)</em>.</li>
-      <li>Em <em>Vector layer with start points</em>, use <code>hospitais</code> inteira, sem filtro.</li>
-      <li>Repita todos os demais parâmetros do passo 5, com <em>Travel cost</em> igual a <strong>0.25</strong>.</li>
-      <li>Aplique o buffer de 1.500 metros com <em>Dissolve</em> e extraia os pontos de setor como antes.</li>
-      <li>Repita, agora com a camada filtrada pela expressão abaixo.</li>
-    </ol>
-
-<pre class="expr">"tipo" IN ('Hospital geral', 'Pronto socorro geral')   <span class="cm">-- 8 das 17 unidades</span></pre>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>Com as <strong>17 unidades</strong>, <strong>224.077 pessoas</strong> em 592 setores estão a quinze minutos de algum estabelecimento, <strong>80,6%</strong> da região. Com as <strong>8</strong> de maior porte, <strong>146.520</strong>, ou 52,7%. E a quinze minutos do Hospital Regional de Registro, sozinho, estão <strong>58.171</strong>. Os três números respondem perguntas diferentes, e o terceiro é o que interessa para trauma grave.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">O campo <code>tipo</code> não é horário de funcionamento</div>
-      <p>Um estabelecimento cadastrado como pronto-socorro geral pode estar sem plantonista à noite, e um pronto atendimento municipal pode funcionar 24 horas. O CNES tem essa informação, no campo de turno de atendimento da tabela de estabelecimentos, e ela não veio neste extrato. Enquanto não vier, escreva "unidades cadastradas como hospital geral ou pronto-socorro geral" e não "portas 24 horas". A segunda frase afirma algo que o dado não sustenta.</p>
-    </div>
-
-    <div class="contexto">
-      <div class="lbl">Um detalhe da ferramenta</div>
-      <p><em>Service area (from layer)</em> devolve a união das áreas de todos os pontos de partida, sem dizer qual ponto alcançou o quê. Se você precisar dessa atribuição, para um 2SFCA por exemplo, rode um ponto por vez ou use a matriz origem-destino. A saída <em>Non-routable features</em> lista os pontos de partida que o algoritmo não conseguiu conectar à rede, e vale sempre conferir que ela saiu vazia.</p>
-    </div></div>
-</div>
-
-<div class="passo" id="p8">
-  <div class="n">8</div>
-  <div class="c">
-    <h3>O layout defensável</h3>
-    <p>Vinte minutos de trabalho aqui valem mais que duas horas de análise adicional, porque é esta peça que vai circular.</p>
-    <ol>
-      <li>Antes de abrir o layout de impressão, arrume o projeto. Rebaixe o contexto: municípios em cinza muito claro, sem contorno forte; malha viária em cinza médio de 0,2 mm. Deixe a isócrona de 30 minutos como única camada saturada.</li>
-      <li>Renomeie as camadas no painel <em>Layers</em> com os nomes que devem aparecer na legenda. O layout de impressão lê esses nomes.</li>
-      <li>Abra <span class="caminho">Project <i>▸</i> New Print Layout</span> e nomeie <code>acesso_urgencia_vale_do_ribeira</code>.</li>
-      <li>Insira o mapa principal com <em>Add Map</em>, ocupando cerca de dois terços da página em A4 paisagem. Trave a escala em <em>Item Properties</em>.</li>
-      <li>Insira um segundo mapa, pequeno, no canto: dê zoom em Registro para mostrar o detalhe urbano. Em <em>Item Properties <i>▸</i> Overviews</em>, adicione uma visão geral apontando para o mapa principal.</li>
-      <li>Insira a legenda com <em>Add Legend</em>. Desmarque <em>Auto update</em> e apague tudo o que não seja a isócrona, o hospital e a referência mínima. Devem sobrar três itens.</li>
-      <li>Insira a barra de escala, estilo <em>Single box</em>, unidade quilômetros.</li>
-      <li>Insira a seta de norte com <em>Add North Arrow</em>, em tamanho discreto.</li>
-      <li>Insira um bloco de texto com os créditos.</li>
-    </ol>
-
-<pre class="expr">Acesso à urgência · Vale do Ribeira, SP
-Isócrona de 30 minutos a partir do Hospital Regional de Registro (CNES 9556095).
-Fontes: malha viária, OpenStreetMap via Overpass API, coleta de 02/08/2026;
-        estabelecimentos, CNES/DATASUS, competência 06/2026;
-        população, IBGE, Censo 2022, setores censitários.
-Sistema de coordenadas: SIRGAS 2000 / UTM 23S, EPSG:31983.
-Elaboração: [seu nome], 2026. Método: Dijkstra sobre a rede, impedância de tempo
-com maxspeed do OSM e velocidade de referência por classe de via, área de serviço
-convertida em polígono por corredor de 1.500 m, população por ponto de setor.</pre>
-
-    <ol start="10">
-      <li>Acrescente ao mapa um único rótulo grande com o número: <strong>145.560 pessoas</strong>. Ele é a conclusão, e deve ser a segunda coisa que o leitor vê, logo depois da mancha vermelha.</li>
-      <li>Exporte com <span class="caminho">Layout <i>▸</i> Export as PDF</span>, marcando <em>Create Geospatial PDF</em>.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Teste dos dez segundos</div>
-      <p>Vire a tela para o colega ao lado por dez segundos e pergunte o que ele entendeu. Se a resposta não for alguma versão de "tem gente longe do hospital no litoral e no alto Ribeira", a hierarquia visual ainda não está pronta, e o problema quase nunca é a cor: é uma camada de contexto que ainda está gritando.</p>
-    </div>
-
-    <div class="contexto">
-      <div class="lbl">Material de apoio</div>
-      <p>Os onze passos acima são a versão curta. O módulo <a href="extra-print-layout.html">Preparar o mapa para entrega</a> destrincha cada item do layout de impressão, mostra como gerar uma prancha por município com atlas e guarda a montagem em template. A prancha do projeto final é conferida contra o padrão de entrega que fecha aquele módulo.</p>
-    </div></div>
-</div>
-
-<div class="passo" id="p9">
-  <div class="n">9</div>
-  <div class="c">
-    <h3>O mesmo mapa, agora navegável</h3>
-    <p>Um PDF vai para o anexo do processo. Um webmap vai para o celular do secretário na reunião.</p>
-    <ol>
-      <li>Instale o plugin: <span class="caminho">Plugins <i>▸</i> Manage and Install Plugins</span>, procure <code>qgis2web</code> e clique em <em>Install</em>. Ele não vem no perfil padrão.</li>
-      <li>Deixe visíveis apenas as camadas que devem ir para a web: isócronas, hospitais e o limite municipal.</li>
-      <li>Abra <span class="caminho">Web <i>▸</i> qgis2web <i>▸</i> Create web map</span>.</li>
-      <li>Na aba <em>Layers and Groups</em>, marque <em>Popups</em> para o campo <code>nome</code> dos hospitais e desmarque todos os demais campos. Popup com quinze atributos é ruído.</li>
-      <li>Na aba <em>Appearance</em>, escolha <em>Leaflet</em> como biblioteca, adicione a barra de escala e a caixa de camadas, e defina a extensão como <em>Canvas extent</em>.</li>
-      <li>Clique <em>Export</em>. O plugin escreve uma pasta com <code>index.html</code>, uma pasta <code>data</code> e uma pasta <code>js</code>.</li>
-    </ol>
-
-    <div class="confira">
-      <div class="lbl">Confira</div>
-      <p>Abra o <code>index.html</code> exportado no navegador, com duplo clique. A isócrona precisa aparecer sobre o mapa de fundo, no lugar certo, e o clique em um hospital precisa abrir um popup com uma linha só, o <code>nome</code>. Se a camada aparecer deslocada ou no meio do oceano, o CRS de alguma camada estava declarado errado no projeto.</p>
-    </div>
-
-    <div class="cuidado">
-      <div class="lbl">O que o webmap faz com o seu CRS</div>
-      <p>O qgis2web reprojeta tudo para EPSG:3857, a projeção de Mercator usada pelos mapas de fundo da web. Ela não é equivalente, e nenhuma área medida sobre ela é confiável. Publique o webmap para navegação e mantenha os números no PDF, calculados em EPSG:31983. Esta é a última vez no semestre que a tema 2 vem cobrar.</p>
-    </div></div>
-</div>
-</section>
-
-<!-- ══════════════ PARTE 3 · EXERCÍCIO ══════════════ -->
-<div class="partmark" style="margin-top:70px">
-  <div class="pn">Parte 3</div>
-  <h2 class="pt" style="margin:0">Exercício</h2>
-  <div class="pd">15 min</div>
-</div>
-
-<section class="part" id="exercicio">
-<div class="exercicio">
-  <div class="hd"><b>Faça sozinho</b><span>15 minutos · sem consultar o colega</span></div>
-  <div class="bd">
-    <p>A secretaria quer habilitar uma segunda unidade de urgência com retaguarda. Dois candidatos estão na mesa: o pronto-socorro de Miracatu, no extremo norte, e o pronto atendimento de Iguape, no litoral.</p>
-    <ol>
-      <li>Gere a isócrona de 30 minutos a partir de cada um dos dois, com os mesmos parâmetros do passo 5 e o mesmo corredor de 1.500 metros. Os filtros são <code>"cnes" = '2072653'</code> e <code>"cnes" = '2081857'</code>.</li>
-      <li>Para cada candidato, some a população contida. Depois descubra quanto dela <em>já estava</em> coberta pela isócrona de Registro e quanto é ganho novo. A ferramenta é <code>native:difference</code> entre os dois conjuntos de pontos selecionados.</li>
-      <li>Anote a cobertura conjunta de Registro com cada candidato e quanta gente continua fora de 30 minutos em cada cenário.</li>
-    </ol>
-    <p>Responda, em quatro frases:</p>
-    <ol type="a">
-      <li>Qual dos dois candidatos traz mais ganho, e por que o ganho é menor que a população que cada um alcança sozinho?</li>
-      <li>Miracatu é cadastrado como pronto-socorro geral e Iguape como pronto atendimento. Isso muda a sua recomendação? Diga o que faria com a informação e o que faria sem ela.</li>
-      <li>Depois de escolhido o segundo, onde ficaria a terceira unidade? Justifique com o ganho de população que ela traria.</li>
-      <li>Cite dois critérios além de população que você usaria na decisão, e diga que dado precisaria para aplicá-los.</li>
-    </ol>
-  </div>
-  <div class="entrega">
-    <b>Entrega</b>
-    Uma captura do mapa com as isócronas de 30 minutos em cores distintas, mais a tabela de dois cenários com população própria, ganho e cobertura conjunta, e as quatro frases. Poste no fórum do tema no Blackboard antes do fim da aula.</div>
-</div>
-
-<div class="contexto">
-  <div class="lbl">Para o professor conferir com a turma</div>
-  <p>Iguape alcança 37.110 pessoas em trinta minutos, e nenhuma delas está na isócrona de Registro: o ganho é integral, e a cobertura conjunta vai a <strong>182.670</strong>, 65,7% da região. Miracatu alcança 80.489, mas 55.136 dessas já estavam cobertas por Registro, então o ganho é de <strong>25.353</strong> e a cobertura conjunta fica em 170.913, 61,5%. Iguape ganha por 11.757 pessoas apesar de alcançar menos da metade do que Miracatu alcança. É o efeito da sobreposição, e é o argumento inteiro do exercício. Depois de Iguape, os 95.182 que continuam fora se concentram em Itariri, com 15.528, Eldorado, com 13.069, Cananéia, com 12.289, e Pedro de Toledo, com 11.281, o que aponta a terceira unidade para o eixo Itariri-Pedro de Toledo. Cananéia é o único dos quinze municípios sem nenhuma unidade de urgência neste extrato do CNES.</p>
-</div>
-</section>
-
-<!-- ══════════════ PARTE 4 · FECHAMENTO ══════════════ -->
-<div class="partmark" style="margin-top:70px">
-  <div class="pn">Parte 4</div>
-  <h2 class="pt" style="margin:0">Fechamento</h2>
-  <div class="pd">20 min</div>
-</div>
-
-<section class="part" id="fechamento">
-<div class="resposta">
-  <div class="lbl">A resposta do tema</div>
-  <p class="big">Pela rede, 145.560 pessoas chegam ao Hospital Regional de Registro em trinta minutos. O círculo de 30 quilômetros diz 125.741, erra por 13,6% no total e por 49.169 pessoas no endereço.</p>
-  <p>Com uma segunda unidade habilitada em Iguape, a cobertura conjunta sobe para 182.670, ou 65,7% da região. Continuam fora de trinta minutos 95.182 pessoas, e a maior concentração delas está em Itariri, Eldorado, Cananéia e Pedro de Toledo. O círculo não teria mostrado nada disso, porque o erro dele não está no total, está na geografia, e é a geografia que vira orçamento.</p>
-</div>
-
-<h2>O que discutir com a turma</h2>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">A isócrona foi calculada com as velocidades máximas da via. Quanto ela mudaria em uma sexta-feira de véspera de feriado na BR-116?</p>
-  <p>Muda muito, e sempre no sentido de encolher. E aqui a base é pior do que parece: a velocidade veio do <code>maxspeed</code> do OSM em 6,3% dos trechos e de uma tabela de referência por classe de via nos outros 93,7%. Análises sérias de acesso urbano usam velocidades observadas por faixa de horário, e a diferença entre pico e vale costuma dobrar o tempo. O ponto para levar é que toda isócrona pressupõe uma condição de tráfego, e omitir qual delas é omissão relevante. A versão publicada deveria dizer "em fluxo livre".</p>
-</div>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">Quem não tem carro está dentro da isócrona?</p>
-  <p>Não. A rede modelada é a rede de automóvel, e no Vale do Ribeira a alternativa é ônibus intermunicipal com duas ou três partidas por dia. Para uma parcela grande da população, o tempo de acesso real inclui esperar o ônibus da manhã. Toda medida de acessibilidade por rede carrega um modo de transporte implícito, e quando esse modo não é o modo da população estudada, o número descreve outra gente.</p>
-</div>
-
-<div class="pense">
-  <div class="lbl">Discussão</div>
-  <p class="q">O terceiro hospital deve ir para onde há mais gente descoberta ou para onde o tempo até o socorro é maior?</p>
-  <p>São critérios diferentes e apontam para lugares diferentes. Por população descoberta, Itariri ganha, com 15.528 pessoas fora dos trinta minutos no cenário com Iguape. Por tempo até o socorro, Iporanga é o caso extremo, a 109,8 minutos do Hospital Regional, com 4.046 habitantes. Um critério maximiza pessoas beneficiadas, o outro minimiza o pior caso. A escolha entre eles é normativa, não técnica, e o papel do analista é deixar as duas contas na mesa em vez de escolher em silêncio.</p>
-</div>
-
-<div class="limites">
-  <div class="lbl">O que esta aula não resolveu</div>
-  <ul>
-    <li>Modelamos uma rede de automóvel em fluxo livre. Sem congestionamento, sem transporte coletivo, sem pedestre, sem tempo de espera para atendimento depois de chegar.</li>
-    <li>A velocidade de 93,7% dos trechos saiu de uma tabela por classe de via que este roteiro inventou e declarou. O <code>maxspeed</code> do OSM cobre 728 dos 11.624 trechos, e o campo <code>surface</code>, que marca 869 trechos como não pavimentados, ficou de fora da conta. Toda isócrona daqui herda essa hipótese.</li>
-    <li>O CNES deste extrato não traz horário de funcionamento nem contagem de leitos. Tratamos as unidades pelo campo <code>tipo</code>, que descreve a natureza do estabelecimento e não a porta aberta às três da manhã, e o 2SFCA foi ilustrado contando portas em vez de leitos.</li>
-    <li>Contamos por ponto representativo de setor. Nos 582 setores rurais, alguns com mais de 100 km², esse ponto pode estar longe das casas. A ponderação por área daria outro número, e nenhuma das duas resolve o fato de que a população dentro de um setor não é uniforme.</li>
-    <li>O 2SFCA foi apresentado como ideia e não foi calculado. Fazer isso direito exige uma função de decaimento com a distância, e a escolha dessa função move o resultado tanto quanto a escolha do limiar de trinta minutos.</li>
-    <li>Cobertura não é atendimento. Um hospital dentro da isócrona pode estar com o pronto-socorro fechado por falta de plantonista, e nenhum dado geográfico mostra isso.</li>
-  </ul>
-</div>
-
-<h2>O que vem agora</h2>
-
-<div class="contexto">
-  <div class="lbl">APS 3 · lançada hoje</div>
-  <p>A terceira atividade prática supervisionada está no Blackboard a partir do fim desta aula, com base de dados nova e pergunta nova, no tema de acesso a equipamento público. Ela vale a última fatia dos 30% das APS e a entrega é individual. Leia o enunciado hoje, porque uma das etapas depende de um download que pode demorar.</p>
-</div>
-
-<p>O encontro 11 é de revisão integradora e prova. A primeira hora percorre as dez unidades teóricas com casos-síntese: um mapa, uma análise ou uma recomendação, e o diagnóstico do erro. A segunda hora é a prova, que vale 30% e não pergunta onde fica o menu.</p>
-
-<p>O encontro 12 é a banca de projetos, dez minutos por grupo, com arguição sobre a análise e sobre o mapa. Lembre-se de que o seu grupo formula a própria pergunta, no formato das dez do semestre: uma pergunta territorial brasileira, respondível com dado público, que termina em um número que alguém precisaria para decidir alguma coisa. Metade da nota está na qualidade da pergunta e na honestidade sobre os limites do que foi medido, e as dez caixas de "o que esta aula não resolveu" que você leu ao longo do curso são o modelo do que se espera ali.</p>
 </section>
 
 <section class="part" id="leituras">
 <div class="partmark">
   <div class="pn">Leituras</div>
-  <h2 class="pt" style="margin:0">Para depois da aula</h2>
+  <h2 class="pt" style="margin:0">Para aprofundar</h2>
 </div>
 
 <div class="leituras">
-  <div class="item">
-    <div class="k prep">Preparação</div>
-    <div class="t">Revisão para o encontro 11: releia as dez caixas "o que esta aula não resolveu", uma por encontro, e escreva em uma linha qual limite cada uma declara.
-      <span class="src">leitura dirigida de 20 minutos · antes do encontro 11</span></div>
-  </div>
   <div class="item">
     <div class="k">Referência</div>
     <div class="t">Luo e Wang, <em>Measures of spatial accessibility to health care in a GIS environment</em>, 2003, e a revisão de Wang de 2012 sobre as variantes do 2SFCA.
@@ -801,7 +280,7 @@ convertida em polígono por corredor de 1.500 m, população por ponto de setor.
 
 <nav class="nextprev">
   <a href="encontro-09.html"><span class="k">Tema anterior</span><span class="t">Quanto do meu município virou pasto desde 1985?</span></a>
-  <span class="np-soon r"><span class="k">Encontro 11 · sem página</span><span class="t">Revisão integradora e prova final</span></span>
+  <span class="np-soon r"><span class="k">Encontro 11 · sem página</span><span class="t">Prova final</span></span>
 </nav>
 
 </main>
